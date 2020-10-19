@@ -30,8 +30,6 @@
 		<jacoco.version>0.8.5</jacoco.version>
 		<spring-format.version>0.0.19</spring-format.version>
 
-	</properties>
-
 	<developers>
 		<developer>
 			<id>Antmorgon4</id>
@@ -49,7 +47,21 @@
 		</developer>
 		
 		<!-- More developers ... -->
-	</developers>
+    
+     <developer>
+      <id>Guille</id>
+       <name>Guillermo</name>
+       <email>guivarpa27@gmail.com</email>
+       <url>http://www.tmht.com/leo</url>
+       <roles>
+       <role>worker</role>
+       </roles>
+       <properties>
+        <picUrl>
+        </picUrl>
+       </properties>
+          </developer>
+        </developers>
 
 	<dependencies>
 		<!-- Spring and Spring Boot dependencies -->
