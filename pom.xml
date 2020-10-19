@@ -75,7 +75,21 @@
         </picUrl>
        </properties>
           </developer>
-        </developers>
+    
+    <developer>
+    	<id>ivan</id>
+    	<name>Ivan</name>
+    	<email>ivacarmen@alum.us.es</email>
+    	<url>https://github.com/ivan-desing-testing</url>
+    	<roles>
+    		<role>developer</role>
+    	</roles>
+    	<properties>
+    		<picUrl>  </picUrl>
+    	</properties>
+    </developer>
+    
+ </developers>
 
 	<dependencies>
 		<!-- Spring and Spring Boot dependencies -->
