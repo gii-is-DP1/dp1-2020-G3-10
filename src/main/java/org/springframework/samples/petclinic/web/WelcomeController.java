@@ -20,36 +20,36 @@ public class WelcomeController {
 	
 	  @GetMapping({"/","/welcome"})
 	  public String welcome(Map<String, Object> model) {	  
-List<Person> persons = new ArrayList<Person>();
+		  List<Person> persons = new ArrayList<Person>();
 		  
-		  Person person = new Person();
-		  person.setFirstName("Luis Miguel");
-		  person.setLastName("Bellido");
-		  persons.add(person);
+		  Person person1 = new Person();
+		  person1.setFirstName("Luis Miguel");
+		  person1.setLastName(" Bellido");
+		  persons.add(person1);
 		  
 		  Person person2 = new Person();
-		  person.setFirstName("Marta");
-		  person.setLastName("Diaz");
+		  person2.setFirstName("Marta");
+		  person2.setLastName(" Diaz");
 		  persons.add(person2);
 		  
 		  Person person3 = new Person();
-		  person.setFirstName("Jaime");
-		  person.setLastName("Lucas");
+		  person3.setFirstName("Jaime");
+		  person3.setLastName(" Lucas");
 		  persons.add(person3);
 		  
 		  Person person4 = new Person();
-		  person.setFirstName("Ivan");
-		  person.setLastName("Cardenas");
+		  person4.setFirstName("Ivan");
+		  person4.setLastName(" Cardenas");
 		  persons.add(person4);
 		  
 		  Person person5 = new Person();
-		  person.setFirstName("Guillermo");
-		  person.setLastName("Pavon");
+		  person5.setFirstName("Guillermo");
+		  person5.setLastName(" Pavon");
 		  persons.add(person5);
 		  
 		  Person person6 = new Person();
-		  person.setFirstName("Antonio Javier");
-		  person.setLastName("Moreno");
+		  person6.setFirstName("Antonio Javier");
+		  person6.setLastName(" Moreno");
 		  persons.add(person6);
 		  
 		  model.put("persons", persons);
