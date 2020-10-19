@@ -45,6 +45,20 @@
   </picUrl>
  </properties>
     </developer>
+    
+    <developer>
+    	<id>ivan</id>
+    	<name>Ivan</name>
+    	<email>ivacarmen@alum.us.es</email>
+    	<url>https://github.com/ivan-desing-testing</url>
+    	<roles>
+    		<role>developer</role>
+    	</roles>
+    	<properties>
+    		<picUrl>  </picUrl>
+    	</properties>
+    </developer>
+    
  </developers>
     
 
