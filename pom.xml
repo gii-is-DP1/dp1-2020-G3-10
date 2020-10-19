@@ -30,6 +30,7 @@
 		<jacoco.version>0.8.5</jacoco.version>
 		<spring-format.version>0.0.19</spring-format.version>
 
+	</properties>
 	<developers>
 		<developer>
 			<id>Antmorgon4</id>
