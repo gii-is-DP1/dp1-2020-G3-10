@@ -89,6 +89,20 @@
     	</properties>
     </developer>
     
+    
+    <developer>
+			<id>jailucloz</id>
+			<name>Jaime</name>
+			<email>jailucloz@alum.us.es</email>
+			<url>https://github.com/jailucloz</url>
+			<roles>
+				<role>worker</role>
+			</roles>
+			<properties>
+				<picUrl>https://pbs.twimg.com/media/Eh4n9GhUMAAdO8x?format=jpg&#38;name=large</picUrl>
+			</properties>
+		</developer>
+    
  </developers>
 
 	<dependencies>
