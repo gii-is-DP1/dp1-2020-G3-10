@@ -88,7 +88,18 @@
     		<picUrl>  </picUrl>
     	</properties>
     </developer>
-    
+    <developer>
+			<id>Marta</id>
+			<name>Marta</name>
+			<email>mardiafer13@alum.us.es</email>
+			<url>http://www.tmht.com/Marta</url>
+			<roles>
+				<role>develeloper </role>
+			</roles>
+			<properties>
+				<picUrl> https://pbs.twimg.com/media/Eh4n9GgUYAAan80?format=jpg</picUrl>
+			</properties>
+		</developer>
  </developers>
 
 	<dependencies>
