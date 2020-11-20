@@ -41,6 +41,11 @@ public class Cliente extends BaseEntity {
 	@NotEmpty	
 	private Boolean admin;
 	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "username", referencedColumnName = "username")
+	@Valid
+	private User	user;
+	
 	/* DESCOMENTAR CUANDO ESTÉN LISTOS LOS DEMÁS MODELOS
 	@NotEmpty
 	@OneToOne(cascade = CascadeType.ALL)

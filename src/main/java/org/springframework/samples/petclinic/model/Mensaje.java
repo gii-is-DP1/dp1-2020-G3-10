@@ -10,11 +10,8 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name="mensaje")
-public class Mensaje {
+public class Mensaje extends BaseEntity{
 
-	@NotEmpty
-	private String identificador;
-	
 	@NotEmpty
 	private String titulo;
 	
@@ -24,6 +21,9 @@ public class Mensaje {
 	@NotNull
 	private Boolean borrador;
 	
+	
+	/*
+	
 	@NotEmpty
 	private Cliente emisor;
 	
@@ -32,4 +32,6 @@ public class Mensaje {
 	
 	@NotEmpty
 	private Pedido pedido;
+	
+	*/
 }

@@ -12,25 +12,23 @@ import lombok.Data;
 @Entity
 @Table(name="pedido")
 public class Pedido extends BaseEntity {
-
-	/*
-	@NotEmpty
-	private Vendedor vendedor;
-	*/
 	
-	@JoinColumn(name = "cliente_id")
-	@Valid
-	@NotEmpty
-	private Cliente cliente;
-	
-	/*
-	private List<Producto> contenido;
-	
-	*/
 	@NotEmpty
 	private EstadoPedido estado;
 	
 	/*
+	@JoinColumn(name = "cliente_id")
+	@Valid
+	@NotEmpty
+	private Cliente cliente;
+	*/
+	
+	/*
+	@NotEmpty
+	private Vendedor vendedor;
+	
+	private List<Producto> contenido;
+	
 	@NotEmpty
 	private List<Mensaje> mensajes;
 	*/
