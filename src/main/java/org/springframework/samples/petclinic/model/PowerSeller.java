@@ -15,7 +15,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "powerSeller")
+@Table(name = "powerseller")
 public class PowerSeller extends BaseEntity {
 
 	@NotEmpty
