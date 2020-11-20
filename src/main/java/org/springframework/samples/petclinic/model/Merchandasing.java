@@ -13,10 +13,9 @@ public class Merchandasing extends BaseEntity {
 
 	@NotEmpty
 	private String nombre;
-	
-	//tipo merchandasing
+
 	@NotEmpty
-	private String tipo;
+	private TipoMerchandasing tipo;
 	
 	@NotEmpty
 	private String fabricante;
