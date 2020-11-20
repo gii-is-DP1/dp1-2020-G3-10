@@ -12,23 +12,27 @@ import javax.validation.constraints.NotEmpty;
 public class Producto extends BaseEntity {
 
 	@NotEmpty
-	private Pelicula			pelicula;
-
-	@NotEmpty
 	private Double				precio;
 
+	
 	/*
-	 * @NotEmpty
-	 * private Videojuego videojuego;
-	 */
+	 * 
+	 * A TODAS ESTAS VARIABLES HAY QUE PONERLE LAS TAGS CON LAS RELACIONES
+	@NotEmpty
+	private Videojuego videojuego;
 
 	@NotEmpty
 	private Merchandasing		merchandising;
+	
+	@NotEmpty
+	private Pelicula			pelicula;
 
 	@NotEmpty
 	private List<Vendedor>		vendedores;
 
 	@NotEmpty
-	private List<Comentario>	comentario;
+	private List<Comentario>	comentarios;
+	
+	*/
 
 }

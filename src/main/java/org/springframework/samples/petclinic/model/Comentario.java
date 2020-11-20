@@ -12,22 +12,22 @@ import lombok.Data;
 public class Comentario extends BaseEntity {
 	
 	@NotEmpty
-	private String identificador;
-	
-	@NotEmpty
-	private Cliente autor;
-	
-	@NotEmpty
 	private String titulo;
 	
 	@NotEmpty
 	private String texto;
 	
-	//@NotEmpty
-	//private Producto producto;
+	/*
+	@NotEmpty
+	private Cliente autor;
 	
-	//@NotEmpty
-	//private Vendedor vendedor;
+	@NotEmpty
+	private Producto producto;
+	
+	@NotEmpty
+	private Vendedor vendedor;
+	 * 
+	 */
 	
 
 }

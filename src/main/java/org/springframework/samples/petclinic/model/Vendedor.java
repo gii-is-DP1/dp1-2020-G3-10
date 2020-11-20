@@ -18,12 +18,15 @@ public class Vendedor extends BaseEntity {
 	private Boolean			vacaciones;
 
 	@NotEmpty
+	private Double			valoracion;
+
+	
+	/* HAY QUE PONER LAS TAGS CON LAS RELACIONES
+	@NotEmpty
 	private List<Producto>	ofertas;
 
 	@NotEmpty
 	private List<Pedido>	tareas;
-
-	@NotEmpty
-	private Double			valoracion;
+	*/
 
 }
