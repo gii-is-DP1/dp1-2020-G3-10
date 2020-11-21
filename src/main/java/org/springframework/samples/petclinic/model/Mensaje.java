@@ -45,4 +45,13 @@ public class Mensaje extends BaseEntity{
 	@Valid
 	private Pedido		pedido;
 	
+	
+	
+	/// ESTO ES TEMPORAL HASTA ENCONTRAR LA MEJOR OPCION PARA LOS MENSAJES
+	@NotEmpty
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "cliente_id")
+	@Valid
+	private Cliente cliente;
+	
 }

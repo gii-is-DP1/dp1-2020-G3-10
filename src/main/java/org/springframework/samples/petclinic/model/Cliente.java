@@ -1,10 +1,12 @@
 package org.springframework.samples.petclinic.model;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.Valid;
@@ -52,20 +54,14 @@ public class Cliente extends BaseEntity {
 	@Valid
 	private Vendedor vendedor;
 	
-	/* DESCOMENTAR CUANDO ESTÉN LISTOS LOS DEMÁS MODELOS
-	@NotEmpty
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "producto_id")
-	private List<Producto> deseados;
+	@OneToMany(mappedBy = "cliente")
+	private Collection<@Valid Mensaje>	bandeja;
 	
-	@NotEmpty
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "pedido_id")
-	private List<Pedido> pedidos;
+	@OneToMany(mappedBy = "cliente")
+	private Collection<@Valid Producto>	deseado;
 	
-	@NotEmpty
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "mensaje_id")
-	private List<Mensaje> bandeja;
-	*/
+	@OneToMany(mappedBy = "cliente")
+	private Collection<@Valid Pedido>	pedidos;
+	
+	
 }
