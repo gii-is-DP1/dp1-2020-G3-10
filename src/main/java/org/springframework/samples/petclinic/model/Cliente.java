@@ -11,6 +11,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 
@@ -37,10 +38,10 @@ public class Cliente extends BaseEntity {
 	@NotEmpty
 	private String	tarjeta_credito;
 	
-	@NotEmpty
+	
 	private Double cartera;
 
-	@NotEmpty	
+	
 	private Boolean admin;
 	
 	@OneToOne(cascade = CascadeType.ALL)
@@ -48,10 +49,8 @@ public class Cliente extends BaseEntity {
 	@Valid
 	private User	user;
 	
-	@NotEmpty
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "vendedor_id")
-	@Valid
 	private Vendedor vendedor;
 	
 	@OneToMany(mappedBy = "cliente")

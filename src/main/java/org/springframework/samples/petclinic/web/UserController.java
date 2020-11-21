@@ -20,8 +20,10 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
+import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.OwnerService;
 import org.springframework.samples.petclinic.service.VetService;
 import org.springframework.samples.petclinic.service.UserService;
@@ -30,22 +32,20 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-/**
- * @author Juergen Hoeller
- * @author Ken Krebs
- * @author Arjen Poutsma
- * @author Michael Isvy
- */
 @Controller
 public class UserController {
 
-	private static final String VIEWS_OWNER_CREATE_FORM = "users/createOwnerForm";
-
-	private final OwnerService ownerService;
+	private static final String VIEWS_CLIENTE_CREATE_FORM = "users/createClienteForm";
 
 	@Autowired
-	public UserController(OwnerService clinicService) {
-		this.ownerService = clinicService;
+	private final ClienteService clienteService;
+	@Autowired
+	private UserService			userService;
+
+	@Autowired
+	public UserController(final ClienteService clienteService, final UserService userService) {
+		this.clienteService = clienteService;
+		this.userService = userService;
 	}
 
 	@InitBinder
@@ -55,19 +55,23 @@ public class UserController {
 
 	@GetMapping(value = "/users/new")
 	public String initCreationForm(Map<String, Object> model) {
-		Owner owner = new Owner();
-		model.put("owner", owner);
-		return VIEWS_OWNER_CREATE_FORM;
+		Cliente cliente = new Cliente();
+		model.put("cliente", cliente);
+		return VIEWS_CLIENTE_CREATE_FORM;
 	}
 
 	@PostMapping(value = "/users/new")
-	public String processCreationForm(@Valid Owner owner, BindingResult result) {
+	public String processCreationForm(@Valid Cliente cliente, BindingResult result) {
+		System.out.println("LOG: Llega al save user.");
+		System.out.println(cliente);
 		if (result.hasErrors()) {
-			return VIEWS_OWNER_CREATE_FORM;
+			System.out.println("LOG: error en el save user." + result.getAllErrors());
+			return VIEWS_CLIENTE_CREATE_FORM;
 		}
 		else {
-			//creating owner, user, and authority
-			this.ownerService.saveOwner(owner);
+			//creating cliente, user, and authority
+			System.out.println("LOG:llega salvar el cliente.");
+			this.clienteService.saveCliente(cliente);
 			return "redirect:/";
 		}
 	}
