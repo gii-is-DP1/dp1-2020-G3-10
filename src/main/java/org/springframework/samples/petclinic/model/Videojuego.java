@@ -1,4 +1,3 @@
-
 package org.springframework.samples.petclinic.model;
 
 import javax.persistence.CascadeType;
@@ -15,32 +14,23 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "pelicula")
-public class Pelicula extends BaseEntity {
+@Table(name = "videojuego")
+public class Videojuego extends BaseEntity {
 
 	@NotEmpty
 	private String	titulo;
 
 	@NotEmpty
-	private String	director;
-
-	@NotEmpty
 	private Integer	agno;
-	
-	@NotEmpty
-	private Double	duracion;
 
 	@NotEmpty
 	private String	estudio;
 
 	@NotEmpty
-	private String	sinopsis;
+	private String	descripcion;
 	
 	@NotEmpty
-	private Formato formato;
-	
-	@NotEmpty
-	private Integer edicion;
+	private Plataforma plataforma;
 	
 	/*
 	 *  Si nos hace falta nevegabilidad doble , descomentar esto.
@@ -52,3 +42,4 @@ public class Pelicula extends BaseEntity {
 	*/
 
 }
+
