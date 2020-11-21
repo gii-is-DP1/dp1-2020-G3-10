@@ -1,38 +1,50 @@
 
 package org.springframework.samples.petclinic.model;
 
+import java.util.Collection;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "producto")
 public class Producto extends BaseEntity {
-
-	@NotEmpty
-	private Double				precio;
-
 	
 	/*
-	 * 
-	 * A TODAS ESTAS VARIABLES HAY QUE PONERLE LAS TAGS CON LAS RELACIONES
 	@NotEmpty
-	private Videojuego videojuego;
-
-	@NotEmpty
-	private Merchandasing		merchandising;
-	
-	@NotEmpty
-	private Pelicula			pelicula;
-
-	@NotEmpty
-	private List<Vendedor>		vendedores;
-
-	@NotEmpty
-	private List<Comentario>	comentarios;
-	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "videojuego_id")
+	@Valid
+	private Videojuego Videojuego;
 	*/
-
+	@NotEmpty
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "merchandasing_id")
+	@Valid
+	private Merchandasing merchandasing;
+	
+	@NotEmpty
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "pelicula_id")
+	@Valid
+	private Pelicula pelicula;
+	
+	/*
+	@OneToMany(mappedBy = "producto")
+	private Collection<@Valid Vendedor>	vendedores;
+    */
+	/*
+	@OneToMany(mappedBy = "producto")
+	private Collection<@Valid Oferta>	ofertas;
+	*/
+	
+	@OneToMany(mappedBy = "producto")
+	private Collection<@Valid Comentario>	comentarios;
 }

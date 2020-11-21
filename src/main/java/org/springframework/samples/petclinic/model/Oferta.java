@@ -8,31 +8,20 @@ import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 
-import lombok.Data;
-
-@Data
 @Entity
-@Table(name="pedido")
-public class Pedido extends BaseEntity {
+@Table(name = "oferta")
+public class Oferta extends BaseEntity {
+
+	@NotEmpty
+	private Double				precio;
 	
 	@NotEmpty
-	private EstadoPedido estado;
-	
-	@NotEmpty
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "cliente_id")
-	@Valid
-	private Cliente cliente;
+	private Conservacion        conservacion;
 	
 	@NotEmpty
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "vendedor_id")
 	@Valid
 	private Vendedor vendedor;
-	
-	/*
-	private List<Producto> contenido;
-	
-	private List<Mensaje> mensajes;
-	*/
 }
+

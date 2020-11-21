@@ -37,7 +37,7 @@ public class Pelicula extends BaseEntity {
 	private Plataforma plataforma;
 	
 	/*
-	 * Cuando este el tipo producto descomentar
+	 *  Si nos hace falta nevegabilidad doble , descomentar esto.
 	 * 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "producto_id")
