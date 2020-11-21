@@ -46,17 +46,17 @@ public class Cliente extends BaseEntity {
 	@Valid
 	private User	user;
 	
-	/* DESCOMENTAR CUANDO ESTÉN LISTOS LOS DEMÁS MODELOS
-	@NotEmpty
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "producto_id")
-	private List<Producto> deseados;
-	
 	@NotEmpty
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "vendedor_id")
 	@Valid
 	private Vendedor vendedor;
+	
+	/* DESCOMENTAR CUANDO ESTÉN LISTOS LOS DEMÁS MODELOS
+	@NotEmpty
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "producto_id")
+	private List<Producto> deseados;
 	
 	@NotEmpty
 	@OneToOne(cascade = CascadeType.ALL)
