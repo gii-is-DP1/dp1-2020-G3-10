@@ -96,8 +96,3 @@ INSERT INTO PLATAFORMA ( ID , NOMBRE , DESCRIPCION ) VALUES ( 1, 'PS5','La nueva
 INSERT INTO PLATAFORMA ( ID , NOMBRE , DESCRIPCION ) VALUES ( 2, 'XBOX SERIE X','La nueva consola de Microsoft');
 INSERT INTO PLATAFORMA ( ID , NOMBRE , DESCRIPCION ) VALUES ( 3, 'WII','La clásica consola de Nintendo');
 INSERT INTO PLATAFORMA ( ID , NOMBRE , DESCRIPCION ) VALUES ( 4, 'DVD','El viejo amigo que te ayudaba a ver tus pelis allá por el 2000');
-
-
---Cliente
-
-INSERT INTO CLIENTE ( DNI , EMAIL ,NOMBRE ,APELLIDOS ,DIRECCION ,TARJETA_CREDITO ) VALUES ( '320978886Y','javiermgonzalez@hotmail.es','javier','moreno gonzalez',  'calle tarfia loquesea', '123456789VISA');

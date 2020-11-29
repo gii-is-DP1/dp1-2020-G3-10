@@ -34,7 +34,7 @@ public class ClienteService {
 	
 	@Transactional(readOnly = true)
 	public Cliente findClienteById(int id) throws DataAccessException {
-		return clienteRepository.findById(String.valueOf(id)).get();
+		return clienteRepository.findById(id).get();
 	}
 
 

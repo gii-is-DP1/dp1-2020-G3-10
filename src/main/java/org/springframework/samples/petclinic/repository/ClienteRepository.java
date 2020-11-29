@@ -10,6 +10,7 @@ import org.springframework.samples.petclinic.model.Plataforma;
 import org.springframework.samples.petclinic.model.User;
 
 
-public interface ClienteRepository extends  CrudRepository<Cliente, String>{
+public interface ClienteRepository extends  CrudRepository<Cliente, Integer>{
+	
 	
 }
