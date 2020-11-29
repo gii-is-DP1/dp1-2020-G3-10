@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.repository;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.Query;
@@ -13,7 +14,9 @@ public interface PeliculaRepository extends Repository<Pelicula , Integer>{
 	
 	void save(Pelicula pelicula) throws DataAccessException;
 	
-	Collection<Pelicula> findAll() throws DataAccessException;
+	List<Pelicula> findAll() throws DataAccessException;
+
+	Pelicula findById(int id) throws DataAccessException;
 
 //	@Query("SELECT pelicula FROM Pelicula WHERE pelicula.id =:id")
 //	public Pelicula findById(@Param("id") int id);

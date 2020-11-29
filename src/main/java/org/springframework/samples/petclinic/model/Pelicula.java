@@ -18,18 +18,15 @@ import lombok.Data;
 @Table(name = "peliculas")
 public class Pelicula extends BaseEntity {
 
-	@Column
-	private String	titulo;
-
-	@Column
+	@Column(name = "director")
 	@NotEmpty
 	private String	director;
 
-	@Column
+	@Column(name = "agno")
 	@NotEmpty
 	private Integer	agno;
 	
-	@Column
+	@Column(name = "duracion")
 	@NotEmpty
 	private Double	duracion;
 
@@ -38,17 +35,81 @@ public class Pelicula extends BaseEntity {
 //
 //	@NotEmpty
 //	private String	sinopsis;
-//	
-//	@NotEmpty
-//	private Formato formato;
-//	
-//	@NotEmpty
-//	private Integer edicion;
+	
+	@Column(name = "formato")
+	@NotEmpty
+	private Formato formato;
+
+	@Column(name = "edicion")
+	@NotEmpty
+	private Integer edicion;
 	
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "producto_id")
-	@Valid
+	//@Valid
 	private Producto producto;
 
+
+	public String getDirector() {
+		return director;
+	}
+
+
+	public void setDirector(String director) {
+		this.director = director;
+	}
+
+
+	public Integer getAgno() {
+		return agno;
+	}
+
+
+	public void setAgno(Integer agno) {
+		this.agno = agno;
+	}
+
+
+	public Double getDuracion() {
+		return duracion;
+	}
+
+
+	public void setDuracion(Double duracion) {
+		this.duracion = duracion;
+	}
+
+
+	public Formato getFormato() {
+		return formato;
+	}
+
+
+	public void setFormato(Formato formato) {
+		this.formato = formato;
+	}
+
+
+	public Integer getEdicion() {
+		return edicion;
+	}
+
+
+	public void setEdicion(Integer edicion) {
+		this.edicion = edicion;
+	}
+
+
+	public Producto getProducto() {
+		return producto;
+	}
+
+
+	public void setProducto(Producto producto) {
+		this.producto = producto;
+	}
+
+	
+	
 }
