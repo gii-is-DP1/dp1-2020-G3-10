@@ -1,3 +1,4 @@
+
 package org.springframework.samples.petclinic.model;
 
 import java.util.Collection;
@@ -16,28 +17,28 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name="pedido")
+@Table(name = "pedido")
 public class Pedido extends BaseEntity {
-	
+
 	@NotEmpty
-	private EstadoPedido estado;
-	
+	private EstadoPedido				estado;
+
 	@NotEmpty
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "cliente_id")
 	@Valid
-	private Cliente cliente;
-	
+	private Cliente						cliente;
+
 	@NotEmpty
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "vendedor_id")
 	@Valid
-	private Vendedor vendedor;
-	
+	private Vendedor					vendedor;
+
 	@OneToMany(mappedBy = "pedido")
-	private Collection<@Valid Oferta>	contenido;
-	
+	private Collection<@Valid Oferta>	ofertas;
+
 	@OneToMany(mappedBy = "pedido")
 	private Collection<@Valid Mensaje>	mensaje;
-	
+
 }
