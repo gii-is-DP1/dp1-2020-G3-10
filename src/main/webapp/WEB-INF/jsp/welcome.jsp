@@ -16,6 +16,7 @@
     </c:forEach>
     </ul>
     </div>
+    
     <div class="row">
     	<div class="col-md-12">
             <spring:url value="/resources/images/pets.png" htmlEscape="true" var="petsImage"/>

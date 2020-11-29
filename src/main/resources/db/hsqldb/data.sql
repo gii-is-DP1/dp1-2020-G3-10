@@ -93,6 +93,7 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04',
 
 INSERT INTO cliente(id,nombre,apellidos,dni,email,direccion,tarjeta_credito,f_nacimiento,cartera,admin,username,vendedor_id) VALUES (1, 'Ivan', 'Cardenas Meneses', '12345678X', 'ivancarmen@alum.us.es', 'Calle Hernandez', '0000-1111-2222-6666', '1998-10-10', '100.0', TRUE, 'ivacarmen', null);
 
+
 --Pedido
 
 INSERT INTO pedido(id,estado,cliente_id,vendedor_id) VALUES (1,2,1,null);
@@ -101,4 +102,12 @@ INSERT INTO pedido(id,estado,cliente_id,vendedor_id) VALUES (1,2,1,null);
 
 INSERT INTO oferta(id,conservacion,precio,pedido_id,producto_id,vendedor_id) VALUES (1,1,40,1,null,null);
 INSERT INTO oferta(id,conservacion,precio,pedido_id,producto_id,vendedor_id) VALUES (2,1,20,1,null,null);
+
+
+--Plataforma
+
+INSERT INTO PLATAFORMA ( ID , NOMBRE , DESCRIPCION ) VALUES ( 4, 'DVD','El viejo amigo que te ayudaba a ver tus pelis allá por el 2000');
+INSERT INTO PLATAFORMA ( ID , NOMBRE , DESCRIPCION ) VALUES ( 3, 'WII','La clásica consola de Nintendo');
+INSERT INTO PLATAFORMA ( ID , NOMBRE , DESCRIPCION ) VALUES ( 2, 'XBOX SERIE X','La nueva consola de Microsoft');
+INSERT INTO PLATAFORMA ( ID , NOMBRE , DESCRIPCION ) VALUES ( 1, 'PS5','La nueva consola de Sony');
 
