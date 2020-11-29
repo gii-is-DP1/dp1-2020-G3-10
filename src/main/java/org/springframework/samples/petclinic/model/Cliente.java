@@ -2,10 +2,12 @@ package org.springframework.samples.petclinic.model;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -38,11 +40,12 @@ public class Cliente extends BaseEntity {
 	@NotEmpty
 	private String	tarjeta_credito;
 	
-	
 	private Double cartera;
 
-	
 	private Boolean admin;
+	
+	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "clientes")
+	private Set<Plataforma> plataformas;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "username", referencedColumnName = "username")
@@ -61,6 +64,8 @@ public class Cliente extends BaseEntity {
 	
 	@OneToMany(mappedBy = "cliente")
 	private Collection<@Valid Pedido>	pedidos;
+	
+	
 	
 	
 }
