@@ -17,13 +17,14 @@ package org.springframework.samples.petclinic.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Plataforma;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,14 +46,46 @@ class PlataformaServiceTests {
 		Plataforma p = new Plataforma();
 		p.setNombre("PS6");
 		p.setDescripcion("Aún más nueva, aún más cara, aún peor que un PC");
-
+		p.setClientes(new ArrayList<Cliente>());
+		
 		this.platS.savePlataforma(p);
-		assertThat(p.getId().longValue()).isNotEqualTo(0);
-
 		plataformas = (List<Plataforma>) this.platS.findAllPlataforma();
 		assertThat(plataformas.size()).isEqualTo(nplataformas + 1);
 
 	}
+	
+	/*
+	@Test
+	@Transactional
+	public void shouldNotInsertPlataforma() {
+
+		List<Plataforma> plataformas = (List<Plataforma>) this.platS.findAllPlataforma();
+
+		Integer nplataformas = plataformas.size();
+
+		Plataforma p1 = new Plataforma();
+		p1.setNombre("PS6");
+		p1.setDescripcion("Aún más nueva, aún más cara, aún peor que un PC");
+		p1.setClientes(new ArrayList<Cliente>());
+
+		Plataforma p2 = new Plataforma();
+		p2.setNombre("PS6");
+		p2.setDescripcion("Aún más nueva, aún más cara, aún peor que un PC");
+		p2.setClientes(new ArrayList<Cliente>());
+
+		this.platS.savePlataforma(p1);
+
+		plataformas = (List<Plataforma>) this.platS.findAllPlataforma();
+		assertThat(plataformas.size()).isEqualTo(nplataformas + 1);
+		
+		this.platS.savePlataforma(p2);
+
+		plataformas = (List<Plataforma>) this.platS.findAllPlataforma();
+		assertThat(plataformas.size()).isNotEqualTo(nplataformas + 1);
+
+	}
+	
+	*/
 	
 	@Test
 	@Transactional

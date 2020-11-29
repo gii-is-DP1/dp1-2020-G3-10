@@ -62,6 +62,7 @@ public class PlataformaController {
 		String view = "/plataformas/listadoPlataformas" ;
 		if (result.hasErrors()) {
 			mp.addAttribute("plataforma",plataforma);
+			mp.addAttribute("message","La plataforma no se ha podido crear");
 			return "/plataformas/editPlataforma";
 		} else {
 			this.plataformaService.savePlataforma(plataforma);
