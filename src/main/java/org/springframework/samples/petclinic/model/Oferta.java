@@ -1,3 +1,4 @@
+
 package org.springframework.samples.petclinic.model;
 
 import javax.persistence.CascadeType;
@@ -16,27 +17,26 @@ import javax.validation.constraints.NotNull;
 public class Oferta extends BaseEntity {
 
 	@NotEmpty
-	private Double				precio;
-	
+	private Double			precio;
+
 	@NotEmpty
-	private Conservacion        conservacion;
-	
+	private Conservacion	conservacion;
+
 	@NotEmpty
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "vendedor_id")
 	@Valid
-	private Vendedor vendedor;
-	
+	private Vendedor		vendedor;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "producto_id")
-	@NotNull
+	//@NotNull para pobrar una cosita
 	@Valid
 	private Producto		producto;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "pedido_id")
 	@NotNull
 	@Valid
-	private Pedido		pedido;
+	private Pedido			pedido;
 }
-
