@@ -41,13 +41,18 @@ public class ClienteController{
 	@GetMapping(value = "/cliente/new")
 	public String initCreationForm(Map<String, Object> model) {
 		Cliente cliente = new Cliente();
-		cliente.setCartera(0.0);
-		cliente.setAdmin(false);
+		model.put("cliente", cliente);
+		return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
+	}
+	
+	@GetMapping(value = "/cliente/edit/{clienteId}")
+	public String initEditForm(@PathVariable("clienteId") final int clienteId,Map<String, Object> model) {
+		Cliente cliente = clienteService.findClienteById(clienteId);
 		model.put("cliente", cliente);
 		return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
 	}
 
-	@PostMapping(value = "/cliente/new")
+	@PostMapping(value = "/cliente/save")
 	public String processCreationForm(@Valid Cliente cliente, BindingResult result) {
 		
 		if (result.hasErrors()) {
