@@ -17,10 +17,15 @@ INSERT INTO authorities(id,username,authority) VALUES (4,'ivacarmen','owner');
 INSERT INTO users(username,password,enabled) VALUES ('luibelzan','luibelzan',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (5,'luibelzan','owner');
 
+--Owner luibelzan
+INSERT INTO users(username,password,enabled) VALUES ('marta','marta',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (6,'marta','owner');
+
 -- Probando 
 
 INSERT INTO users(username,password,enabled) VALUES ('antmorgon4','password',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (20,'antmorgon4','owner');
+
 
 --
 
