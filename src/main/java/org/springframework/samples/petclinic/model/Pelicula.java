@@ -36,8 +36,8 @@ public class Pelicula extends BaseEntity {
 	@NotEmpty
 	private String	sinopsis;
 	
-	@NotEmpty
-	private Formato formato;
+	@OneToOne(optional=false)
+	private Plataforma plataforma;
 	
 	@NotEmpty
 	private Integer edicion;

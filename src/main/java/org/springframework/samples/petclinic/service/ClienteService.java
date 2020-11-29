@@ -1,10 +1,12 @@
 package org.springframework.samples.petclinic.service;
 
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Owner;
-import org.springframework.samples.petclinic.model.Visit;
+import org.springframework.samples.petclinic.model.Plataforma;
 import org.springframework.samples.petclinic.repository.ClienteRepository;
 import org.springframework.samples.petclinic.repository.PetRepository;
 import org.springframework.samples.petclinic.repository.UserRepository;
@@ -32,6 +34,8 @@ public class ClienteService {
 	
 	@Transactional(readOnly = true)
 	public Cliente findClienteById(int id) throws DataAccessException {
-		return clienteRepository.findById(String.valueOf(id)).get();
+		return clienteRepository.findById(id).get();
 	}
+
+
 }

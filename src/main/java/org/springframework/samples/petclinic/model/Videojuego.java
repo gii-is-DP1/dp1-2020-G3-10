@@ -29,7 +29,7 @@ public class Videojuego extends BaseEntity {
 	@NotEmpty
 	private String	descripcion;
 	
-	@NotEmpty
+	@OneToOne(optional=false)
 	private Plataforma plataforma;
 	
 	/*
