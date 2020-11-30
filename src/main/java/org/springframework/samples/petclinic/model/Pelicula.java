@@ -44,6 +44,9 @@ public class Pelicula extends BaseEntity {
 	@NotEmpty
 	private Integer edicion;
 	
+	
+	private Plataforma plataforma;
+	
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "producto_id")
