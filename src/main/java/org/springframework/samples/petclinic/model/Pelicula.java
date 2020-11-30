@@ -46,7 +46,7 @@ public class Pelicula extends BaseEntity {
 	private Integer edicion;
 	
 	
-	private Plataforma plataforma;
+	//private Plataforma plataforma;
 	
 
 	@OneToOne(cascade = CascadeType.ALL)
