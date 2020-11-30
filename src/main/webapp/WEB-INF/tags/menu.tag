@@ -21,7 +21,13 @@
 		</div>
 		<div class="navbar-collapse collapse" id="main-navbar">
 			<ul class="nav navbar-nav">
-
+			
+				<petclinic:menuItem active="${name eq 'peliculas'}" url="/peliculas/mostrar"
+					title="peliculas">
+					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					<span>Peliculas</span>
+				</petclinic:menuItem>
+				
 				<petclinic:menuItem active="${name eq 'home'}" url="/"
 					title="home page">
 					<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
@@ -51,6 +57,7 @@
 					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
 					<span>Error</span>
 				</petclinic:menuItem>
+				
 
 			</ul>
 

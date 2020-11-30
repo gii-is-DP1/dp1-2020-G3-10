@@ -17,23 +17,30 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "producto")
+@Table(name = "productos")
 public class Producto extends BaseEntity {
 	
 	
-	@NotEmpty
+	private String nombre;
+	
+	
+	private Double precio;
+	
+	
+	
+//	@NotEmpty
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "videojuego_id")
-	@Valid
+//	@Valid
 	private Videojuego Videojuego;
 	
-	@NotEmpty
+	//@NotEmpty
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "merchandasing_id")
-	@Valid
+	//@Valid
 	private Merchandasing merchandasing;
 	
-	@NotEmpty
+//	@NotEmpty
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "pelicula_id")
 	@Valid
@@ -49,5 +56,7 @@ public class Producto extends BaseEntity {
 	@JoinColumn(name = "cliente_id")
 	@NotNull
 	@Valid
-	private Cliente		cliente;
+	private Cliente	cliente;
+	
+	
 }

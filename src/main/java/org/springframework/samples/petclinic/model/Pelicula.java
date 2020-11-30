@@ -2,6 +2,7 @@
 package org.springframework.samples.petclinic.model;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
@@ -13,42 +14,106 @@ import org.hibernate.validator.constraints.Length;
 
 import lombok.Data;
 
-@Data
 @Entity
-@Table(name = "pelicula")
+@Table(name = "peliculas")
 public class Pelicula extends BaseEntity {
 
-	@NotEmpty
-	private String	titulo;
-
+	@Column(name = "director")
 	@NotEmpty
 	private String	director;
 
+	@Column(name = "agno")
 	@NotEmpty
 	private Integer	agno;
 	
+	@Column(name = "duracion")
 	@NotEmpty
 	private Double	duracion;
 
-	@NotEmpty
-	private String	estudio;
+//	@NotEmpty
+//	private String	estudio;
+//
+//	@NotEmpty
+//	private String	sinopsis;
+	
 
+	@Column(name = "formato")
 	@NotEmpty
-	private String	sinopsis;
+	private Formato formato;
 	
-	@OneToOne(optional=false)
-	private Plataforma plataforma;
-	
+
 	@NotEmpty
 	private Integer edicion;
 	
-	/*
-	 *  Si nos hace falta nevegabilidad doble , descomentar esto.
-	 * 
+	
+	private Plataforma plataforma;
+	
+
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "producto_id")
-	@Valid
+	//@Valid
 	private Producto producto;
-	*/
 
+
+	public String getDirector() {
+		return director;
+	}
+
+
+	public void setDirector(String director) {
+		this.director = director;
+	}
+
+
+	public Integer getAgno() {
+		return agno;
+	}
+
+
+	public void setAgno(Integer agno) {
+		this.agno = agno;
+	}
+
+
+	public Double getDuracion() {
+		return duracion;
+	}
+
+
+	public void setDuracion(Double duracion) {
+		this.duracion = duracion;
+	}
+
+
+	public Formato getFormato() {
+		return formato;
+	}
+
+
+	public void setFormato(Formato formato) {
+		this.formato = formato;
+	}
+
+
+	public Integer getEdicion() {
+		return edicion;
+	}
+
+
+	public void setEdicion(Integer edicion) {
+		this.edicion = edicion;
+	}
+
+
+	public Producto getProducto() {
+		return producto;
+	}
+
+
+	public void setProducto(Producto producto) {
+		this.producto = producto;
+	}
+
+	
+	
 }

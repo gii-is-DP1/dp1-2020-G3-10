@@ -17,10 +17,20 @@ INSERT INTO authorities(id,username,authority) VALUES (4,'ivacarmen','owner');
 INSERT INTO users(username,password,enabled) VALUES ('luibelzan','luibelzan',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (5,'luibelzan','owner');
 
+--Owner luibelzan
+INSERT INTO users(username,password,enabled) VALUES ('marta','marta',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (6,'marta','owner');
+
 -- Probando 
 
 INSERT INTO users(username,password,enabled) VALUES ('antmorgon4','password',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (20,'antmorgon4','owner');
+
+
+INSERT INTO cliente(id,nombre,apellidos,dni,email,direccion,tarjeta_credito,f_nacimiento,cartera,admin,username,vendedor_id) VALUES (2, 'Marta', 'ef Meneses', '12345478X', 'ivanen@alum.us.es', 'Calle Hndez', '0450-1111-2222-6666', '1998-11-10', '100.0', TRUE, 'marta', null);
+
+INSERT INTO productos(id, nombre, precio,videojuego_id, cliente_id, merchandasing_id, pelicula_id) VALUES(1, 'Titanic', 12,null, 2, null,null );
+INSERT INTO peliculas(id, agno, director, duracion, edicion, formato, producto_id) VALUES(1, 1997, 'James Cameron', 4, 1, 1,1);
 
 --
 
