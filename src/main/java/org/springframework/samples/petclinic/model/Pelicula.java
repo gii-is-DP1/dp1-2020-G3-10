@@ -36,11 +36,12 @@ public class Pelicula extends BaseEntity {
 //	@NotEmpty
 //	private String	sinopsis;
 	
+
 	@Column(name = "formato")
 	@NotEmpty
 	private Formato formato;
+	
 
-	@Column(name = "edicion")
 	@NotEmpty
 	private Integer edicion;
 	

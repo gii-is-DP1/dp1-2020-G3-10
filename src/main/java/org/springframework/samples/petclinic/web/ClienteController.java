@@ -1,35 +1,35 @@
 
 package org.springframework.samples.petclinic.web;
 
-import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Cliente;
-import org.springframework.samples.petclinic.model.Owner;
+import org.springframework.samples.petclinic.model.Plataforma;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.ClienteService;
-import org.springframework.samples.petclinic.service.OwnerService;
-import org.springframework.samples.petclinic.service.VetService;
+import org.springframework.samples.petclinic.service.PlataformaService;
 import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class ClienteController {
+public class ClienteController{
 
 	private static final String VIEWS_OWNER_CREATE_OR_UPDATE_FORM = "cliente/createOrUpdateClienteForm";
 
-	private final ClienteService clienteService;
-
 	@Autowired
-	public ClienteController(ClienteService clienteService, UserService userService, AuthoritiesService authoritiesService) {
+	private final ClienteService clienteService;
+	
+	@Autowired
+	public ClienteController(ClienteService clienteService, UserService userService, AuthoritiesService authoritiesService, PlataformaService plataformaService) {
 		this.clienteService = clienteService;
 	}
 
@@ -72,5 +72,6 @@ public class ClienteController {
 		mav.addObject(this.clienteService.findClienteById(clienteId));
 		return mav;
 	}
+	
 
 }
