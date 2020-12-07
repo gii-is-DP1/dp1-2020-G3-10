@@ -28,20 +28,23 @@ public class Comentario extends BaseEntity {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "cliente_id")
 	@Valid
-	private Cliente autor;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "producto_id")
-	@NotNull
-	@Valid
-	private Producto		producto;
+	private Cliente 		autor;
 	
 	@NotEmpty
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "vendedor_id")
 	@Valid
-	private Vendedor vendedor;
+	private Vendedor 		vendedor;
 	
 	
+	
+	
+	/*
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "producto_id")
+	@NotNull
+	@Valid
+	private Producto		producto;
+	*/
 
 }
