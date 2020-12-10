@@ -11,22 +11,29 @@
 
 
 
-	<table id="peliculasTable" class="table table-striped">
-		<thead>
-			<tr>
-				<th>Nombre</th>
-				<th>Año</th>
-				<th>Duracion</th>
-				<th>Director</th>
-			</tr>
-		</thead>
+	<table id="peliculasTable">
 
-		
+		<tbody>
+			<c:forEach items="${peliculas}" var="pel">
+
+				
+					<div class="col-sm-6 col-md-4">
+						<div class="thumbnail">
+							<img src=<c:out value="${pel.imagen}"/> width="250" height="350">
+
+							<spring:url value="/peliculas/{peliculaId}" var="peliculaUrl">
+								<spring:param name="peliculaId" value="${pel.id}" />
+							</spring:url>
+							<c:out value="${pel.nombre}" />
+						</div>
+					</div>
+				
+			</c:forEach>
+		</tbody>
 	</table>
 
 
-	<a class="btn btn-default">Editar Pelicula</a>
-	<a class="btn btn-default">Eliminar Pelicula</a>
+	
 
 
 </petclinic:layout>

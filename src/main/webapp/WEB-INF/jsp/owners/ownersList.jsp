@@ -21,7 +21,7 @@
         <tbody>
         <c:forEach items="${selections}" var="owner">
             <tr>
-                <td>
+                <td> 
                     <spring:url value="/owners/{ownerId}" var="ownerUrl">
                         <spring:param name="ownerId" value="${owner.id}"/>
                     </spring:url>

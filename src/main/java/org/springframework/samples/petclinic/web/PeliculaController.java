@@ -57,6 +57,7 @@ public class PeliculaController {
 		List<Pelicula> peliculas = this.peliculaService.findPeliculas();
 		model.put("peliculas", peliculas);
 		return "/peliculas/PeliculasList";
+		
 	}
 	
 	@GetMapping(value = "/peliculas/{peliculaId}/edit")
@@ -82,6 +83,13 @@ public class PeliculaController {
 			
 			return "redirect:/peliculas/{peliculaId}";
 		}
+	}
+	
+	@GetMapping("/peliculas/{peliculaId}")
+	public String showPelicula(@PathVariable("peliculaId") int peliculaId, Map<String, Object> model) {
+		
+		
+		return "/peliculas/peliculaDetails";
 	}
 
 }
