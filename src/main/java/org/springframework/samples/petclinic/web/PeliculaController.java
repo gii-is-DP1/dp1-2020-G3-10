@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pelicula;
 
 import org.springframework.samples.petclinic.service.PeliculaService;
@@ -28,7 +29,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import net.bytebuddy.implementation.bind.MethodDelegationBinder.BindingResolver;
 
 @Controller
-@RequestMapping(path = "/peliculas")
 public class PeliculaController {
 	
 	@Autowired
@@ -51,7 +51,7 @@ public class PeliculaController {
 		
 	}
 	
-	@GetMapping(path = {"/mostrar", "/"})
+	@GetMapping(value = "/peliculas")
 	public String showPeliculasList(Map<String, Object> model) {
 		
 		List<Pelicula> peliculas = this.peliculaService.findPeliculas();
@@ -87,9 +87,16 @@ public class PeliculaController {
 	
 	@GetMapping("/peliculas/{peliculaId}")
 	public String showPelicula(@PathVariable("peliculaId") int peliculaId, Map<String, Object> model) {
-		
-		
+		Pelicula pelicula = this.peliculaService.findPeliculaById(peliculaId);
+		model.put("pelicula", pelicula);
 		return "/peliculas/peliculaDetails";
 	}
 
+	@PostMapping(value= "/peliculas/new")
+	public String processNuevaPelicula(@Valid Pelicula pelicula, BindingResult result) {
+		
+		
+		return "/peliculas/createOrUpdatePeliculaForm";
+	}
+	
 }
