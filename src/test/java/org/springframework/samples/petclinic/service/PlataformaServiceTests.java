@@ -53,7 +53,6 @@ class PlataformaServiceTests {
 		assertThat(plataformas.size()).isEqualTo(nplataformas + 1);
 
 	}
-	
 	/*
 	@Test
 	@Transactional
@@ -79,6 +78,7 @@ class PlataformaServiceTests {
 		assertThat(plataformas.size()).isEqualTo(nplataformas + 1);
 		
 		this.platS.savePlataforma(p2);
+		//assertThrow con el error que debería saltar
 
 		plataformas = (List<Plataforma>) this.platS.findAllPlataforma();
 		assertThat(plataformas.size()).isNotEqualTo(nplataformas + 1);
@@ -86,7 +86,6 @@ class PlataformaServiceTests {
 	}
 	
 	*/
-	
 	@Test
 	@Transactional
 	public void shouldDeletePlataforma() {

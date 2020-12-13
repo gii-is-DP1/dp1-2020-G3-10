@@ -80,6 +80,13 @@ public class Cliente extends BaseEntity {
 	*/
 	@OneToMany(mappedBy = "cliente")
 	private Collection<@Valid Pedido>	pedidos;
+	@Override
+	public String toString() {
+		return "Cliente [id = " + this.getId() + " dni=" + dni + ", email=" + email + ", nombre=" + nombre + ", apellidos=" + apellidos
+				+ ", direccion=" + direccion + ", tarjeta_credito=" + tarjeta_credito + ", f_nacimiento=" + f_nacimiento
+				+ ", cartera=" + cartera + ", admin=" + admin + ", user=" + user + ", vendedor=" + vendedor
+				+ ", bandeja=" + bandeja + ", plataformas=" + plataformas + ", pedidos=" + pedidos + "]";
+	}
 	
 	
 }

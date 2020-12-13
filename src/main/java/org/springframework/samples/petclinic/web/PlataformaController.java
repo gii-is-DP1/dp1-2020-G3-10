@@ -92,12 +92,15 @@ public class PlataformaController {
 		return view;
 	}
 	
+
 	/* Redirigimos a una vista en la que haya un formulario con todas las plataformas a modo seleccionar puntos
-	y quiero que si el cliente ya tiene dicha plataforma ese punto venga marcado */
+	y quiero que si el cliente ya tiene dicha plataforma ese punto venga marcado 
 
 	//Vamos a la vista que lista las plataformas indicando que cliente ha mandado la petición
 	@GetMapping("/{clienteId}/updatePlataformas")
 	public String iniUpdatePlataforma(@PathVariable("clienteId") int clienteId,ModelMap mp) {
+		
+		System.out.println("===============================" + clienteService.findClienteById(clienteId) + "===================");
 		
 		String view = "/plataformas/updatePlataformas";
 		mp.addAttribute("plataformasCliente",this.clienteService.findClienteById(clienteId).getPlataformas());
@@ -120,6 +123,6 @@ public class PlataformaController {
 		}
 	}
 	
-	
+	*/
 
 }

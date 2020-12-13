@@ -33,6 +33,8 @@ public class ClienteService {
 		this.authoritiesService.saveAuthorities(cliente.getUser().getUsername(), "cliente");
 	}
 	
+	
+	
 	@Transactional(readOnly = true)
 	public Cliente findClienteById(int id) throws DataAccessException {
 		

@@ -43,7 +43,7 @@ public class Mensaje extends BaseEntity{
 	@JoinColumn(name = "pedido_id")
 	@NotNull
 	@Valid
-	private Pedido		pedido;
+	private Pedido pedido;
 	
 	/// ESTO ES TEMPORAL HASTA ENCONTRAR LA MEJOR OPCION PARA LOS MENSAJES
 	@NotEmpty
