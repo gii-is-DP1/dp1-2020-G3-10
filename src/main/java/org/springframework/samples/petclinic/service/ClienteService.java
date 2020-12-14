@@ -23,7 +23,7 @@ public class ClienteService {
 	private UserService userService;
 	@Autowired
 	private UserRepository userRepository;
-	
+	@Autowired
 	private AuthoritiesService authoritiesService;
 	
 	@Transactional
@@ -34,31 +34,40 @@ public class ClienteService {
 	@Transactional
 	public void saveCliente(Cliente cliente) throws DataAccessException {
 		
-		System.out.println();
-		clienteRepository.save(cliente);
+		this.clienteRepository.save(cliente);
 		this.userService.saveUser(cliente.getUser());
 		this.authoritiesService.saveAuthorities(cliente.getUser().getUsername(), "cliente");
 	}
 	
 	@Transactional(readOnly = true)
 	public Cliente findClienteById(int id) throws DataAccessException {
-		return clienteRepository.findById(id).get();
+		if(clienteRepository.existsById(id)) {
+
+			return clienteRepository.findById(id).get();
+			
+		}else {
+			
+			throw new IllegalArgumentException("El cliente que quiere mostrar no existe.");
+			
+		}
 	}
 	
 	@Transactional
 	public void deleteCliente(int id) throws DataAccessException {
 		
-		if(clienteRepository.existsById(id)) {
+		//if(clienteRepository.existsById(id)) {
 
 			Cliente cliente = clienteRepository.findById(id).get();
+			System.out.println(cliente);
 			clienteRepository.delete(cliente);
 			userRepository.delete(cliente.getUser());
 			
-		}else {
 			
-			throw new IllegalArgumentException("El cliente que quiere borrar no existe.");
+	//	}else {
 			
-		}
+		//	throw new IllegalArgumentException("El cliente que quiere borrar no existe.");
+			
+		//}
 		
 	}
 }
