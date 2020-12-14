@@ -22,7 +22,14 @@ public class ClienteService {
 	@Autowired
 	private UserService userService;
 	@Autowired
+	private UserRepository userRepository;
+	
 	private AuthoritiesService authoritiesService;
+	
+	@Transactional
+	public int clienteCount() {
+		return (int) this.clienteRepository.count();
+	}
 	
 	@Transactional
 	public void saveCliente(Cliente cliente) throws DataAccessException {
@@ -35,9 +42,23 @@ public class ClienteService {
 	
 	@Transactional(readOnly = true)
 	public Cliente findClienteById(int id) throws DataAccessException {
-		
 		return clienteRepository.findById(id).get();
 	}
+	
+	@Transactional
+	public void deleteCliente(int id) throws DataAccessException {
+		
+		if(clienteRepository.existsById(id)) {
 
-
+			Cliente cliente = clienteRepository.findById(id).get();
+			clienteRepository.delete(cliente);
+			userRepository.delete(cliente.getUser());
+			
+		}else {
+			
+			throw new IllegalArgumentException("El cliente que quiere borrar no existe.");
+			
+		}
+		
+	}
 }
