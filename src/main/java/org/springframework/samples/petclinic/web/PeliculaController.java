@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -92,11 +93,18 @@ public class PeliculaController {
 		return "/peliculas/peliculaDetails";
 	}
 
-	@PostMapping(value= "/peliculas/new")
-	public String processNuevaPelicula(@Valid Pelicula pelicula, BindingResult result) {
-		
-		
+	@GetMapping(value= "/peliculas/new")
+	public String initCreationPelicula(@Valid Pelicula pelicula, ModelMap model) {
+		Pelicula p = new Pelicula();
+		model.put("pelicula", p);
 		return "/peliculas/createOrUpdatePeliculaForm";
+	}
+	
+	@DeleteMapping("/delete/{peliculaId}")
+	public String processBorrarPelicula(@PathVariable("peliculaId") int peliculaId) {
+		this.peliculaService.deletePelicula(peliculaId);
+		return "/peliculas/createOrUpdatePeliculaForm";
+		
 	}
 	
 }

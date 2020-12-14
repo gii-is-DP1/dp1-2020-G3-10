@@ -37,7 +37,9 @@
 
 	<spring:url value="/peliculas/new" var="addPeliculaUrl">
 	</spring:url>
-	<a href="${fn:escapeXml(addPeliculaUrl)}" class="btn btn-default">Nueva Pelicula</a>
+	<a href="${fn:escapeXml(addPeliculaUrl)}" class="btn btn-default">Nueva
+		Pelicula</a>
+
 
 
 

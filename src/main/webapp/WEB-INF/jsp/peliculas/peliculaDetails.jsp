@@ -11,32 +11,36 @@
 <petclinic:layout pageName="descripcionPelicula">
 
 
-	
-			<table class="table table-striped">
-			<td><img src=<c:out value="${pelicula.imagen}"/> width="250"
-					height="350"></td>
-				<tr>
-				
-					<td><c:out value="${pelicula.nombre}" /></td>
-				</tr>
-				<tr>
-					<td><c:out value="${pelicula.precio}" /></td>
-				</tr>
-				<tr>
-					<td><c:out value="${pelicula.agno}" /></td>
-				</tr>
-				<tr>
-					<td><c:out value="${pelicula.director}" /></td>
-				</tr>
-				<tr>
-					<td><c:out value="${pelicula.duracion}" /></td>
-				</tr>
-				<tr>
-					<td><c:out value="${pelicula.sinopsis}" /></td>
-				</tr>
-			</table>
+
+	<table class="table table-striped">
+		<td><img src=<c:out value="${pelicula.imagen}"/> width="250"
+			height="350"></td>
+		<tr>
+
+			<td><c:out value="${pelicula.nombre}" /></td>
+		</tr>
+		<tr>
+			<td><c:out value="${pelicula.precio}" /></td>
+		</tr>
+		<tr>
+			<td><c:out value="${pelicula.agno}" /></td>
+		</tr>
+		<tr>
+			<td><c:out value="${pelicula.director}" /></td>
+		</tr>
+		<tr>
+			<td><c:out value="${pelicula.duracion}" /></td>
+		</tr>
+		<tr>
+			<td><c:out value="${pelicula.sinopsis}" /></td>
+		</tr>
+	</table>
 
 
+	<spring:url value="/delete/{peliculaId}" var="deleteUrl">
+		<spring:param name="peliculaId" value="${pelicula.id}" />
+	</spring:url>
+	<a href="${fn:escapeXml(deleteUrl)}" class="btn btn-default">Borrar pelicula</a>
 
 
 
