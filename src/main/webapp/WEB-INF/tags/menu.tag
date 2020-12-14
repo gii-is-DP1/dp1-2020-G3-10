@@ -22,7 +22,7 @@
 		<div class="navbar-collapse collapse" id="main-navbar">
 			<ul class="nav navbar-nav">
 			
-				<petclinic:menuItem active="${name eq 'peliculas'}" url="/peliculas/mostrar"
+				<petclinic:menuItem active="${name eq 'peliculas'}" url="/peliculas"
 					title="peliculas">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 					<span>Peliculas</span>

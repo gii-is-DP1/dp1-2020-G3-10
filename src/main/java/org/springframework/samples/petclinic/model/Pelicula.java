@@ -12,8 +12,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import javax.websocket.Decoder.Text;
+
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter
 @Table(name = "peliculas")
 public class Pelicula extends Producto {
 
@@ -29,11 +34,8 @@ public class Pelicula extends Producto {
 	@NotEmpty
 	private Double	duracion;
 
-//	@NotEmpty
-//	private String	estudio;
-//
-//	@NotEmpty
-//	private String	sinopsis;
+	@NotEmpty
+	private String	sinopsis;
 	
 	@Column(name = "formato")
 	@NotEmpty
@@ -41,6 +43,10 @@ public class Pelicula extends Producto {
 
 	@NotEmpty
 	private Integer edicion;
+	
+	@Column(name = "imagen")
+	@NotEmpty
+	private String imagen;
 	
 	@OneToMany
 	private Collection<@Valid Oferta>	ofertas;
