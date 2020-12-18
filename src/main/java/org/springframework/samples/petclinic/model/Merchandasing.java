@@ -1,7 +1,14 @@
 package org.springframework.samples.petclinic.model;
 
+import java.util.Collection;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 
 import lombok.Data;
@@ -9,10 +16,8 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name="merchandasing")
-public class Merchandasing extends BaseEntity {
+public class Merchandasing extends Producto {
 
-	@NotEmpty
-	private String nombre;
 
 	@NotEmpty
 	private TipoMerchandasing tipo;
@@ -23,18 +28,15 @@ public class Merchandasing extends BaseEntity {
 	@NotEmpty
 	private String caracteristicas;
 	
+	@OneToMany
+	private Collection<@Valid Oferta>	ofertas;
 	
+	@OneToMany //(mappedBy = "producto")
+	private Collection<@Valid Comentario>	comentarios;
 	
-	
-	
-	
-
-	/*
-	 * Si nos hace falta nevegabilidad doble , descomentar esto.
-	 * 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "producto_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "cliente_id")
 	@Valid
-	private Producto producto;
-	*/
+	private Cliente	cliente;
+	
 }

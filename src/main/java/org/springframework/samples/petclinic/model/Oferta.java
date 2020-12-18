@@ -29,14 +29,19 @@ public class Oferta extends BaseEntity {
 	private Vendedor		vendedor;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "producto_id")
-	//@NotNull para pobrar una cosita
-	@Valid
-	private Producto		producto;
-
-	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "pedido_id")
 	@NotNull
 	@Valid
 	private Pedido			pedido;
+	
+	
+	
+	
+	/*
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "producto_id")
+	@NotNull para pobrar una cosita
+	@Valid
+	private Producto		producto;
+	*/
 }

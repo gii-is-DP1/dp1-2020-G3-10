@@ -74,10 +74,10 @@ public class Cliente extends BaseEntity {
 	
 	@OneToMany(mappedBy = "clientes")
 	private Collection<@Valid Plataforma> plataformas;
-	
+	/*
 	@OneToMany(mappedBy = "cliente")
 	private Collection<@Valid Producto>	deseado;
-	
+	*/
 	@OneToMany(mappedBy = "cliente")
 	private Collection<@Valid Pedido>	pedidos;
 	
