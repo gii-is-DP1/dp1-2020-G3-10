@@ -37,7 +37,7 @@
 	</table>
 
 
-	<spring:url value="/delete/{peliculaId}" var="deleteUrl">
+	<spring:url value="/peliculas/{peliculaId}/delete" var="deleteUrl">
 		<spring:param name="peliculaId" value="${pelicula.id}" />
 	</spring:url>
 	<a href="${fn:escapeXml(deleteUrl)}" class="btn btn-default">Borrar pelicula</a>
