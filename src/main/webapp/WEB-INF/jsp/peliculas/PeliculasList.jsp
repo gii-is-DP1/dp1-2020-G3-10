@@ -35,7 +35,7 @@
 		</tbody>
 	</table>
 
-	<spring:url value="/peliculas/new" var="addPeliculaUrl">
+	 <spring:url value="/peliculas/new" var="addPeliculaUrl">
 	</spring:url>
 	<a href="${fn:escapeXml(addPeliculaUrl)}" class="btn btn-default">Nueva
 		Pelicula</a>

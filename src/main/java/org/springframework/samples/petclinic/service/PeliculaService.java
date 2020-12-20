@@ -48,4 +48,10 @@ public class PeliculaService {
 		peliculaRepository.deleteById(peliculaId);
 		
 	}
+	
+	@Transactional
+	public void delete(Pelicula p) throws DataAccessException{
+		peliculaRepository.delete(p);
+		
+	}
 }
