@@ -18,7 +18,9 @@ public interface PeliculaRepository extends Repository<Pelicula , Integer>{
 
 	Pelicula findById(int id) throws DataAccessException;
 	
-	void deleteById(int id) throws DataAccessException;;
+	void deleteById(int id) throws DataAccessException;
+	
+	void delete(Pelicula p) throws DataAccessException;
 
 
 
