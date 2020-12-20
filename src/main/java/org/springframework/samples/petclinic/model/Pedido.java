@@ -1,17 +1,14 @@
 
 package org.springframework.samples.petclinic.model;
 
-import java.util.Collection;
+import java.time.LocalDate;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
 
@@ -21,24 +18,42 @@ import lombok.Data;
 public class Pedido extends BaseEntity {
 
 	@NotEmpty
-	private EstadoPedido				estado;
+	private EstadoPedido	estado;
 
-	@NotEmpty
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "cliente_id")
-	@Valid
-	private Cliente						cliente;
+	@NotBlank
+	private Double			precioTotal;
 
-	@NotEmpty
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "vendedor_id")
-	@Valid
-	private Vendedor					vendedor;
+	@NotBlank
+	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	private LocalDate		fecha;
 
-	@OneToMany(mappedBy = "pedido")
-	private Collection<@Valid Oferta>	ofertas;
+	@NotBlank
+	private String			direccionEnvio;
 
-	@OneToMany(mappedBy = "pedido")
-	private Collection<@Valid Mensaje>	mensaje;
+	/*
+	 * @NotEmpty
+	 *
+	 * @OneToOne(cascade = CascadeType.ALL)
+	 *
+	 * @JoinColumn(name = "cliente_id")
+	 *
+	 * @Valid
+	 * private Cliente cliente;
+	 *
+	 * @NotEmpty
+	 *
+	 * @ManyToOne(cascade = CascadeType.ALL)
+	 *
+	 * @JoinColumn(name = "vendedor_id")
+	 *
+	 * @Valid
+	 * private Vendedor vendedor;
+	 *
+	 * @OneToMany(mappedBy = "pedido")
+	 * private Collection<@Valid Oferta> ofertas;
+	 *
+	 * @OneToMany(mappedBy = "pedido")
+	 * private Collection<@Valid Mensaje> mensaje;
+	 */
 
 }
