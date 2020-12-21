@@ -4,6 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
 
 <petclinic:layout pageName="peliculas">
@@ -11,22 +12,36 @@
 
 
 
-	<table id="peliculasTable" class="table table-striped">
-		<thead>
-			<tr>
-				<th>Nombre</th>
-				<th>Año</th>
-				<th>Duracion</th>
-				<th>Director</th>
-			</tr>
-		</thead>
+	<table id="peliculasTable">
 
-		
+		<tbody>
+			<c:forEach items="${peliculas}" var="pel">
+
+
+				<div class="col-sm-6 col-md-4">
+					<div class="thumbnail">
+						<img src=<c:out value="${pel.imagen}"/> width="250" height="350">
+
+						<spring:url value="/peliculas/{peliculaId}" var="peliculaUrl">
+							<spring:param name="peliculaId" value="${pel.id}" />
+						</spring:url>
+						<a href="${fn:escapeXml(peliculaUrl)}"><c:out
+								value="${pel.nombre}" /></a>
+
+					</div>
+				</div>
+
+			</c:forEach>
+		</tbody>
 	</table>
 
+	 <spring:url value="/peliculas/new" var="addPeliculaUrl">
+	</spring:url>
+	<a href="${fn:escapeXml(addPeliculaUrl)}" class="btn btn-default">Nueva
+		Pelicula</a>
 
-	<a class="btn btn-default">Editar Pelicula</a>
-	<a class="btn btn-default">Eliminar Pelicula</a>
+
+
 
 
 </petclinic:layout>

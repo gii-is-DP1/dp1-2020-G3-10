@@ -42,4 +42,16 @@ public class PeliculaService {
 	public Pelicula findPeliculaById(int id) throws DataAccessException{
 		return peliculaRepository.findById(id);
 	}
+	
+	@Transactional
+	public void deletePelicula(int peliculaId) throws DataAccessException{
+		peliculaRepository.deleteById(peliculaId);
+		
+	}
+	
+	@Transactional
+	public void delete(Pelicula p) throws DataAccessException{
+		peliculaRepository.delete(p);
+		
+	}
 }

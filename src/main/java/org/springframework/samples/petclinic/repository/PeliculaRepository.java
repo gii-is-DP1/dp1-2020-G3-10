@@ -17,8 +17,11 @@ public interface PeliculaRepository extends Repository<Pelicula , Integer>{
 	List<Pelicula> findAll() throws DataAccessException;
 
 	Pelicula findById(int id) throws DataAccessException;
+	
+	void deleteById(int id) throws DataAccessException;
+	
+	void delete(Pelicula p) throws DataAccessException;
 
-//	@Query("SELECT pelicula FROM Pelicula WHERE pelicula.id =:id")
-//	public Pelicula findById(@Param("id") int id);
+
 
 }
