@@ -55,6 +55,7 @@ public class PedidoController {
 		} else {
 			this.pedidoService.save(pedido);
 			modelMap.addAttribute("message", "Pedido guardo correctamente");
+			vista = this.listadoPedidos(modelMap);
 		}
 
 		return vista;
@@ -71,9 +72,12 @@ public class PedidoController {
 
 			this.pedidoService.delete(pedido.get());
 			modelMap.addAttribute("message", "Se ha borrado su pedido");
+			vista = this.listadoPedidos(modelMap);
 		} else {
 
 			modelMap.addAttribute("message", "No se ha encontrado su pedido");
+			vista = this.listadoPedidos(modelMap);
+
 		}
 
 		return vista;
