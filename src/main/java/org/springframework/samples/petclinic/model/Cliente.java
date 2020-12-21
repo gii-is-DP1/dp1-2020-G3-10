@@ -26,7 +26,7 @@ public class Cliente extends Persona {
 	@NotEmpty
 	private String ciudad;
 
-	@Column(name = "codigoPostal")
+	@Column(name = "codigo_postal")
 	@NotEmpty
 	private String codigoPostal;
 
@@ -34,7 +34,7 @@ public class Cliente extends Persona {
 	@NotEmpty
 	private String direccion;
 
-	@Column(name = "tarjetaCredito")
+	@Column(name = "tarjeta_credito")
 	@NotEmpty
 	private String	tarjetaCredito;
 	

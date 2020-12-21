@@ -93,8 +93,8 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04',
 
 --Cliente
 
---INSERT INTO cliente(id,nombre,apellidos,dni,email,direccion,tarjeta_credito,f_nacimiento,cartera,admin,username) VALUES (1, 'Ivan', 'Cardenas Meneses', '12345678X', 'ivancarmen@alum.us.es', 'Calle Hernandez', '0000-1111-2222-6666', '1998-10-10', '100.0', TRUE, 'ivacarmen');
---INSERT INTO cliente(id,nombre,apellidos,dni,email,direccion,tarjeta_credito,f_nacimiento,cartera,admin,username) VALUES (2, 'Marta', 'ef Meneses', '12345478X', 'ivanen@alum.us.es', 'Calle Hndez', '0450-1111-2222-6666', '1998-11-10', '100.0', TRUE, 'marta');
+INSERT INTO clientes(id,nombre,apellidos,dni,email,direccion,ciudad,tarjeta_credito,fecha_nacimiento,cartera,telefono,codigo_postal,username) VALUES (1, 'Ivan', 'Cardenas Meneses', '12345678X', 'ivancarmen@alum.us.es', 'Calle Hernandez','Sevilla','0000-1111-2222-6666', '1998-10-10', '100.0','123456789','41980','ivacarmen');
+INSERT INTO clientes(id,nombre,apellidos,dni,email,direccion,ciudad,tarjeta_credito,fecha_nacimiento,cartera,telefono,codigo_postal,username) VALUES (2, 'Marta', 'ef Meneses', '12345470X', 'marta@alum.us.es', 'Calle Hndez','Sevilla', '0450-1111-2222-6666', '1998-11-10', '100.0','987654321','41980', 'marta');
 
 --Pedido
 
