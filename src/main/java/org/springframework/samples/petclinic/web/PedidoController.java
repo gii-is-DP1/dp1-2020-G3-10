@@ -40,7 +40,7 @@ public class PedidoController {
 
 		String view = "pedidos/editPedido";
 
-		modelMap.addAttribute("pedidos", new Pedido());
+		modelMap.addAttribute("pedido", new Pedido());
 
 		return view;
 
@@ -69,7 +69,6 @@ public class PedidoController {
 
 		if (pedido.isPresent()) {
 
-			System.out.print(pedido.isPresent());
 			this.pedidoService.delete(pedido.get());
 			modelMap.addAttribute("message", "Se ha borrado su pedido");
 		} else {

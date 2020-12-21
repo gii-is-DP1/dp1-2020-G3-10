@@ -6,7 +6,6 @@ import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -18,19 +17,19 @@ import lombok.Data;
 @Table(name = "pedido")
 public class Pedido extends BaseEntity {
 
-	@NotEmpty
+	//@NotEmpty         para evitar que pete al crear uno
 	private EstadoPedido	estado;
 
-	@NotBlank
+	//@NotEmpty
 	@Column(name = "precioTotal")
 	private Double			precioTotal;
 
-	@NotBlank
+	//@NotEmpty
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	@Column(name = "fecha")
 	private LocalDate		fecha;
 
-	@NotBlank
+	@NotEmpty
 	@Column(name = "direccionEnvio")
 	private String			direccionEnvio;
 
