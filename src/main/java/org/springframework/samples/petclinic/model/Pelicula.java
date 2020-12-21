@@ -43,7 +43,6 @@ public class Pelicula extends Producto {
 	@Enumerated(EnumType.STRING)
 	private Formato formato;
 
-	
 	@Column(name = "edicion")
 	private Integer edicion;
 	
@@ -57,9 +56,10 @@ public class Pelicula extends Producto {
 	@OneToMany //(mappedBy = "producto")
 	private Collection<@Valid Comentario>	comentarios;
 	
+	/*
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "cliente_id")
 	@Valid
 	private Cliente	cliente;
-	
+	*/
 }

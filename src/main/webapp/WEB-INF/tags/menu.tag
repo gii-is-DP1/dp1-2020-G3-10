@@ -46,12 +46,12 @@
 					<span>Veterinarians</span>
 				</petclinic:menuItem>
 				
-				<petclinic:menuItem active="${name eq 'plataformas'}" url="/plataformas"
+	<!--			<petclinic:menuItem active="${name eq 'plataformas'}" url="/plataformas"
 					title="plataformas">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 					<span>Plataformas</span>
 				</petclinic:menuItem>
-
+	-->
 				<petclinic:menuItem active="${name eq 'error'}" url="/oups"
 					title="trigger a RuntimeException to see how it is handled">
 					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>

@@ -25,17 +25,14 @@ INSERT INTO authorities(id,username,authority) VALUES (6,'marta','owner');
 INSERT INTO users(username,password,enabled) VALUES ('antmorgon4','password',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (20,'antmorgon4','owner');
 
-
-INSERT INTO cliente(id,nombre,apellidos,dni,email,direccion,tarjeta_credito,f_nacimiento,cartera,admin,username,vendedor_id) VALUES (2, 'Marta', 'ef Meneses', '12345478X', 'ivanen@alum.us.es', 'Calle Hndez', '0450-1111-2222-6666', '1998-11-10', '100.0', TRUE, 'marta', null);
-
 --INSERT INTO productos(id, nombre, precio,videojuego_id, cliente_id, merchandasing_id, pelicula_id) VALUES(1, 'Titanic', 12,null, 2, null,null );
 --INSERT INTO peliculas(id, agno, director, duracion, edicion, formato, producto_id) VALUES(1, 1997, 'James Cameron', 4, 1, 1,1);
 
 --añado peliculas
-INSERT INTO PELICULAS VALUES(1, 'Titanic', 12,2012,'Julian Fellowes',3,1, 'BLURAY','https://static.filmin.es/images/media/684/3/poster_0_3_256x0.webp', 'El hundimiento del barco, según el creador de "Downton Abbey". "Titanic" es una extraordinaria narración de este viaje condenado al fracaso, hábilmente tejido con parcelas de acción, misterio.', 2);
-INSERT INTO PELICULAS VALUES(2, 'Valerian y la ciudad de los mil planetas', 12,2017,'Luc Besson',2,1, 'BLURAY','https://static.filmin.es/images/media/20818/1/poster_0_3_720x0.webp', 'Luc Besson da la vuelta a la épica espacial con esta película inspirada en ‘Valérian et Laureline’ la serie de cómics que influyó enormemente en la estética de la "Star Wars" original.', 2);
-INSERT INTO PELICULAS VALUES(3, 'La casa torcida', 12,2017,'Gilles Paquet-Brenner',5,1, 'BLURAY','https://static.filmin.es/images/media/23729/2/poster_0_3_720x0.webp', 'Adaptación cinematográfica de la enigmática novela de Agatha Christie. Protagonizada por la ganadora de dos Globos de Oro, Glenn Close y la detective del fenómeno televisivo “Expediente X” Gillian Anderson.', 2);
-INSERT INTO PELICULAS VALUES(4, 'Fight Girl', 12,2018,'Johan Timmers',5,1, 'BLURAY','https://static.filmin.es/images/media/31442/1/poster_0_3_720x0.webp', 'Ganadora del Premio del Público Joven de los Premios EFA, una historia vitalista y con carisma sobre una joven luchadora de kickboxing.', 2);
+--INSERT INTO PELICULAS VALUES(1, 'Titanic', 12,2012,'Julian Fellowes',3,1, 'BLURAY','https://static.filmin.es/images/media/684/3/poster_0_3_256x0.webp', 'El hundimiento del barco, según el creador de "Downton Abbey". "Titanic" es una extraordinaria narración de este viaje condenado al fracaso, hábilmente tejido con parcelas de acción, misterio.', 2);
+--INSERT INTO PELICULAS VALUES(2, 'Valerian y la ciudad de los mil planetas', 12,2017,'Luc Besson',2,1, 'BLURAY','https://static.filmin.es/images/media/20818/1/poster_0_3_720x0.webp', 'Luc Besson da la vuelta a la épica espacial con esta película inspirada en ‘Valérian et Laureline’ la serie de cómics que influyó enormemente en la estética de la "Star Wars" original.', 2);
+--INSERT INTO PELICULAS VALUES(3, 'La casa torcida', 12,2017,'Gilles Paquet-Brenner',5,1, 'BLURAY','https://static.filmin.es/images/media/23729/2/poster_0_3_720x0.webp', 'Adaptación cinematográfica de la enigmática novela de Agatha Christie. Protagonizada por la ganadora de dos Globos de Oro, Glenn Close y la detective del fenómeno televisivo “Expediente X” Gillian Anderson.', 2);
+--INSERT INTO PELICULAS VALUES(4, 'Fight Girl', 12,2018,'Johan Timmers',5,1, 'BLURAY','https://static.filmin.es/images/media/31442/1/poster_0_3_720x0.webp', 'Ganadora del Premio del Público Joven de los Premios EFA, una historia vitalista y con carisma sobre una joven luchadora de kickboxing.', 2);
 
 --
 
@@ -106,8 +103,9 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04',
 
 --Cliente
 
-INSERT INTO cliente(id,nombre,apellidos,dni,email,direccion,tarjeta_credito,f_nacimiento,cartera,admin,username,vendedor_id) VALUES (1, 'Ivan', 'Cardenas Meneses', '12345678X', 'ivancarmen@alum.us.es', 'Calle Hernandez', '0000-1111-2222-6666', '1998-10-10', '100.0', TRUE, 'ivacarmen', null);
+INSERT INTO CLIENTES(APELLIDOS ,DNI ,EMAIL ,FECHA_NACIMIENTO ,NOMBRE ,TELEFONO ,CARTERA ,CIUDAD ,CODIGO_POSTAL ,DIRECCION ,TARJETA_CREDITO ) VALUES ('MORENO GONZÁLEZ' , '32097886Y', 'ANTMORGON4@ALUM.US.ES', '1997-05-16', 'ANTONIO JAVIER' , '601326967' , 100.0 , 'SEVILLA', '41012', 'CALLE TARFIA 45 10', '1234 1234 1234 1234');
 
+INSERT INTO CLIENTES(APELLIDOS ,DNI ,EMAIL ,FECHA_NACIMIENTO ,NOMBRE ,TELEFONO ,CARTERA ,CIUDAD ,CODIGO_POSTAL ,DIRECCION ,TARJETA_CREDITO ) VALUES ('DOE' , '49552340J', 'JANEDOE@ALUM.US.ES', '1990-01-01', 'JANE' , '600102030' , 500.0 , 'NOWHERE', '111111', 'NOWHERE', '4321 4321 4321 4321');
 
 --Pedido
 
