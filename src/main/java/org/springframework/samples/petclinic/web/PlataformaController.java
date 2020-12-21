@@ -92,10 +92,11 @@ public class PlataformaController {
 		return view;
 	}
 	
-
+	///Esto esta comentado porque al quitarlo de las entidades ha fallado.
+	
 	/* Redirigimos a una vista en la que haya un formulario con todas las plataformas a modo seleccionar puntos
-	y quiero que si el cliente ya tiene dicha plataforma ese punto venga marcado 
-
+	y quiero que si el cliente ya tiene dicha plataforma ese punto venga marcado */
+/*
 	//Vamos a la vista que lista las plataformas indicando que cliente ha mandado la petición
 	@GetMapping("/{clienteId}/updatePlataformas")
 	public String iniUpdatePlataforma(@PathVariable("clienteId") int clienteId,ModelMap mp) {
@@ -123,6 +124,6 @@ public class PlataformaController {
 		}
 	}
 	
-	*/
+*/
 
 }

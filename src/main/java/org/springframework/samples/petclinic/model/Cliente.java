@@ -57,10 +57,21 @@ public class Cliente extends Persona {
 
 	public Cliente() {
 	}
+    
+	//Este no lo he comentado para no cargarme el login
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "username", referencedColumnName = "username")
+	@Valid
+	private User	user;
+	/*
 	
+	@OneToMany(mappedBy = "cliente")
+	private Collection<@Valid Pedido>	pedidos;
 	
+	@OneToMany(mappedBy = "cliente")
+	private Collection<@Valid Comentario>	comentarios;
 	
-	
+	*/
 	
 	
 }

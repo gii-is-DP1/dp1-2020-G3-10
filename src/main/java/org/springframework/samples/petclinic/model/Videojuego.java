@@ -7,10 +7,10 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 
@@ -29,19 +29,24 @@ public class Videojuego extends Producto {
 	@NotEmpty
 	private String	descripcion;
 	
-	@OneToOne(optional=false)
-	private Plataforma plataforma;
 	
-	@OneToMany
-	private Collection<@Valid Oferta>	ofertas;
 	
-	@OneToMany //(mappedBy = "producto")
+	/*
+	 
+	@OneToMany (mappedBy = "videojuego")
 	private Collection<@Valid Comentario>	comentarios;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "cliente_id")
+	@JoinColumn(name = "vendedor_id")
 	@Valid
-	private Cliente	cliente;
+	private Vendedor 	vendedor;
 	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "pedido_id")
+	@NotNull
+	@Valid
+	private Pedido		pedido;
+	
+	*/
 }
 

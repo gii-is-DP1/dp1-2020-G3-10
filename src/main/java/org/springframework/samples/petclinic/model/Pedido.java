@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -23,22 +24,26 @@ public class Pedido extends BaseEntity {
 	@NotEmpty
 	private EstadoPedido				estado;
 
+	//Hay que plantearse bien que cascadeType nos conviene usar
+	
+	/*
+	 
 	@NotEmpty
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "cliente_id")
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "vendedor_id")
 	@Valid
-	private Cliente						cliente;
+	private Cliente					    cliente;
 
 	@NotEmpty
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "vendedor_id")
 	@Valid
 	private Vendedor					vendedor;
 
 	@OneToMany(mappedBy = "pedido")
-	private Collection<@Valid Oferta>	ofertas;
+	private Collection<@Valid Producto>	productos;
 
-	@OneToMany(mappedBy = "pedido")
-	private Collection<@Valid Mensaje>	mensaje;
+	*/
+	
 
 }

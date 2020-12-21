@@ -26,17 +26,22 @@ public class Vendedor extends BaseEntity {
 	@NotEmpty
 	private Double			valoracion;
 	
-	@NotEmpty
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "powerseller_id")
-	@Valid
-	private PowerSeller powerseller;
+	
+	//Como producto no es una entidad, 
+	//hay que relacionar vendedor con las 3 entidades por separado.
+	
+	/*
+	@OneToMany(mappedBy = "vendedor")
+	private Collection<@Valid Pedido>	pedidos;
 	
 	@OneToMany(mappedBy = "vendedor")
-	private Collection<@Valid Oferta>	misOfertas;
+	private Collection<@Valid Pelicula>	peliculas;
 	
 	@OneToMany(mappedBy = "vendedor")
-	private Collection<@Valid Pedido>	tareas;
-
+	private Collection<@Valid Videojuego> videojuego;
+	
+	@OneToMany(mappedBy = "vendedor")
+	private Collection<@Valid Merchandasing> merchandasing;
+	*/
 
 }

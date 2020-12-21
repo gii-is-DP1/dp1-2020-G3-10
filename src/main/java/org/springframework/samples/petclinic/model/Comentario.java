@@ -24,27 +24,32 @@ public class Comentario extends BaseEntity {
 	@NotEmpty
 	private String texto;
 	
-	@NotEmpty
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "cliente_id")
-	@Valid
-	private Cliente 		autor;
-	
-	@NotEmpty
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "vendedor_id")
-	@Valid
-	private Vendedor 		vendedor;
-	
-	
-	
-	
 	/*
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "producto_id")
+	  
+	@ManyToOne(fetch = FetchType.LAZY cascade = CascadeType.ALL)
+	@JoinColumn(name = "cliente_id")
 	@NotNull
 	@Valid
-	private Producto		producto;
+	private Cliente		cliente;
+	
+	@ManyToOne(fetch = FetchType.LAZY cascade = CascadeType.ALL)
+	@JoinColumn(name = "videojuego_id")
+	@NotNull
+	@Valid
+	private Videojuego		videojuego;
+	
+	@ManyToOne(fetch = FetchType.LAZY cascade = CascadeType.ALL)
+	@JoinColumn(name = "pelicula_id")
+	@NotNull
+	@Valid
+	private Pelicula		pelicula;
+	
+	@ManyToOne(fetch = FetchType.LAZY cascade = CascadeType.ALL)
+	@JoinColumn(name = "merchandasing_id")
+	@NotNull
+	@Valid
+	private Merchandasing		merchandasing;
+	
 	*/
 
 }
