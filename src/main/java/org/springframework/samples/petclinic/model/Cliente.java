@@ -58,7 +58,8 @@ public class Cliente extends Persona {
 	public Cliente() {
 	}
     
-	//Este no lo he comentado para no cargarme el login
+	//Este ya no hace falta?
+	/*
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "username", referencedColumnName = "username")
 	@Valid
