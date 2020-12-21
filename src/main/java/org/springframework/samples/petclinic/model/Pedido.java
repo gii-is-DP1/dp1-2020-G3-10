@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
@@ -21,13 +22,16 @@ public class Pedido extends BaseEntity {
 	private EstadoPedido	estado;
 
 	@NotBlank
+	@Column(name = "precioTotal")
 	private Double			precioTotal;
 
 	@NotBlank
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	@Column(name = "fecha")
 	private LocalDate		fecha;
 
 	@NotBlank
+	@Column(name = "direccionEnvio")
 	private String			direccionEnvio;
 
 	/*
