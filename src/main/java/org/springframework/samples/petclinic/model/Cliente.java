@@ -3,9 +3,13 @@ package org.springframework.samples.petclinic.model;
 import java.time.LocalDate;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -58,12 +62,12 @@ public class Cliente extends Persona {
 	public Cliente() {
 	}
     
-	//Este ya no hace falta?
-	/*
+	//Este no lo comento porque si no el login no funciona
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "username", referencedColumnName = "username")
 	@Valid
 	private User	user;
+	
 	/*
 	
 	@OneToMany(mappedBy = "cliente")

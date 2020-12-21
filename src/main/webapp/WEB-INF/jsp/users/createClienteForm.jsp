@@ -11,7 +11,7 @@
 	<jsp:attribute name="customScript">
         <script>
             $(function () {
-                $("#f_nacimiento").datepicker({dateFormat: 'yy-mm-dd'});
+                $("#fechaNacimiento").datepicker({dateFormat: 'yy-mm-dd'});
             });
         </script>
     </jsp:attribute>
@@ -30,8 +30,11 @@
             <petclinic:inputField label="Apellidos" name="apellidos"/>
             <petclinic:inputField label="Email" name="email"/>
             <petclinic:inputField label="Direccion" name="direccion"/>
-            <petclinic:inputField label="Fecha de Nacimiento" name="f_nacimiento"/>
-            <petclinic:inputField label="Tarjeta de Credito" name="tarjeta_credito"/>
+            <petclinic:inputField label="Fecha de Nacimiento" name="fechaNacimiento"/>
+            <petclinic:inputField label="Tarjeta de Credito" name="tarjetaCredito"/>
+            <petclinic:inputField label="Número de Teléfono" name="telefono"/>
+            <petclinic:inputField label="Ciudad" name="ciudad"/>
+            <petclinic:inputField label="Código Postal" name="codigoPostal"/>
             <petclinic:inputField label="Usuario" name="user.username"/>
             <petclinic:inputField label="Contraseña" name="user.password"/>
         </div>

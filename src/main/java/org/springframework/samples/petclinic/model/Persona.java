@@ -25,7 +25,7 @@ public class Persona extends BaseEntity {
 	protected String apellidos;
 
 	@Column(name = "fechaNacimiento")
-	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	protected LocalDate	fechaNacimiento;
 
 	@Column(name = "dni")
