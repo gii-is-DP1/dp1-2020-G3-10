@@ -129,3 +129,7 @@ INSERT INTO PLATAFORMA ( ID , NOMBRE , DESCRIPCION ) VALUES ( 3, 'WII','La clás
 INSERT INTO PLATAFORMA ( ID , NOMBRE , DESCRIPCION ) VALUES ( 2, 'XBOX SERIE X','La nueva consola de Microsoft');
 INSERT INTO PLATAFORMA ( ID , NOMBRE , DESCRIPCION ) VALUES ( 1, 'PS5','La nueva consola de Sony');
 
+--Vendedor
+
+INSERT INTO vendedor(id,first_name,last_name,vacaciones,valoracion,nombre_tienda,direccion_tienda,telefono) VALUES (1,'carles','santos',true,20,'tienda bonita','calle piruleta','6085558763');
+
