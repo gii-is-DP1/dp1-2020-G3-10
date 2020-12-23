@@ -28,6 +28,12 @@
 					<span>Peliculas</span>
 				</petclinic:menuItem>
 				
+				<petclinic:menuItem active="${name eq 'videojuegos'}" url="/videojuegos"
+					title="videojuegos">
+					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					<span>Videojuegos</span>
+				</petclinic:menuItem>
+				
 				<petclinic:menuItem active="${name eq 'home'}" url="/"
 					title="home page">
 					<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
