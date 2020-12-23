@@ -1,11 +1,15 @@
 
 package org.springframework.samples.petclinic.model;
 
+import java.util.Collection;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 
 import lombok.Getter;
@@ -41,6 +45,9 @@ public class Pelicula extends Producto {
 	@Column(name = "imagen")
 	@NotEmpty
 	private String imagen;
+	
+	@OneToMany(mappedBy = "pelicula")
+	private Collection<@Valid Comentario>	comentarios;
 	
     /*
 	 

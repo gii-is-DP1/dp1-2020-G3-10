@@ -1,11 +1,13 @@
 package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
+import java.util.Collection;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.Valid;
@@ -40,6 +42,9 @@ public class Cliente extends Persona {
 	
 	@Column(name = "cartera")
 	private Double cartera;
+	
+	@OneToMany(mappedBy = "cliente")
+	private Collection<@Valid Comentario>	comentarios;
 
 	public Cliente(@NotEmpty String nombre, @NotEmpty String apellidos, @NotEmpty @NotEmpty @NotEmpty LocalDate fechaNacimiento,
 			@NotEmpty String dni, @NotEmpty @Email String email,
@@ -68,6 +73,8 @@ public class Cliente extends Persona {
 	@JoinColumn(name = "username", referencedColumnName = "username")
 	@Valid
 	private User	user;
+	
+
 	
 	/*
 	

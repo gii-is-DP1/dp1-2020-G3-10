@@ -1,7 +1,11 @@
 package org.springframework.samples.petclinic.model;
 
+import java.util.Collection;
+
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 
 import lombok.Getter;
@@ -22,6 +26,9 @@ public class Merchandasing extends Producto {
 	
 	@NotEmpty
 	private String caracteristicas;
+	
+	@OneToMany(mappedBy = "merchandasing")
+	private Collection<@Valid Comentario>	comentarios;
 	
 	/*
 	

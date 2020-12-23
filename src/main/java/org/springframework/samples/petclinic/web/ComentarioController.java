@@ -1,5 +1,7 @@
 package org.springframework.samples.petclinic.web;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Comentario;
@@ -15,7 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/comentarios")
+@RequestMapping("/clientes/{clienteId}/comentarios")
 public class ComentarioController {
 	
 	@Autowired
@@ -28,10 +30,16 @@ public class ComentarioController {
 	private static final String VIEWS_COMENTARIOS_CREATE_OR_UPDATE_FORM = "comentarios/createOrUpdateComentarioForm";
 	
 	@GetMapping()
-	public String listComments(ModelMap modelMap) {
+	public String listComments(@PathVariable("clienteId") int clienteId, ModelMap modelMap) {
 		String vista = "comentarios/comentariosList";
-		Iterable<Comentario> comentarios = comentarioService.findAll();
-		modelMap.addAttribute("comentario", comentarios);
+		List<Comentario> comentarios = comentarioService.findByClientId(clienteId);
+		modelMap.addAttribute("comentarios", comentarios);
+		if(comentarios.isEmpty()) {
+			System.out.println("No hay nada");
+		} else {
+			System.out.println(comentarios.size());
+			System.out.println(comentarios.get(0).getCliente().getNombre());
+		}
 		return vista;
 	}
 	
@@ -41,10 +49,11 @@ public class ComentarioController {
 		this.clienteService = clienteService;
 	}
 	
-	@InitBinder("cliente")
-	public void initOwnerBinder(WebDataBinder dataBinder) {
+	@InitBinder
+	public void setAllowedFields(WebDataBinder dataBinder) {
 		dataBinder.setDisallowedFields("id");
 	}
+	
 	/*
 	@GetMapping(value = "/comentarios/new")
 	public String initCreationForm(Cliente cliente, ModelMap model) {
