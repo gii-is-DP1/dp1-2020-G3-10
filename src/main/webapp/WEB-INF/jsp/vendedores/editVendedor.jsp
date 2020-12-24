@@ -16,6 +16,9 @@
                 <petclinic:inputField label="firstName" name="firstName"/>
                 <petclinic:inputField label="lastName" name="lastName"/>
                 <petclinic:inputField label="Valoracion" name="valoracion"/>
+                <petclinic:inputField label="Vacaciones" name="vacaciones"/>
+                <petclinic:inputField label="nombre tienda" name="nombreTienda"/>
+                <petclinic:inputField label="direccion tienda" name="direccionTienda"/>
             </div>
 
             <div class="form-group">

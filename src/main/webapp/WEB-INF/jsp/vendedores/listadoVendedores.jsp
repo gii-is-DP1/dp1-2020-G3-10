@@ -20,7 +20,7 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${vendedor}" var="vendedor">
+        <c:forEach items="${vendedores}" var="vendedor">
             <tr>
                 
                 <td>
