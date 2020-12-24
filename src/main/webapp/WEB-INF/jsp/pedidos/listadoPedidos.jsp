@@ -12,9 +12,9 @@
         <thead>
         <tr>
             <th style="width: 150px;">Estado</th>
-            <th style="width: 200px;">Cliente</th>
-            <th style="width: 120px">Vendedor</th>
-            <th style="width: 120px">Ofertas-ID</th>
+            <th style="width: 200px;">precio Total</th>
+            <th style="width: 120px">Fecha</th>
+            <th style="width: 120px">direccionEnvio</th>
         </tr>
         </thead>
         <tbody>
@@ -25,22 +25,28 @@
                     <c:out value="${pedido.estado}"/>
                 </td>
                 <td>
-                    <c:out value="${pedido.cliente.nombre}"/>
+                    <c:out value="${pedido.precioTotal}"/>
                 </td>
                 <td>
-                    <c:out value="${pedido.vendedor.id}"/>  
+                    <c:out value="${pedido.fecha}"/>  
                 </td>
                 <td>
-                    <c:forEach var="oferta" items="${pedido.ofertas}">
-                        <c:out value="${oferta.id} "/>
-                    </c:forEach>
+                    <c:out value="${pedido.direccionEnvio}"/>  
                 </td>
                 
                 
+             <td>
+                    <spring:url value="/pedidos/delete/{pedidoId}" var="pedidoUrl">
+                        <spring:param name="pedidoId" value="${pedido.id}"/>
+                    </spring:url>
+                    <a href="${fn:escapeXml(pedidoUrl)}">Delete</a>
+                </td>   
                 
                          
                 
             </tr>
+            
+            
         </c:forEach>
         </tbody>
     </table>

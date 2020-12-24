@@ -98,7 +98,7 @@ INSERT INTO clientes(id,nombre,apellidos,dni,email,direccion,ciudad,tarjeta_cred
 
 --Pedido
 
---INSERT INTO pedido(id,estado,cliente_id,vendedor_id) VALUES (1,2,1,null);
+INSERT INTO pedido(id, estado, precio_total, fecha, direccion_envio) VALUES (1,2,20,'2013-01-01','carles company');
 
 --Oferta
 
@@ -127,4 +127,8 @@ INSERT INTO VIDEOJUEGOS VALUES(5, 'MINECRAFT - NINTENDO SWITCH EDITION', 29.95,2
 --INSERT INTO PLATAFORMA ( ID , NOMBRE , DESCRIPCION ) VALUES ( 3, 'WII','La clásica consola de Nintendo');
 --INSERT INTO PLATAFORMA ( ID , NOMBRE , DESCRIPCION ) VALUES ( 2, 'XBOX SERIE X','La nueva consola de Microsoft');
 --INSERT INTO PLATAFORMA ( ID , NOMBRE , DESCRIPCION ) VALUES ( 1, 'PS5','La nueva consola de Sony');
+
+--Vendedor
+
+INSERT INTO vendedor(id,first_name,last_name,vacaciones,valoracion,nombre_tienda,direccion_tienda,telefono) VALUES (1,'carles','santos',true,20,'tienda bonita','calle piruleta','6085558763');
 

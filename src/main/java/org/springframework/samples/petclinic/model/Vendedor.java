@@ -3,39 +3,40 @@ package org.springframework.samples.petclinic.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotEmpty;
+
 
 import lombok.Getter;
 import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 @Getter
 @Setter
 @Table(name = "vendedor")
-public class Vendedor extends BaseEntity {
 
-	@NotEmpty
-	private Boolean			vacaciones;
+public class Vendedor extends Person {
 
-	@NotEmpty
-	private Double			valoracion;
-	
-	
-	//Como producto no es una entidad, 
-	//hay que relacionar vendedor con las 3 entidades por separado.
-	
-	/*
-	@OneToMany(mappedBy = "vendedor")
-	private Collection<@Valid Pedido>	pedidos;
-	
-	@OneToMany(mappedBy = "vendedor")
-	private Collection<@Valid Pelicula>	peliculas;
-	
-	@OneToMany(mappedBy = "vendedor")
-	private Collection<@Valid Videojuego> videojuego;
-	
-	@OneToMany(mappedBy = "vendedor")
-	private Collection<@Valid Merchandasing> merchandasing;
-	*/
+	private Boolean	vacaciones;
+
+	private Double	valoracion;
+
+	private String	nombreTienda;
+
+	private String	direccionTienda;
+
+	@Digits(fraction = 0, integer = 10)
+	private String	telefono;
+
+	//	@OneToMany(mappedBy = "vendedor")
+	//	private Collection<@Valid Oferta>	misOfertas;
+	//
+	//	@OneToMany(mappedBy = "vendedor")
+	//	private Collection<@Valid Pedido>	tareas;
+
+
 
 }

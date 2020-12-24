@@ -1,7 +1,8 @@
+
 package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
-
+import java.util.Collection;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,29 +14,35 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
+
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+
 @Entity
 @Table(name = "clientes")
 public class Cliente extends Persona {
 
 	@Column(name = "ciudad")
 	@NotEmpty
+
 	private String ciudad;
 
 	@Column(name = "codigo_postal")
 	@NotEmpty
+
 	private String codigoPostal;
 
 	@Column(name = "direccion")
 	@NotEmpty
 	private String direccion;
 
+
 	@Column(name = "tarjeta_credito")
 	@NotEmpty
+  
 	private String	tarjetaCredito;
 	
 	@Column(name = "cartera")
@@ -81,3 +88,4 @@ public class Cliente extends Persona {
 	
 	
 }
+
