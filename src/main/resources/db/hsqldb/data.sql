@@ -16,11 +16,29 @@ INSERT INTO authorities(id,username,authority) VALUES (4,'ivacarmen','owner');
 --Owner luibelzan
 INSERT INTO users(username,password,enabled) VALUES ('luibelzan','luibelzan',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (5,'luibelzan','owner');
+--Owner luibelzan
+INSERT INTO users(username,password,enabled) VALUES ('marta','marta',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (6,'marta','owner');
 
 -- Probando 
 
 INSERT INTO users(username,password,enabled) VALUES ('antmorgon4','password',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (20,'antmorgon4','owner');
+
+
+INSERT INTO cliente(id,nombre,apellidos,dni,email,direccion,tarjeta_credito,f_nacimiento,cartera,admin,username,vendedor_id) VALUES (2, 'Marta', 'ef Meneses', '12345478X', 'ivanen@alum.us.es', 'Calle Hndez', '0450-1111-2222-6666', '1998-11-10', '100.0', TRUE, 'marta', null);
+
+--INSERT INTO productos(id, nombre, precio,videojuego_id, cliente_id, merchandasing_id, pelicula_id) VALUES(1, 'Titanic', 12,null, 2, null,null );
+--INSERT INTO peliculas(id, agno, director, duracion, edicion, formato, producto_id) VALUES(1, 1997, 'James Cameron', 4, 1, 1,1);
+
+--añado peliculas
+
+INSERT INTO PELICULAS VALUES(1, 'Titanic', 12,2012,'Julian Fellowes',3,1, 1,'https://static.filmin.es/images/media/684/3/poster_0_3_256x0.webp', 'El hundimiento del barco, según el creador de "Downton Abbey". "Titanic" es una extraordinaria narración de este viaje condenado al fracaso, hábilmente tejido con parcelas de acción, misterio.', 2);
+INSERT INTO PELICULAS VALUES(2, 'Valerian y la ciudad de los mil planetas', 12,2017,'Luc Besson',2,1, 1,'https://static.filmin.es/images/media/20818/1/poster_0_3_720x0.webp', 'Luc Besson da la vuelta a la épica espacial con esta película inspirada en ‘Valérian et Laureline’ la serie de cómics que influyó enormemente en la estética de la "Star Wars" original.', 2);
+INSERT INTO PELICULAS VALUES(3, 'La casa torcida', 12,2017,'Gilles Paquet-Brenner',5,1, 1,'https://static.filmin.es/images/media/23729/2/poster_0_3_720x0.webp', 'Adaptación cinematográfica de la enigmática novela de Agatha Christie. Protagonizada por la ganadora de dos Globos de Oro, Glenn Close y la detective del fenómeno televisivo “Expediente X” Gillian Anderson.', 2);
+INSERT INTO PELICULAS VALUES(4, 'Fight Girl', 12,2018,'Johan Timmers',5,1, 1,'https://static.filmin.es/images/media/31442/1/poster_0_3_720x0.webp', 'Ganadora del Premio del Público Joven de los Premios EFA, una historia vitalista y con carisma sobre una joven luchadora de kickboxing.', 2);
+
+
 
 --
 
@@ -88,4 +106,30 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (1, 7, '2013-01-01',
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (2, 8, '2013-01-02', 'rabies shot');
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (3, 8, '2013-01-03', 'neutered');
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04', 'spayed');
+
+--Cliente
+
+INSERT INTO cliente(id,nombre,apellidos,dni,email,direccion,tarjeta_credito,f_nacimiento,cartera,admin,username,vendedor_id) VALUES (1, 'Ivan', 'Cardenas Meneses', '12345678X', 'ivancarmen@alum.us.es', 'Calle Hernandez', '0000-1111-2222-6666', '1998-10-10', '100.0', TRUE, 'ivacarmen', null);
+
+
+--Pedido
+
+INSERT INTO pedido(id, estado, precio_total, fecha, direccion_envio) VALUES (1,2,20,'2013-01-01','carles company');
+
+--Oferta
+
+--INSERT INTO oferta(id,conservacion,precio,pedido_id,producto_id,vendedor_id) VALUES (1,1,40,1,null,null);
+--INSERT INTO oferta(id,conservacion,precio,pedido_id,producto_id,vendedor_id) VALUES (2,1,20,1,null,null);
+
+
+--Plataforma
+
+INSERT INTO PLATAFORMA ( ID , NOMBRE , DESCRIPCION ) VALUES ( 4, 'DVD','El viejo amigo que te ayudaba a ver tus pelis allá por el 2000');
+INSERT INTO PLATAFORMA ( ID , NOMBRE , DESCRIPCION ) VALUES ( 3, 'WII','La clásica consola de Nintendo');
+INSERT INTO PLATAFORMA ( ID , NOMBRE , DESCRIPCION ) VALUES ( 2, 'XBOX SERIE X','La nueva consola de Microsoft');
+INSERT INTO PLATAFORMA ( ID , NOMBRE , DESCRIPCION ) VALUES ( 1, 'PS5','La nueva consola de Sony');
+
+--Vendedor
+
+INSERT INTO vendedor(id,first_name,last_name,vacaciones,valoracion,nombre_tienda,direccion_tienda,telefono) VALUES (1,'carles','santos',true,20,'tienda bonita','calle piruleta','6085558763');
 
