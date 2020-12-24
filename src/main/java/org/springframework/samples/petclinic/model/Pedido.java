@@ -1,17 +1,26 @@
 
 package org.springframework.samples.petclinic.model;
 
+
 import java.time.LocalDate;
 
 import javax.persistence.Column;
+
+
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Getter;
 import lombok.Setter;
+
+
+import lombok.Getter;
+import lombok.Setter;
+
 
 @Getter
 @Setter
@@ -21,6 +30,7 @@ public class Pedido extends BaseEntity {
 
 	//@NotEmpty         para evitar que pete al crear uno
 	private EstadoPedido	estado;
+
 
 	//@NotEmpty
 	@Column(name = "precioTotal")
@@ -60,5 +70,27 @@ public class Pedido extends BaseEntity {
 	 * @OneToMany(mappedBy = "pedido")
 	 * private Collection<@Valid Mensaje> mensaje;
 	 */
+
+	//Hay que plantearse bien que cascadeType nos conviene usar
+	
+	/*
+	 
+	@NotEmpty
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "vendedor_id")
+	@Valid
+	private Cliente					    cliente;
+
+	@NotEmpty
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "vendedor_id")
+	@Valid
+	private Vendedor					vendedor;
+
+	@OneToMany(mappedBy = "pedido")
+	private Collection<@Valid Producto>	productos;
+
+	*/
+	
 
 }

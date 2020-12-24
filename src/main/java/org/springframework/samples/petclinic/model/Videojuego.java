@@ -1,47 +1,58 @@
 package org.springframework.samples.petclinic.model;
 
-import java.util.Collection;
-
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Table;
-import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
 @Entity
-@Table(name = "videojuego")
+@Getter
+@Setter
+@Table(name = "videojuegos")
 public class Videojuego extends Producto {
 
 
 	@NotEmpty
+	@Column(name = "descripcion")
+	private String	descripcion;
+	
+	@Column(name = "agno")
 	private Integer	agno;
 
 	@NotEmpty
+	@Column(name = "estudio")
 	private String	estudio;
 
 	@NotEmpty
-	private String	descripcion;
+	@Column(name = "imagen")
+	private String imagen;
 	
-	@OneToOne(optional=false)
+	
+	@Column(name = "plataforma")
+	@Enumerated(EnumType.STRING)
 	private Plataforma plataforma;
 	
-	@OneToMany
-	private Collection<@Valid Oferta>	ofertas;
-	
-	@OneToMany //(mappedBy = "producto")
+	/*
+	 
+	@OneToMany (mappedBy = "videojuego")
 	private Collection<@Valid Comentario>	comentarios;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "cliente_id")
+	@JoinColumn(name = "vendedor_id")
 	@Valid
-	private Cliente	cliente;
+	private Vendedor 	vendedor;
 	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "pedido_id")
+	@NotNull
+	@Valid
+	private Pedido		pedido;
+	
+	*/
 }
 

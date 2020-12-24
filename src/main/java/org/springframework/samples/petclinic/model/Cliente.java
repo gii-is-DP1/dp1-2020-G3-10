@@ -3,79 +3,89 @@ package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
 import java.util.Collection;
-
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.Valid;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
 
-import org.hibernate.validator.constraints.Length;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
+
 @Entity
-@Table(name = "cliente")
-public class Cliente extends BaseEntity {
+@Table(name = "clientes")
+public class Cliente extends Persona {
 
+	@Column(name = "ciudad")
 	@NotEmpty
-	@Length(min = 9, max = 9, message = "la longitud debe ser de 9 caracteres")
-	private String							dni;
 
+	private String ciudad;
+
+	@Column(name = "codigo_postal")
 	@NotEmpty
-	@Email
-	private String							email;
 
+	private String codigoPostal;
+
+	@Column(name = "direccion")
 	@NotEmpty
-	private String							nombre;
+	private String direccion;
 
+
+	@Column(name = "tarjeta_credito")
 	@NotEmpty
-	private String							apellidos;
+  
+	private String	tarjetaCredito;
+	
+	@Column(name = "cartera")
+	private Double cartera;
 
-	@NotEmpty
-	private String							direccion;
+	public Cliente(@NotEmpty String nombre, @NotEmpty String apellidos, @NotEmpty @NotEmpty @NotEmpty LocalDate fechaNacimiento,
+			@NotEmpty String dni, @NotEmpty @Email String email,
+			@NotEmpty @Digits(fraction = 0, integer = 10) String telefono, @NotEmpty String ciudad,
+			@NotEmpty String codigoPostal, @NotEmpty String direccion, @NotEmpty String tarjetaCredito,
+			@NotEmpty Double cartera) {
+		super(nombre, apellidos, fechaNacimiento, dni, email, telefono);
+		this.ciudad = ciudad;
+		this.codigoPostal = codigoPostal;
+		this.direccion = direccion;
+		this.tarjetaCredito = tarjetaCredito;
+		this.cartera = cartera;
+	}
 
-	//@CreditCardNumber
-	@NotEmpty
-	private String							tarjeta_credito;
+	public Cliente(@NotEmpty String nombre, @NotEmpty String apellidos, @NotEmpty @NotEmpty @NotEmpty LocalDate fechaNacimiento,
+			@NotEmpty String dni, @NotEmpty @Email String email,
+			@NotEmpty @Digits(fraction = 0, integer = 10) String telefono) {
+		super(nombre, apellidos, fechaNacimiento, dni, email, telefono);
+	}
 
-	@Past
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private LocalDate						f_nacimiento;
-
-	@NotNull
-	private Double							cartera;
-
-	@NotNull
-	private Boolean							admin;
-
+	public Cliente() {
+	}
+    
+	//Este no lo comento porque si no el login no funciona
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "username", referencedColumnName = "username")
 	@Valid
-	private User							user;
-
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "vendedor_id")
-	private Vendedor						vendedor;
-
-	@OneToMany(mappedBy = "cliente")
-	private Collection<@Valid Mensaje>		bandeja;
-
-	@OneToMany(mappedBy = "clientes")
-	private Collection<@Valid Plataforma>	plataformas;
+	private User	user;
+	
 	/*
-	 * @OneToMany(mappedBy = "cliente")
-	 * private Collection<@Valid Producto> deseado;
-	 */
-	//	@OneToMany(mappedBy = "cliente")
-	//	private Collection<@Valid Pedido>	pedidos;
-
+	
+	@OneToMany(mappedBy = "cliente")
+	private Collection<@Valid Pedido>	pedidos;
+	
+	@OneToMany(mappedBy = "cliente")
+	private Collection<@Valid Comentario>	comentarios;
+	
+	*/
+	
+	
 }
+

@@ -1,19 +1,14 @@
 package org.springframework.samples.petclinic.model;
 
-import java.util.Collection;
-
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name="merchandasing")
 public class Merchandasing extends Producto {
@@ -28,15 +23,22 @@ public class Merchandasing extends Producto {
 	@NotEmpty
 	private String caracteristicas;
 	
-	@OneToMany
-	private Collection<@Valid Oferta>	ofertas;
+	/*
 	
-	@OneToMany //(mappedBy = "producto")
+	@OneToMany (mappedBy = "merchandasing")
 	private Collection<@Valid Comentario>	comentarios;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "cliente_id")
+	@JoinColumn(name = "vendedor_id")
 	@Valid
-	private Cliente	cliente;
+	private Vendedor 	vendedor;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "pedido_id")
+	@NotNull
+	@Valid
+	private Pedido		pedido;
+	
+	*/
 	
 }

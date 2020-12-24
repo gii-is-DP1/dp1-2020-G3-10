@@ -3,7 +3,10 @@ package org.springframework.samples.petclinic.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotEmpty;
+
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +14,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
+@Getter
+@Setter
 @Table(name = "vendedor")
+
 public class Vendedor extends Person {
 
 	private Boolean	vacaciones;
@@ -30,5 +36,7 @@ public class Vendedor extends Person {
 	//
 	//	@OneToMany(mappedBy = "vendedor")
 	//	private Collection<@Valid Pedido>	tareas;
+
+
 
 }

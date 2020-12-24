@@ -52,40 +52,41 @@ public class PeliculaController {
 		
 	}
 	
+	//Muestra todas las peliculas
 	@GetMapping(value = "/peliculas")
 	public String showPeliculasList(Map<String, Object> model) {
-		
 		List<Pelicula> peliculas = this.peliculaService.findPeliculas();
 		model.put("peliculas", peliculas);
 		return "/peliculas/PeliculasList";
 		
 	}
 	
-	@GetMapping(value = "/peliculas/{peliculaId}/edit")
+	
+	@GetMapping(value = "/peliculas/edit/{peliculaId}")
 	public String initUpdateForm(@PathVariable("peliculaId") int peliculaId, ModelMap model){
 		Pelicula p= this.peliculaService.findPeliculaById(peliculaId);
 		model.put("pelicula", p);
-		return "/peliculas/createOrUpdatePeliculaForm";
+		String view= "/peliculas/formCreatePeliculas";
+		return view;
 	}
 	
-	@PostMapping(value ="/peliculas/{peliculaId}/edit")
-	public String processUpdatePeliculaForm(@Valid Pelicula p, BindingResult result,
+	@PostMapping(value ="/peliculas/edit/{peliculaId}")
+	public String processUpdatePeliculaForm(@Valid final Pelicula p, BindingResult result,
 			@PathVariable("peliculaId") int peliculaId) {
+		
+		String view = "/peliculas/formCreatePeliculas";
 		if(result.hasErrors()) {
-			return "/peliculas/createOrUpdatePeliculaForm";
-			
+			return view;
 		}else {
-			Pelicula pParaActualizar = this.peliculaService.findPeliculaById(peliculaId);
-			try {
-				this.peliculaService.savePelicula(pParaActualizar);
-			}catch (Exception e) {
-				return "/peliculas/createOrUpdatePeliculaForm";
-			}
-			
-			return "redirect:/peliculas/{peliculaId}";
+			p.setId(peliculaId);
+			this.peliculaService.savePelicula(p);
+			view ="redirect:/peliculas/" + p.getId() ;
+			return view;
 		}
+		
 	}
 	
+	//Muestra en la vista peliculaDetails los detalles de una pelicula pasando su id
 	@GetMapping("/peliculas/{peliculaId}")
 	public String showPelicula(@PathVariable("peliculaId") int peliculaId, Map<String, Object> model) {
 		Pelicula pelicula = this.peliculaService.findPeliculaById(peliculaId);
@@ -93,26 +94,38 @@ public class PeliculaController {
 		return "/peliculas/peliculaDetails";
 	}
 
+	//Muestra la vista para crear una pelicula
 	@GetMapping(value= "/peliculas/new")
-	public String initCreationPelicula(Map<String, Object> model) {
-		Pelicula p = new Pelicula();
-		model.put("pelicula", p);
-		return "/peliculas/createOrUpdatePeliculaForm";
+	public String createPelicula(final ModelMap modelmap) {
+		String view = "/peliculas/formCreatePeliculas";
+		modelmap.addAttribute("pelicula", new Pelicula());
+		return view;
 	}
 	
+	//Se traen los datos de la pelicula nueva del form y se procede al post 
 	@PostMapping(value= "/peliculas/new")
-	public String initCreationPelicula(@Valid Pelicula pel, BindingResult result) {
+	public String savePelicula(@Valid Pelicula pel, BindingResult result) {
 		if(result.hasErrors()) {
-			return "/peliculas/createOrUpdatePeliculaForm";
+			return "/peliculas/formCreatePeliculas";
 		}else {
 			this.peliculaService.savePelicula(pel);
 			return "redirect:/peliculas/" + pel.getId();
 		}
 	}
-	@DeleteMapping("/peliculas/{peliculaId}/delete")
-	public String processBorrarPelicula(@PathVariable("peliculaId") int peliculaId) {
-		this.peliculaService.deletePelicula(peliculaId);
-		return "/peliculas/PeliculaList";
+	
+	//borra una determinada pelicula
+	@GetMapping("/peliculas/delete/{peliculaId}")
+	public String deletePelicula(@PathVariable("peliculaId") int peliculaId, final ModelMap modelMap) {
+		Pelicula peliculaBorrar = this.peliculaService.findPeliculaById(peliculaId);
+		String view = "peliculas/PeliculasList";
+		if (peliculaBorrar != null) {
+			this.peliculaService.delete(peliculaBorrar);
+			view = this.showPeliculasList(modelMap);
+		}else {
+			modelMap.addAttribute("message", "ERROR!");
+		}
+		
+		return view;
 		
 	}
 	

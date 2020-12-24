@@ -8,37 +8,37 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
 
 <petclinic:layout pageName="peliculas">
-	<h2>PELICULAS</h2>
+	<h2>VIDEOJUEGOS</h2>
 
 
 
-	<table id="peliculasTable">
+	<table id="videojuegosTable">
 
 		<tbody>
-			<c:forEach items="${peliculas}" var="pel">
+			<c:forEach items="${videojuegos}" var="vid">
 
 
 				<div class="col-sm-6 col-md-4">
 					<div class="thumbnail">
-						<img src=<c:out value="${pel.imagen}"/> width="250" height="350">
+						<img src=<c:out value="${vid.imagen}"/> width="250" height="350">
 
-						<spring:url value="/peliculas/{peliculaId}" var="peliculaUrl">
-							<spring:param name="peliculaId" value="${pel.id}" />
+						<spring:url value="/videojuegos/{videojuegoId}" var="videojuegoUrl">
+							<spring:param name="videojuegoId" value="${vid.id}" />
 						</spring:url>
-						<a href="${fn:escapeXml(peliculaUrl)}"><c:out
-								value="${pel.nombre}" /></a>
+						<a href="${fn:escapeXml(videojuegoUrl)}"><c:out
+								value="${vid.nombre}" /></a>
 
-					</div>
+					</div>   
 				</div>
 
 			</c:forEach>
 		</tbody>
 	</table>
 
-	 <spring:url value="/peliculas/new" var="addPeliculaUrl">
+	 <spring:url value="/videojuegos/new" var="addVideojuegoUrl">
 	</spring:url>
-	<a href="${fn:escapeXml(addPeliculaUrl)}" class="btn btn-default">Nueva
-		Pelicula</a>
+	<a href="${fn:escapeXml(addVideojuegoUrl)}" class="btn btn-default">Nuevo
+		Videojuego</a>
 
 
 
