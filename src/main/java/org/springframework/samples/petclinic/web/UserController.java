@@ -15,6 +15,7 @@
  */
 package org.springframework.samples.petclinic.web;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -28,51 +29,56 @@ import org.springframework.samples.petclinic.service.OwnerService;
 import org.springframework.samples.petclinic.service.VetService;
 import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class UserController {
 
-	private static final String VIEWS_CLIENTE_CREATE_FORM = "users/createClienteForm";
+	private static final String VIEWS_ELEGIR_USUARIO = "users/elegirTipoUserForm";
 
 	@Autowired
-	private final ClienteService clienteService;
-	@Autowired
-	private UserService			userService;
-
-	@Autowired
-	public UserController(final ClienteService clienteService, final UserService userService) {
-		this.clienteService = clienteService;
-		this.userService = userService;
+	public UserController() {
 	}
 
 	@InitBinder
 	public void setAllowedFields(WebDataBinder dataBinder) {
 		dataBinder.setDisallowedFields("id");
 	}
-
-	@GetMapping(value = "/users/new")
-	public String initCreationForm(Map<String, Object> model) {
-		Cliente cliente = new Cliente();
-		model.put("cliente", cliente);
-		return VIEWS_CLIENTE_CREATE_FORM;
-	}
+	
+	@GetMapping(value="/users/select")
+    private String selectUser() {
+        
+		//Si no hago uso del controlador para redirigir a la vista no funciona, no puedo pasar el "/users/selectUser" desde el botón porque casca un 404
+		
+		return "/users/selectUser";
+    }
 
 	@PostMapping(value = "/users/new")
-	public String processCreationForm(@Valid Cliente cliente, BindingResult result) {
+	public String processCreationForm(String tipoUsuario, BindingResult result) {
 		System.out.println("LOG: Llega al save user.");
-		System.out.println(cliente);
 		if (result.hasErrors()) {
 			System.out.println("LOG: error en el save user." + result.getAllErrors());
-			return VIEWS_CLIENTE_CREATE_FORM;
-		}
-		else {
-			//creating cliente, user, and authority
-			System.out.println("LOG:llega salvar el cliente.");
-			this.clienteService.saveCliente(cliente);
-			return "redirect:/";
+			return VIEWS_ELEGIR_USUARIO;
+		} else {
+			// Redirigimos según necesitemos
+			System.out.println("LOG:llega redirigir usuario.");
+
+			if (tipoUsuario == "Cliente") {
+
+				return "redirect: /clientes/new";
+				
+			} else if (tipoUsuario == "Vendedor") {
+
+				return "redirect: /vendedores/new";
+			}else {
+				
+				return "redirect: /error";
+			}
+			
 		}
 	}
 

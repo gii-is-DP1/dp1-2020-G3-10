@@ -20,7 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ClienteController{
 
-	private static final String VIEWS_CLIENTE_CREATE_OR_UPDATE_FORM = "clientes/createOrUpdateClienteForm";
+	private static final String VIEWS_CLIENTE_CREATE_OR_UPDATE_FORM = "clientes/createClienteForm";
 	
 	private final ClienteService clienteService;
 	
@@ -50,7 +50,7 @@ public class ClienteController{
 		return VIEWS_CLIENTE_CREATE_OR_UPDATE_FORM;
 	}
 	
-	@PostMapping(value = "/clientes/save")
+	@PostMapping(value = "/clientes/new")
 	public String postFormularioCreacion(@Valid Cliente cliente, BindingResult result, ModelMap mp) {	
 				
 		if (result.hasErrors()) {
@@ -63,7 +63,7 @@ public class ClienteController{
 			this.clienteService.saveCliente(cliente);
 			mp.addAttribute("cliente", cliente);
 			mp.addAttribute("message", "Cliente creado satisfactoriamente");
-			return "/cliente/" + cliente.getId();
+			return "clientes/" + cliente.getId();
 		}
 	}
 	
@@ -97,7 +97,7 @@ public class ClienteController{
 	}
 
 	//Eliminar Cliente
-	@PostMapping("/cliente/{clienteId}/delete")
+	@PostMapping("/clientes/{clienteId}/delete")
 	public String eliminarCliente(@PathVariable("clienteId") int clienteId, ModelMap mp) {
 
 		this.clienteService.deleteClienteById(clienteId);
@@ -106,7 +106,7 @@ public class ClienteController{
 		
 	
 	//Mostrar detalles de cliente
-	@GetMapping("/cliente/{clienteId}")
+	@GetMapping("/clientes/{clienteId}")
 	public ModelAndView showCliente(@PathVariable("clienteId") int clienteId) {
 		ModelAndView mav = new ModelAndView("cliente/clienteDetails");
 		mav.addObject(this.clienteService.findClienteById(clienteId));
