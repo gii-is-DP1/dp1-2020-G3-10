@@ -17,6 +17,7 @@
             <th style="width: 120px">valoracion</th>
             <th style="width: 120px">Nombre Tienda</th>
             <th style="width: 120px">Direccion tienda</th>
+            <th style="width: 120px">Usuario</th>
         </tr>
         </thead>
         <tbody>
@@ -40,6 +41,9 @@
                 </td>
                 <td>
                     <c:out value="${vendedor.direccionTienda}"/>  
+                </td>
+                <td>
+                    <c:out value="${vendedor.user.username}"/>  
                 </td>
                 
                 

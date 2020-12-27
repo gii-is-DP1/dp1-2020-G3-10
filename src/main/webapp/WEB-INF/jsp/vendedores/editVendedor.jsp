@@ -19,6 +19,8 @@
                 <petclinic:inputField label="Vacaciones" name="vacaciones"/>
                 <petclinic:inputField label="nombre tienda" name="nombreTienda"/>
                 <petclinic:inputField label="direccion tienda" name="direccionTienda"/>
+                <petclinic:inputField label="usuario" name="user.username"/>
+                <petclinic:inputField label="contraseña" name="user.password"/>
             </div>
 
             <div class="form-group">

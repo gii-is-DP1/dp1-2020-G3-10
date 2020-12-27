@@ -1,12 +1,14 @@
 
 package org.springframework.samples.petclinic.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
+import javax.validation.Valid;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotEmpty;
-
 
 import lombok.Getter;
 import lombok.Setter;
@@ -22,19 +24,18 @@ public class Vendedor extends Person {
 
 	private Double	valoracion;
 
+	@NotEmpty
 	private String	nombreTienda;
 
+	@NotEmpty
 	private String	direccionTienda;
 
 	@Digits(fraction = 0, integer = 10)
 	private String	telefono;
 
-	//	@OneToMany(mappedBy = "vendedor")
-	//	private Collection<@Valid Oferta>	misOfertas;
-	//
-	//	@OneToMany(mappedBy = "vendedor")
-	//	private Collection<@Valid Pedido>	tareas;
-
-
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "username", referencedColumnName = "username")
+	@Valid
+	private User	user;
 
 }

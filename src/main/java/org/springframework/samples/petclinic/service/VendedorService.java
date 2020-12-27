@@ -4,6 +4,7 @@ package org.springframework.samples.petclinic.service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Vendedor;
 import org.springframework.samples.petclinic.repository.VendedorRepository;
 import org.springframework.stereotype.Service;
@@ -44,6 +45,12 @@ public class VendedorService {
 	public void save(final Vendedor vendedor) {
 		this.vendedorRepository.save(vendedor);
 
+	}
+
+	@Transactional(readOnly = true)
+	public void deleteVendedorById(final int id) throws DataAccessException {
+
+		this.vendedorRepository.deleteById(id);
 	}
 
 }
