@@ -24,11 +24,15 @@
         </tr>
          <tr>
             <th>Fecha de Nacimiento</th>
-            <td><b><c:out value="${cliente.f_nacimiento}"/></b></td>
+            <td><b><c:out value="${cliente.fechaNacimiento}"/></b></td>
         </tr>
         <tr>
             <th>Dirección</th>
-            <td><b><c:out value="${cliente.direccion}"/></b></td>
+            <td><b><c:out value="${cliente.direccion} ${cliente.codigoPostal}"/></b></td>
+        </tr>
+         <tr>
+            <th>Telefono</th>
+            <td><b><c:out value="${cliente.telefono}"/></b></td>
         </tr>
         <tr>
             <th>Cartera</th>

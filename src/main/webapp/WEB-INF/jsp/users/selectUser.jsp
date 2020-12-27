@@ -15,10 +15,10 @@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 			<td>
 				<ul>
 
-					<a href="/clientes/new" class = > Cliente</a>
+					<a href="/clientes/new" class = "btn btn-default" > Cliente</a>
 				</ul>
 				<ul>
-					<a href="/vendedores/new"> Vendedor</a>
+					<a href="/vendedores/new" class = "btn btn-default"> Vendedor</a>
 
 				</ul>
 

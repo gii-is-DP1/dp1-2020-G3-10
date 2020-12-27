@@ -75,6 +75,15 @@ public class Cliente extends Persona {
 	@JoinColumn(name = "username", referencedColumnName = "username")
 	@Valid
 	private User	user;
+
+	@Override
+	public String toString() {
+		return "Cliente [ciudad=" + ciudad + ", codigoPostal=" + codigoPostal + ", direccion=" + direccion
+				+ ", tarjetaCredito=" + tarjetaCredito + ", cartera=" + cartera + ", user=" + user + ", nombre="
+				+ nombre + ", apellidos=" + apellidos + ", fechaNacimiento=" + fechaNacimiento + ", dni=" + dni
+				+ ", email=" + email + ", telefono=" + telefono + ", id=" + id + "]";
+	}
+	
 	
 	/*
 	

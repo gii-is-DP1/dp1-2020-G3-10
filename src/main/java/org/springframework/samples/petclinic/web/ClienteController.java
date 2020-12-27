@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Cliente;
+import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.UserService;
@@ -51,8 +52,12 @@ public class ClienteController{
 	}
 	
 	@PostMapping(value = "/clientes/new")
-	public String postFormularioCreacion(@Valid Cliente cliente, BindingResult result, ModelMap mp) {	
+	public String postFormularioCreacion(@Valid Cliente cliente, @Valid User user, BindingResult result, ModelMap mp) {	
 				
+		System.out.println("================================================================>" + cliente);
+		System.out.println("================================================================>" + user);
+		
+		
 		if (result.hasErrors()) {
 			mp.addAttribute("cliente", cliente);
 			mp.addAttribute("message", "El cliente no se ha podido actualizar correctamente " + result);
@@ -61,9 +66,11 @@ public class ClienteController{
 		else {
 			//creating owner, user and authorities
 			this.clienteService.saveCliente(cliente);
+			this.userService.saveUser(cliente.getUser());
+			this.authoritiesService.saveAuthorities(cliente.getUser().getUsername(), "cliente");
 			mp.addAttribute("cliente", cliente);
 			mp.addAttribute("message", "Cliente creado satisfactoriamente");
-			return "clientes/" + cliente.getId();
+			return "redirect:/clientes/" + cliente.getId();
 		}
 	}
 	
@@ -108,7 +115,7 @@ public class ClienteController{
 	//Mostrar detalles de cliente
 	@GetMapping("/clientes/{clienteId}")
 	public ModelAndView showCliente(@PathVariable("clienteId") int clienteId) {
-		ModelAndView mav = new ModelAndView("cliente/clienteDetails");
+		ModelAndView mav = new ModelAndView("clientes/clienteDetails");
 		mav.addObject(this.clienteService.findClienteById(clienteId));
 		return mav;
 	}
