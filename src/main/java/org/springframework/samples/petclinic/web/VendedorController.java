@@ -83,4 +83,22 @@ public class VendedorController {
 		return vista;
 	}
 
+	@GetMapping("/{vendedorId}")
+	public String showVendedor(@PathVariable("vendedorId") final int vendedorId, final ModelMap modelMap) {
+
+		String vista = "vendedores/vendedorDetails";
+
+		Vendedor vendedor = this.vendedorService.finVendedorByIdNormal(vendedorId);
+
+		modelMap.addAttribute("vendedor", vendedor);
+
+		return vista;
+
+		//----------------------------------OTRA FORMA------------------------------------
+
+		//		ModelAndView mav = new ModelAndView("vendedores/vendedorDetails");
+		//		mav.addObject(this.vendedorService.findVendedorById(vendedorId));
+		//		return mav;
+	}
+
 }

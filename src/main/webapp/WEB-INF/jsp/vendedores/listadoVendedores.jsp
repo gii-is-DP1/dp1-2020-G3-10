@@ -47,12 +47,19 @@
                 </td>
                 
                 
-             <td>
+                <td>
                     <spring:url value="/vendedores/delete/{vendedorId}" var="vendedorUrl">
                         <spring:param name="vendedorId" value="${vendedor.id}"/>
                     </spring:url>
                     <a href="${fn:escapeXml(vendedorUrl)}">Delete</a>
-                </td>   
+                </td>
+                
+                <td>
+                    <spring:url value="/vendedores/{vendedorId}" var="vendedorUrl">
+                        <spring:param name="vendedorId" value="${vendedor.id}"/>
+                    </spring:url>
+                    <a href="${fn:escapeXml(vendedorUrl)}">Detalles</a>
+                </td>      
                 
                          
                 

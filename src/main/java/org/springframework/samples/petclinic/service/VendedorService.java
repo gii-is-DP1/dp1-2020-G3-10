@@ -35,9 +35,19 @@ public class VendedorService {
 
 	}
 
+	//Te devuelve un Optional
+
 	@Transactional(readOnly = true)
 	public Optional<Vendedor> findVendedorById(final int id) {
 		return this.vendedorRepository.findById(id);
+
+	}
+
+	//Te devuelve un Vendedor
+
+	public Vendedor finVendedorByIdNormal(final int id) throws DataAccessException {
+
+		return this.vendedorRepository.findById(id).get();
 
 	}
 
