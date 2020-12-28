@@ -14,7 +14,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class VendedorService {
 
 	@Autowired
-	private VendedorRepository vendedorRepository;
+	private VendedorRepository	vendedorRepository;
+
+	@Autowired
+	private UserService			userService;
+
+	@Autowired
+	private AuthoritiesService	authoritiesService;
 
 
 	@Transactional
@@ -44,6 +50,8 @@ public class VendedorService {
 	@Transactional
 	public void save(final Vendedor vendedor) {
 		this.vendedorRepository.save(vendedor);
+		this.userService.saveUser(vendedor.getUser());
+		this.authoritiesService.saveAuthorities(vendedor.getUser().getUsername(), "vendedor");
 
 	}
 
