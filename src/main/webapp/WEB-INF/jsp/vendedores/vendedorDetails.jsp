@@ -6,7 +6,7 @@
 
 <petclinic:layout pageName="vendedor">
 
-    <h2>Perfil Usuario</h2>
+    <h2>Perfil Vendedor</h2>
 
 
     <table class="table table-striped">

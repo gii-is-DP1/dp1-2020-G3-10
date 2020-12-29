@@ -45,7 +45,7 @@ public class VendedorService {
 
 	//Te devuelve un Vendedor
 
-	public Vendedor finVendedorByIdNormal(final int id) throws DataAccessException {
+	public Vendedor findVendedorByIdNormal(final int id) throws DataAccessException {
 
 		return this.vendedorRepository.findById(id).get();
 

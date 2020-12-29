@@ -88,7 +88,7 @@ public class VendedorController {
 
 		String vista = "vendedores/vendedorDetails";
 
-		Vendedor vendedor = this.vendedorService.finVendedorByIdNormal(vendedorId);
+		Vendedor vendedor = this.vendedorService.findVendedorByIdNormal(vendedorId);
 
 		modelMap.addAttribute("vendedor", vendedor);
 
@@ -99,6 +99,38 @@ public class VendedorController {
 		//		ModelAndView mav = new ModelAndView("vendedores/vendedorDetails");
 		//		mav.addObject(this.vendedorService.findVendedorById(vendedorId));
 		//		return mav;
+	}
+
+	//Formulario Editar Vendedor
+
+	@GetMapping(value = "/{vendedorId}/edit")
+	public String initEditForm(@PathVariable("vendedorId") final int vendedorId, final ModelMap mp) {
+
+		String view = "vendedores/editVendedor";
+		Vendedor vendedor = this.vendedorService.findVendedorByIdNormal(vendedorId);
+		mp.addAttribute("vendedor", vendedor);
+		return view;
+	}
+
+	@PostMapping(value = "/{vendedorId}/edit")
+	public String processUpdateClienteForm(@Valid final Vendedor vendedor, final BindingResult result, @PathVariable("vendedorId") final int vendedorId, final ModelMap mp) {
+
+		String view = "vendedores/editVendedor";
+
+		if (result.hasErrors()) {
+
+			mp.addAttribute("vendedor", vendedor);
+			mp.addAttribute("message", "El vendedor no se ha podido actualizar correctamente");
+			return view;
+		} else {
+
+			Vendedor c = this.vendedorService.findVendedorByIdNormal(vendedorId);
+			vendedor.setId(c.getId());
+			this.vendedorService.save(vendedor);
+			mp.addAttribute("vendedor", vendedor);
+			mp.addAttribute("message", "El vendedor se ha actualizado satisfactoriamente");
+			return "redirect:/vendedores/{vendedorId}";
+		}
 	}
 
 }

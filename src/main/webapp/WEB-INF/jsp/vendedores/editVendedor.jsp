@@ -19,15 +19,34 @@
                 <petclinic:inputField label="Vacaciones" name="vacaciones"/>
                 <petclinic:inputField label="nombre tienda" name="nombreTienda"/>
                 <petclinic:inputField label="direccion tienda" name="direccionTienda"/>
+                <c:if test="${vendedor['new']}">
                 <petclinic:inputField label="usuario" name="user.username"/>
                 <petclinic:inputField label="contraseña" name="user.password"/>
+                </c:if>
             </div>
-
+            
+            
             <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
+				<div class="col-sm-offset-2 col-sm-10">
+				<c:choose>
+						<c:when test="${vendedor['new']}">
+							<div class="col-sm-offset-2 col-sm-10">
                     <input type="hidden" name="vendedorId" value="${vendedor.id}"/>
                     <button class="btn btn-default" type="submit">Add Vendedor</button>
                 </div>
+						</c:when>
+						<c:otherwise>
+							<button class="btn btn-default" type="submit">Actualizar vendedor</button>
+						</c:otherwise>
+				</c:choose>
+				</div>
+			</div>
+
+            <div class="form-group">
+            
+            
+            
+               
             </div>
         </form:form>
 

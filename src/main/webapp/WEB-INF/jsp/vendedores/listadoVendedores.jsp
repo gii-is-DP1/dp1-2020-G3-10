@@ -59,7 +59,9 @@
                         <spring:param name="vendedorId" value="${vendedor.id}"/>
                     </spring:url>
                     <a href="${fn:escapeXml(vendedorUrl)}">Detalles</a>
-                </td>      
+                </td>
+                
+                      
                 
                          
                 
