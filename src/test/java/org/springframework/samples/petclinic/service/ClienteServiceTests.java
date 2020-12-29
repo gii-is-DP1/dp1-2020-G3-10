@@ -23,6 +23,8 @@ class ClienteServiceTests {
 	private Cliente Filemon = new Cliente("Filemon", "Pi ",LocalDate.of(1958, 04, 20), "29551932Z", "filemon_pi@hotmail.es",
 			"601326971", "Barcelona", "15000", "Pensión El Calvario", "3214 3214 3214 3214", 120.0);
 	
+	/*
+	
 	@Test
 	void deberiaCrearCliente(){
 		
@@ -70,6 +72,8 @@ class ClienteServiceTests {
 		assertThat(clienteService.findAllCliente().size()).isEqualTo(numeroClientes - 1);
 
 	}
+	
+	*/
 	
 
 	
