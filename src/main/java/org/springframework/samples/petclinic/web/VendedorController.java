@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Vendedor;
 import org.springframework.samples.petclinic.service.VendedorService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,8 +21,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/vendedores")
 public class VendedorController {
 
+	private static final String	VIEWS_VENDEDOR_CREATE_OR_UPDATE_FORM	= "vendedores/editVendedor";
+
 	@Autowired
-	private VendedorService vendedorService;
+	private VendedorService		vendedorService;
 
 
 	@GetMapping
@@ -38,7 +41,7 @@ public class VendedorController {
 	@GetMapping(path = "/new")
 	public String crearVendedor(final ModelMap modelMap) {
 
-		String view = "vendedores/editVendedor";
+		String view = "vendedores/nuevoVendedor";
 
 		modelMap.addAttribute("vendedor", new Vendedor());
 
@@ -49,9 +52,11 @@ public class VendedorController {
 	@PostMapping(path = "/save")
 	public String salvarVendedor(@Valid final Vendedor vendedor, final BindingResult result, final ModelMap modelMap) {
 		String vista = "vendedores/listadoVendedores";
+
+		System.out.print("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
 		if (result.hasErrors()) {
 			modelMap.addAttribute("vendedor", vendedor);
-			return "vendedores/editVendedor";
+			return "vendedores/nuevoVendedor";
 		} else {
 			this.vendedorService.save(vendedor);
 			modelMap.addAttribute("message", "Vendedor guardo correctamente");
@@ -104,32 +109,21 @@ public class VendedorController {
 	//Formulario Editar Vendedor
 
 	@GetMapping(value = "/{vendedorId}/edit")
-	public String initEditForm(@PathVariable("vendedorId") final int vendedorId, final ModelMap mp) {
+	public String initUpdateOwnerForm(@PathVariable("vendedorId") final int vendedorId, final Model model) {
 
-		String view = "vendedores/editVendedor";
 		Vendedor vendedor = this.vendedorService.findVendedorByIdNormal(vendedorId);
-		mp.addAttribute("vendedor", vendedor);
-		return view;
+		model.addAttribute(vendedor);
+		return VendedorController.VIEWS_VENDEDOR_CREATE_OR_UPDATE_FORM;
 	}
 
 	@PostMapping(value = "/{vendedorId}/edit")
-	public String processUpdateClienteForm(@Valid final Vendedor vendedor, final BindingResult result, @PathVariable("vendedorId") final int vendedorId, final ModelMap mp) {
-
-		String view = "vendedores/editVendedor";
-
+	public String processUpdateVendedorForm(@Valid final Vendedor vendedor, final BindingResult result, @PathVariable("vendedorId") final int vendedorId) {
 		if (result.hasErrors()) {
-
-			mp.addAttribute("vendedor", vendedor);
-			mp.addAttribute("message", "El vendedor no se ha podido actualizar correctamente");
-			return view;
+			return VendedorController.VIEWS_VENDEDOR_CREATE_OR_UPDATE_FORM;
 		} else {
-
-			Vendedor c = this.vendedorService.findVendedorByIdNormal(vendedorId);
-			vendedor.setId(c.getId());
+			vendedor.setId(vendedorId);
 			this.vendedorService.save(vendedor);
-			mp.addAttribute("vendedor", vendedor);
-			mp.addAttribute("message", "El vendedor se ha actualizado satisfactoriamente");
-			return "redirect:/vendedores/{vendedorId}";
+			return "redirect:/vendedores/";
 		}
 	}
 

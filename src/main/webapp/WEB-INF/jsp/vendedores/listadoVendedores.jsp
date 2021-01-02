@@ -15,6 +15,7 @@
             <th style="width: 200px;">apellido</th>
             <th style="width: 120px">vacaciones</th>
             <th style="width: 120px">valoracion</th>
+            <th style="width: 120px">telefono</th>
             <th style="width: 120px">Nombre Tienda</th>
             <th style="width: 120px">Direccion tienda</th>
             <th style="width: 120px">Usuario</th>
@@ -35,6 +36,9 @@
                 </td>
                 <td>
                     <c:out value="${vendedor.valoracion}"/>  
+                </td>
+                <td>
+                    <c:out value="${vendedor.telefono}"/>  
                 </td>
                 <td>
                     <c:out value="${vendedor.nombreTienda}"/>  
