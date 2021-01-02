@@ -52,12 +52,12 @@
 					<span>Veterinarians</span>
 				</petclinic:menuItem>
 				
-	<!--			<petclinic:menuItem active="${name eq 'plataformas'}" url="/plataformas"
-					title="plataformas">
+				<petclinic:menuItem active="${name eq 'reproductores'}" url="/reproductores"
+					title="reproductores">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-					<span>Plataformas</span>
+					<span>Reproductores</span>
 				</petclinic:menuItem>
-	-->
+
 				<petclinic:menuItem active="${name eq 'registraUsuarios'}" url="/users/select"
 					title="registraUsuarios">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>

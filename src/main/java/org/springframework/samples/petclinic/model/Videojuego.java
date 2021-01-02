@@ -32,12 +32,11 @@ public class Videojuego extends Producto {
 	@Column(name = "imagen")
 	private String imagen;
 	
+//	
+//	@Column(name = "plataforma")
+//	private Reproductor plataforma;
 	
-	@Column(name = "plataforma")
-	@Enumerated(EnumType.STRING)
-	private Plataforma plataforma;
-	
-	/*
+	/*	
 	 
 	@OneToMany (mappedBy = "videojuego")
 	private Collection<@Valid Comentario>	comentarios;
