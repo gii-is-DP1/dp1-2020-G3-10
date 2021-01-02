@@ -53,7 +53,7 @@ public class VendedorController {
 	public String salvarVendedor(@Valid final Vendedor vendedor, final BindingResult result, final ModelMap modelMap) {
 		String vista = "vendedores/listadoVendedores";
 
-		System.out.print("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+		System.out.print("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee    save ");
 		if (result.hasErrors()) {
 			modelMap.addAttribute("vendedor", vendedor);
 			return "vendedores/nuevoVendedor";
@@ -117,13 +117,28 @@ public class VendedorController {
 	}
 
 	@PostMapping(value = "/{vendedorId}/edit")
-	public String processUpdateVendedorForm(@Valid final Vendedor vendedor, final BindingResult result, @PathVariable("vendedorId") final int vendedorId) {
+	public String processUpdateVendedorForm(@Valid final Vendedor vendedor, final BindingResult result, @PathVariable("vendedorId") final int vendedorId, final ModelMap mp) {
+
+		System.out.print("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee    edit ");
+
 		if (result.hasErrors()) {
+
+			mp.addAttribute("vendedor", vendedor);
+			mp.addAttribute("message", "El vendedor no se ha podido actualizar correctamente");
 			return VendedorController.VIEWS_VENDEDOR_CREATE_OR_UPDATE_FORM;
 		} else {
+
+			System.out.print("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee    2 ");
+
 			vendedor.setId(vendedorId);
+
+			System.out.print("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee    2,5 ");
+
 			this.vendedorService.save(vendedor);
-			return "redirect:/vendedores/";
+
+			System.out.print("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee    3 ");
+
+			return "redirect:/vendedores/{vendedorId}";
 		}
 	}
 
