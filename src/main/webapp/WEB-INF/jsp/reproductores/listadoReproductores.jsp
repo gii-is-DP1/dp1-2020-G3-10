@@ -14,7 +14,6 @@ prefix="petclinic" tagdir="/WEB-INF/tags" %>
 				<th style="width: 150px;">Nombre</th>
 				<th style="width: 200px;">Descripcion</th>
 				<th style="width: 200px;">Actions</th>
-
 			</tr>
 		</thead>
 		<tbody>
@@ -23,9 +22,16 @@ prefix="petclinic" tagdir="/WEB-INF/tags" %>
 					<td><c:out value="${reproductor.nombre}" /></a></td>
 					<td><c:out value="${reproductor.descripcion}" /></td>
 					<td><spring:url value="/reproductores/delete/{reproductorId}"
-							var="reproductorURL">
+							var="deleteReproductorURL">
 							<spring:param name="reproductorId" value="${reproductor.id}" />
-						</spring:url> <a href="${fn:escapeXml(reproductorURL)}">Delete</a></td>
+						</spring:url> <a href="${fn:escapeXml(deleteReproductorURL)}">Delete</a></td>
+
+					<td><spring:url value="/reproductores/add/{reproductorId}"
+							var="addReproductorURL">
+							<spring:param name="reproductorId" value="${reproductor.id}" />
+
+						</spring:url> <a href="${fn:escapeXml(addReproductorURL)}">Añadir</a></td>
+
 
 				</tr>
 			</c:forEach>
@@ -33,6 +39,15 @@ prefix="petclinic" tagdir="/WEB-INF/tags" %>
 		</tbody>
 
 	</table>
+		
+	<spring:url value= "/clientes/{clienteId}/addReproductores"
+		var="clienteAddReproductor">
+		<spring:param name="clienteId" value="${cliente.id}" />
+	</spring:url>
+	
+	<a href="${fn:escapeXml(clienteAddReproductor)}" class="btn btn-default">Añadir Reproductor</a>
+	
+	<!-- TODO esto tengo que cambiarlo para que solo se vea si eres admin
 	<a href="/reproductores/new" class="btn btn-default">Nuevo Reproductor</a>
-
+     -->
 </petclinic:layout>

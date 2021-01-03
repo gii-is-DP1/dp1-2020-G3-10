@@ -2,6 +2,7 @@
 package org.springframework.samples.petclinic.web;
 
 import java.security.Principal;
+import java.util.Collection;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,9 +10,12 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Cliente;
+import org.springframework.samples.petclinic.model.Reproductor;
 import org.springframework.samples.petclinic.model.User;
+import org.springframework.samples.petclinic.repository.ClienteRepository;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.ClienteService;
+import org.springframework.samples.petclinic.service.ReproductorService;
 import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,16 +33,19 @@ public class ClienteController{
 	
 	private final ClienteService clienteService;
 	
+	private ReproductorService reproductorService;
+	
 	private UserService userService;
 
 	private AuthoritiesService authoritiesService;
 
 	
 	@Autowired
-	public ClienteController(ClienteService clienteService,  UserService userService, AuthoritiesService authoritiesService ) {
+	public ClienteController(ClienteService clienteService,  UserService userService, AuthoritiesService authoritiesService, ReproductorService reproductorService ) {
 		this.clienteService = clienteService;
 		this.userService = userService;
 		this.authoritiesService = authoritiesService;
+		this.reproductorService = reproductorService;
 	}
 	
 
@@ -139,6 +146,46 @@ public class ClienteController{
 		mav.addObject("cliente",cliente);
 		return mav;
 	}
+		
+	//Redirige al cliente a la página de sus reproductores
+	@GetMapping("clientes/{clienteId}/reproductores")
+	public ModelAndView showReproductoresCliente(@PathVariable("clienteId") int clienteId) {
+		ModelAndView mav = new ModelAndView("/reproductores/listadoReproductores");
+		
+		Cliente cliente = this.clienteService.findClienteById(clienteId);
+		Collection<Reproductor> reproductores = cliente.getReproductores();
+		
+		mav.addObject("cliente",cliente);
+		mav.addObject("reproductores",reproductores);
+
+		return mav;
+	}
+	
+	//Redirige al cliente a la página donde añadirá reproductores
+	@GetMapping("clientes/{clienteId}/addReproductores")
+		public ModelAndView ClienteAnyadeReproductores(@PathVariable("clienteId") int clienteId) {
+			ModelAndView mav = new ModelAndView("/reproductores/listadoReproductores");
+			
+			Cliente cliente = this.clienteService.findClienteById(clienteId);
+			Collection<Reproductor> reproductoresCliente = cliente.getReproductores();
+			Collection<Reproductor> reproductores = (Collection<Reproductor>) reproductorService.findAllReproductor();
+
+			for(Reproductor r : reproductoresCliente) {
+				
+				if(reproductores.contains(r)) {
+					
+					reproductores.remove(r);
+					
+				}
+				
+			}
+			
+			mav.addObject("cliente",cliente);
+			mav.addObject("reproductores",reproductores);
+
+			return mav;
+		}
+	
 	
 	
 }

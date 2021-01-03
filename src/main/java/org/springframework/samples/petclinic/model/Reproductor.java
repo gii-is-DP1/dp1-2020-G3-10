@@ -1,8 +1,6 @@
 package org.springframework.samples.petclinic.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import java.util.Collection;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,10 +8,11 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 
-import lombok.Data;
-
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "reproductores")
 public class Reproductor extends BaseEntity {
@@ -27,7 +26,12 @@ public class Reproductor extends BaseEntity {
 	private String descripcion;
 	
 	@ManyToMany(cascade = CascadeType.ALL)
-	private List<Cliente> clientes;	
+	private Collection<Cliente> clientes;
+
+	@Override
+	public String toString() {
+		return "Reproductor [nombre=" + nombre + ", descripcion=" + descripcion + ", clientes=" + clientes + "]";
+	}	
 
 	
 }

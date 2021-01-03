@@ -122,12 +122,12 @@ INSERT INTO peliculas VALUES(4, 'Fight Girl', 12,2018,'Johan Timmers',5,1, 'BLUR
 --INSERT INTO videojuegos VALUES(4, 'GOD OF WAR PS HITS', 9.95,2021,'Adéntrate en una aventura compleja y desconocida en la que explorarás una impresionante versión alternativa de una historia clásica. ','estudio','https://media.game.es/COVERV2/3D_L/173/173386.png', 'PS4');
 --INSERT INTO videojuegos VALUES(5, 'MINECRAFT - NINTENDO SWITCH EDITION', 29.95,2021,'Tu nueva experiencia Minecraft está aquí, en esta nueva y completa edición de tu juego favorito se incluye contenido extra como parte de la Bedrock Edition, así podrás disfrutar de un Minecraft con un mundo más grande, mejor y mucho más bonito.','estudio','https://media.game.es/COVERV2/3D_L/150/150363.png', 'NINTENDO_SWITCH');
 
---Plataforma
+--Reproductores
 
---INSERT INTO PLATAFORMA ( ID , NOMBRE , DESCRIPCION ) VALUES ( 4, 'DVD','El viejo amigo que te ayudaba a ver tus pelis allá por el 2000');
---INSERT INTO PLATAFORMA ( ID , NOMBRE , DESCRIPCION ) VALUES ( 3, 'WII','La clásica consola de Nintendo');
---INSERT INTO PLATAFORMA ( ID , NOMBRE , DESCRIPCION ) VALUES ( 2, 'XBOX SERIE X','La nueva consola de Microsoft');
---INSERT INTO PLATAFORMA ( ID , NOMBRE , DESCRIPCION ) VALUES ( 1, 'PS5','La nueva consola de Sony');
+INSERT INTO REPRODUCTORES( ID , NOMBRE , DESCRIPCION ) VALUES ( 4, 'DVD','El viejo amigo que te ayudaba a ver tus pelis allá por el 2000');
+INSERT INTO REPRODUCTORES( ID , NOMBRE , DESCRIPCION ) VALUES ( 3, 'WII','La clásica consola de Nintendo');
+INSERT INTO REPRODUCTORES( ID , NOMBRE , DESCRIPCION ) VALUES ( 2, 'XBOX SERIE X','La nueva consola de Microsoft');
+INSERT INTO REPRODUCTORES( ID , NOMBRE , DESCRIPCION ) VALUES ( 1, 'PS5','La nueva consola de Sony');
 
 --Vendedor
 

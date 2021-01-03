@@ -7,6 +7,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.Valid;
@@ -47,7 +48,7 @@ public class Cliente extends Persona {
 	
 	@Column(name = "cartera")
 	private Double cartera;
-
+	
 	public Cliente(@NotEmpty String nombre, @NotEmpty String apellidos, @NotEmpty @NotEmpty @NotEmpty LocalDate fechaNacimiento,
 			@NotEmpty String dni, @NotEmpty @Email String email,
 			@NotEmpty @Digits(fraction = 0, integer = 10) String telefono, @NotEmpty String ciudad,
@@ -76,14 +77,16 @@ public class Cliente extends Persona {
 	@Valid
 	private User	user;
 
+	
+	@ManyToMany(mappedBy = "clientes")
+	private Collection<Reproductor> reproductores;
+
 	@Override
 	public String toString() {
 		return "Cliente [ciudad=" + ciudad + ", codigoPostal=" + codigoPostal + ", direccion=" + direccion
-				+ ", tarjetaCredito=" + tarjetaCredito + ", cartera=" + cartera + ", user=" + user + ", nombre="
-				+ nombre + ", apellidos=" + apellidos + ", fechaNacimiento=" + fechaNacimiento + ", dni=" + dni
-				+ ", email=" + email + ", telefono=" + telefono + ", id=" + id + "]";
+				+ ", tarjetaCredito=" + tarjetaCredito + ", cartera=" + cartera + ", user=" + user + ", reproductores="
+				+ reproductores + "]";
 	}
-	
 	
 	/*
 	

@@ -46,10 +46,10 @@
     </spring:url>
     <a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Editar Cliente</a>
 
-    <spring:url value="{clienteId}/updatePlataformas" var="updatePlataformasUrl">
+    <spring:url value="{clienteId}/reproductores" var="listaReproductoresUrl">
         <spring:param name="clienteId" value="${cliente.id}"/>
     </spring:url>
-    <a href="${fn:escapeXml(updatePlataformasUrl)}" class="btn btn-default">Ver Plataformas</a>
+    <a href="${fn:escapeXml(listaReproductoresUrl)}" class="btn btn-default">Ver Reproductores</a>
 
     <br/>
     <br/>

@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.web;
 
+import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
 
@@ -10,6 +11,8 @@ import org.springframework.samples.petclinic.model.Reproductor;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.ReproductorService;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/reproductores")
@@ -26,11 +30,12 @@ public class ReproductorController {
 
 	private final ReproductorService ReproductorService;
 	private final ClienteService clienteService;
+	private ClienteController clienteController;
 
-
-	public ReproductorController(ReproductorService ReproductorService, AuthoritiesService authoritiesService, ClienteService clienteService) {
+	public ReproductorController(ReproductorService ReproductorService, AuthoritiesService authoritiesService, ClienteService clienteService, ClienteController clienteController) {
 		this.ReproductorService = ReproductorService;
 		this.clienteService = clienteService;
+		this.clienteController = clienteController;
 	}
 
 	@InitBinder
@@ -40,10 +45,10 @@ public class ReproductorController {
 
 	//MostrarReproductors
 	@GetMapping()
-	public String showReproductors(ModelMap mp) {
+	public String showReproductores(ModelMap mp) {
 		String vista = "reproductores/listadoReproductores";
 		Iterable<Reproductor> Reproductors = ReproductorService.findAllReproductor();
-		mp.addAttribute("Reproductores",Reproductors);
+		mp.addAttribute("reproductores",Reproductors);
 		return vista;
 	}
 	
@@ -91,35 +96,45 @@ public class ReproductorController {
 		}
 		return view;
 	}
-	
-//	/* Redirigimos a una vista en la que haya un formulario con todas las Reproductors a modo seleccionar puntos
-//	y quiero que si el cliente ya tiene dicha Reproductor ese punto venga marcado */
-//
-//	//Vamos a la vista que lista las Reproductors indicando que cliente ha mandado la petición
-//	@GetMapping("/{clienteId}/updateReproductors")
-//	public String iniUpdateReproductor(@PathVariable("clienteId") int clienteId,ModelMap mp) {
-//		
-//		String view = "/Reproductors/updateReproductors";
-//		mp.addAttribute("ReproductorsCliente",this.clienteService.findClienteById(clienteId).getReproductors());
-//		mp.addAttribute("Reproductors", this.ReproductorService.findAllReproductor());
-//		return view;
-//	}
-//	
-//	//Procesamos el formulario que me devuelve las Reproductors escogidas por el cliente
-//	@PostMapping("/Reproductors/save")
-//	public String processUpdateReproductor(@Valid Set<Reproductor> Reproductors, @Valid int clienteId, BindingResult result, ModelMap modelMap ) {
-//		if (result.hasErrors()) {
-//			modelMap.addAttribute("Reproductors",Reproductors);
-//			return "Reproductor/updateReproductors";
-//		}
-//		else {
-//			Cliente cliente = this.clienteService.findClienteById(clienteId);
-//			cliente.setReproductors(Reproductors);
-//			this.clienteService.saveCliente(cliente);
-//			return "redirect:/cliente/{clienteId}";
-//		}
-//	}
-//	
-//	
 
+	//Cliente Añade Reproductor
+	
+	@GetMapping(value = "/add/{ReproductorId}")
+	public ModelAndView addClienteReproductor(@PathVariable("ReproductorId") int reproductorId) {
+		
+		//Obtengo el cliente loggeado que quiere añadir el reproductor
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String username = ((UserDetails)principal).getUsername();
+		Cliente cliente= this.clienteService.findClienteByUserName(username);
+		
+		//Creo la llamada al controlador de cliente (suena feo pero es la única forma limpia de hacerlo que he encontrado)
+		ModelAndView mav =  this.clienteController.showReproductoresCliente(cliente.getId());
+
+		//Obtengo el reproductor deseado y la lista de reproductores que ya tiene mi cliente
+		Optional<Reproductor> reproductor = ReproductorService.findReproductorById(reproductorId);
+		Collection<Reproductor> reproductoresCliente = cliente.getReproductores();
+		
+		if (reproductor.isPresent() && !reproductoresCliente.contains(reproductor.get())) {
+
+		//Actualizo los reproductores del cliente y actualizo el propio cliente
+		reproductoresCliente.add(reproductor.get());
+		cliente.setReproductores(reproductoresCliente);
+		this.clienteService.saveCliente(cliente);
+		
+		//Actualizo los clientes que disponen de dicho reproductor
+		Collection<Cliente> clientesReproductor = reproductor.get().getClientes();
+		clientesReproductor.add(cliente);
+		reproductor.get().setClientes(clientesReproductor);
+		ReproductorService.saveReproductor(reproductor.get());
+		
+		mav.addObject("message", "Reproductor añadido con éxito!!");
+			
+		} else {
+
+			mav.addObject("message","Error: El reproductor no se ha podido añadir!!");
+		
+		}
+		
+		return mav;
+	}
 }
