@@ -8,9 +8,17 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
 
 <petclinic:layout pageName="peliculas">
-	<h2>PELICULAS</h2>
 
-
+	<spring:url value="/peliculas/new" var="addPeliculaUrl">
+	</spring:url>
+	<a href="${fn:escapeXml(addPeliculaUrl)}" class="btn btn-default">Nueva Película</a>
+		
+		</br>
+		</br>
+		</br>
+		</br>
+		
+	<h2>PELÍCULAS</h2>
 
 	<table id="peliculasTable">
 
@@ -34,14 +42,5 @@
 			</c:forEach>
 		</tbody>
 	</table>
-
-	 <spring:url value="/peliculas/new" var="addPeliculaUrl">
-	</spring:url>
-	<a href="${fn:escapeXml(addPeliculaUrl)}" class="btn btn-default">Nueva
-		Pelicula</a>
-
-
-
-
-
+	
 </petclinic:layout>

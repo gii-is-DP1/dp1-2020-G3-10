@@ -49,6 +49,23 @@ public class ClienteService {
 		
 		return (Collection<Cliente>) clienteRepository.findAll();
 	}
+	
+	@Transactional(readOnly = true)
+	public Cliente findClienteByUserName(String username) throws DataAccessException {
+		
+		Iterable<Cliente> clientes = clienteRepository.findAll();
+		Cliente cliente = null;
+		
+		for (Cliente c: clientes) {
+			
+			if(c.getUser().getUsername().equals(username)) {
+				cliente = c;
+			}
+			
+		}
+		
+		return cliente;
+	}
 
 
 

@@ -1,8 +1,10 @@
 
 package org.springframework.samples.petclinic.web;
 
+import java.security.Principal;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,8 @@ import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.UserService;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -117,6 +121,22 @@ public class ClienteController{
 	public ModelAndView showCliente(@PathVariable("clienteId") int clienteId) {
 		ModelAndView mav = new ModelAndView("clientes/clienteDetails");
 		mav.addObject(this.clienteService.findClienteById(clienteId));
+		return mav;
+	}
+	
+	//Redirigir a detalles de cliente sin conocer su id
+	
+	@GetMapping("/clientes/miPerfil")
+	public ModelAndView showCliente() {
+		ModelAndView mav = new ModelAndView("clientes/clienteDetails");
+
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		String username = ((UserDetails)principal).getUsername();
+		
+		Cliente cliente= this.clienteService.findClienteByUserName(username);
+		
+		mav.addObject("cliente",cliente);
 		return mav;
 	}
 	

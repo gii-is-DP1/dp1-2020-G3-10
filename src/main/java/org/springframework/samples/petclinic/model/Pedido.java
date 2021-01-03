@@ -31,9 +31,8 @@ public class Pedido extends BaseEntity {
 	//@NotEmpty         para evitar que pete al crear uno
 	private EstadoPedido	estado;
 
-
 	//@NotEmpty
-	@Column(name = "precioTotal")
+	@Column(name = "precio_total")
 	private Double			precioTotal;
 
 	//@NotEmpty
@@ -42,34 +41,8 @@ public class Pedido extends BaseEntity {
 	private LocalDate		fecha;
 
 	@NotEmpty
-	@Column(name = "direccionEnvio")
+	@Column(name = "direccion_envio")
 	private String			direccionEnvio;
-
-	/*
-	 * @NotEmpty
-	 *
-	 * @OneToOne(cascade = CascadeType.ALL)
-	 *
-	 * @JoinColumn(name = "cliente_id")
-	 *
-	 * @Valid
-	 * private Cliente cliente;
-	 *
-	 * @NotEmpty
-	 *
-	 * @ManyToOne(cascade = CascadeType.ALL)
-	 *
-	 * @JoinColumn(name = "vendedor_id")
-	 *
-	 * @Valid
-	 * private Vendedor vendedor;
-	 *
-	 * @OneToMany(mappedBy = "pedido")
-	 * private Collection<@Valid Oferta> ofertas;
-	 *
-	 * @OneToMany(mappedBy = "pedido")
-	 * private Collection<@Valid Mensaje> mensaje;
-	 */
 
 	//Hay que plantearse bien que cascadeType nos conviene usar
 	
