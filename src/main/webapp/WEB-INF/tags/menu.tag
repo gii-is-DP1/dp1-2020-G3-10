@@ -31,7 +31,11 @@
 				<petclinic:menuItem active="${name eq 'peliculas'}" url="/peliculas"
 					title="peliculas">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+<<<<<<< HEAD
 					<span>Pel�culas</span>
+=======
+					<span>Películas</span>
+>>>>>>> branch 'antmorgon4-3.0' of https://github.com/gii-is-DP1/dp1-2020-G3-10.git
 				</petclinic:menuItem>
 
 				<petclinic:menuItem active="${name eq 'videojuegos'}"
@@ -73,6 +77,16 @@
 					<span>Veterinarians</span>
 				</petclinic:menuItem>
 				
+<<<<<<< HEAD
+=======
+
+	      <petclinic:menuItem active="${name eq 'reproductores'}" url="/reproductores"
+					title="reproductores">
+					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					<span>Reproductores</span>
+				</petclinic:menuItem>
+
+>>>>>>> branch 'antmorgon4-3.0' of https://github.com/gii-is-DP1/dp1-2020-G3-10.git
 				<petclinic:menuItem active="${name eq 'registraUsuarios'}" url="/users/select"
 					title="registraUsuarios">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
@@ -95,7 +109,7 @@
 					<li><a href="<c:url value="#" />">Mis Pedidos</a></li>
 					<li><a href="<c:url value="/clientes/miPerfil" />">Mi Perfil</a></li>
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span>�
+						data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span>ï¿½
 							<strong><sec:authentication property="name" /></strong> <span
 							class="glyphicon glyphicon-chevron-down"></span>
 					</a>
@@ -114,7 +128,11 @@
 											</p>
 											<p class="text-left">
 												<a href="<c:url value="/logout" />"
+<<<<<<< HEAD
 													class="btn btn-primary btn-block btn-sm">Cerrar Sesi�n</a>
+=======
+													class="btn btn-primary btn-block btn-sm">Cerrar Sesión</a>
+>>>>>>> branch 'antmorgon4-3.0' of https://github.com/gii-is-DP1/dp1-2020-G3-10.git
 											</p>
 										</div>
 									</div>
@@ -129,7 +147,11 @@
 											<p>
 												<a href="#" class="btn btn-primary btn-block">Mi Perfil</a>
 												<a href="#" class="btn btn-danger btn-block">Cambiar
+<<<<<<< HEAD
 													Contrase�a</a>
+=======
+													Contraseña</a>
+>>>>>>> branch 'antmorgon4-3.0' of https://github.com/gii-is-DP1/dp1-2020-G3-10.git
 											</p>
 										</div>
 									</div>
