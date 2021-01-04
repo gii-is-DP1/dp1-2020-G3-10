@@ -34,7 +34,8 @@ private ComentarioRepository comentarioRepository;
 		return comentarioRepository.findByClientId(id);
 	}
 	
-	@Transactional public void saveComment(Comentario comentario) {
+	@Transactional 
+	public void saveComment(Comentario comentario) {
 		comentarioRepository.save(comentario);
 	}
 	

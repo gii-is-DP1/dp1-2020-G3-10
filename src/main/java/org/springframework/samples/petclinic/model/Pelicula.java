@@ -49,6 +49,10 @@ public class Pelicula extends Producto {
 	@OneToMany(mappedBy = "pelicula")
 	private Collection<@Valid Comentario>	comentarios;
 	
+	public void addComment(Comentario comentario) {
+		getComentarios().add(comentario);
+	}
+	
     /*
 	 
 	@OneToMany (mappedBy = "pelicula")

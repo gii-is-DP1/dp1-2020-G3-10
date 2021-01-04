@@ -27,9 +27,6 @@ public class Merchandasing extends Producto {
 	@NotEmpty
 	private String caracteristicas;
 	
-	@OneToMany(mappedBy = "merchandasing")
-	private Collection<@Valid Comentario>	comentarios;
-	
 	/*
 	
 	@OneToMany (mappedBy = "merchandasing")

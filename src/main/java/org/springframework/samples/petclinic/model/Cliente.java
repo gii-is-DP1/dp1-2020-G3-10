@@ -73,6 +73,10 @@ public class Cliente extends Persona {
 	@JoinColumn(name = "username", referencedColumnName = "username")
 	@Valid
 	private User	user;
+
+	public void addComment(Comentario comentario) {
+		getComentarios().add(comentario);
+	}
 	
 
 	

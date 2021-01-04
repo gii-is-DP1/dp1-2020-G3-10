@@ -27,8 +27,7 @@ public class Videojuego extends Producto {
 	@NotEmpty
 	private String	descripcion;
 	
-	@OneToMany(mappedBy = "videojuego")
-	private Collection<@Valid Comentario>	comentarios;
+
 	
 	/*
 	 
