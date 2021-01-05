@@ -23,6 +23,9 @@ INSERT INTO authorities(id,username,authority) VALUES (6,'marta','owner');
 INSERT INTO users(username,password,enabled) VALUES ('antmorgon4','password',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (20,'antmorgon4','cliente');
 
+INSERT INTO users(username,password,enabled) VALUES ('vendedor1','vendedor1',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (111,'vendedor1','vendedor');
+
 INSERT INTO vets VALUES (1, 'James', 'Carter');
 INSERT INTO vets VALUES (2, 'Helen', 'Leary');
 INSERT INTO vets VALUES (3, 'Linda', 'Douglas');
