@@ -128,6 +128,15 @@
 										<div class="col-lg-12">
 											<p>
 												<a href="#" class="btn btn-primary btn-block">Mi Perfil</a>
+												
+												<%-- <spring:url value="/vendedores/{vendedorId}" var="vendedorUrl">
+                                                <spring:param name="vendedorId" value="${vendedor.id}"/>
+                                                </spring:url>
+												<a href="${fn:escapeXml(vendedorUrl)}" class="btn btn-danger btn-block">Perfil</a> 
+												  
+												  Para ver perfil???--%>
+												
+												
 												<a href="#" class="btn btn-danger btn-block">Cambiar
 													Contrase�a</a>
 											</p>
