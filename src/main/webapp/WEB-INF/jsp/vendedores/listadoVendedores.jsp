@@ -15,8 +15,10 @@
             <th style="width: 200px;">apellido</th>
             <th style="width: 120px">vacaciones</th>
             <th style="width: 120px">valoracion</th>
+            <th style="width: 120px">telefono</th>
             <th style="width: 120px">Nombre Tienda</th>
             <th style="width: 120px">Direccion tienda</th>
+            <th style="width: 120px">Usuario</th>
         </tr>
         </thead>
         <tbody>
@@ -36,19 +38,34 @@
                     <c:out value="${vendedor.valoracion}"/>  
                 </td>
                 <td>
+                    <c:out value="${vendedor.telefono}"/>  
+                </td>
+                <td>
                     <c:out value="${vendedor.nombreTienda}"/>  
                 </td>
                 <td>
                     <c:out value="${vendedor.direccionTienda}"/>  
                 </td>
+                <td>
+                    <c:out value="${vendedor.user.username}"/>  
+                </td>
                 
                 
-             <td>
+                <td>
                     <spring:url value="/vendedores/delete/{vendedorId}" var="vendedorUrl">
                         <spring:param name="vendedorId" value="${vendedor.id}"/>
                     </spring:url>
                     <a href="${fn:escapeXml(vendedorUrl)}">Delete</a>
-                </td>   
+                </td>
+                
+                <td>
+                    <spring:url value="/vendedores/{vendedorId}" var="vendedorUrl">
+                        <spring:param name="vendedorId" value="${vendedor.id}"/>
+                    </spring:url>
+                    <a href="${fn:escapeXml(vendedorUrl)}">Detalles</a>
+                </td>
+                
+                      
                 
                          
                 

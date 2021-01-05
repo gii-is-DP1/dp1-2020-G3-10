@@ -131,5 +131,5 @@ INSERT INTO REPRODUCTORES( ID , NOMBRE , DESCRIPCION ) VALUES ( 1, 'PS5','La nue
 
 --Vendedor
 
-INSERT INTO vendedor(id,first_name,last_name,vacaciones,valoracion,nombre_tienda,direccion_tienda,telefono) VALUES (1,'carles','santos',true,20,'tienda bonita','calle piruleta','6085558763');
+INSERT INTO vendedor(id,first_name,last_name,vacaciones,valoracion,nombre_tienda,direccion_tienda,telefono,username) VALUES (1,'carles','santos',true,20,'tienda bonita','calle piruleta','6085558763','guipavvar');
 
