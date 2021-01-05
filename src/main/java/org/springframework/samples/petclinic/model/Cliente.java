@@ -81,6 +81,9 @@ public class Cliente extends Persona {
 	
 	@ManyToMany(mappedBy = "clientes")
 	private Collection<Reproductor> reproductores;
+	
+	@OneToMany(mappedBy = "cliente")
+	private Collection<@Valid Comentario>	comentarios;
 
 	@Override
 	public String toString() {
@@ -89,13 +92,15 @@ public class Cliente extends Persona {
 				+ reproductores + "]";
 	}
 	
+	public void addComment(Comentario comentario) {
+		getComentarios().add(comentario);
+	}
+	
 	/*
 	
 	@OneToMany(mappedBy = "cliente")
 	private Collection<@Valid Pedido>	pedidos;
 	
-	@OneToMany(mappedBy = "cliente")
-	private Collection<@Valid Comentario>	comentarios;
 	
 	*/
 	

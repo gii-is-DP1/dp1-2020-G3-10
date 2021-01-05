@@ -24,7 +24,7 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Autor</label>
                     <div class="col-sm-10">
-                        <c:out value="${comentario.cliente.nombre} ${comentario.cliente.email}"/>
+                        <c:out value="${cliente.nombre} ${cliente.email}"/>
                     </div>
                  
                 </div>

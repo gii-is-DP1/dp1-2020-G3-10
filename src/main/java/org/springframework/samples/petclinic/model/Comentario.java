@@ -37,6 +37,11 @@ public class Comentario extends BaseEntity {
 	@Valid
 	private Pelicula pelicula;
 	
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "videojuego_id")
+	@Valid
+	private Videojuego videojuego;
+	
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub

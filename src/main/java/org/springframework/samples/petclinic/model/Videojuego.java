@@ -36,6 +36,13 @@ public class Videojuego extends Producto {
 	@Column(name = "imagen")
 	private String imagen;
 	
+	@OneToMany(mappedBy = "videojuego")
+	private Collection<@Valid Comentario>	comentarios;
+	
+	public void addComment(Comentario comentario) {
+		getComentarios().add(comentario);
+	}
+	
 //	
 //	@Column(name = "plataforma")
 //	private Reproductor plataforma;
