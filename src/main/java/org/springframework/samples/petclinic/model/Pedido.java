@@ -1,12 +1,26 @@
 
 package org.springframework.samples.petclinic.model;
 
+
+import java.time.LocalDate;
+
+import javax.persistence.Column;
+
+
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Getter;
 import lombok.Setter;
+
+
+import lombok.Getter;
+import lombok.Setter;
+
 
 @Getter
 @Setter
@@ -14,8 +28,21 @@ import lombok.Setter;
 @Table(name = "pedido")
 public class Pedido extends BaseEntity {
 
+	//@NotEmpty         para evitar que pete al crear uno
+	private EstadoPedido	estado;
+
+	//@NotEmpty
+	@Column(name = "precio_total")
+	private Double			precioTotal;
+
+	//@NotEmpty
+	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	@Column(name = "fecha")
+	private LocalDate		fecha;
+
 	@NotEmpty
-	private EstadoPedido				estado;
+	@Column(name = "direccion_envio")
+	private String			direccionEnvio;
 
 	//Hay que plantearse bien que cascadeType nos conviene usar
 	

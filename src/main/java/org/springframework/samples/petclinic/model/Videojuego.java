@@ -2,8 +2,11 @@ package org.springframework.samples.petclinic.model;
 
 import java.util.Collection;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
@@ -11,25 +14,34 @@ import javax.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
 
+@Entity
 @Getter
 @Setter
-@Entity
-@Table(name = "videojuego")
+@Table(name = "videojuegos")
 public class Videojuego extends Producto {
 
 
 	@NotEmpty
+	@Column(name = "descripcion")
+	private String	descripcion;
+	
+	@Column(name = "agno")
 	private Integer	agno;
 
 	@NotEmpty
+	@Column(name = "estudio")
 	private String	estudio;
 
 	@NotEmpty
-	private String	descripcion;
+	@Column(name = "imagen")
+	private String imagen;
 	
+//	
+//	@Column(name = "plataforma")
+//	private Reproductor plataforma;
 
 	
-	/*
+	/*	
 	 
 	@OneToMany (mappedBy = "videojuego")
 	private Collection<@Valid Comentario>	comentarios;

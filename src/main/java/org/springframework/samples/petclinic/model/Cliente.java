@@ -1,12 +1,13 @@
+
 package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
 import java.util.Collection;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -15,37 +16,40 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
+
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+
 @Entity
 @Table(name = "clientes")
 public class Cliente extends Persona {
 
 	@Column(name = "ciudad")
 	@NotEmpty
+
 	private String ciudad;
 
 	@Column(name = "codigo_postal")
 	@NotEmpty
+
 	private String codigoPostal;
 
 	@Column(name = "direccion")
 	@NotEmpty
 	private String direccion;
 
+
 	@Column(name = "tarjeta_credito")
 	@NotEmpty
+  
 	private String	tarjetaCredito;
 	
 	@Column(name = "cartera")
 	private Double cartera;
 	
-	@OneToMany(mappedBy = "cliente")
-	private Collection<@Valid Comentario>	comentarios;
-
 	public Cliente(@NotEmpty String nombre, @NotEmpty String apellidos, @NotEmpty @NotEmpty @NotEmpty LocalDate fechaNacimiento,
 			@NotEmpty String dni, @NotEmpty @Email String email,
 			@NotEmpty @Digits(fraction = 0, integer = 10) String telefono, @NotEmpty String ciudad,
@@ -74,11 +78,16 @@ public class Cliente extends Persona {
 	@Valid
 	private User	user;
 
-	public void addComment(Comentario comentario) {
-		getComentarios().add(comentario);
-	}
 	
+	@ManyToMany(mappedBy = "clientes")
+	private Collection<Reproductor> reproductores;
 
+	@Override
+	public String toString() {
+		return "Cliente [ciudad=" + ciudad + ", codigoPostal=" + codigoPostal + ", direccion=" + direccion
+				+ ", tarjetaCredito=" + tarjetaCredito + ", cartera=" + cartera + ", user=" + user + ", reproductores="
+				+ reproductores + "]";
+	}
 	
 	/*
 	
@@ -92,3 +101,4 @@ public class Cliente extends Persona {
 	
 	
 }
+
