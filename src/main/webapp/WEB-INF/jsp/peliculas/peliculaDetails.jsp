@@ -50,13 +50,6 @@
 	</spring:url>
 	<a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Editar pelicula</a>
 	
-	<%! String tipo = "PELICULA"; %>
-	
-	<spring:url value="/pedidos/addCarrito/{productoId}/{tipo}" var="carritoUrl">
-		<spring:param name="productoId" value="${pelicula.id}" />
-		<spring:param name="tipo" value="${tipo}" />
-	</spring:url>
-	<a href="${fn:escapeXml(carritoUrl)}" class="btn btn-default">Añadir al carrito</a>
 	
 
 
