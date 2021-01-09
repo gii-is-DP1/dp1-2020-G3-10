@@ -14,6 +14,9 @@ import javax.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * @author Marta Díaz
+ */
 @Entity
 @Getter
 @Setter
@@ -36,17 +39,17 @@ public class Videojuego extends Producto {
 	@Column(name = "imagen")
 	private String imagen;
 	
+	@Column(name = "plataforma")
+	@Enumerated(EnumType.STRING)
+	private Plataforma plataforma;
+	
+	
 	@OneToMany(mappedBy = "videojuego")
 	private Collection<@Valid Comentario>	comentarios;
 	
 	public void addComment(Comentario comentario) {
 		getComentarios().add(comentario);
 	}
-	
-//	
-//	@Column(name = "plataforma")
-//	private Reproductor plataforma;
-
 	
 	/*	
 	 
