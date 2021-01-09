@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Pedido;
 import org.springframework.samples.petclinic.model.Producto;
+import org.springframework.samples.petclinic.service.MerchandasingService;
 import org.springframework.samples.petclinic.service.PedidoService;
 import org.springframework.samples.petclinic.service.PeliculaService;
 import org.springframework.samples.petclinic.service.VideojuegoService;
@@ -29,8 +30,8 @@ public class PedidoController {
 	private PedidoService pedidoService;
 	@Autowired
 	private VideojuegoService videojuegoService;
-	//@Autowired
-	//private MerchandasingService merchandasingService;
+	@Autowired
+	private MerchandasingService merchandasingService;
 	@Autowired
 	private PeliculaService peliculaService;
 	
@@ -97,19 +98,19 @@ public class PedidoController {
 	}
 	
 	@GetMapping(path = "/addCarrito/{productoId}/{tipo}")
-	public String añadirACarrito(@PathVariable("productoId") final int productoId, @PathVariable("tipo") final String tipo, ModelMap modelMap) {
+	public String añadirACarrito(@PathVariable("productoId") final int productoId, @PathVariable("tipo") final String tipo, final ModelMap modelMap) {
 
 		String vista = "/";
 		
-		Producto producto ;
+		Producto producto = null ;
 		
 		switch(tipo) {
-		case "PELICULA":
-			producto = peliculaService.findPeliculaById(productoId);
-		case "VIDEOJUEGO":
-			producto = videojuegoService.findVideojuegoById(productoId);
-		case "MERCHANDASING":
-			
+			case "PELICULA":
+				producto = peliculaService.findPeliculaById(productoId);
+			case "VIDEOJUEGO":
+				producto = videojuegoService.findVideojuegoById(productoId);
+			default:
+				producto = merchandasingService.findMerchandasingById(productoId);
 		}
 		
 		//carrito.add(producto);
@@ -126,9 +127,10 @@ public class PedidoController {
 	@GetMapping(path = "/carrito")
 	public String listCarrito(final ModelMap modelMap) {
 
-		String vista = "/pedidos/carrito";
+		String vista = "/";
 		
-		System.out.println("CARRITO PRUEBA: "+carrito);
+		//System.out.println("CARRITO PRUEBA: "+carrito);
+		System.out.println("LLEGA AL CARRITO");
 		
 		return vista;
 		
