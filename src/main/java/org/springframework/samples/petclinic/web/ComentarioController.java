@@ -98,7 +98,7 @@ public class ComentarioController {
 	
 	@GetMapping(value = "/pelicula/{peliculaId}/new")
 	public String initCreationFormPelicula(@PathVariable("peliculaId") int peliculaId, Cliente cliente, ModelMap model) {
-		Comentario comentario = new Comentario();
+		Comentario comentario = new Comentario(cliente);
 		Pelicula pelicula = peliculaService.findPeliculaById(peliculaId);
 		comentario.setPelicula(pelicula);
 		comentario.setCliente(cliente);
@@ -113,10 +113,10 @@ public class ComentarioController {
 	
 	@GetMapping(value = "/videojuego/{videojuegoId}/new")
 	public String initCreationFormVideojuego(@PathVariable("videojuegoId") int videojuegoId, Cliente cliente, ModelMap model) {
-		Comentario comentario = new Comentario();
+		Comentario comentario = new Comentario(cliente);
 		Videojuego videojuego = videojuegoService.findVideojuegoById(videojuegoId);
 		comentario.setVideojuego(videojuego);
-		comentario.setCliente(cliente);
+		//comentario.setCliente(cliente);
 		videojuego.addComment(comentario);
 		cliente.addComment(comentario);
 		model.put("comentario", comentario);
@@ -135,9 +135,12 @@ public class ComentarioController {
 		}
 		else {
 						comentario.setCliente(cliente);
+						comentario.setPelicula(pelicula);
 						this.comentarioService.saveComment(comentario);
                     	cliente.addComment(comentario);
                     	pelicula.addComment(comentario);
+                    	this.clienteService.saveCliente(cliente);
+                    	this.peliculaService.savePelicula(pelicula);
                     	Iterable<Comentario> comentarios = comentarioService.findAll();
                     	model.addAttribute("comentarios", comentarios);
                     	model.addAttribute("message", "Comentario creado con exito");

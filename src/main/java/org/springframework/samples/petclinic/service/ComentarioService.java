@@ -14,19 +14,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class ComentarioService {
 	
 private ComentarioRepository comentarioRepository;
-	
-	@Transactional
-	public int commentCount() {
-		return (int) comentarioRepository.count();
-	}
-	
+
 	@Autowired
 	public ComentarioService(ComentarioRepository comentarioRepository) {
 		this.comentarioRepository = comentarioRepository;
 	}
 	
 	@Transactional(readOnly = true)
-	public Optional<Comentario> findCommentById(int id) throws DataAccessException{
+	public Comentario findCommentById(int id) throws DataAccessException{
 		return comentarioRepository.findById(id);
 	}
 	
@@ -45,7 +40,7 @@ private ComentarioRepository comentarioRepository;
 	}
 	
 	@Transactional
-	public Iterable<Comentario> findAll(){
+	public List<Comentario> findAll(){
 		return comentarioRepository.findAll();
 	}
 

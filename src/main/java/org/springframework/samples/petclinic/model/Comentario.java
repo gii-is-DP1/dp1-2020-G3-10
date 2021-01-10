@@ -19,6 +19,14 @@ import lombok.Setter;
 @Table(name="comentario")
 public class Comentario extends BaseEntity {
 	
+	public Comentario() {
+		
+	}
+	
+	public Comentario(Cliente cliente) {
+		this.cliente = cliente;
+	}
+	
 	@NotEmpty
 	private String titulo;
 	
