@@ -27,8 +27,8 @@ public class MerchandasingController {
 	@Autowired
 	private final MerchandasingService merchandasingService;
 
-	@Autowired
-	private final ProductoService productoService;
+//	@Autowired
+//	private final ProductoService productoService;
 
 	@InitBinder
 	public void setAllowedFields(WebDataBinder dataBinder) {
@@ -36,10 +36,11 @@ public class MerchandasingController {
 	}
 
 	@Autowired
-	public MerchandasingController(final MerchandasingService merchandasingService,
-			final ProductoService productoService) {
+	public MerchandasingController(final MerchandasingService merchandasingService
+			//,final ProductoService productoService
+			) {
 		this.merchandasingService = merchandasingService;
-		this.productoService = productoService;
+		//this.productoService = productoService;
 
 	}
 
