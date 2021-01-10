@@ -35,7 +35,7 @@
 			<td><c:out value="${pelicula.formato}" /></td>
 		</tr>
 		<tr>
-			<td><c:out value="${pelicula.sinopsis}" /></td>
+			<td><c:out value="${pelicula.descripcion}" /></td>
 		</tr>
 	</table>
 

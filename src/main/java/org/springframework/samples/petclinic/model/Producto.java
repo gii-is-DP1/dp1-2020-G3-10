@@ -1,5 +1,7 @@
 package org.springframework.samples.petclinic.model;
 
+import java.time.LocalDate;
+
 import javax.persistence.MappedSuperclass;
 
 import lombok.Getter;
@@ -13,7 +15,13 @@ public class Producto extends BaseEntity {
 
 	private String nombre;
 	
+	private String descripcion;
+	
+	private LocalDate fechaSalida;
+	
 	private Double precio;
+	
+	private String imagen;
 	
 	
 	

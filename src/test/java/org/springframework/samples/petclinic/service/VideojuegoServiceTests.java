@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -40,6 +41,7 @@ class VideojuegoServiceTests {
 		videojuego.setEstudio("estudio");
 		videojuego.setImagen("https://media.game.es/COVERV2/3D_L/169/169067.png");
 		videojuego.setPlataforma(Plataforma.NINTENDO_SWITCH);
+		videojuego.setFechaSalida(LocalDate.now());
 		this.videojuegoService.saveVideojuego(videojuego);
 		assertThat(videojuego.getId() != null && videojuego.getId() != 0);
 
