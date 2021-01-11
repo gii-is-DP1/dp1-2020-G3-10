@@ -126,7 +126,7 @@ public class ClienteController{
 			cliente.setReproductores(clienteAntiguo.getReproductores());
 			cliente.setComentarios(clienteAntiguo.getComentarios());
 			this.clienteService.saveCliente(cliente);
-			System.out.println("===========================El cliente actualizado es:"+ this.clienteService.findClienteById(clienteId)+"==========================");
+//			System.out.println("===========================El cliente actualizado es:"+ this.clienteService.findClienteById(clienteId)+"==========================");
 			mp.addAttribute("cliente", cliente);
 			mp.addAttribute("message", "El cliente se ha actualizado satisfactoriamente");
 			
