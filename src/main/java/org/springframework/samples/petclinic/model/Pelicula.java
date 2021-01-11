@@ -23,8 +23,8 @@ public class Pelicula extends Producto {
 
 	@Override
 	public String toString() {
-		return "Pelicula [director=" + director + ", agno=" + agno + ", duracion=" + duracion + ", sinopsis=" + sinopsis
-				+ ", formato=" + formato + ", edicion=" + edicion + ", imagen=" + imagen + ", comentarios="
+		return "Pelicula [director=" + director + ", agno=" + agno + ", duracion=" + duracion 
+				+ ", formato=" + formato + ", edicion=" + edicion + ", imagen=" + getImagen() + ", comentarios="
 				+ comentarios + "]";
 	}
 

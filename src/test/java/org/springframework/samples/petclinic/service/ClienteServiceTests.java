@@ -124,14 +124,7 @@ class ClienteServiceTests {
 
 	}
 
-    @Test
-	void prueba() {
-		
-		Producto producto = new Videojuego();
-		
-		System.out.println("PRUEBAAAAAAAAAAAAAAAAAAAAA:  " + producto.getClass().getSimpleName());
-		assertThat("Videojuego").isEqualTo(producto.getClass().getSimpleName());
-	}
+    
 
     
 
