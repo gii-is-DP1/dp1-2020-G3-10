@@ -2,7 +2,6 @@
 package org.springframework.samples.petclinic.model;
 
 import java.util.Collection;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -11,10 +10,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
-
 import lombok.Getter;
 import lombok.Setter;
-
+/**
+ * @author Marta Díaz
+ */
 @Entity
 @Getter
 @Setter
@@ -38,9 +38,6 @@ public class Pelicula extends Producto {
 	@Column(name = "duracion")
 	private Double	duracion;
 
-	@NotEmpty
-	@Column(name = "sinopsis")
-	private String	sinopsis;
 	
 	@Column(name = "formato")
 	@Enumerated(EnumType.STRING)
@@ -48,10 +45,7 @@ public class Pelicula extends Producto {
 
 	@Column(name = "edicion")
 	private Integer edicion;
-	
-	@Column(name = "imagen")
-	@NotEmpty
-	private String imagen;
+
 	
 	@OneToMany(mappedBy = "pelicula")
 	private Collection<@Valid Comentario>	comentarios;

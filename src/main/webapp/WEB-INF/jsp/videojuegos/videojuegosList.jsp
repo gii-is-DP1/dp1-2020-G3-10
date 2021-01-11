@@ -7,7 +7,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
 
-<petclinic:layout pageName="peliculas">
+<petclinic:layout pageName="videojuegos">
 	<h2>VIDEOJUEGOS</h2>
 
 
@@ -25,8 +25,8 @@
 						<spring:url value="/videojuegos/{videojuegoId}" var="videojuegoUrl">
 							<spring:param name="videojuegoId" value="${vid.id}" />
 						</spring:url>
-						<a href="${fn:escapeXml(videojuegoUrl)}"><c:out
-								value="${vid.nombre}" /></a>
+						<center><a href="${fn:escapeXml(videojuegoUrl)}"><c:out
+								value="${vid.nombre}" /></a></center>
 
 					</div>   
 				</div>

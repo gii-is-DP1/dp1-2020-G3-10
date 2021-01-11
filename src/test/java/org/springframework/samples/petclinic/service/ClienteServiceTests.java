@@ -13,7 +13,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.Authorities;
 import org.springframework.samples.petclinic.model.Cliente;
+
 import org.springframework.samples.petclinic.model.User;
+
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
@@ -121,6 +123,17 @@ class ClienteServiceTests {
 		assertThat(a).isEqualTo(b);
 
 	}
+
+    @Test
+	void prueba() {
+		
+		Producto producto = new Videojuego();
+		
+		System.out.println("PRUEBAAAAAAAAAAAAAAAAAAAAA:  " + producto.getClass().getSimpleName());
+		assertThat("Videojuego").isEqualTo(producto.getClass().getSimpleName());
+	}
+
+    
 
 	
 }

@@ -33,8 +33,8 @@
 						<spring:url value="/peliculas/{peliculaId}" var="peliculaUrl">
 							<spring:param name="peliculaId" value="${pel.id}" />
 						</spring:url>
-						<a href="${fn:escapeXml(peliculaUrl)}"><c:out
-								value="${pel.nombre}" /></a>
+						<center> <a href="${fn:escapeXml(peliculaUrl)}"><c:out
+								value="${pel.nombre}" /></a></center>
 
 					</div>
 				</div>

@@ -1,13 +1,19 @@
 
 package org.springframework.samples.petclinic.web;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Pedido;
+import org.springframework.samples.petclinic.model.Producto;
+import org.springframework.samples.petclinic.service.MerchandasingService;
 import org.springframework.samples.petclinic.service.PedidoService;
+import org.springframework.samples.petclinic.service.PeliculaService;
+import org.springframework.samples.petclinic.service.VideojuegoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -22,6 +28,14 @@ public class PedidoController {
 
 	@Autowired
 	private PedidoService pedidoService;
+	@Autowired
+	private VideojuegoService videojuegoService;
+	@Autowired
+	private MerchandasingService merchandasingService;
+	@Autowired
+	private PeliculaService peliculaService;
+	
+	private List<Producto> carrito = new ArrayList<>();
 
 
 	@GetMapping
@@ -81,6 +95,45 @@ public class PedidoController {
 		}
 
 		return vista;
+	}
+	
+	@GetMapping(path = "/addCarrito/{productoId}/{tipo}")
+	public String añadirACarrito(@PathVariable("productoId") final int productoId, @PathVariable("tipo") final String tipo, final ModelMap modelMap) {
+
+		String vista = "/";
+		
+		Producto producto = null ;
+		
+		switch(tipo) {
+			case "PELICULA":
+				producto = peliculaService.findPeliculaById(productoId);
+			case "VIDEOJUEGO":
+				producto = videojuegoService.findVideojuegoById(productoId);
+			default:
+				producto = merchandasingService.findMerchandasingById(productoId);
+		}
+		
+		//carrito.add(producto);
+		
+		//System.out.println("CARRITO PRUEBA: "+carrito);
+		System.out.println("TIPO PRODUCTO: "+ tipo + "IDENTIFICACION: "+productoId);
+		
+		//nuevoProducto.getClass().getSimpleName()
+		//Optional<Pedido> pedido = this.pedidoService.findPedidoById(pedidoId);
+
+		return vista;
+	}
+	
+	@GetMapping(path = "/carrito")
+	public String listCarrito(final ModelMap modelMap) {
+
+		String vista = "/";
+		
+		//System.out.println("CARRITO PRUEBA: "+carrito);
+		System.out.println("LLEGA AL CARRITO");
+		
+		return vista;
+		
 	}
 
 }
