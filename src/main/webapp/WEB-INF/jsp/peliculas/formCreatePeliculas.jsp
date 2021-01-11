@@ -9,6 +9,7 @@
 
 <petclinic:layout pageName="peliculasAdd">
    
+   
     <jsp:body>
         <h2>
             <c:if test="${pelicula['new']}">New </c:if> Pelicula
@@ -25,7 +26,8 @@
                 <petclinic:inputField label="Edición" name="Edicion"/>
                 <petclinic:inputField label="Formato" name="Formato"/>
                 <petclinic:inputField label="Imagen" name="Imagen"/>
-                <petclinic:inputField label="Sinopsis" name="Sinopsis"/>
+                <petclinic:inputField label="Descripcion" name="Descripcion"/>
+                <petclinic:inputField label="FechaSalida" name="FechaSalida"/>
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
