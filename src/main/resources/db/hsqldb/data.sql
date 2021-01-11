@@ -23,6 +23,9 @@ INSERT INTO authorities(id,username,authority) VALUES (6,'marta','owner');
 INSERT INTO users(username,password,enabled) VALUES ('antmorgon4','password',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (20,'antmorgon4','cliente');
 
+INSERT INTO users(username,password,enabled) VALUES ('vendedor1','vendedor1',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (111,'vendedor1','vendedor');
+
 INSERT INTO vets VALUES (1, 'James', 'Carter');
 INSERT INTO vets VALUES (2, 'Helen', 'Leary');
 INSERT INTO vets VALUES (3, 'Linda', 'Douglas');
@@ -89,6 +92,9 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (3, 8, '2013-01-03',
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04', 'spayed');
 
 
+INSERT INTO merchandasings(id,tipo,fabricante,nombre,precio) VALUES (1, 'FIGURA', 'Fabricante 1', 'Goku SSJ4', 33.33);
+INSERT INTO merchandasings(id,tipo,fabricante,nombre,precio) VALUES (2, 'FIGURA', 'Bandai', 'Goku SSJ4', 33.33);
+
 ---------------------------------------------------------------------------------------------------------------------------
 
 --Cliente
@@ -110,17 +116,16 @@ INSERT INTO pedido(id, estado, precio_total, fecha, direccion_envio) VALUES (1,2
 --INSERT INTO productos(id, nombre, precio,videojuego_id, cliente_id, merchandasing_id, pelicula_id) VALUES(1, 'Titanic', 12,null, 2, null,null );
 --INSERT INTO peliculas(id, agno, director, duracion, edicion, formato, producto_id) VALUES(1, 1997, 'James Cameron', 4, 1, 1,1);
 
-INSERT INTO peliculas VALUES(1, 'Titanic', 12,2012,'Julian Fellowes',3,1, 'BLURAY','https://static.filmin.es/images/media/684/3/poster_0_3_256x0.webp', 'El hundimiento del barco, según el creador de "Downton Abbey". "Titanic" es una extraordinaria narración de este viaje condenado al fracaso, hábilmente tejido con parcelas de acción, misterio.');
-INSERT INTO peliculas VALUES(2, 'Valerian y la ciudad de los mil planetas', 12,2017,'Luc Besson',2,1, 'BLURAY','https://static.filmin.es/images/media/20818/1/poster_0_3_720x0.webp', 'Luc Besson da la vuelta a la épica espacial con esta película inspirada en ‘Valérian et Laureline’ la serie de cómics que influyó enormemente en la estética de la "Star Wars" original.');
-INSERT INTO peliculas VALUES(3, 'La casa torcida', 12,2017,'Gilles Paquet-Brenner',5,1, 'BLURAY','https://static.filmin.es/images/media/23729/2/poster_0_3_720x0.webp', 'Adaptación cinematográfica de la enigmática novela de Agatha Christie. Protagonizada por la ganadora de dos Globos de Oro, Glenn Close y la detective del fenómeno televisivo “Expediente X” Gillian Anderson.');
-INSERT INTO peliculas VALUES(4, 'Fight Girl', 12,2018,'Johan Timmers',5,1, 'BLURAY','https://static.filmin.es/images/media/31442/1/poster_0_3_720x0.webp', 'Ganadora del Premio del Público Joven de los Premios EFA, una historia vitalista y con carisma sobre una joven luchadora de kickboxing.');
+INSERT INTO peliculas VALUES(1, 'El hundimiento del barco, según el creador de "Downton Abbey". "Titanic" es una extraordinaria narración de este viaje condenado al fracaso, hábilmente tejido con parcelas de acción, misterio.', '2013-01-01','https://static.filmin.es/images/media/684/3/poster_0_3_256x0.webp','Titanic', 12, 2012,'Julian Fellowes',3,1, 'BLURAY');
+INSERT INTO peliculas VALUES(2, 'Luc Besson da la vuelta a la épica espacial con esta película inspirada en ‘Valérian et Laureline’ la serie de cómics que influyó enormemente en la estética de la "Star Wars" original.', '2013-01-01', 'https://static.filmin.es/images/media/20818/1/poster_0_3_720x0.webp', 'Valerian y la ciudad de los mil planetas', 12,2017,'Luc Besson',2,1, 'BLURAY' );
+INSERT INTO peliculas VALUES(3, 'Adaptación cinematográfica de la enigmática novela de Agatha Christie. Protagonizada por la ganadora de dos Globos de Oro, Glenn Close y la detective del fenómeno televisivo “Expediente X” Gillian Anderson.', '2013-01-01', 'https://static.filmin.es/images/media/23729/2/poster_0_3_720x0.webp','La casa torcida', 12,2017,'Gilles Paquet-Brenner',5,1, 'BLURAY' );
+INSERT INTO peliculas VALUES(4, 'Ganadora del Premio del Público Joven de los Premios EFA, una historia vitalista y con carisma sobre una joven luchadora de kickboxing.', '2013-01-01', 'https://static.filmin.es/images/media/31442/1/poster_0_3_720x0.webp', 'Fight Girl', 12,2018,'Johan Timmers',5,1, 'BLURAY');
 
--- *Reproductor no es un enumerate*
---INSERT INTO VIDEOJUEGOS VALUES(1, 'JUST DANCE 2021', 49.95,2021,'Vuelve el juego que te convierte en una estrella, vuelve Just dance con Just Dance 2021 para PlayStation 4, Xbox One, Nintendo Switch y PlayStation 5. Hazte con él en GAME y que empiece la fiesta.','estudio','https://media.game.es/COVERV2/3D_L/182/182836.png', 'NINTENDO_SWITCH');
---INSERT INTO VIDEOJUEGOS VALUES(2, 'ANIMAL CROSSING: NEW HORIZONS', 49.95,2021,'¡Descubre los placeres de vivir en una isla desierta y crea tu hogar perfecto en Animal Crossing: New Horizons para Nintendo Switch!','estudio','https://media.game.es/COVERV2/3D_L/169/169067.png', 'NINTENDO_SWITCH');
---INSERT INTO VIDEOJUEGOS VALUES(3, 'FIFA 21', 39.95,2021,'Compra ahora el juego de PS4, consigue gratis el juego de PS5 el 4 de Diciembre y mantén tu progreso en Volta Football y FIFA Ultimate Team en la siguiente generación.','estudio','https://media.game.es/COVERV2/3D_L/181/181108.png', 'PS4');
---INSERT INTO VIDEOJUEGOS VALUES(4, 'GOD OF WAR PS HITS', 9.95,2021,'Adéntrate en una aventura compleja y desconocida en la que explorarás una impresionante versión alternativa de una historia clásica. ','estudio','https://media.game.es/COVERV2/3D_L/173/173386.png', 'PS4');
---INSERT INTO VIDEOJUEGOS VALUES(5, 'MINECRAFT - NINTENDO SWITCH EDITION', 29.95,2021,'Tu nueva experiencia Minecraft está aquí, en esta nueva y completa edición de tu juego favorito se incluye contenido extra como parte de la Bedrock Edition, así podrás disfrutar de un Minecraft con un mundo más grande, mejor y mucho más bonito.','estudio','https://media.game.es/COVERV2/3D_L/150/150363.png', 'NINTENDO_SWITCH');>>>>>>> develop
+INSERT INTO VIDEOJUEGOS VALUES(1, 'Vuelve el juego que te convierte en una estrella, vuelve Just dance con Just Dance 2021 para PlayStation 4, Xbox One, Nintendo Switch y PlayStation 5. Hazte con él en GAME y que empiece la fiesta.','2013-01-01', 'https://media.game.es/COVERV2/3D_L/182/182836.png', 'JUST DANCE 2021', 49.95,2021,'Film SA', 'NINTENDO_SWITCH');
+INSERT INTO VIDEOJUEGOS VALUES(2, '¡Descubre los placeres de vivir en una isla desierta y crea tu hogar perfecto en Animal Crossing: New Horizons para Nintendo Switch!','2013-01-01','https://media.game.es/COVERV2/3D_L/169/169067.png', 'ANIMAL CROSSING: NEW HORIZONS', 49.95,2021,'Film SA', 'NINTENDO_SWITCH');
+INSERT INTO VIDEOJUEGOS VALUES(3, 'Compra ahora el juego de PS4, consigue gratis el juego de PS5 el 4 de Diciembre y mantén tu progreso en Volta Football y FIFA Ultimate Team en la siguiente generación.','2013-01-01','https://media.game.es/COVERV2/3D_L/181/181108.png','FIFA 21', 39.95,2021,'Film SA', 'PS4');
+INSERT INTO VIDEOJUEGOS VALUES(4, 'Adéntrate en una aventura compleja y desconocida en la que explorarás una impresionante versión alternativa de una historia clásica. ','2013-01-01','https://media.game.es/COVERV2/3D_L/173/173386.png','GOD OF WAR PS HITS', 9.95,2021,'Film SA', 'PS4');
+INSERT INTO VIDEOJUEGOS VALUES(5, 'Tu nueva experiencia Minecraft está aquí, en esta nueva y completa edición de tu juego favorito se incluye contenido extra como parte de la Bedrock Edition, así podrás disfrutar de un Minecraft con un mundo más grande, mejor y mucho más bonito.','2013-01-01','https://media.game.es/COVERV2/3D_L/150/150363.png','MINECRAFT - NINTENDO SWITCH EDITION', 29.95,2021,'Film SA', 'NINTENDO_SWITCH');
 
 --Reproductores
 

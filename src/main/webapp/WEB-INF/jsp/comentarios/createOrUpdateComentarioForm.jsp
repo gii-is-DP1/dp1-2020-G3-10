@@ -19,12 +19,23 @@
         <form:form modelAttribute="comentario"
                    class="form-horizontal">
             <input type="hidden" name="id" value="${comentario.id}"/>
+            <input type="hidden" name="cliente" value="${comentario.cliente}"/>
             <div class="form-group has-feedback">
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Autor</label>
                     <div class="col-sm-10">
-                        <c:out value="${comentario.autor.nombre} ${comentario.autor.email}"/>
+                        <c:out value="${cliente.nombre} ${cliente.email}"/>
                     </div>
+                 
+                </div>
+                </div>
+                 <div class="form-group has-feedback">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Pelicula</label>
+                    <div class="col-sm-10">
+                        <c:out value="${comentario.pelicula.nombre}"/>
+                    </div>
+                 
                 </div>
                 <petclinic:inputField label="Titulo" name="titulo"/>
                 <petclinic:inputField label="Texto" name="texto"/>

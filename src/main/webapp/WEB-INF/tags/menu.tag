@@ -31,7 +31,7 @@
 				<petclinic:menuItem active="${name eq 'peliculas'}" url="/peliculas"
 					title="peliculas">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-					<span>Pel�culas</span>
+					<span>Peliculas</span>
 				</petclinic:menuItem>
 
 				<petclinic:menuItem active="${name eq 'videojuegos'}"
@@ -52,11 +52,13 @@
 					<span>Error</span>
 				</petclinic:menuItem>
 				
+				<sec:authorize access="hasAuthority('admin')">
 				<petclinic:menuItem active="${name eq 'reproductores'}" url="/reproductores"
 					title="reproductores">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 					<span>Reproductores</span>
 				</petclinic:menuItem>
+				</sec:authorize>
 
 				
 

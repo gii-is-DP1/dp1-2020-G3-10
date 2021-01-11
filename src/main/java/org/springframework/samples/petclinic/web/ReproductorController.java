@@ -137,4 +137,45 @@ public class ReproductorController {
 		
 		return mav;
 	}
+	
+	//Cliente Elimina Reproductor
+	
+		@GetMapping(value = "/remove/{ReproductorId}")
+		public ModelAndView removeClienteReproductor(@PathVariable("ReproductorId") int reproductorId) {
+			
+			//Obtengo el cliente loggeado que quiere eliminar el reproductor
+			Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			String username = ((UserDetails)principal).getUsername();
+			Cliente cliente= this.clienteService.findClienteByUserName(username);
+			
+			//Creo la llamada al controlador de cliente (suena feo pero es la única forma limpia de hacerlo que he encontrado)
+			ModelAndView mav =  this.clienteController.showReproductoresCliente(cliente.getId());
+
+			//Obtengo el reproductor deseado y la lista de reproductores que ya tiene mi cliente
+			Optional<Reproductor> reproductor = ReproductorService.findReproductorById(reproductorId);
+			Collection<Reproductor> reproductoresCliente = cliente.getReproductores();
+			
+			if (reproductor.isPresent() && reproductoresCliente.contains(reproductor.get())) {
+
+				//Actualizo los reproductores del cliente y actualizo el propio cliente
+				reproductoresCliente.remove(reproductor.get());
+				cliente.setReproductores(reproductoresCliente);
+				this.clienteService.saveCliente(cliente);
+				
+				//Actualizo los clientes que disponen de dicho reproductor
+				Collection<Cliente> clientesReproductor = reproductor.get().getClientes();
+				clientesReproductor.remove(cliente);
+				reproductor.get().setClientes(clientesReproductor);
+				ReproductorService.saveReproductor(reproductor.get());
+				
+				mav.addObject("message", "Reproductor eliminado con éxito!!");
+					
+				} else {
+
+				mav.addObject("message","Error: El reproductor no se ha podido eliminar!!");
+			
+			}
+			
+			return mav;
+		}
 }

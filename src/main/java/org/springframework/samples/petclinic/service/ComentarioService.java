@@ -1,5 +1,8 @@
 package org.springframework.samples.petclinic.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Comentario;
@@ -23,11 +26,16 @@ private ComentarioRepository comentarioRepository;
 	}
 	
 	@Transactional(readOnly = true)
-	public Comentario findCommentById(int id) throws DataAccessException{
+	public Optional<Comentario> findCommentById(int id) throws DataAccessException{
 		return comentarioRepository.findById(id);
 	}
 	
-	@Transactional public void saveComment(Comentario comentario) {
+	public List<Comentario> findByClientId(int id) throws DataAccessException{
+		return comentarioRepository.findByClientId(id);
+	}
+	
+	@Transactional 
+	public void saveComment(Comentario comentario) {
 		comentarioRepository.save(comentario);
 	}
 	

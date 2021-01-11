@@ -28,7 +28,7 @@
                     <c:out value="${comentario.texto}"/>
                 </td>
                 <td>
-                    <c:out value="${comentario.autor.dni}"/>
+                    <c:out value="${comentario.cliente.dni}"/>
                 </td>
                
                 

@@ -4,11 +4,14 @@ package org.springframework.samples.petclinic.web;
 import java.security.Principal;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.ehcache.shadow.org.terracotta.offheapstore.util.FindbugsSuppressWarnings;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Authorities;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Reproductor;
 import org.springframework.samples.petclinic.model.User;
@@ -17,7 +20,10 @@ import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.ReproductorService;
 import org.springframework.samples.petclinic.service.UserService;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -105,12 +111,33 @@ public class ClienteController{
 		}
 		else {
 			
-			Cliente c = clienteService.findClienteById(clienteId);
-			cliente.setId(c.getId());
+			Cliente clienteAntiguo = this.clienteService.findClienteById(clienteId);
+			
+			//Reasigno el ID al cliente modificado y lo actualizo
+			cliente.setId(clienteId);
+			Set<Authorities> authorities = clienteAntiguo.getUser().getAuthorities();
+			
+			for(Authorities a : authorities) {
+				
+				a.setUser(cliente.getUser());
+				
+			}
+			cliente.getUser().setAuthorities(authorities);
+			cliente.setReproductores(clienteAntiguo.getReproductores());
+			cliente.setComentarios(clienteAntiguo.getComentarios());
 			this.clienteService.saveCliente(cliente);
+//			System.out.println("===========================El cliente actualizado es:"+ this.clienteService.findClienteById(clienteId)+"==========================");
 			mp.addAttribute("cliente", cliente);
 			mp.addAttribute("message", "El cliente se ha actualizado satisfactoriamente");
-			return "redirect:/cliente/{clienteId}";
+			
+//			if(clienteAntiguo.getUser() != cliente.getUser()) {
+//				
+//				return "redirect:/clientes/miPerfil";
+//				
+//			}
+			
+			
+			return "redirect:/clientes/miPerfil";//"{clienteId}";
 		}
 	}
 
@@ -132,19 +159,30 @@ public class ClienteController{
 	}
 	
 	//Redirigir a detalles de cliente sin conocer su id
-	
 	@GetMapping("/clientes/miPerfil")
-	public ModelAndView showCliente() {
-		ModelAndView mav = new ModelAndView("clientes/clienteDetails");
+	public String showCliente(ModelMap mp) {
+		String vista;
 
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		
-		String username = ((UserDetails)principal).getUsername();
-		
-		Cliente cliente= this.clienteService.findClienteByUserName(username);
-		
-		mav.addObject("cliente",cliente);
-		return mav;
+		User currUser = userService.findUser(auth.getName()).get(); 
+
+		Cliente cliente = this.clienteService.findClienteByUserName(currUser.getUsername());
+		 
+		if(cliente == null) {
+			 
+			 SecurityContextHolder.clearContext();
+			 vista = "redirect:/login";
+			 mp.addAttribute("message", "El usuario debe volver a loggear para actualizar los cambios");
+			 
+		 }else {
+			 
+			mp.addAttribute("cliente",cliente);
+			vista = "redirect:/clientes/" + cliente.getId();
+			 
+		 }
+		 
+		return vista;
 	}
 		
 	//Redirige al cliente a la página de sus reproductores
@@ -182,7 +220,8 @@ public class ClienteController{
 			
 			mav.addObject("cliente",cliente);
 			mav.addObject("reproductores",reproductores);
-
+			mav.addObject("MostrarBoton", true);
+			
 			return mav;
 		}
 	

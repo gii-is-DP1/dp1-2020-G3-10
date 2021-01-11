@@ -3,7 +3,9 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
-
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
+	
 <petclinic:layout pageName="cliente">
 
     <h2>Perfil Usuario</h2>
@@ -28,7 +30,7 @@
         </tr>
         <tr>
             <th>Dirección</th>
-            <td><b><c:out value="${cliente.direccion} ${cliente.codigoPostal}"/></b></td>
+            <td><b><c:out value="${cliente.direccion} Codigo Postal: ${cliente.codigoPostal}"/></b></td>
         </tr>
          <tr>
             <th>Telefono</th>
@@ -41,16 +43,20 @@
         
     </table>
 
+	<!-- Botón que permitirá al usuario editar sus datos  -->
     <spring:url value="{clienteId}/edit" var="editUrl">
         <spring:param name="clienteId" value="${cliente.id}"/>
     </spring:url>
-    <a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Editar Cliente</a>
+    <a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Editar Usuario</a>
 
+	<!-- Botón que llevará al usuario a SU lista de reproductores (No visible por administradores)  -->
+	<sec:authorize access="!hasAuthority('admin')">
     <spring:url value="{clienteId}/reproductores" var="listaReproductoresUrl">
         <spring:param name="clienteId" value="${cliente.id}"/>
     </spring:url>
     <a href="${fn:escapeXml(listaReproductoresUrl)}" class="btn btn-default">Ver Reproductores</a>
-
+	</sec:authorize>
+	
     <br/>
     <br/>
     <br/>

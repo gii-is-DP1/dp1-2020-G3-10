@@ -17,6 +17,10 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+/**
+ * @author Marta Díaz
+ */
+
 @Controller
 public class VideojuegoController {
 

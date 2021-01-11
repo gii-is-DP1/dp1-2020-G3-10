@@ -8,6 +8,10 @@ import org.springframework.samples.petclinic.repository.VideojuegoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * @author Marta Díaz
+ */
+
 @Service
 public class VideojuegoService {
 

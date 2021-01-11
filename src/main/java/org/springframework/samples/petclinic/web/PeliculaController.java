@@ -29,6 +29,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import net.bytebuddy.implementation.bind.MethodDelegationBinder.BindingResolver;
 
+/**
+ * @author Marta Díaz
+ */
 @Controller
 public class PeliculaController {
 	
