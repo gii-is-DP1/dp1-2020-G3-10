@@ -15,10 +15,6 @@ public class Producto extends BaseEntity {
 	
 	private Double precio;
 	
-	
-	
-	
-	
 	/*
 	@OneToMany
 	private Collection<@Valid Oferta>	ofertas;

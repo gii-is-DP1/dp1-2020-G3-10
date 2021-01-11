@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Authorities;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Reproductor;
 import org.springframework.samples.petclinic.model.User;
@@ -105,9 +106,20 @@ public class ClienteController{
 		}
 		else {
 			
+			//Obtengo el cliente original
 			Cliente c = clienteService.findClienteById(clienteId);
+			
+			//Reasigno el ID al cliente modificado y lo actualizo
 			cliente.setId(c.getId());
+			cliente.getUser().setAuthorities(c.getUser().getAuthorities());
+			cliente.setReproductores(c.getReproductores());
+			cliente.setComentarios(c.getComentarios());
+			
 			this.clienteService.saveCliente(cliente);
+			
+			//Actualizo el usuario 
+			this.userService.saveUser(cliente.getUser());
+			
 			mp.addAttribute("cliente", cliente);
 			mp.addAttribute("message", "El cliente se ha actualizado satisfactoriamente");
 			return "redirect:/cliente/{clienteId}";
@@ -157,6 +169,7 @@ public class ClienteController{
 		
 		mav.addObject("cliente",cliente);
 		mav.addObject("reproductores",reproductores);
+//		mav.addObject("MostrarBoton",false); //Esto servirá para que en la vista no se de la opción de volver a añadir el mismo reproductor
 
 		return mav;
 	}
@@ -182,7 +195,8 @@ public class ClienteController{
 			
 			mav.addObject("cliente",cliente);
 			mav.addObject("reproductores",reproductores);
-
+			mav.addObject("MostrarBoton", true);
+			
 			return mav;
 		}
 	

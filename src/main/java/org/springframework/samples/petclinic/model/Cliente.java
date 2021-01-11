@@ -29,12 +29,10 @@ public class Cliente extends Persona {
 
 	@Column(name = "ciudad")
 	@NotEmpty
-
 	private String ciudad;
 
 	@Column(name = "codigo_postal")
 	@NotEmpty
-
 	private String codigoPostal;
 
 	@Column(name = "direccion")
@@ -44,7 +42,6 @@ public class Cliente extends Persona {
 
 	@Column(name = "tarjeta_credito")
 	@NotEmpty
-  
 	private String	tarjetaCredito;
 	
 	@Column(name = "cartera")
@@ -85,15 +82,17 @@ public class Cliente extends Persona {
 	@OneToMany(mappedBy = "cliente")
 	private Collection<@Valid Comentario>	comentarios;
 
+
+	
+	public void addComment(Comentario comentario) {
+		getComentarios().add(comentario);
+	}
+
 	@Override
 	public String toString() {
 		return "Cliente [ciudad=" + ciudad + ", codigoPostal=" + codigoPostal + ", direccion=" + direccion
 				+ ", tarjetaCredito=" + tarjetaCredito + ", cartera=" + cartera + ", user=" + user + ", reproductores="
-				+ reproductores + "]";
-	}
-	
-	public void addComment(Comentario comentario) {
-		getComentarios().add(comentario);
+				+ reproductores + ", comentarios=" + comentarios + "]";
 	}
 	
 	/*
