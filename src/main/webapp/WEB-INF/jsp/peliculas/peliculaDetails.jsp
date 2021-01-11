@@ -59,5 +59,9 @@
 	
     -->
 
+	<spring:url value="/peliculas/{peliculaId}/addCesta" var="cestaUrl">
+		<spring:param name="peliculaId" value="${pelicula.id}" />
+	</spring:url>
+	<a href="${fn:escapeXml(cestaUrl)}" class="btn btn-default">Añadir a la cesta</a>
 
 </petclinic:layout>

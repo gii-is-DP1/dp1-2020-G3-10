@@ -24,7 +24,7 @@
 
 		<tbody>
 			<c:forEach items="${peliculas}" var="pel">
-
+					<c:out value="${mensaje}" />
 
 				<div class="col-sm-6 col-md-4">
 					<div class="thumbnail">

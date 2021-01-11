@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.model;
 
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.Column;
 
@@ -43,6 +44,8 @@ public class Pedido extends BaseEntity {
 	@NotEmpty
 	@Column(name = "direccion_envio")
 	private String			direccionEnvio;
+	
+	//private List<LineaPedido> lineasPedido;
 
 	//Hay que plantearse bien que cascadeType nos conviene usar
 	

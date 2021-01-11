@@ -3,6 +3,8 @@ package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -102,6 +104,10 @@ public class Cliente extends Persona {
 	
 	
 	*/
+	
+	//private List<Pedido> pedidos; NO ME DEJA
+	
+	
 	
 	
 }
