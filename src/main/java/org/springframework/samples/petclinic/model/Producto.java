@@ -26,10 +26,6 @@ public class Producto extends BaseEntity {
 	
 	private String imagen;
 	
-	
-	
-	
-	
 	/*
 	@OneToMany
 	private Collection<@Valid Oferta>	ofertas;

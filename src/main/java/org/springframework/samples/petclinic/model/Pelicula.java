@@ -21,6 +21,13 @@ import lombok.Setter;
 @Table(name = "peliculas")
 public class Pelicula extends Producto {
 
+	@Override
+	public String toString() {
+		return "Pelicula [director=" + director + ", agno=" + agno + ", duracion=" + duracion + ", sinopsis=" + sinopsis
+				+ ", formato=" + formato + ", edicion=" + edicion + ", imagen=" + imagen + ", comentarios="
+				+ comentarios + "]";
+	}
+
 	@Column(name = "director")
 	@NotEmpty
 	private String	director;

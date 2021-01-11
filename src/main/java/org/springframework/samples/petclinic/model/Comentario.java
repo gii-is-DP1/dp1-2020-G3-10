@@ -27,7 +27,7 @@ public class Comentario extends BaseEntity {
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "cliente_id")
-	@NotNull
+	//@NotNull
 	@Valid
 	private Cliente cliente;
 	
@@ -44,8 +44,8 @@ public class Comentario extends BaseEntity {
 	
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return this.getTexto();
+		return "Comentario [titulo=" + titulo + ", texto=" + texto + ", cliente=" + cliente + ", pelicula=" + pelicula
+				+ ", videojuego=" + videojuego + "]";
 	}
 	
 	/*

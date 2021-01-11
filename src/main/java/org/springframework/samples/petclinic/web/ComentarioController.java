@@ -16,9 +16,12 @@ import org.springframework.samples.petclinic.service.ComentarioService;
 import org.springframework.samples.petclinic.service.PeliculaService;
 import org.springframework.samples.petclinic.service.ProductoService;
 import org.springframework.samples.petclinic.service.VideojuegoService;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -95,20 +98,99 @@ public class ComentarioController {
 		dataBinder.setDisallowedFields("id");
 	}
 	
-	
+	//Inicio el formulario de cliente crea comentario sobre una pelicula
 	@GetMapping(value = "/pelicula/{peliculaId}/new")
 	public String initCreationFormPelicula(@PathVariable("peliculaId") int peliculaId, Cliente cliente, ModelMap model) {
+		
 		Comentario comentario = new Comentario();
 		Pelicula pelicula = peliculaService.findPeliculaById(peliculaId);
 		comentario.setPelicula(pelicula);
 		comentario.setCliente(cliente);
+		
+		System.out.println(cliente);
+		System.out.println(pelicula);
+		
+		comentario.setTitulo("xxxx");
+		comentario.setTexto("xxxxx");
+		comentarioService.saveComment(comentario);
+
 		pelicula.addComment(comentario);
+		peliculaService.savePelicula(pelicula);
 		cliente.addComment(comentario);
+		clienteService.saveCliente(cliente);
+		
 		System.out.println(pelicula.getNombre());
 		System.out.println(cliente.getNombre());
+
 		model.put("comentario", comentario);
+		
 	    model.put("cliente", cliente);
+
 		return VIEWS_COMENTARIOS_CREATE_OR_UPDATE_FORM_P;
+	}
+	
+	//Procesa el comentario creado por un cliente sobre una película
+	@PostMapping(value = "/pelicula/{peliculaId}/new")
+	public String processCreationForm(@PathVariable("peliculaId") int peliculaId, @Valid Comentario comentario, BindingResult result, ModelMap model) {	
+		
+		System.out.println("===================================== 0 ===================================================");
+		
+		//Obtengo el cliente loggeado que quiere añadir el comentario
+//		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//		String username = ((UserDetails)principal).getUsername();
+//		Cliente cliente= this.clienteService.findClienteByUserName(username);
+		
+		Cliente cliente = this.clienteService.findClienteById(3);
+		
+		Pelicula pelicula = this.peliculaService.findPeliculaById(peliculaId);
+		
+		System.out.println(cliente);
+		System.out.println(pelicula);
+		System.out.println(comentario);
+		
+		System.out.println("===================================== 1 ===================================================");
+
+		if (result.hasErrors()) {
+
+			System.out.println(result.getAllErrors());
+		
+			model.addAttribute("comentario", comentario);
+			model.addAttribute("message", "El comentario no se ha podido crear");
+			System.out.println("===================================== ERROR ===================================================");
+			return VIEWS_COMENTARIOS_CREATE_OR_UPDATE_FORM_P;
+			
+
+		}
+		else {
+			//Se crea el comentario
+			comentario.setCliente(cliente);
+			comentario.setPelicula(pelicula);
+			this.comentarioService.saveComment(comentario);
+			
+			System.out.println("===================================== Creo comentario ===================================================");
+
+			
+			//Se vincula el comentario al cliente que lo escribió
+            cliente.addComment(comentario);
+            clienteService.saveCliente(cliente);
+            
+    		System.out.println("===================================== Vinculo Cliente ===================================================");
+
+            //Se vincula la pelicula con el comentario
+            pelicula.addComment(comentario);
+            peliculaService.savePelicula(pelicula);
+            
+    		System.out.println("===================================== Vinculo Pelicula ===================================================");
+
+            //Saco todos los comentarios del cliente -- Saco todos los comentarios de la pelicula y redirijo a la pagina de la pelicula para comprobar que se vean los comentarios
+            Iterable<Comentario> comentarios = comentarioService.findAll();
+            model.addAttribute("comentarios", comentarios);
+            model.addAttribute("message", "Comentario creado con exito");
+         
+    		System.out.println("===================================== PIJERIO ===================================================");
+
+            return "redirect:/comentarios/" + cliente.getId();
+		}
 	}
 	
 	@GetMapping(value = "/videojuego/{videojuegoId}/new")
@@ -125,26 +207,7 @@ public class ComentarioController {
 	}
 	
 	
-	@PostMapping(value = "/pelicula/{peliculaId}/new")
-	public String processCreationForm(Pelicula pelicula, Cliente cliente, @Valid Comentario comentario, BindingResult result, ModelMap model) {		
-		if (result.hasErrors()) {
-			System.out.println(result.getAllErrors());
-			model.addAttribute("comentario", comentario);
-			model.addAttribute("message", "El comentario no se ha podido crear");
-			return VIEWS_COMENTARIOS_CREATE_OR_UPDATE_FORM_P;
-		}
-		else {
-						comentario.setCliente(cliente);
-						this.comentarioService.saveComment(comentario);
-                    	cliente.addComment(comentario);
-                    	pelicula.addComment(comentario);
-                    	Iterable<Comentario> comentarios = comentarioService.findAll();
-                    	model.addAttribute("comentarios", comentarios);
-                    	model.addAttribute("message", "Comentario creado con exito");
-                    
-                    return "redirect:/comentarios/" + cliente.getId();
-		}
-	}
+	
 	
 	@PostMapping(value = "/videojuego/{videojuegoId}/new")
 	public String processCreationFormVideojuego(Videojuego videojuego, Cliente cliente, @Valid Comentario comentario, BindingResult result, ModelMap model) {
