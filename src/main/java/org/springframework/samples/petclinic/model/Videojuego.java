@@ -23,10 +23,6 @@ import lombok.Setter;
 @Table(name = "videojuegos")
 public class Videojuego extends Producto {
 
-
-	@NotEmpty
-	@Column(name = "descripcion")
-	private String	descripcion;
 	
 	@Column(name = "agno")
 	private Integer	agno;
@@ -35,9 +31,6 @@ public class Videojuego extends Producto {
 	@Column(name = "estudio")
 	private String	estudio;
 
-	@NotEmpty
-	@Column(name = "imagen")
-	private String imagen;
 	
 	@Column(name = "plataforma")
 	@Enumerated(EnumType.STRING)

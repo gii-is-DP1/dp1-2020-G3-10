@@ -20,6 +20,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.time.LocalDate;
+
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -63,8 +66,9 @@ class PeliculaControllerTests {
 		pelicula.setEdicion(2);
 		pelicula.setFormato(Formato.DVD);
 		pelicula.setImagen("https://static.filmin.es/images/media/23729/2/poster_0_3_720x0.webp");
-		pelicula.setSinopsis(
+		pelicula.setDescripcion(
 				"Ganadora del Premio del Público Joven de los Premios EFA, una historia vitalista y con carisma sobre una joven luchadora de kickboxing.");
+		pelicula.setFechaSalida(LocalDate.now());
 		given(this.peliculaService.findPeliculaById(TEST_PELICULA_ID)).willReturn(pelicula);
 
 	}
@@ -117,29 +121,37 @@ class PeliculaControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessCreationFormPeliculaSuccess() throws Exception {
-
-		this.mockMvc.perform(post("/peliculas/new", pelicula).with(csrf()).param("nombre", "nombrePelicula")
-				.param("precio", "12").param("agno", "2012").param("director", "director de la pelicula")
-				.param("duracion", "2").param("edicion", "3").param("formato", "DVD")
+		this.mockMvc.perform(post("/peliculas/new", pelicula).with(csrf())
+				.param("descripcion", "descripcion de la pelicula")
+				.param("fechaSalida", "2009/09/09")
 				.param("imagen", "https://static.filmin.es/images/media/31442/1/poster_0_3_720x0.webp")
-				.param("sinopsis", "descripcion de la pelicula")).andExpect(status().is3xxRedirection());
+				.param("nombre", "nombrePelicula")
+				.param("precio", "12")
+				.param("agno", "2012")
+				.param("director", "director de la pelicula")
+				.param("duracion", "2")
+				.param("edicion", "3")
+				.param("formato", "DVD")).andExpect(status().is3xxRedirection());
 
 	}
-
 	// POST /peliculas/edit/{peliculaId}
-	@WithMockUser(value = "spring")
-	@Test
-	void testProcessEditFormPeliculaSuccess() throws Exception {
-		this.mockMvc
-				.perform(MockMvcRequestBuilders.post("/peliculas/edit/{peliculaId}", TEST_PELICULA_ID)
-						.param("nombre", "nombrePelicula").with(csrf()).param("precio", "12").param("agno", "2012")
-						.param("director", "director de la pelicula").param("duracion", "2").param("edicion", "3")
-						.param("formato", "DVD")
-						.param("imagen", "https://static.filmin.es/images/media/31442/1/poster_0_3_720x0.webp")
-						.param("sinopsis", "descripcion de la pelicula"))
-				.andExpect(status().is3xxRedirection())
-				.andExpect(view().name("redirect:/peliculas/" + TEST_PELICULA_ID));
+			@WithMockUser(value = "spring")
+			@Test
+			void testProcessEditFormPeliculaSuccess() throws Exception {
+				this.mockMvc
+						.perform(MockMvcRequestBuilders.post("/peliculas/edit/{peliculaId}", TEST_PELICULA_ID)
+								.param("descripcion", "descripcion de la pelicula")
+								.param("nombre", "nombrePelicula").with(csrf()).param("precio", "12").param("agno", "2012")
+								.param("director", "director de la pelicula").param("duracion", "2").param("edicion", "3")
+								.param("formato", "DVD")
+								.param("imagen", "https://static.filmin.es/images/media/31442/1/poster_0_3_720x0.webp")
+								.param("fechaSalida", "2009/09/09"))
+						.andExpect(status().is3xxRedirection())
+						.andExpect(view().name("redirect:/peliculas/" + TEST_PELICULA_ID));
 
-	}
+			}
+
+	
+	
 
 }

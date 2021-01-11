@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -41,12 +42,13 @@ class PeliculaServiceTests {
 		pelicula.setNombre("pelicula1");
 		pelicula.setPrecio(12.50);
 		pelicula.setAgno(2023);
+		pelicula.setFechaSalida(LocalDate.now());
 		pelicula.setDirector("director");
 		pelicula.setDuracion(2.5);
 		pelicula.setEdicion(2);
 		pelicula.setFormato(Formato.DVD);
 		pelicula.setImagen("https://static.filmin.es/images/media/23729/2/poster_0_3_720x0.webp");
-		pelicula.setSinopsis("Ganadora del Premio del Público Joven de los Premios EFA, una historia vitalista y con carisma sobre una joven luchadora de kickboxing.");
+		pelicula.setDescripcion("Ganadora del Premio del Público Joven de los Premios EFA, una historia vitalista y con carisma sobre una joven luchadora de kickboxing.");
 		
 		
 		this.peliculaService.savePelicula(pelicula);
