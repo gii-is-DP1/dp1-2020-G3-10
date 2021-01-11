@@ -26,6 +26,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import java.time.LocalDate;
+
 /**
  * Test class for {@link VideojuegoController}
  *
@@ -56,9 +58,11 @@ class VideojuegoControllerTest {
 		videojuego.setNombre("videojuego1");
 		videojuego.setPrecio(12.6);
 		videojuego.setAgno(2018);
+		videojuego.setFechaSalida(LocalDate.now());
 		videojuego.setDescripcion("descripcion del videojuego");
-		videojuego.setEstudio("estudio");
+		videojuego.setEstudio("film SA");
 		videojuego.setPlataforma(Plataforma.PS4);
+		videojuego.setImagen("https://media.game.es/COVERV2/3D_L/182/182836.png");
 		given(this.videojuegoService.findVideojuegoById(TEST_VIDEOJUEGO_ID)).willReturn(videojuego);
 	}
 
@@ -105,7 +109,7 @@ class VideojuegoControllerTest {
 
 		this.mockMvc.perform(post("/videojuegos/new", videojuego).with(csrf()).param("nombre", "JUST DANCE 2021")
 				.param("precio", "49.95").param("agno", "2012").param("descripcion", "Vuelve el juego que te convierte en una estrella")
-				.param("estudio", "estudio").param("imagen", "https://media.game.es/COVERV2/3D_L/182/182836.png	").param("plataforma", "PS4")).andExpect(status().is3xxRedirection());
+				.param("estudio", "estudio").param("fechaSalida", "2021/09/09").param("imagen", "https://media.game.es/COVERV2/3D_L/182/182836.png	").param("plataforma", "PS4")).andExpect(status().is3xxRedirection());
 
 	}
 
@@ -127,7 +131,7 @@ class VideojuegoControllerTest {
 					.perform(MockMvcRequestBuilders.post("/videojuegos/edit/{videojuegoId}", TEST_VIDEOJUEGO_ID).param("nombre", "JUST DANCE 2021")
 							.with(csrf())
 							.param("precio", "49.95").param("agno", "2012").param("descripcion", "Vuelve el juego que te convierte en una estrella")
-							.param("estudio", "estudio").param("imagen", "https://media.game.es/COVERV2/3D_L/182/182836.png	").param("plataforma", "PS4"))
+							.param("estudio", "estudio").param("fechaSalida", "2021/09/09").param("imagen", "https://media.game.es/COVERV2/3D_L/182/182836.png	").param("plataforma", "PS4"))
 					.andExpect(status().is3xxRedirection())
 					.andExpect(view().name("redirect:/videojuegos/" + TEST_VIDEOJUEGO_ID));
 
