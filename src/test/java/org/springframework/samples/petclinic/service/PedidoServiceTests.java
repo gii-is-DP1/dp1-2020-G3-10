@@ -143,7 +143,7 @@ public class PedidoServiceTests {
 		
 		pedidoService.añadirProductoCarrito(3, "marta", "PELICULA");
 		Pedido cambiado =  pedidoRepository.findById(1).get();
-		System.out.println("PEDIDOOOOOOOOOOOOOOOOOOOOOOOOOOOOO CAMBIADOOOOOOOOOOOOOOOOOOOOOOOOOO: " + pedido.getPeliculas());
+		System.out.println("PEDIDOOOOOOOOOOOOOOOOOOOOOOOOOOOOO CAMBIADOOOOOOOOOOOOOOOOOOOOOOOOOO: " + cambiado.getPeliculas());
 	}
 
 

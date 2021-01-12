@@ -57,13 +57,5 @@ public class Pedido extends BaseEntity {
 	@OneToMany
 	private Collection<@Valid Merchandasing>	merchandasings;
 	
-	/*
-	@NotEmpty
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "vendedor_id")
-	@Valid
-	private Vendedor					vendedor;
-	*/
-	
 
 }
