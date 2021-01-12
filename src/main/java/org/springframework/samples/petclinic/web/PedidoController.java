@@ -8,12 +8,18 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Cliente;
+import org.springframework.samples.petclinic.model.EstadoPedido;
 import org.springframework.samples.petclinic.model.Pedido;
 import org.springframework.samples.petclinic.model.Producto;
 import org.springframework.samples.petclinic.service.MerchandasingService;
 import org.springframework.samples.petclinic.service.PedidoService;
 import org.springframework.samples.petclinic.service.PeliculaService;
+import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.samples.petclinic.service.VideojuegoService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -34,10 +40,13 @@ public class PedidoController {
 	private MerchandasingService merchandasingService;
 	@Autowired
 	private PeliculaService peliculaService;
-	
-	private List<Producto> carrito = new ArrayList<>();
+	@Autowired
+	private UserService userService;
 
-
+	/*
+	 * @GetMapping public boolean esMiPedido(@AuthenticationPrincipal User user,
+	 * Pedido pedido) { return pedido.getCliente().getUser() == user; }
+	 */
 	@GetMapping
 	public String listadoPedidos(final ModelMap modelMap) {
 		String vista = "pedidos/listadoPedidos";
@@ -52,11 +61,14 @@ public class PedidoController {
 	@GetMapping(path = "/new")
 	public String crearPedido(final ModelMap modelMap) {
 
-		String view = "pedidos/editPedido";
+		String vista = "pedidos/editPedido";
+
+		Pedido pedido = new Pedido();
+		pedido.setEstado(EstadoPedido.CARRITO);
 
 		modelMap.addAttribute("pedido", new Pedido());
 
-		return view;
+		return vista;
 
 	}
 
@@ -68,72 +80,75 @@ public class PedidoController {
 			return "pedidos/editPedido";
 		} else {
 			this.pedidoService.save(pedido);
-			modelMap.addAttribute("message", "Pedido guardo correctamente");
+			// modelMap.addAttribute("message", "Pedido guardado"); do correctamente");
 			vista = this.listadoPedidos(modelMap);
 		}
 
 		return vista;
-
 	}
+
 	@GetMapping(path = "/delete/{pedidoId}")
 	public String borrarPedido(@PathVariable("pedidoId") final int pedidoId, final ModelMap modelMap) {
 
 		String vista = "pedidos/listadoPedidos";
 
-		Optional<Pedido> pedido = this.pedidoService.findPedidoById(pedidoId);
-
-		if (pedido.isPresent()) {
-
-			this.pedidoService.delete(pedido.get());
-			modelMap.addAttribute("message", "Se ha borrado su pedido");
-			vista = this.listadoPedidos(modelMap);
-		} else {
-
-			modelMap.addAttribute("message", "No se ha encontrado su pedido");
-			vista = this.listadoPedidos(modelMap);
-
+		try {
+			pedidoService.delete(pedidoId);
+			modelMap.addAttribute("message", "El pedido se ha borrado satisfactoriamente.");
+		} catch (Exception e) {
+			modelMap.addAttribute("message", "El pedido no ha podido borrarse");
 		}
 
 		return vista;
 	}
-	
+
 	@GetMapping(path = "/addCarrito/{productoId}/{tipo}")
 	public String añadirACarrito(@PathVariable("productoId") final int productoId, @PathVariable("tipo") final String tipo, final ModelMap modelMap) {
 
-		String vista = "/";
+		String vista = "cesta/cestaCompra";
 		
-		Producto producto = null ;
+//		switch(tipo) {
+//			case "PELICULA":
+//				producto = peliculaService.findPeliculaById(productoId);
+//			case "VIDEOJUEGO":
+//				producto = videojuegoService.findVideojuegoById(productoId);
+//			default:
+//				producto = merchandasingService.findMerchandasingById(productoId);
+//		}
 		
-		switch(tipo) {
-			case "PELICULA":
-				producto = peliculaService.findPeliculaById(productoId);
-			case "VIDEOJUEGO":
-				producto = videojuegoService.findVideojuegoById(productoId);
-			default:
-				producto = merchandasingService.findMerchandasingById(productoId);
-		}
-		
-		//carrito.add(producto);
-		
-		//System.out.println("CARRITO PRUEBA: "+carrito);
-		System.out.println("TIPO PRODUCTO: "+ tipo + "IDENTIFICACION: "+productoId);
-		
-		//nuevoProducto.getClass().getSimpleName()
-		//Optional<Pedido> pedido = this.pedidoService.findPedidoById(pedidoId);
+	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    UserDetails userDetail = (UserDetails) auth.getPrincipal();
+	    String usuario = userDetail.getUsername();
+	    String view ="cesta/cestaCompra";
 
+	    if(auth.getPrincipal() == "anonymousUser") {
+	            modelMap.addAttribute("mensaje", "¡Debes estar registrado para añadir al carrito!");
+	    }else {
+	    	/*
+	            LineaPedido lineaPedido = new LineaPedido();
+	            lineaPedido.setCantidad(1);
+	            lineaPedido.setPelicula(p);
+
+	            model.addAttribute("mensaje", "¡Producto añadido!");
+	            modelo.put("linea", lineaPedido);
+	            modelo.put("producto", p);
+	            modelo.put("usuario", cliente);
+	            */
+	    	modelMap.addAttribute("mensaje", "Pedido Creado");
+	    //	pedidoService.crearPedido(productoId, usuario, tipo);
+	    }
 		return vista;
 	}
-	
+
 	@GetMapping(path = "/carrito")
 	public String listCarrito(final ModelMap modelMap) {
 
-		String vista = "/";
-		
-		//System.out.println("CARRITO PRUEBA: "+carrito);
-		System.out.println("LLEGA AL CARRITO");
-		
+		String vista = "/pedidos/carrito";
+
+		System.out.println("CARRITO PRUEBA: ");
+
 		return vista;
-		
+
 	}
 
 }

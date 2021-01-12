@@ -55,19 +55,12 @@ public class Pelicula extends Producto {
 	}
 	
     /*
-	 
-	@OneToMany (mappedBy = "pelicula")
-	private Collection<@Valid Comentario>	comentarios;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "vendedor_id")
 	@Valid
 	private Vendedor vendedor;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "pedido_id")
-	@Valid
-	private Pedido pedido;
+
 	
 	*/
 	
