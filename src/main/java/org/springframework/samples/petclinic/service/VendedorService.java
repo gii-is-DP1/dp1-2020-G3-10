@@ -71,4 +71,26 @@ public class VendedorService {
 		this.vendedorRepository.deleteById(id);
 	}
 
+	@Transactional(readOnly = true)
+	public Vendedor findVendedorByUserName(final String username) throws DataAccessException {
+
+		Iterable<Vendedor> vendedores = this.vendedorRepository.findAll();
+
+		Vendedor vendedor = null;
+
+		System.out.println("AUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII 2,5");
+
+		for (Vendedor c : vendedores) {
+
+			if (c.getUser().getUsername().equals(username)) {
+
+				vendedor = c;
+			}
+
+		}
+		System.out.println("AUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII 2.8" + vendedor.getId());
+
+		return vendedor;
+	}
+
 }

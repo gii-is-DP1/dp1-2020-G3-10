@@ -95,7 +95,19 @@
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
 					<li><a href="<c:url value="#" />">Mis Pedidos</a></li>
+					
+					<sec:authorize access="hasAuthority('vendedor')">
+					
+					<li><a href="<c:url value="/vendedores/miPerfil" />">Mi Perfil</a></li>
+					
+					</sec:authorize>
+					
+					<sec:authorize access="hasAuthority('cliente')">
+					
 					<li><a href="<c:url value="/clientes/miPerfil" />">Mi Perfil</a></li>
+					
+					</sec:authorize>
+					
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span>ï¿½
 							<strong><sec:authentication property="name" /></strong> <span
@@ -116,7 +128,7 @@
 											</p>
 											<p class="text-left">
 												<a href="<c:url value="/logout" />"
-													class="btn btn-primary btn-block btn-sm">Cerrar Sesi�n</a>
+													class="btn btn-primary btn-block btn-sm">Cerrar Sesi�n</a>
 											</p>
 										</div>
 									</div>
@@ -131,16 +143,9 @@
 											<p>
 												<a href="#" class="btn btn-primary btn-block">Mi Perfil</a>
 												
-												<%-- <spring:url value="/vendedores/{vendedorId}" var="vendedorUrl">
-                                                <spring:param name="vendedorId" value="${vendedor.id}"/>
-                                                </spring:url>
-												<a href="${fn:escapeXml(vendedorUrl)}" class="btn btn-danger btn-block">Perfil</a> 
-												  
-												  Para ver perfil???--%>
-												
-												
+																			
 												<a href="#" class="btn btn-danger btn-block">Cambiar
-													Contrase�a</a>
+													Contrasena</a>
 											</p>
 										</div>
 									</div>

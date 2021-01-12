@@ -7,7 +7,10 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Vendedor;
+import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.samples.petclinic.service.VendedorService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -25,6 +28,8 @@ public class VendedorController {
 
 	@Autowired
 	private VendedorService		vendedorService;
+
+	private UserService			userService;
 
 
 	@GetMapping
@@ -119,8 +124,6 @@ public class VendedorController {
 	@PostMapping(value = "/{vendedorId}/edit")
 	public String processUpdateVendedorForm(@Valid final Vendedor vendedor, final BindingResult result, @PathVariable("vendedorId") final int vendedorId, final ModelMap mp) {
 
-		System.out.print("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee    edit ");
-
 		if (result.hasErrors()) {
 
 			mp.addAttribute("vendedor", vendedor);
@@ -128,18 +131,45 @@ public class VendedorController {
 			return VendedorController.VIEWS_VENDEDOR_CREATE_OR_UPDATE_FORM;
 		} else {
 
-			System.out.print("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee    2 ");
-
 			vendedor.setId(vendedorId);
-
-			System.out.print("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee    2,5 ");
 
 			this.vendedorService.save(vendedor);
 
-			System.out.print("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee    3 ");
-
 			return "redirect:/vendedores/{vendedorId}";
 		}
+	}
+
+	//Redirigir a detalles de vendedor sin conocer su id
+	@GetMapping("/miPerfil")
+	public String showVendedor(final ModelMap mp) {
+
+		String vista;
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+		System.out.println("nombreeeeeeee " + auth.getName());
+
+		String user = auth.getName();                        //pillamos el nombre del user por el oauth
+
+		Vendedor vendedor = this.vendedorService.findVendedorByUserName(user);  //pillamos el vendedor
+
+		if (vendedor == null) {
+
+			SecurityContextHolder.clearContext();
+			vista = "redirect:/login";
+			mp.addAttribute("message", "El usuario debe volver a loggear para actualizar los cambios");
+
+		} else {
+
+			mp.addAttribute("vendedor", vendedor);
+
+			System.out.println("AUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII" + vendedor.getId());
+
+			vista = "redirect:/vendedores/" + vendedor.getId();
+
+		}
+
+		return vista;
 	}
 
 }
