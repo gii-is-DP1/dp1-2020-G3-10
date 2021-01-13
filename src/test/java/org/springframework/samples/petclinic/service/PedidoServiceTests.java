@@ -3,9 +3,11 @@ package org.springframework.samples.petclinic.service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.util.Arrays;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ import org.springframework.samples.petclinic.model.Pelicula;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.repository.ClienteRepository;
 import org.springframework.samples.petclinic.repository.PedidoRepository;
+import org.springframework.samples.petclinic.repository.PeliculaRepository;
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
@@ -28,13 +31,14 @@ public class PedidoServiceTests {
 	@Autowired
 	private PedidoRepository pedidoRepository;
 	@Autowired
-	private ClienteService clienteService;
-	@Autowired
 	private PeliculaService peliculaService;
 	@Autowired
 	private UserService userService;
 	@Autowired
 	private ClienteRepository clienteRepository;
+	@Autowired
+	private PeliculaRepository peliculaRepository;
+
 	
 	public Pedido getDummyPedido1() {
 		List<Pelicula> productos = new ArrayList<>();
@@ -131,7 +135,11 @@ public class PedidoServiceTests {
 		
 		Pedido p = this.getDummyPedido1();
 		p.setCliente(cliente);
+		Collection<Pedido> nuevos = new ArrayList<>();
+		nuevos.add(p);
+		cliente.setPedidos(nuevos);
 		pedidoRepository.save(p);
+		clienteRepository.save(cliente);
 		Pedido pedido = pedidoRepository.findById(1).get();
 		System.out.println("PEDIDOOOOOOOOOOOOOOOOOOOOOOOOOOOOO: " + pedido.getPeliculas());
 		
@@ -144,6 +152,81 @@ public class PedidoServiceTests {
 		pedidoService.añadirProductoCarrito(3, "marta", "PELICULA");
 		Pedido cambiado =  pedidoRepository.findById(1).get();
 		System.out.println("PEDIDOOOOOOOOOOOOOOOOOOOOOOOOOOOOO CAMBIADOOOOOOOOOOOOOOOOOOOOOOOOOO: " + cambiado.getPeliculas());
+	}
+	
+	@Test
+	void actualizaCarritoSuccess() {
+		
+		///// CREAR CLIENTE
+		
+		User user = userService.findUser("marta").get();
+		Cliente cliente = new Cliente();
+		cliente.setUser(user);
+		cliente.setApellidos("prueba");
+		cliente.setCartera(10.0);
+		cliente.setCiudad("Sevilla");
+		cliente.setCodigoPostal("10400");
+		cliente.setDireccion("prueba");
+		cliente.setTarjetaCredito("100000000");
+		cliente.setFechaNacimiento(LocalDate.of(2020, 5, 12));
+		cliente.setDni("12345678X");
+		cliente.setNombre("nombre prueba");
+		cliente.setTelefono("123456789");
+		cliente.setEmail("email@email.es");
+		
+		/// CREAR PEDIDO
+		
+		Pedido pedido = this.getDummyPedido1();
+		pedido.setCliente(cliente);
+		
+		Collection<Pedido> nuevosPedidos = new ArrayList<>();
+		nuevosPedidos.add(pedido);
+		
+		/// GUARDAR PEDIDO Y CLIENTE
+		
+		cliente.setPedidos(nuevosPedidos);
+		pedidoRepository.save(pedido);
+		clienteRepository.save(cliente);
+		
+		///// PROBAR CARRITO
+		
+		pedidoService.añadirProductoCarrito(3, "marta", "PELICULA");
+		
+		Pedido cambiado =  pedidoRepository.findById(1).get();
+		
+		Assert.assertTrue(cambiado.getPeliculas().contains(peliculaRepository.findById(3)));
+	}
+	
+	@Test
+	void creaPedidoCarritoSuccess() {
+		
+		///// CREAR CLIENTE
+		
+		User user = userService.findUser("marta").get();
+		Cliente cliente = new Cliente();
+		cliente.setUser(user);
+		cliente.setApellidos("prueba");
+		cliente.setCartera(10.0);
+		cliente.setPedidos(null);
+		cliente.setCiudad("Sevilla");
+		cliente.setCodigoPostal("10400");
+		cliente.setDireccion("prueba");
+		cliente.setTarjetaCredito("100000000");
+		cliente.setFechaNacimiento(LocalDate.of(2020, 5, 12));
+		cliente.setDni("12345678X");
+		cliente.setNombre("nombre prueba");
+		cliente.setTelefono("123456789");
+		cliente.setEmail("email@email.es");
+		
+		clienteRepository.save(cliente);
+		
+		///// PROBAR CARRITO
+		
+		pedidoService.añadirProductoCarrito(3, "marta", "PELICULA");
+		
+		Pedido cambiado =  pedidoRepository.findById(1).get();
+		
+		Assert.assertTrue(cambiado.getPeliculas().contains(peliculaRepository.findById(3)));
 	}
 
 

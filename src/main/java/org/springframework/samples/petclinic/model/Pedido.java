@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -28,23 +29,19 @@ import lombok.Setter;
 @Table(name = "pedido")
 public class Pedido extends BaseEntity {
 
-	//@NotEmpty         para evitar que pete al crear uno
+    @NotNull
 	private EstadoPedido	estado;
 
-	//@NotEmpty
 	@Column(name = "precio_total")
 	private Double			precioTotal;
 
-	//@NotEmpty
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	@Column(name = "fecha")
 	private LocalDate		fecha;
 
-	@NotEmpty
 	@Column(name = "direccion_envio")
 	private String			direccionEnvio;
 	
-	@NotEmpty
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "cliente_id")
 	@Valid

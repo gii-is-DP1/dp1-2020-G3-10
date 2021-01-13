@@ -72,39 +72,45 @@ public class PedidoService {
 	
 	@Transactional
 	public void añadirProductoCarrito(int productoId, String usuario, String tipo) {
+		
 		Pedido pedido = null;
-		Cliente cliente = clienteRepository.findByUsername(usuario) ;
+		Cliente cliente = clienteRepository.findByUsername(usuario);
 		
 		Collection<Pedido> pedidos = cliente.getPedidos();
-		for(Pedido p:pedidos) {
-			if(p.getEstado() == EstadoPedido.CARRITO) {
+		
+		System.out.println("PRUEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA: "+pedidos==null);
+		
+		if(pedidos != null) {
+			for (Pedido p : pedidos) {
+				if (p.getEstado() == EstadoPedido.CARRITO) {
 
-				switch(tipo) {
-				case "PELICULA":
-					Collection<Pelicula> peliculas = p.getPeliculas();
-					Pelicula pelicula = peliculaService.findPeliculaById(productoId);
-					peliculas.add(pelicula);
-					p.setPrecioTotal(p.getPrecioTotal() + pelicula.getPrecio());
-					p.setPeliculas(peliculas);
-					break;
-				case "VIDEOJUEGO":
-					Collection<Videojuego> videojuegos = p.getVideojuegos();
-					Videojuego videojuego = videojuegoService.findVideojuegoById(productoId);
-					videojuegos.add(videojuego);
-					p.setPrecioTotal(p.getPrecioTotal() + videojuego.getPrecio());
-					p.setVideojuegos(videojuegos);
-					break;
-				case "MERCHANDASING":
-					Collection<Merchandasing> merchandasings = p.getMerchandasings();
-					Merchandasing merchandasing = merchandasingService.findMerchandasingById(productoId);
-					merchandasings.add(merchandasing);
-					p.setMerchandasings(merchandasings);
-					p.setPrecioTotal(p.getPrecioTotal() + merchandasing.getPrecio());
-					break;
-				default:
-					throw new IllegalArgumentException("El tipo no es correcto");
+					switch (tipo) {
+					case "PELICULA":
+						Collection<Pelicula> peliculas = p.getPeliculas();
+						Pelicula pelicula = peliculaService.findPeliculaById(productoId);
+						peliculas.add(pelicula);
+						p.setPrecioTotal(p.getPrecioTotal() + pelicula.getPrecio());
+						p.setPeliculas(peliculas);
+						break;
+					case "VIDEOJUEGO":
+						Collection<Videojuego> videojuegos = p.getVideojuegos();
+						Videojuego videojuego = videojuegoService.findVideojuegoById(productoId);
+						videojuegos.add(videojuego);
+						p.setPrecioTotal(p.getPrecioTotal() + videojuego.getPrecio());
+						p.setVideojuegos(videojuegos);
+						break;
+					case "MERCHANDASING":
+						Collection<Merchandasing> merchandasings = p.getMerchandasings();
+						Merchandasing merchandasing = merchandasingService.findMerchandasingById(productoId);
+						merchandasings.add(merchandasing);
+						p.setMerchandasings(merchandasings);
+						p.setPrecioTotal(p.getPrecioTotal() + merchandasing.getPrecio());
+						break;
+					default:
+						throw new IllegalArgumentException("El tipo no es correcto");
+					}
+					pedido = p;
 				}
-				pedido = p;
 			}
 		}
 		
@@ -134,6 +140,10 @@ public class PedidoService {
 		}
 		
 		pedidoRepository.save(pedido);
+		Collection<Pedido> actualPedidos = cliente.getPedidos();
+		actualPedidos.add(pedido);
+		cliente.setPedidos(actualPedidos);
+		clienteRepository.save(cliente);
 	}
 	
 
