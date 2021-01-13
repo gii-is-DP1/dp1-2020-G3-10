@@ -45,28 +45,28 @@ public class CestaController {
 //	}
 
 	@GetMapping(path = "/peliculas/{peliculaId}/addCesta")
-	public String añadirCarrito(@PathVariable("peliculaId") int peliculaId, ModelMap model, Map<String, Object> modelo) {
+	public String añadirCarrito(@PathVariable("peliculaId") int peliculaId, ModelMap model,
+			Map<String, Object> modelo) {
 		Pelicula p = this.peliculaService.findPeliculaById(peliculaId);
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userDetail = (UserDetails) auth.getPrincipal();
 		String cliente = userDetail.getUsername();
-		String view ="cesta/cestaCompra";
-		
-		if(auth.getPrincipal() == "anonymousUser") {
+		String view = "cesta/cestaCompra";
+
+		if (auth.getPrincipal() == "anonymousUser") {
 			model.addAttribute("mensaje", "¡Debes estar registrado para añadir al carrito!");
-		}else {
+		} else {
 			LineaPedido lineaPedido = new LineaPedido();
 			lineaPedido.setCantidad(1);
-			lineaPedido.setPelicula(p);
-			
+			//lineaPedido.setPelicula(p);
+
 			model.addAttribute("mensaje", "¡Producto añadido!");
 			modelo.put("linea", lineaPedido);
 			modelo.put("producto", p);
 			modelo.put("usuario", cliente);
 		}
 		return view;
-		
+
 	}
-	
 
 }

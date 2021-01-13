@@ -8,6 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@Entity
 public class LineaPedido extends BaseEntity {
 	
 	
@@ -20,35 +21,37 @@ public class LineaPedido extends BaseEntity {
 	
 	private Integer idCliente;
 	
-	
-	private Pelicula pelicula;
-	
-
-	private Videojuego videojuego;
+	private Pedido pedido;
 	
 	
-	private Merchandasing merchandising;
+	//private Pelicula pelicula;
+	
 
-	public LineaPedido(Integer cantidad, Integer idCliente, Pelicula pelicula) {
-		super();
-		this.cantidad = cantidad;
-		this.idCliente = idCliente;
-		this.pelicula = pelicula;
-	}
+	//private Videojuego videojuego;
+	
+	
+	//private Merchandasing merchandising;
 
-	public LineaPedido(Integer cantidad, Integer idCliente, Videojuego videojuego) {
-		super();
-		this.cantidad = cantidad;
-		this.idCliente = idCliente;
-		this.videojuego = videojuego;
-	}
-
-	public LineaPedido(Integer cantidad, Integer idCliente, Merchandasing merchandising) {
-		super();
-		this.cantidad = cantidad;
-		this.idCliente = idCliente;
-		this.merchandising = merchandising;
-	}
+//	public LineaPedido(Integer cantidad, Integer idCliente, Pelicula pelicula) {
+//		super();
+//		this.cantidad = cantidad;
+//		this.idCliente = idCliente;
+//		this.pelicula = pelicula;
+//	}
+//
+//	public LineaPedido(Integer cantidad, Integer idCliente, Videojuego videojuego) {
+//		super();
+//		this.cantidad = cantidad;
+//		this.idCliente = idCliente;
+//		this.videojuego = videojuego;
+//	}
+//
+//	public LineaPedido(Integer cantidad, Integer idCliente, Merchandasing merchandising) {
+//		super();
+//		this.cantidad = cantidad;
+//		this.idCliente = idCliente;
+//		this.merchandising = merchandising;
+//	}
 	
 	
 	
