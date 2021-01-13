@@ -84,14 +84,14 @@ public class Cliente extends Persona {
 	
 	@OneToMany(mappedBy = "cliente")
 	private Collection<@Valid Comentario>	comentarios;
-
+/*
 	@Override
 	public String toString() {
 		return "Cliente [ciudad=" + ciudad + ", codigoPostal=" + codigoPostal + ", direccion=" + direccion
 				+ ", tarjetaCredito=" + tarjetaCredito + ", cartera=" + cartera + ", user=" + user + ", reproductores="
 				+ reproductores + "]";
 	}
-	
+*/	
 	public void addComment(Comentario comentario) {
 		getComentarios().add(comentario);
 		comentario.setCliente(this);

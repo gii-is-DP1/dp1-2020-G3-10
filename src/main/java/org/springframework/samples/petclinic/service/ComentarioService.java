@@ -31,6 +31,25 @@ private ComentarioRepository comentarioRepository;
 	
 	@Transactional 
 	public void saveComment(Comentario comentario) {
+		/*
+		comentario.setCliente(clienteService.findClienteById(comentario.getCliente().getId()));
+		comentario.setPelicula(peliculaService.findPeliculaById(comentario.getPelicula().getId()));
+		
+		Cliente cliente = comentario.getCliente();
+		Collection<Comentario> comentariosCliente = cliente.getComentarios();
+		comentariosCliente.add(comentario);
+		cliente.setComentarios(comentariosCliente);
+		
+		Pelicula pelicula = comentario.getPelicula();
+		Collection<Comentario> comentariosPelicula = pelicula.getComentarios();
+		comentariosPelicula.add(comentario);
+		pelicula.setComentarios(comentariosPelicula);
+		
+    	
+    	this.comentarioRepository.save(comentario);
+    	this.clienteService.saveCliente(cliente);
+    	this.peliculaService.savePelicula(pelicula);
+    	*/
 		comentarioRepository.save(comentario);
 	}
 	

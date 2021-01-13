@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.web;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -98,16 +99,17 @@ public class ComentarioController {
 	
 	@GetMapping(value = "/pelicula/{peliculaId}/new")
 	public String initCreationFormPelicula(@PathVariable("peliculaId") int peliculaId, Cliente cliente, ModelMap model) {
+		
 		Comentario comentario = new Comentario(cliente);
 		Pelicula pelicula = peliculaService.findPeliculaById(peliculaId);
 		comentario.setPelicula(pelicula);
 		comentario.setCliente(cliente);
+		
 		pelicula.addComment(comentario);
 		cliente.addComment(comentario);
-		System.out.println(pelicula.getNombre());
-		System.out.println(cliente.getNombre());
+		
 		model.put("comentario", comentario);
-	    model.put("cliente", cliente);
+	 	    
 		return VIEWS_COMENTARIOS_CREATE_OR_UPDATE_FORM_P;
 	}
 	
@@ -126,7 +128,10 @@ public class ComentarioController {
 	
 	
 	@PostMapping(value = "/pelicula/{peliculaId}/new")
-	public String processCreationForm(Pelicula pelicula, Cliente cliente, @Valid Comentario comentario, BindingResult result, ModelMap model) {		
+	public String processCreationForm(Comentario comentario, BindingResult result, ModelMap model) {	
+		
+		System.out.println("ENTRA POSTTTTTTTTTTTTT: " + comentario.getCliente().getId() );
+		System.out.println("ENTRA POSTTTTTTTTTTTTT: " + comentario.getPelicula().getId() );
 		if (result.hasErrors()) {
 			System.out.println(result.getAllErrors());
 			model.addAttribute("comentario", comentario);
@@ -134,18 +139,31 @@ public class ComentarioController {
 			return VIEWS_COMENTARIOS_CREATE_OR_UPDATE_FORM_P;
 		}
 		else {
-						comentario.setCliente(cliente);
-						comentario.setPelicula(pelicula);
-						this.comentarioService.saveComment(comentario);
-                    	cliente.addComment(comentario);
-                    	pelicula.addComment(comentario);
+			
+						comentario.setCliente(clienteService.findClienteById(comentario.getCliente().getId()));
+						comentario.setPelicula(peliculaService.findPeliculaById(comentario.getPelicula().getId()));
+						
+						Cliente cliente = comentario.getCliente();
+						Collection<Comentario> comentariosCliente = cliente.getComentarios();
+						comentariosCliente.add(comentario);
+						cliente.setComentarios(comentariosCliente);
+						
+						Pelicula pelicula = comentario.getPelicula();
+						Collection<Comentario> comentariosPelicula = pelicula.getComentarios();
+						comentariosPelicula.add(comentario);
+						pelicula.setComentarios(comentariosPelicula);
+						
+                    	
+                    	this.comentarioService.saveComment(comentario);
                     	this.clienteService.saveCliente(cliente);
                     	this.peliculaService.savePelicula(pelicula);
                     	Iterable<Comentario> comentarios = comentarioService.findAll();
                     	model.addAttribute("comentarios", comentarios);
                     	model.addAttribute("message", "Comentario creado con exito");
+                    	
+			System.out.println("ENTRA ELSEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
                     
-                    return "redirect:/comentarios/" + cliente.getId();
+                    return "redirect:/" ;
 		}
 	}
 	
