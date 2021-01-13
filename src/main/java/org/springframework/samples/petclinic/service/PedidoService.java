@@ -1,6 +1,7 @@
 
 package org.springframework.samples.petclinic.service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -73,15 +74,15 @@ public class PedidoService {
 	@Transactional
 	public void añadirProductoCarrito(int productoId, String usuario, String tipo) {
 		
-		Pedido pedido = null;
+		Pedido pedido = new Pedido();
 		Cliente cliente = clienteRepository.findByUsername(usuario);
 		
-		Collection<Pedido> pedidos = cliente.getPedidos();
+		Collection<Pedido> pedidosCliente = cliente.getPedidos();
 		
-		System.out.println("PRUEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA: "+pedidos==null);
+		System.out.println();
 		
-		if(pedidos != null) {
-			for (Pedido p : pedidos) {
+		if(pedidosCliente != null) {
+			for (Pedido p : pedidosCliente) {
 				if (p.getEstado() == EstadoPedido.CARRITO) {
 
 					switch (tipo) {
@@ -114,15 +115,21 @@ public class PedidoService {
 			}
 		}
 		
-		if(pedido == null) {
+		if(pedido.getEstado() ==null || pedidosCliente == null) {
 			pedido = new Pedido();
 			pedido.setCliente(cliente);
 			pedido.setEstado(EstadoPedido.CARRITO);
 			switch(tipo) {
 				case "PELICULA":
 					Pelicula pelicula = peliculaService.findPeliculaById(productoId);
-					pedido.getPeliculas().add(pelicula);
+					System.out.println("PELICULAaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa: "+pedido.getPeliculas());
+					Collection<Pelicula> peliculas = new ArrayList<Pelicula>();
+					if(pedido.getPeliculas()==null) {
+						peliculas.add(pelicula);
+					}
+					pedido.getPeliculas().addAll(peliculas);
 					pedido.setPrecioTotal(pedido.getPrecioTotal() + pelicula.getPrecio());
+					System.out.println("PELICULAaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa2: "+pedido.getPeliculas());
 					break;
 				case "VIDEOJUEGO":
 					Videojuego videojuego = videojuegoService.findVideojuegoById(productoId);

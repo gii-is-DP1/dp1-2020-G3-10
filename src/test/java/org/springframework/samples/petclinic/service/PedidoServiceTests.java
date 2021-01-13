@@ -65,6 +65,8 @@ public class PedidoServiceTests {
 
 	}
 	
+	/*
+	
 	@Test
 	void savePedidoSuccess() {
 		
@@ -92,6 +94,8 @@ public class PedidoServiceTests {
 				pedido.getCliente() == pedidoService.findPedidoById(1).getCliente()
 		);
 	}
+	
+	*/
 	
 	@Test
 	void findPedidoNoExiste() {
@@ -200,34 +204,93 @@ public class PedidoServiceTests {
 	@Test
 	void creaPedidoCarritoSuccess() {
 		
-		///// CREAR CLIENTE
+	///// CREAR CLIENTE
 		
-		User user = userService.findUser("marta").get();
-		Cliente cliente = new Cliente();
-		cliente.setUser(user);
-		cliente.setApellidos("prueba");
-		cliente.setCartera(10.0);
-		cliente.setPedidos(null);
-		cliente.setCiudad("Sevilla");
-		cliente.setCodigoPostal("10400");
-		cliente.setDireccion("prueba");
-		cliente.setTarjetaCredito("100000000");
-		cliente.setFechaNacimiento(LocalDate.of(2020, 5, 12));
-		cliente.setDni("12345678X");
-		cliente.setNombre("nombre prueba");
-		cliente.setTelefono("123456789");
-		cliente.setEmail("email@email.es");
-		
-		clienteRepository.save(cliente);
-		
-		///// PROBAR CARRITO
-		
-		pedidoService.añadirProductoCarrito(3, "marta", "PELICULA");
-		
-		Pedido cambiado =  pedidoRepository.findById(1).get();
-		
-		Assert.assertTrue(cambiado.getPeliculas().contains(peliculaRepository.findById(3)));
+			User user = userService.findUser("marta").get();
+			Cliente cliente = new Cliente();
+			cliente.setUser(user);
+			cliente.setApellidos("prueba");
+			cliente.setCartera(10.0);
+			cliente.setCiudad("Sevilla");
+			cliente.setCodigoPostal("10400");
+			cliente.setDireccion("prueba");
+			cliente.setTarjetaCredito("100000000");
+			cliente.setFechaNacimiento(LocalDate.of(2020, 5, 12));
+			cliente.setDni("12345678X");
+			cliente.setNombre("nombre prueba");
+			cliente.setTelefono("123456789");
+			cliente.setEmail("email@email.es");
+			
+			/// CREAR PEDIDO
+			
+			Pedido pedido = this.getDummyPedido1();
+			pedido.setEstado(EstadoPedido.ENTREGADO);
+			pedido.setCliente(cliente);
+			
+			Collection<Pedido> nuevosPedidos = new ArrayList<>();
+			nuevosPedidos.add(pedido);
+			
+			/// GUARDAR PEDIDO Y CLIENTE
+			
+			cliente.setPedidos(nuevosPedidos);
+			pedidoRepository.save(pedido);
+			clienteRepository.save(cliente);
+			
+			///// PROBAR CARRITO
+			
+			pedidoService.añadirProductoCarrito(3, "marta", "PELICULA");
+			
+			Pedido cambiado =  pedidoRepository.findById(1).get();
+			
+			Assert.assertTrue(cambiado.getPeliculas().contains(peliculaRepository.findById(3)));
 	}
+	
+	@Test
+	void creaPedidoCarritoSuccessPrueba() {
+		
+	///// CREAR CLIENTE
+		
+			User user = userService.findUser("admin1").get();
+			Cliente cliente = new Cliente();
+			cliente.setUser(user);
+			cliente.setApellidos("prueba");
+			cliente.setCartera(10.0);
+			cliente.setCiudad("Sevilla");
+			cliente.setCodigoPostal("10400");
+			cliente.setDireccion("prueba");
+			cliente.setTarjetaCredito("100000000");
+			cliente.setFechaNacimiento(LocalDate.of(2020, 5, 12));
+			cliente.setDni("12345678X");
+			cliente.setNombre("nombre prueba");
+			cliente.setTelefono("123456789");
+			cliente.setEmail("email@email.es");
+			
+			/// CREAR PEDIDO
+			/*
+			Pedido pedido = this.getDummyPedido1();
+			pedido.setEstado(EstadoPedido.ENTREGADO);
+			pedido.setCliente(cliente);
+			
+			Collection<Pedido> nuevosPedidos = new ArrayList<>();
+			nuevosPedidos.add(pedido);
+			*/
+			/// GUARDAR PEDIDO Y CLIENTE
+			
+			//cliente.setPedidos(nuevosPedidos);
+			//pedidoRepository.save(pedido);
+			clienteRepository.save(cliente);
+			
+			///// PROBAR CARRITO
+			
+			pedidoService.añadirProductoCarrito(3, "admin1", "PELICULA");
+			
+			Pedido cambiado =  pedidoRepository.findById(1).get();
+			
+			System.out.println("PEDIDOOOOOOOOOOOOOOOOOOOOOOOOOOOOO CAMBIADOOOOOOOOOOOOOOOOOOOOOOOOOO: " + cambiado.getPeliculas());
+			
+			//Assert.assertTrue(cambiado.getPeliculas().contains(peliculaRepository.findById(3)));
+	}
+	
 
 
 }
