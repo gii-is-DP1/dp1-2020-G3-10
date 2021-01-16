@@ -44,6 +44,13 @@
 	</spring:url>
 	<a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Editar videojuego</a>
 	
+	<spring:url value="/pedidos/addCarrito/{productoId}/{tipo}" var="carritoUrl">
+		<spring:param name="productoId" value="${videojuego.id}" />
+		<spring:param name="tipo" value="${'VIDEOJUEGO'}" />
+	</spring:url>
+	<a href="${fn:escapeXml(carritoUrl)}" class="btn btn-default">Insertar al carrito</a>
+	
+	
 
 
 

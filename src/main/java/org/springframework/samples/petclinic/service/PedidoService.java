@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,48 @@ public class PedidoService {
 	public Iterable<Pedido> findAll() {
 		return this.pedidoRepository.findAll();
 	}
-
+	/*
+	@Transactional
+	public boolean carritoContieneProducto(String productoId,String usuario,String tipo) {
+		Boolean result = true;
+		Cliente cliente = clienteRepository.findByUsername(usuario);
+		Collection<Pedido> pedidosCliente = cliente.getPedidos();
+		
+		if(pedidosCliente != null) {
+			for (Pedido p : pedidosCliente) {
+				if (p.getEstado() == EstadoPedido.CARRITO) {
+					switch (tipo) {
+					case "PELICULA":
+						Collection<Pelicula> peliculas = p.getPeliculas();
+						Pelicula pelicula = peliculaService.findPeliculaById(productoId);
+						peliculas.add(pelicula);
+						p.setPrecioTotal(p.getPrecioTotal() + pelicula.getPrecio());
+						p.setPeliculas(peliculas);
+						break;
+					case "VIDEOJUEGO":
+						Collection<Videojuego> videojuegos = p.getVideojuegos();
+						Videojuego videojuego = videojuegoService.findVideojuegoById(productoId);
+						videojuegos.add(videojuego);
+						p.setPrecioTotal(p.getPrecioTotal() + videojuego.getPrecio());
+						p.setVideojuegos(videojuegos);
+						break;
+					case "MERCHANDASING":
+						Collection<Merchandasing> merchandasings = p.getMerchandasings();
+						Merchandasing merchandasing = merchandasingService.findMerchandasingById(productoId);
+						merchandasings.add(merchandasing);
+						p.setMerchandasings(merchandasings);
+						p.setPrecioTotal(p.getPrecioTotal() + merchandasing.getPrecio());
+						break;
+					default:
+						throw new IllegalArgumentException("El tipo no es correcto");
+					}
+					
+				}
+			}
+		}
+		return result;
+	}
+	*/
 	@Transactional(readOnly = true)
 	public Pedido findPedidoById(final int id) {
 
@@ -79,7 +121,6 @@ public class PedidoService {
 		
 		Collection<Pedido> pedidosCliente = cliente.getPedidos();
 		
-		System.out.println();
 		
 		if(pedidosCliente != null) {
 			for (Pedido p : pedidosCliente) {
@@ -119,26 +160,27 @@ public class PedidoService {
 			pedido = new Pedido();
 			pedido.setCliente(cliente);
 			pedido.setEstado(EstadoPedido.CARRITO);
+			pedido.setPrecioTotal(0.0);
 			switch(tipo) {
 				case "PELICULA":
 					Pelicula pelicula = peliculaService.findPeliculaById(productoId);
-					System.out.println("PELICULAaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa: "+pedido.getPeliculas());
 					Collection<Pelicula> peliculas = new ArrayList<Pelicula>();
-					if(pedido.getPeliculas()==null) {
-						peliculas.add(pelicula);
-					}
-					pedido.getPeliculas().addAll(peliculas);
+					peliculas.add(pelicula);
+					pedido.setPeliculas(peliculas);
 					pedido.setPrecioTotal(pedido.getPrecioTotal() + pelicula.getPrecio());
-					System.out.println("PELICULAaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa2: "+pedido.getPeliculas());
 					break;
 				case "VIDEOJUEGO":
 					Videojuego videojuego = videojuegoService.findVideojuegoById(productoId);
-					pedido.getVideojuegos().add(videojuego);
+					Collection<Videojuego> videojuegos = new ArrayList<Videojuego>();
+					videojuegos.add(videojuego);
+					pedido.setVideojuegos(videojuegos);
 					pedido.setPrecioTotal(pedido.getPrecioTotal() + videojuego.getPrecio());
 					break;
 				case "MERCHANDASING":
 					Merchandasing merchandasing = merchandasingService.findMerchandasingById(productoId);
-					pedido.getMerchandasings().add(merchandasing);
+					Collection<Merchandasing> merchandasings = new ArrayList<Merchandasing>();
+					merchandasings.add(merchandasing);
+					pedido.setMerchandasings(merchandasings);
 					pedido.setPrecioTotal(pedido.getPrecioTotal() + merchandasing.getPrecio());
 					break;
 				default:
@@ -147,9 +189,14 @@ public class PedidoService {
 		}
 		
 		pedidoRepository.save(pedido);
+		Collection<Pedido> pedidosNuevos = new ArrayList<>();
 		Collection<Pedido> actualPedidos = cliente.getPedidos();
-		actualPedidos.add(pedido);
-		cliente.setPedidos(actualPedidos);
+		if(actualPedidos!=null) {
+			pedidosNuevos.addAll(actualPedidos);
+		}
+		System.out.println(actualPedidos);
+		pedidosNuevos.add(pedido);
+		cliente.setPedidos(pedidosNuevos);
 		clienteRepository.save(cliente);
 	}
 	

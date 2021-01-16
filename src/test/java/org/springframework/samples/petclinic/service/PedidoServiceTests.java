@@ -240,9 +240,10 @@ public class PedidoServiceTests {
 			
 			pedidoService.añadirProductoCarrito(3, "marta", "PELICULA");
 			
-			Pedido cambiado =  pedidoRepository.findById(1).get();
+			Pedido cambiado =  pedidoRepository.findById(2).get();
 			
 			Assert.assertTrue(cambiado.getPeliculas().contains(peliculaRepository.findById(3)));
+			
 	}
 	
 	@Test

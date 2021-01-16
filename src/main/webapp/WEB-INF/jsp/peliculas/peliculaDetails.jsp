@@ -50,14 +50,11 @@
 	</spring:url>
 	<a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Editar pelicula</a>
 	
-    <!--
 	<spring:url value="/pedidos/addCarrito/{productoId}/{tipo}" var="carritoUrl">
 		<spring:param name="productoId" value="${pelicula.id}" />
 		<spring:param name="tipo" value="${'PELICULA'}" />
 	</spring:url>
-	<a href="${fn:escapeXml(carritoUrl)}" class="btn btn-default">A�adir al carrito</a>
-	
-    -->
+	<a href="${fn:escapeXml(carritoUrl)}" class="btn btn-default">Insertar al carrito</a>
 
 
 </petclinic:layout>

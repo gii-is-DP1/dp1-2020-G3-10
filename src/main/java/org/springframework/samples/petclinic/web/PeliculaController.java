@@ -45,7 +45,6 @@ public class PeliculaController {
 	public void setAllowedFields(WebDataBinder dataBinder) {
 		dataBinder.setDisallowedFields("id");
 	}
-	
 
 	
 	@Autowired

@@ -105,37 +105,19 @@ public class PedidoController {
 	@GetMapping(path = "/addCarrito/{productoId}/{tipo}")
 	public String añadirACarrito(@PathVariable("productoId") final int productoId, @PathVariable("tipo") final String tipo, final ModelMap modelMap) {
 
-		String vista = "cesta/cestaCompra";
-		
-//		switch(tipo) {
-//			case "PELICULA":
-//				producto = peliculaService.findPeliculaById(productoId);
-//			case "VIDEOJUEGO":
-//				producto = videojuegoService.findVideojuegoById(productoId);
-//			default:
-//				producto = merchandasingService.findMerchandasingById(productoId);
-//		}
-		
+		String vista = "pedidos/carrito";
+	
 	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	    UserDetails userDetail = (UserDetails) auth.getPrincipal();
+	    
+	    //userDetail.getAuthorities() == "Cliente"
 	    String usuario = userDetail.getUsername();
-	    String view ="cesta/cestaCompra";
-
 	    if(auth.getPrincipal() == "anonymousUser") {
 	            modelMap.addAttribute("mensaje", "¡Debes estar registrado para añadir al carrito!");
 	    }else {
-	    	/*
-	            LineaPedido lineaPedido = new LineaPedido();
-	            lineaPedido.setCantidad(1);
-	            lineaPedido.setPelicula(p);
-
-	            model.addAttribute("mensaje", "¡Producto añadido!");
-	            modelo.put("linea", lineaPedido);
-	            modelo.put("producto", p);
-	            modelo.put("usuario", cliente);
-	            */
+	    	
 	    	modelMap.addAttribute("mensaje", "Pedido Creado");
-	    //	pedidoService.crearPedido(productoId, usuario, tipo);
+	    	pedidoService.añadirProductoCarrito(productoId, usuario, tipo);
 	    }
 		return vista;
 	}
