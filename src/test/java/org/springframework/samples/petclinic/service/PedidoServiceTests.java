@@ -292,6 +292,31 @@ public class PedidoServiceTests {
 			//Assert.assertTrue(cambiado.getPeliculas().contains(peliculaRepository.findById(3)));
 	}
 	
+	@Test
+	void queryFindCarritoTest() {
+		
+	///// CREAR CLIENTE
+		
+			Cliente cliente = clienteRepository.findById(1);
+			
+			/// CREAR PEDIDO
+			
+			Pedido pedido1 = this.getDummyPedido1();
+			pedido1.setEstado(EstadoPedido.CARRITO);
+			pedido1 = this.getDummyPedido1();
+			pedido1.setCliente(cliente);		
+			cliente.getPedidos().add(pedido1);
+			pedidoRepository.save(pedido1);
+			
+			/// GUARDAR PEDIDO Y CLIENTE
+			
+			clienteRepository.save(cliente);
+			
+			Pedido pedidoquery = pedidoRepository.findProductosCarrito(cliente.getId());
+			System.out.println("PEDIDO REPOSITORY ####################################################: " + pedidoquery.getPeliculas() + "----------------" +pedidoquery.getEstado());
+			//Assert.assertTrue(cambiado.getPeliculas().contains(peliculaRepository.findById(3)));
+	}
+	
 
 
 }

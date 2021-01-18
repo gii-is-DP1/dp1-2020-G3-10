@@ -7,21 +7,37 @@
 
 <petclinic:layout pageName="pedido">
 	<h1>CESTA DE LA COMPRA</h1>
-		<c:out value="${mensaje}"/>
-	<table id="peliculasTable">
-
+	<c:out value="${mensaje}" />
+	<table id="pedidosTable">
+		<thead>
+			<tr>
+				<th style="width: 150px;">Producto</th>
+				<th style="width: 200px;">Nombre</th>
+				<th style="width: 120px">Cantidad</th>
+				<th style="width: 120px">Precio</th>
+			</tr>
+		</thead>
 		<tbody>
 			<c:forEach items="${productos}" var="producto">
+				<tr>
+
+					<td><img src=<c:out value="${producto.imagen}"/> width="250"height="350"></td>
+					<td><c:out value="${producto.nombre}" /></td>
+					<td><c:out value="1" /></td>
+					<td><c:out value="${producto.precio}" /></td>
 
 
-				<div class="col-sm-6 col-md-4">
-					<div class="thumbnail">
-						
+					<td><spring:url value="/pedidos/delete/{pedidoId}" var="pedidoUrl">
+							<spring:param name="pedidoId" value="" />
+					</spring:url> <a href="">Eliminar de carrito</a>
+					</td>
 
-					</div>
-				</div>
-
+				</tr>
 			</c:forEach>
-		</tbody>
+			<td>
+			<spring:url value="/pedidos/pagar/{pedidoId}" var="pedidoUrl">
+							<spring:param name="pedidoId" value="${pedidoId}" />
+			</spring:url> <a href="">Pagar</a></td>
+		</tbody>		
 	</table>
 </petclinic:layout>

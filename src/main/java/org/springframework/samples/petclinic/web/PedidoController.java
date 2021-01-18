@@ -79,7 +79,7 @@ public class PedidoController {
 			modelMap.addAttribute("pedido", pedido);
 			return "pedidos/editPedido";
 		} else {
-			this.pedidoService.save(pedido);
+			
 			// modelMap.addAttribute("message", "Pedido guardado"); do correctamente");
 			vista = this.listadoPedidos(modelMap);
 		}
@@ -105,7 +105,8 @@ public class PedidoController {
 	@GetMapping(path = "/addCarrito/{productoId}/{tipo}")
 	public String añadirACarrito(@PathVariable("productoId") final int productoId, @PathVariable("tipo") final String tipo, final ModelMap modelMap) {
 
-		String vista = "pedidos/carrito";
+		String vista = "redirect:/pedidos/mostrarCarrito";
+
 	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	    UserDetails userDetail = (UserDetails) auth.getPrincipal();
 	    //userDetail.getAuthorities() == "Cliente"
@@ -120,23 +121,43 @@ public class PedidoController {
 	    		modelMap.addAttribute("mensaje", "¡Producto añadido!");
 	    		pedidoService.añadirProductoCarrito(productoId, usuario, tipo);
 	    		
-	    		//modelMap.addAttribute("productos", );
 	    	}else {
 	    		modelMap.addAttribute("mensaje", "¡Ya añadiste este producto!");
 	    	}
 	    }
-		return vista;
+	    
+		return listCarrito(modelMap) ;
 	}
 
-	@GetMapping(path = "/carrito")
+	@GetMapping(path = "/mostrarCarrito")
 	public String listCarrito(final ModelMap modelMap) {
 
 		String vista = "/pedidos/carrito";
 
-		System.out.println("CARRITO PRUEBA: ");
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    UserDetails userDetail = (UserDetails) auth.getPrincipal();
+	    //userDetail.getAuthorities() == "Cliente"
+	    
+	    String username = userDetail.getUsername();
+	    Pedido pedido = pedidoService.findProductosCarritoByClienteId(username);
+	    List<Producto> productos = new ArrayList<>();
+	    
+	    if(pedido.getPeliculas() != null) {
+	    	productos.addAll(pedido.getPeliculas());
+	    }
+	    
+	    if(pedido.getVideojuegos() != null) {
+	    	productos.addAll(pedido.getVideojuegos());
+	    }
+	    
+	    if(pedido.getMerchandasings() != null) {
+	    	productos.addAll(pedido.getMerchandasings());
+	    }
+	    modelMap.addAttribute("pedidoId",pedido.getId());
+	    modelMap.addAttribute("productos",productos);
 
 		return vista;
 
 	}
-
+	
 }

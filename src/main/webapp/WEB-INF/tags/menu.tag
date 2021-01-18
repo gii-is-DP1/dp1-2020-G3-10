@@ -95,6 +95,7 @@
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
 					<li><a href="<c:url value="#" />">Mis Pedidos</a></li>
+					<li><a href="<c:url value="/pedidos/mostrarCarrito" />">Carrito</a></li>
 					<li><a href="<c:url value="/clientes/miPerfil" />">Mi Perfil</a></li>
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span>ï¿½

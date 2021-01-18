@@ -102,6 +102,14 @@ public class PedidoService {
 			return pedido.get();
 		}
 	}
+	
+	@Transactional(readOnly = true)
+	public Pedido findProductosCarritoByClienteId(final String usuario) {
+		Cliente cliente = clienteRepository.findByUsername(usuario);
+		return this.pedidoRepository.findProductosCarrito(cliente.getId());
+		
+		
+	}
 
 	@Transactional
 	public void delete(final int id) {
@@ -203,13 +211,15 @@ public class PedidoService {
 	}
 
 	@Transactional
-	public void save(final Pedido pedido) {
-		// Cliente cliente = new Cliente();
-		// List<Pedido> pedidos = (List<Pedido>) cliente.getPedidos();
-		// pedidos.get(0).getEstado() == EstadoPedido.CARRITO
-		if (pedido.getPeliculas() == null) {
-			throw new IllegalArgumentException("No puede hacerse un pedido sin productos");
+	public void completaPedido(final Pedido pedido) {
+		if (pedido.getCliente() == null && pedido.getDireccionEnvio() == null && pedido.getEstado() == null && pedido.getFecha() == null && pedido.getPrecioTotal() == null ) {
+			throw new IllegalArgumentException("No puede haber campos nulos.");
+		} else if (pedido.getEstado() != EstadoPedido.CARRITO) {
+			throw new IllegalArgumentException("El pedido no es un carrito.");
+		} else if (pedido.getCliente().getCartera() < pedido.getPrecioTotal()) {
+			throw new IllegalArgumentException("El cliente no dispone de suficiente dinero en la cartera.");
 		} else {
+			pedido.setEstado(EstadoPedido.PENDIENTE);
 			this.pedidoRepository.save(pedido);
 		}
 	}
