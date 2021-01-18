@@ -46,48 +46,51 @@ public class PedidoService {
 	public Iterable<Pedido> findAll() {
 		return this.pedidoRepository.findAll();
 	}
-	/*
+
 	@Transactional
-	public boolean carritoContieneProducto(String productoId,String usuario,String tipo) {
-		Boolean result = true;
+	public boolean carritoContieneProducto(int productoId, String usuario, String tipo) {
+		Boolean result = false;
 		Cliente cliente = clienteRepository.findByUsername(usuario);
 		Collection<Pedido> pedidosCliente = cliente.getPedidos();
-		
-		if(pedidosCliente != null) {
+
+		if (pedidosCliente != null) {
 			for (Pedido p : pedidosCliente) {
 				if (p.getEstado() == EstadoPedido.CARRITO) {
 					switch (tipo) {
 					case "PELICULA":
 						Collection<Pelicula> peliculas = p.getPeliculas();
-						Pelicula pelicula = peliculaService.findPeliculaById(productoId);
-						peliculas.add(pelicula);
-						p.setPrecioTotal(p.getPrecioTotal() + pelicula.getPrecio());
-						p.setPeliculas(peliculas);
+						for (Pelicula pel : peliculas) {
+							if (pel.getId() == productoId) {
+								result = true; //¿?
+							}
+						}
 						break;
 					case "VIDEOJUEGO":
 						Collection<Videojuego> videojuegos = p.getVideojuegos();
-						Videojuego videojuego = videojuegoService.findVideojuegoById(productoId);
-						videojuegos.add(videojuego);
-						p.setPrecioTotal(p.getPrecioTotal() + videojuego.getPrecio());
-						p.setVideojuegos(videojuegos);
+						for (Videojuego vid : videojuegos) {
+							if (vid.getId() == productoId) {
+								result = true;
+							}
+						}
 						break;
 					case "MERCHANDASING":
 						Collection<Merchandasing> merchandasings = p.getMerchandasings();
-						Merchandasing merchandasing = merchandasingService.findMerchandasingById(productoId);
-						merchandasings.add(merchandasing);
-						p.setMerchandasings(merchandasings);
-						p.setPrecioTotal(p.getPrecioTotal() + merchandasing.getPrecio());
+						for (Merchandasing merch : merchandasings) {
+							if (merch.getId() == productoId) {
+								result = true;
+							}
+						}
 						break;
 					default:
 						throw new IllegalArgumentException("El tipo no es correcto");
 					}
-					
+
 				}
 			}
 		}
 		return result;
 	}
-	*/
+
 	@Transactional(readOnly = true)
 	public Pedido findPedidoById(final int id) {
 
@@ -102,7 +105,7 @@ public class PedidoService {
 
 	@Transactional
 	public void delete(final int id) {
-		
+
 		Optional<Pedido> pedido = this.pedidoRepository.findById(id);
 
 		if (!pedido.isPresent()) {
@@ -112,17 +115,16 @@ public class PedidoService {
 		}
 
 	}
-	
+
 	@Transactional
 	public void añadirProductoCarrito(int productoId, String usuario, String tipo) {
-		
+
 		Pedido pedido = new Pedido();
 		Cliente cliente = clienteRepository.findByUsername(usuario);
-		
+
 		Collection<Pedido> pedidosCliente = cliente.getPedidos();
-		
-		
-		if(pedidosCliente != null) {
+
+		if (pedidosCliente != null) {
 			for (Pedido p : pedidosCliente) {
 				if (p.getEstado() == EstadoPedido.CARRITO) {
 
@@ -155,43 +157,43 @@ public class PedidoService {
 				}
 			}
 		}
-		
-		if(pedido.getEstado() ==null || pedidosCliente == null) {
+
+		if (pedido.getEstado() == null || pedidosCliente == null) {
 			pedido = new Pedido();
 			pedido.setCliente(cliente);
 			pedido.setEstado(EstadoPedido.CARRITO);
 			pedido.setPrecioTotal(0.0);
-			switch(tipo) {
-				case "PELICULA":
-					Pelicula pelicula = peliculaService.findPeliculaById(productoId);
-					Collection<Pelicula> peliculas = new ArrayList<Pelicula>();
-					peliculas.add(pelicula);
-					pedido.setPeliculas(peliculas);
-					pedido.setPrecioTotal(pedido.getPrecioTotal() + pelicula.getPrecio());
-					break;
-				case "VIDEOJUEGO":
-					Videojuego videojuego = videojuegoService.findVideojuegoById(productoId);
-					Collection<Videojuego> videojuegos = new ArrayList<Videojuego>();
-					videojuegos.add(videojuego);
-					pedido.setVideojuegos(videojuegos);
-					pedido.setPrecioTotal(pedido.getPrecioTotal() + videojuego.getPrecio());
-					break;
-				case "MERCHANDASING":
-					Merchandasing merchandasing = merchandasingService.findMerchandasingById(productoId);
-					Collection<Merchandasing> merchandasings = new ArrayList<Merchandasing>();
-					merchandasings.add(merchandasing);
-					pedido.setMerchandasings(merchandasings);
-					pedido.setPrecioTotal(pedido.getPrecioTotal() + merchandasing.getPrecio());
-					break;
-				default:
-					throw new IllegalArgumentException("El tipo no es correcto");
+			switch (tipo) {
+			case "PELICULA":
+				Pelicula pelicula = peliculaService.findPeliculaById(productoId);
+				Collection<Pelicula> peliculas = new ArrayList<Pelicula>();
+				peliculas.add(pelicula);
+				pedido.setPeliculas(peliculas);
+				pedido.setPrecioTotal(pedido.getPrecioTotal() + pelicula.getPrecio());
+				break;
+			case "VIDEOJUEGO":
+				Videojuego videojuego = videojuegoService.findVideojuegoById(productoId);
+				Collection<Videojuego> videojuegos = new ArrayList<Videojuego>();
+				videojuegos.add(videojuego);
+				pedido.setVideojuegos(videojuegos);
+				pedido.setPrecioTotal(pedido.getPrecioTotal() + videojuego.getPrecio());
+				break;
+			case "MERCHANDASING":
+				Merchandasing merchandasing = merchandasingService.findMerchandasingById(productoId);
+				Collection<Merchandasing> merchandasings = new ArrayList<Merchandasing>();
+				merchandasings.add(merchandasing);
+				pedido.setMerchandasings(merchandasings);
+				pedido.setPrecioTotal(pedido.getPrecioTotal() + merchandasing.getPrecio());
+				break;
+			default:
+				throw new IllegalArgumentException("El tipo no es correcto");
 			}
 		}
-		
+
 		pedidoRepository.save(pedido);
 		Collection<Pedido> pedidosNuevos = new ArrayList<>();
 		Collection<Pedido> actualPedidos = cliente.getPedidos();
-		if(actualPedidos!=null) {
+		if (actualPedidos != null) {
 			pedidosNuevos.addAll(actualPedidos);
 		}
 		System.out.println(actualPedidos);
@@ -199,18 +201,22 @@ public class PedidoService {
 		cliente.setPedidos(pedidosNuevos);
 		clienteRepository.save(cliente);
 	}
-	
-
 
 	@Transactional
 	public void save(final Pedido pedido) {
-		//Cliente cliente = new Cliente();
-		//List<Pedido> pedidos = (List<Pedido>) cliente.getPedidos();
-		//pedidos.get(0).getEstado() == EstadoPedido.CARRITO
-		if(pedido.getPeliculas()==null) {
+		// Cliente cliente = new Cliente();
+		// List<Pedido> pedidos = (List<Pedido>) cliente.getPedidos();
+		// pedidos.get(0).getEstado() == EstadoPedido.CARRITO
+		if (pedido.getPeliculas() == null) {
 			throw new IllegalArgumentException("No puede hacerse un pedido sin productos");
-		}else {
+		} else {
 			this.pedidoRepository.save(pedido);
 		}
 	}
+	
+	
+	
+	
+	
+	
 }

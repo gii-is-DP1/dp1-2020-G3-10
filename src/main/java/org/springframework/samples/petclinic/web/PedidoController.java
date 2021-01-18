@@ -106,18 +106,24 @@ public class PedidoController {
 	public String añadirACarrito(@PathVariable("productoId") final int productoId, @PathVariable("tipo") final String tipo, final ModelMap modelMap) {
 
 		String vista = "pedidos/carrito";
-	
 	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	    UserDetails userDetail = (UserDetails) auth.getPrincipal();
-	    
 	    //userDetail.getAuthorities() == "Cliente"
+	    
 	    String usuario = userDetail.getUsername();
 	    if(auth.getPrincipal() == "anonymousUser") {
 	            modelMap.addAttribute("mensaje", "¡Debes estar registrado para añadir al carrito!");
 	    }else {
 	    	
 	    	modelMap.addAttribute("mensaje", "Pedido Creado");
-	    	pedidoService.añadirProductoCarrito(productoId, usuario, tipo);
+	    	if(!pedidoService.carritoContieneProducto(productoId, usuario, tipo)) { 
+	    		modelMap.addAttribute("mensaje", "¡Producto añadido!");
+	    		pedidoService.añadirProductoCarrito(productoId, usuario, tipo);
+	    		
+	    		//modelMap.addAttribute("productos", );
+	    	}else {
+	    		modelMap.addAttribute("mensaje", "¡Ya añadiste este producto!");
+	    	}
 	    }
 		return vista;
 	}
