@@ -18,13 +18,45 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach items="${productos}" var="producto">
+			<c:forEach items="${peliculas}" var="pelicula">
 				<tr>
 
-					<td><img src=<c:out value="${producto.imagen}"/> width="250"height="350"></td>
-					<td><c:out value="${producto.nombre}" /></td>
+					<td><img src=<c:out value="${pelicula.imagen}"/> width="250"height="350"></td>
+					<td><c:out value="${pelicula.nombre}" /></td>
 					<td><c:out value="1" /></td>
-					<td><c:out value="${producto.precio}" /></td>
+					<td><c:out value="${pelicula.precio}" /></td>
+
+
+					<td><spring:url value="/pedidos/delete/{pedidoId}" var="pedidoUrl">
+							<spring:param name="pedidoId" value="" />
+					</spring:url> <a href="">Eliminar de carrito</a>
+					</td>
+
+				</tr>
+			</c:forEach>
+			<c:forEach items="${videojuegos}" var="videojuego">
+				<tr>
+
+					<td><img src=<c:out value="${videojuego.imagen}"/> width="250"height="350"></td>
+					<td><c:out value="${videojuego.nombre}" /></td>
+					<td><c:out value="1" /></td>
+					<td><c:out value="${videojuego.precio}" /></td>
+
+
+					<td><spring:url value="/pedidos/delete/{pedidoId}" var="pedidoUrl">
+							<spring:param name="pedidoId" value="" />
+					</spring:url> <a href="">Eliminar de carrito</a>
+					</td>
+
+				</tr>
+			</c:forEach>
+			<c:forEach items="${merchandasings}" var="merchandasing">
+				<tr>
+
+					<td><img src=<c:out value="${merchandasing.imagen}"/> width="250"height="350"></td>
+					<td><c:out value="${merchandasing.nombre}" /></td>
+					<td><c:out value="1" /></td>
+					<td><c:out value="${merchandasing.precio}" /></td>
 
 
 					<td><spring:url value="/pedidos/delete/{pedidoId}" var="pedidoUrl">
@@ -35,9 +67,12 @@
 				</tr>
 			</c:forEach>
 			<td>
+			
 			<spring:url value="/pedidos/pagar/{pedidoId}" var="pedidoUrl">
 							<spring:param name="pedidoId" value="${pedidoId}" />
 			</spring:url> <a href="">Pagar</a></td>
+			
+			<h1><c:out value="Precio Total: ${precioTotal}" /></h1>
 		</tbody>		
 	</table>
 </petclinic:layout>

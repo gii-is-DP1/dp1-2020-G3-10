@@ -209,6 +209,35 @@ public class PedidoService {
 		cliente.setPedidos(pedidosNuevos);
 		clienteRepository.save(cliente);
 	}
+	
+	@Transactional
+	public void eliminarProductoCarrito(int productoId, String tipo) {
+
+		Pedido pedido = pedidoRepository.findById(productoId).get();
+		
+		switch (tipo) {
+			case "PELICULA":
+				Pelicula pelicula = peliculaService.findPeliculaById(productoId);
+				pedido.getPeliculas().remove(pelicula);
+				System.out.println("LOG: Pelicula eliminada de carrito.");
+				break;
+			case "VIDEOJUEGO":
+				Videojuego videojuego = videojuegoService.findVideojuegoById(productoId);
+				pedido.getVideojuegos().remove(videojuego);
+				System.out.println("LOG: Videojuego eliminado de carrito.");
+				break;
+			case "MERCHANDASING":
+				Merchandasing merchandasing = merchandasingService.findMerchandasingById(productoId);
+				pedido.getMerchandasings().remove(merchandasing);
+				System.out.println("LOG: Merchandasings eliminada de carrito.");
+				break;
+			default:
+				throw new IllegalArgumentException("El tipo no es correcto");
+		}
+		
+		pedidoRepository.save(pedido);
+	}
+	
 
 	@Transactional
 	public void completaPedido(final Pedido pedido) {

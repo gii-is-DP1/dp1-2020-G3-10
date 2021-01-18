@@ -136,25 +136,15 @@ public class PedidoController {
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	    UserDetails userDetail = (UserDetails) auth.getPrincipal();
-	    //userDetail.getAuthorities() == "Cliente"
-	    
+	 
 	    String username = userDetail.getUsername();
 	    Pedido pedido = pedidoService.findProductosCarritoByClienteId(username);
-	    List<Producto> productos = new ArrayList<>();
 	    
-	    if(pedido.getPeliculas() != null) {
-	    	productos.addAll(pedido.getPeliculas());
-	    }
-	    
-	    if(pedido.getVideojuegos() != null) {
-	    	productos.addAll(pedido.getVideojuegos());
-	    }
-	    
-	    if(pedido.getMerchandasings() != null) {
-	    	productos.addAll(pedido.getMerchandasings());
-	    }
 	    modelMap.addAttribute("pedidoId",pedido.getId());
-	    modelMap.addAttribute("productos",productos);
+	    modelMap.addAttribute("precioTotal",pedido.getPrecioTotal());
+	    modelMap.addAttribute("peliculas",pedido.getPeliculas());
+	    modelMap.addAttribute("videojuegos",pedido.getVideojuegos());
+	    modelMap.addAttribute("merchandasing",pedido.getMerchandasings());
 
 		return vista;
 
