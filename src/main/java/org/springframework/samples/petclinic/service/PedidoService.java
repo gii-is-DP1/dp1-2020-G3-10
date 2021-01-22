@@ -104,7 +104,7 @@ public class PedidoService {
 	}
 	
 	@Transactional(readOnly = true)
-	public Pedido findProductosCarritoByClienteId(final String usuario) {
+	public Optional<Pedido> findProductosCarritoByClienteId(final String usuario) {
 		Cliente cliente = clienteRepository.findByUsername(usuario);
 		return this.pedidoRepository.findProductosCarrito(cliente.getId());
 		
@@ -211,24 +211,29 @@ public class PedidoService {
 	}
 	
 	@Transactional
-	public void eliminarProductoCarrito(int productoId, String tipo) {
+	public void eliminaProductoCarrito(int productoId, String tipo) {
 
 		Pedido pedido = pedidoRepository.findById(productoId).get();
+		
+		System.out.println("LOG ******************************************** "+pedido.toString());
 		
 		switch (tipo) {
 			case "PELICULA":
 				Pelicula pelicula = peliculaService.findPeliculaById(productoId);
 				pedido.getPeliculas().remove(pelicula);
+				pedido.setPrecioTotal(pedido.getPrecioTotal() - pelicula.getPrecio());
 				System.out.println("LOG: Pelicula eliminada de carrito.");
 				break;
 			case "VIDEOJUEGO":
 				Videojuego videojuego = videojuegoService.findVideojuegoById(productoId);
 				pedido.getVideojuegos().remove(videojuego);
+				pedido.setPrecioTotal(pedido.getPrecioTotal() - videojuego.getPrecio());
 				System.out.println("LOG: Videojuego eliminado de carrito.");
 				break;
 			case "MERCHANDASING":
 				Merchandasing merchandasing = merchandasingService.findMerchandasingById(productoId);
 				pedido.getMerchandasings().remove(merchandasing);
+				pedido.setPrecioTotal(pedido.getPrecioTotal() - merchandasing.getPrecio());
 				System.out.println("LOG: Merchandasings eliminada de carrito.");
 				break;
 			default:

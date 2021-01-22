@@ -13,8 +13,8 @@
 
 
 	<table class="table table-striped">
-		<td><img src=<c:out value="${videojuego.imagen}"/> width="250"
-			height="350"></td>
+		<td><img src=<c:out value="${videojuego.imagen}"/> width="20%"
+			height="20%"></td>
 		<tr>
 
 			<td><c:out value="${videojuego.nombre}" /></td>

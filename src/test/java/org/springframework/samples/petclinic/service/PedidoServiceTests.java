@@ -312,7 +312,7 @@ public class PedidoServiceTests {
 			
 			clienteRepository.save(cliente);
 			
-			Pedido pedidoquery = pedidoRepository.findProductosCarrito(cliente.getId());
+			Pedido pedidoquery = pedidoRepository.findProductosCarrito(cliente.getId()).get();
 			System.out.println("PEDIDO REPOSITORY ####################################################: " + pedidoquery.getPeliculas() + "----------------" +pedidoquery.getEstado());
 			//Assert.assertTrue(cambiado.getPeliculas().contains(peliculaRepository.findById(3)));
 	}

@@ -24,6 +24,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -79,7 +80,7 @@ public class PedidoController {
 			modelMap.addAttribute("pedido", pedido);
 			return "pedidos/editPedido";
 		} else {
-			
+
 			// modelMap.addAttribute("message", "Pedido guardado"); do correctamente");
 			vista = this.listadoPedidos(modelMap);
 		}
@@ -103,51 +104,79 @@ public class PedidoController {
 	}
 
 	@GetMapping(path = "/addCarrito/{productoId}/{tipo}")
-	public String añadirACarrito(@PathVariable("productoId") final int productoId, @PathVariable("tipo") final String tipo, final ModelMap modelMap) {
+	public String añadirACarrito(@PathVariable("productoId") final int productoId,
+			@PathVariable("tipo") final String tipo, ModelMap modelMap) {
 
-		String vista = "redirect:/pedidos/mostrarCarrito";
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+		// userDetail.getAuthorities() == "Cliente"
 
-	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	    UserDetails userDetail = (UserDetails) auth.getPrincipal();
-	    //userDetail.getAuthorities() == "Cliente"
-	    
-	    String usuario = userDetail.getUsername();
-	    if(auth.getPrincipal() == "anonymousUser") {
-	            modelMap.addAttribute("mensaje", "¡Debes estar registrado para añadir al carrito!");
-	    }else {
-	    	
-	    	modelMap.addAttribute("mensaje", "Pedido Creado");
-	    	if(!pedidoService.carritoContieneProducto(productoId, usuario, tipo)) { 
-	    		modelMap.addAttribute("mensaje", "¡Producto añadido!");
-	    		pedidoService.añadirProductoCarrito(productoId, usuario, tipo);
-	    		
-	    	}else {
-	    		modelMap.addAttribute("mensaje", "¡Ya añadiste este producto!");
-	    	}
-	    }
-	    
-		return listCarrito(modelMap) ;
+		String usuario = userDetail.getUsername();
+		if (auth.getPrincipal() == "anonymousUser") {
+			modelMap.addAttribute("mensaje", "¡Debes estar registrado para añadir al carrito!");
+		} else {
+
+			modelMap.addAttribute("mensaje", "Pedido Creado");
+			if (!pedidoService.carritoContieneProducto(productoId, usuario, tipo)) {
+				modelMap.addAttribute("mensaje", "¡Producto añadido!");
+				pedidoService.añadirProductoCarrito(productoId, usuario, tipo);
+
+			} else {
+				modelMap.addAttribute("mensaje", "¡Ya añadiste este producto!");
+			}
+		}	
+
+		return "redirect:/pedidos/mostrarCarrito";
+	}
+
+	@GetMapping(path = "/eliminaProductoCarrito/{productoId}/{tipo}")
+	public String eliminaProductoCarrito(@PathVariable("productoId") final int productoId,
+			@PathVariable("tipo") final String tipo, final ModelMap modelMap) {
+		try {
+			System.out.println("LOG: PRODUCTO ID: " + productoId + " ********************************* Tipo: " + tipo);
+			pedidoService.eliminaProductoCarrito(productoId, tipo);
+			modelMap.addAttribute("mensaje", "El producto se ha eliminado del carrito.");
+
+		} catch (Exception e) {
+
+			System.out.println(e);
+			modelMap.addAttribute("mensaje", "El producto no se ha podido eliminar.");
+		}
+		return "redirect:/pedidos/mostrarCarrito";
 	}
 
 	@GetMapping(path = "/mostrarCarrito")
-	public String listCarrito(final ModelMap modelMap) {
+	public String listCarrito(ModelMap modelMap) {
 
 		String vista = "/pedidos/carrito";
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	    UserDetails userDetail = (UserDetails) auth.getPrincipal();
-	 
-	    String username = userDetail.getUsername();
-	    Pedido pedido = pedidoService.findProductosCarritoByClienteId(username);
-	    
-	    modelMap.addAttribute("pedidoId",pedido.getId());
-	    modelMap.addAttribute("precioTotal",pedido.getPrecioTotal());
-	    modelMap.addAttribute("peliculas",pedido.getPeliculas());
-	    modelMap.addAttribute("videojuegos",pedido.getVideojuegos());
-	    modelMap.addAttribute("merchandasing",pedido.getMerchandasings());
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+
+		String username = userDetail.getUsername();
+
+		Optional<Pedido> optionalPedido = pedidoService.findProductosCarritoByClienteId(username);
+		
+		if (optionalPedido.isPresent()) {
+			Pedido pedido = optionalPedido.get();
+		
+			modelMap.addAttribute("pedidoId", pedido.getId());
+			modelMap.addAttribute("precioTotal", pedido.getPrecioTotal());
+
+			modelMap.addAttribute("peliculas", pedido.getPeliculas());
+			modelMap.addAttribute("videojuegos", pedido.getVideojuegos());
+			modelMap.addAttribute("merchandasing", pedido.getMerchandasings());
+
+			modelMap.addAttribute("peliculasNoVacio", !(pedido.getPeliculas().isEmpty()));
+			modelMap.addAttribute("videojuegosNoVacio", !(pedido.getVideojuegos().isEmpty()));
+			modelMap.addAttribute("merchandasingsNoVacio", !(pedido.getMerchandasings().isEmpty()));
+			modelMap.addAttribute("carritoVacio", pedido.getPeliculas().isEmpty() && pedido.getVideojuegos().isEmpty()
+					&& pedido.getMerchandasings().isEmpty());
+		} else {
+			modelMap.addAttribute("carritoVacio", true);
+		}
 
 		return vista;
-
 	}
-	
+
 }
