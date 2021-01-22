@@ -13,8 +13,8 @@
 
 
 	<table class="table table-striped">
-		<td><img src=<c:out value="${videojuego.imagen}"/> width="250"
-			height="350"></td>
+		<td><img src=<c:out value="${videojuego.imagen}"/> width="20%"
+			height="20%"></td>
 		<tr>
 
 			<td><c:out value="${videojuego.nombre}" /></td>
@@ -43,6 +43,13 @@
 		<spring:param name="videojuegoId" value="${videojuego.id}" />
 	</spring:url>
 	<a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Editar videojuego</a>
+	
+	<spring:url value="/pedidos/addCarrito/{productoId}/{tipo}" var="carritoUrl">
+		<spring:param name="productoId" value="${videojuego.id}" />
+		<spring:param name="tipo" value="${'VIDEOJUEGO'}" />
+	</spring:url>
+	<a href="${fn:escapeXml(carritoUrl)}" class="btn btn-default">Insertar al carrito</a>
+	
 	
 
 

@@ -22,12 +22,12 @@
 		<div class="navbar-collapse collapse" id="main-navbar">
 			<ul class="nav navbar-nav">
 
-				<petclinic:menuItem active="${name eq 'home'}" url="/"
+<!--			<petclinic:menuItem active="${name eq 'home'}" url="/"
 					title="home page">
 					<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
 					<span>Home</span>
 				</petclinic:menuItem>
-
+ -->
 				<petclinic:menuItem active="${name eq 'peliculas'}" url="/peliculas"
 					title="peliculas">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
@@ -45,13 +45,13 @@
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 					<span>Merchandasing</span>
 				</petclinic:menuItem>
-
+<!--
 				<petclinic:menuItem active="${name eq 'error'}" url="/oups"
 					title="trigger a RuntimeException to see how it is handled">
 					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
 					<span>Error</span>
 				</petclinic:menuItem>
-				
+	-->			
 				<sec:authorize access="hasAuthority('admin')">
 				<petclinic:menuItem active="${name eq 'reproductores'}" url="/reproductores"
 					title="reproductores">
@@ -59,28 +59,6 @@
 					<span>Reproductores</span>
 				</petclinic:menuItem>
 				</sec:authorize>
-
-				
-
-				<!--	
-				<petclinic:menuItem active="${name eq 'owners'}" url="/owners/find"
-					title="find owners">
-					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-					<span>Find owners</span>
-				</petclinic:menuItem>
-
-				<petclinic:menuItem active="${name eq 'vets'}" url="/vets"
-					title="veterinarians">
-					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-					<span>Veterinarians</span>
-				</petclinic:menuItem>
-				
-				<petclinic:menuItem active="${name eq 'registraUsuarios'}" url="/users/select"
-					title="registraUsuarios">
-					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-					<span>Registrar Usuarios</span>
-				</petclinic:menuItem>
-	-->
 
 
 			</ul>
@@ -94,11 +72,16 @@
 					<li><a href="<c:url value="/users/select" />">Registrarse</a></li>
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
-					<li><a href="<c:url value="#" />">Mis Pedidos</a></li>
-					<li><a href="<c:url value="/clientes/miPerfil" />">Mi Perfil</a></li>
+					<sec:authorize access="hasAuthority('cliente')">
+					<li><a href="<c:url value="/pedidos/cliente" />">Mis Pedidos</a></li>
+					<li><a href="<c:url value="/pedidos/mostrarCarrito" />">Carrito</a></li>
+					</sec:authorize>
+					<sec:authorize access="hasAuthority('vendedor')">
+					<li><a href="<c:url value="/pedidos" />">Mis Pedidos</a></li>
+					<li><a href="<c:url value="/pedidos/mostrarCarrito" />">Mis Productos</a></li>
+					</sec:authorize>
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span>ï¿½
-							<strong><sec:authentication property="name" /></strong> <span
+						data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span><strong><sec:authentication property="name" /></strong> <span
 							class="glyphicon glyphicon-chevron-down"></span>
 					</a>
 						<ul class="dropdown-menu">
@@ -116,7 +99,7 @@
 											</p>
 											<p class="text-left">
 												<a href="<c:url value="/logout" />"
-													class="btn btn-primary btn-block btn-sm">Cerrar Sesi�n</a>
+													class="btn btn-primary btn-block btn-sm">Cerrar Sesion</a>
 											</p>
 										</div>
 									</div>
@@ -129,7 +112,7 @@
 									<div class="row">
 										<div class="col-lg-12">
 											<p>
-												<a href="#" class="btn btn-primary btn-block">Mi Perfil</a>
+												<a href="/clientes/miPerfil" class="btn btn-primary btn-block">Mi Perfil</a>
 												
 												<%-- <spring:url value="/vendedores/{vendedorId}" var="vendedorUrl">
                                                 <spring:param name="vendedorId" value="${vendedor.id}"/>
@@ -139,8 +122,7 @@
 												  Para ver perfil???--%>
 												
 												
-												<a href="#" class="btn btn-danger btn-block">Cambiar
-													Contrase�a</a>
+												<a active="${name eq 'error'}" url="/oups" title="trigger a RuntimeException to see how it is handled" class="btn btn-danger btn-block">Error</a>
 											</p>
 										</div>
 									</div>

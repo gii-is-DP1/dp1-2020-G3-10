@@ -18,7 +18,7 @@ INSERT INTO users(username,password,enabled) VALUES ('luibelzan','luibelzan',TRU
 INSERT INTO authorities(id,username,authority) VALUES (5,'luibelzan','owner');
 --Owner luibelzan
 INSERT INTO users(username,password,enabled) VALUES ('marta','marta',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (6,'marta','owner');
+INSERT INTO authorities(id,username,authority) VALUES (6,'marta','cliente');
 -- antmorgon4
 INSERT INTO users(username,password,enabled) VALUES ('antmorgon4','password',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (20,'antmorgon4','cliente');
@@ -98,14 +98,14 @@ INSERT INTO merchandasings(id,tipo,fabricante,nombre,precio) VALUES (2, 'FIGURA'
 ---------------------------------------------------------------------------------------------------------------------------
 
 --Cliente
-
-INSERT INTO clientes(id,nombre,apellidos,dni,email,direccion,ciudad,tarjeta_credito,fecha_nacimiento,cartera,telefono,codigo_postal,username) VALUES (1, 'Ivan', 'Cardenas Meneses', '12345678X', 'ivancarmen@alum.us.es', 'Calle Hernandez','Sevilla','0000-1111-2222-6666', '1998-10-10', '100.0','123456789','41980','ivacarmen');
-INSERT INTO clientes(id,nombre,apellidos,dni,email,direccion,ciudad,tarjeta_credito,fecha_nacimiento,cartera,telefono,codigo_postal,username) VALUES (2, 'Marta', 'ef Meneses', '12345470X', 'marta@alum.us.es', 'Calle Hndez','Sevilla', '0450-1111-2222-6666', '1998-11-10', '100.0','987654321','41980', 'marta');
-INSERT INTO clientes(id,nombre,apellidos,dni,email,direccion,ciudad,tarjeta_credito,fecha_nacimiento,cartera,telefono,codigo_postal,username) VALUES (3, 'Javier', 'Moreno Gonzalez', '32097886Y', 'antmorgon4@alum.us.es', 'Calle Tarfia 45 10','Sevilla', '0000-1111-2222-3333', '1997-05-16', '100.0','601326967','41012', 'antmorgon4');
+INSERT INTO CLIENTES VALUES (1, 'apellido','12345678X','email@email.com','2013-01-01','nombre','123456789',200000.0,'Sevilla','41000','dir prueba','2222 2222 2222 2222','marta');
+--INSERT INTO clientes(id,nombre,apellidos,dni,email,direccion,ciudad,tarjeta_credito,fecha_nacimiento,cartera,telefono,codigo_postal,pedidos,username) VALUES (1, 'Ivan', 'Cardenas Meneses', '12345678X', 'ivancarmen@alum.us.es', 'Calle Hernandez','Sevilla','0000-1111-2222-6666', '1998-10-10', '100.0','123456789','41980','ivacarmen');
+--INSERT INTO clientes(id,nombre,apellidos,dni,email,direccion,ciudad,tarjeta_credito,fecha_nacimiento,cartera,telefono,codigo_postal,username) VALUES (2, 'Marta', 'ef Meneses', '12345470X', 'marta@alum.us.es', 'Calle Hndez','Sevilla', '0450-1111-2222-6666', '1998-11-10', '100.0','987654321','41980', 'marta');
+--INSERT INTO clientes(id,nombre,apellidos,dni,email,direccion,ciudad,tarjeta_credito,fecha_nacimiento,cartera,telefono,codigo_postal,username) VALUES (3, 'Javier', 'Moreno Gonzalez', '32097886Y', 'antmorgon4@alum.us.es', 'Calle Tarfia 45 10','Sevilla', '0000-1111-2222-3333', '1997-05-16', '100.0','601326967','41012', 'antmorgon4');
 
 --Pedido
 
-INSERT INTO pedido(id, estado, precio_total, fecha, direccion_envio) VALUES (1,2,20,'2013-01-01','carles company');
+--INSERT INTO pedido(id, estado, precio_total, fecha, direccion_envio) VALUES (1,2,20,'2013-01-01','carles company');
 
 --Oferta
 

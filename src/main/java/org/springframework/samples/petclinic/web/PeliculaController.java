@@ -45,7 +45,6 @@ public class PeliculaController {
 	public void setAllowedFields(WebDataBinder dataBinder) {
 		dataBinder.setDisallowedFields("id");
 	}
-	
 
 	
 	@Autowired
@@ -61,7 +60,6 @@ public class PeliculaController {
 		List<Pelicula> peliculas = this.peliculaService.findPeliculas();
 		model.put("peliculas", peliculas);
 		return "/peliculas/PeliculasList";
-		
 	}
 	
 	

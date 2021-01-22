@@ -13,8 +13,8 @@
 
 
 	<table class="table table-striped">
-		<td><img src=<c:out value="${pelicula.imagen}"/> width="250"
-			height="350"></td>
+		<td><img src=<c:out value="${pelicula.imagen}"/> width="20%"
+			height="20%"></td>
 		<tr>
 
 			<td><c:out value="${pelicula.nombre}" /></td>
@@ -50,14 +50,11 @@
 	</spring:url>
 	<a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Editar pelicula</a>
 	
-    <!--
 	<spring:url value="/pedidos/addCarrito/{productoId}/{tipo}" var="carritoUrl">
 		<spring:param name="productoId" value="${pelicula.id}" />
 		<spring:param name="tipo" value="${'PELICULA'}" />
 	</spring:url>
-	<a href="${fn:escapeXml(carritoUrl)}" class="btn btn-default">A�adir al carrito</a>
-	
-    -->
+	<a href="${fn:escapeXml(carritoUrl)}" class="btn btn-default">Insertar al carrito</a>
 
 
 </petclinic:layout>

@@ -46,7 +46,7 @@ public class Cliente extends Persona {
 	
 	@Column(name = "cartera")
 	private Double cartera;
-	
+	/*
 	public Cliente(@NotEmpty String nombre, @NotEmpty String apellidos, @NotEmpty @NotEmpty @NotEmpty LocalDate fechaNacimiento,
 			@NotEmpty String dni, @NotEmpty @Email String email,
 			@NotEmpty @Digits(fraction = 0, integer = 10) String telefono, @NotEmpty String ciudad,
@@ -59,23 +59,30 @@ public class Cliente extends Persona {
 		this.tarjetaCredito = tarjetaCredito;
 		this.cartera = cartera;
 	}
+	*/
+	
+	
 
 	public Cliente(@NotEmpty String nombre, @NotEmpty String apellidos, @NotEmpty @NotEmpty @NotEmpty LocalDate fechaNacimiento,
 			@NotEmpty String dni, @NotEmpty @Email String email,
 			@NotEmpty @Digits(fraction = 0, integer = 10) String telefono) {
 		super(nombre, apellidos, fechaNacimiento, dni, email, telefono);
+		this.ciudad = ciudad;
+		this.codigoPostal = codigoPostal;
+		this.direccion = direccion;
+		this.tarjetaCredito = tarjetaCredito;
+		this.cartera = cartera;
+		this.pedidos = null;
 	}
 
 	public Cliente() {
 	}
     
-	//Este no lo comento porque si no el login no funciona
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "username", referencedColumnName = "username")
 	@Valid
 	private User	user;
 
-	
 	@ManyToMany(mappedBy = "clientes")
 	private Collection<Reproductor> reproductores;
 	
@@ -95,13 +102,26 @@ public class Cliente extends Persona {
 				+ reproductores + ", comentarios=" + comentarios + "]";
 	}
 	
-	/*
-	
+	public Cliente(@NotEmpty String nombre, @NotEmpty String apellidos, @NotEmpty @NotEmpty LocalDate fechaNacimiento,
+			@NotEmpty String dni, @NotEmpty @Email String email,
+			@NotEmpty @Digits(fraction = 0, integer = 10) String telefono, @NotEmpty String ciudad,
+			@NotEmpty String codigoPostal, @NotEmpty String direccion, @NotEmpty String tarjetaCredito, Double cartera,
+			@Valid User user, Collection<Reproductor> reproductores, Collection<@Valid Comentario> comentarios,
+			Collection<@Valid Pedido> pedidos) {
+		super(nombre, apellidos, fechaNacimiento, dni, email, telefono);
+		this.ciudad = ciudad;
+		this.codigoPostal = codigoPostal;
+		this.direccion = direccion;
+		this.tarjetaCredito = tarjetaCredito;
+		this.cartera = cartera;
+		this.user = user;
+		this.reproductores = reproductores;
+		this.comentarios = comentarios;
+		this.pedidos = pedidos;
+	}
+
 	@OneToMany(mappedBy = "cliente")
 	private Collection<@Valid Pedido>	pedidos;
-	
-	
-	*/
 	
 	
 }
