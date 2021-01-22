@@ -102,10 +102,10 @@
 						</c:forEach>
 					</c:if>
 
-					<td><spring:url value="/pedidos/pagar/{pedidoId}"
+					<td><spring:url value="/pedidos/{pedidoId}/pagar"
 							var="pedidoUrl">
 							<spring:param name="pedidoId" value="${pedidoId}" />
-						</spring:url> <a href="${fn:escapeXml(merchandasingUrl)}"
+						</spring:url> <a href="${fn:escapeXml(pedidoUrl)}"
 									class="btn btn-default">Pagar</a></td>
 
 				</tbody>

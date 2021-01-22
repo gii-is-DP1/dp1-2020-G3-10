@@ -1,6 +1,7 @@
 
 package org.springframework.samples.petclinic.web;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -142,7 +143,7 @@ public class PedidoController {
 			System.out.println(e);
 			modelMap.addAttribute("mensaje", "El producto no se ha podido eliminar.");
 		}
-		return "redirect:/pedidos/mostrarCarrito";
+		return listCarrito(modelMap);
 	}
 
 	@GetMapping(path = "/mostrarCarrito")
@@ -178,5 +179,42 @@ public class PedidoController {
 
 		return vista;
 	}
+	
+	@GetMapping(path = "/{pedidoId}/pagar")
+    public String finalizarCarrito(@PathVariable("pedidoId") final int pedidoId, final ModelMap modelMap) {
+
+        Pedido pedido = pedidoService.findPedidoById(pedidoId);
+        Cliente cliente = pedido.getCliente();
+        modelMap.addAttribute("pedido", pedido);
+        modelMap.addAttribute("cliente", cliente);
+        return "/pedidos/finalizarCarrito";
+
+    }
+	
+	@PostMapping(value = "/{pedidoId}/pagar")
+    public String processFinalizarCarritoForm(Cliente cliente, Pedido pedido, BindingResult result,
+            @PathVariable("pedidoId") int pedidoId, ModelMap mp) {
+        Pedido pedidoAntiguo = pedidoService.findPedidoById(pedido.getId());
+        if (result.hasErrors()) {
+            mp.addAttribute("cliente", cliente);
+            mp.addAttribute("message", "¡Los datos introducidos no son correctos!");
+            return "/pedidos/finalizarCarrito";
+        } else {
+
+            pedidoAntiguo.setFecha(LocalDate.now());
+            pedidoAntiguo.setDireccionEnvio(pedido.getDireccionEnvio());
+            try{
+                pedidoService.completaPedido(pedidoAntiguo);
+            }catch(Exception e) {
+                mp.addAttribute("message", e.getMessage());
+                return "/pedidos/finalizarCarrito";
+            }
+
+        }
+
+        return "/pedidos/pedidoCompletado";
+    }
+	
+	
 
 }

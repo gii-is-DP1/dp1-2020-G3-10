@@ -255,6 +255,9 @@ public class PedidoService {
 		} else {
 			pedido.setEstado(EstadoPedido.PENDIENTE);
 			this.pedidoRepository.save(pedido);
+			Cliente cliente = pedido.getCliente();
+			cliente.setCartera(cliente.getCartera() - pedido.getPrecioTotal());
+			this.clienteRepository.save(cliente);
 		}
 	}
 	
