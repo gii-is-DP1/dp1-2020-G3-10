@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.web;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,11 +50,29 @@ public class PedidoController {
 	 * @GetMapping public boolean esMiPedido(@AuthenticationPrincipal User user,
 	 * Pedido pedido) { return pedido.getCliente().getUser() == user; }
 	 */
+	
+	/// REVISAR SI SE USA O NO
 	@GetMapping
 	public String listadoPedidos(final ModelMap modelMap) {
 		String vista = "pedidos/listadoPedidos";
 
 		Iterable<Pedido> pedidos = this.pedidoService.findAll();
+
+		modelMap.addAttribute("pedidos", pedidos);
+
+		return vista;
+	}
+	
+	@GetMapping(path = "/cliente")
+	public String listadoPedidosCliente(final ModelMap modelMap) {
+		String vista = "pedidos/listadoPedidos";
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+
+		String username = userDetail.getUsername();
+
+		Collection<Pedido> pedidos = pedidoService.findPedidosCliente(username);
 
 		modelMap.addAttribute("pedidos", pedidos);
 
@@ -191,12 +210,11 @@ public class PedidoController {
 
     }
 	
-	@PostMapping(value = "/{pedidoId}/pagar")
-    public String processFinalizarCarritoForm(Cliente cliente, Pedido pedido, BindingResult result,
-            @PathVariable("pedidoId") int pedidoId, ModelMap mp) {
+	@PostMapping(value = "/pagar")
+    public String processFinalizarCarritoForm(Pedido pedido, BindingResult result, ModelMap mp) {
         Pedido pedidoAntiguo = pedidoService.findPedidoById(pedido.getId());
         if (result.hasErrors()) {
-            mp.addAttribute("cliente", cliente);
+            mp.addAttribute("cliente", pedido.getCliente());
             mp.addAttribute("message", "¡Los datos introducidos no son correctos!");
             return "/pedidos/finalizarCarrito";
         } else {

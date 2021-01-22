@@ -46,6 +46,19 @@ public class PedidoService {
 	public Iterable<Pedido> findAll() {
 		return this.pedidoRepository.findAll();
 	}
+	
+	@Transactional
+	public List<Pedido> findPedidosCliente(String usuario) {
+		Cliente cliente = clienteRepository.findByUsername(usuario);
+		Collection<Pedido> pedidosCliente = cliente.getPedidos();
+		List<Pedido> pedidos = new ArrayList<>();
+		for(Pedido p:pedidosCliente) {
+			if(!(p.getEstado()==EstadoPedido.CARRITO)) {
+				pedidos.add(p);
+			}
+		}
+		return pedidos;
+	}
 
 	@Transactional
 	public boolean carritoContieneProducto(int productoId, String usuario, String tipo) {

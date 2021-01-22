@@ -73,7 +73,7 @@
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
 					<sec:authorize access="hasAuthority('cliente')">
-					<li><a href="<c:url value="/pedidos" />">Mis Pedidos</a></li>
+					<li><a href="<c:url value="/pedidos/cliente" />">Mis Pedidos</a></li>
 					<li><a href="<c:url value="/pedidos/mostrarCarrito" />">Carrito</a></li>
 					</sec:authorize>
 					<sec:authorize access="hasAuthority('vendedor')">

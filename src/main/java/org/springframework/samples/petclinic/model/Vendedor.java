@@ -41,6 +41,13 @@ public class Vendedor extends Person {
 	@Valid
 	private User	user;
 	
+	@OneToMany
+	private Collection<@Valid Pelicula>	peliculas;
+	@OneToMany
+	private Collection<@Valid Videojuego>	videojuegos;
+	@OneToMany
+	private Collection<@Valid Merchandasing>	merchandasings;
+	
 	
 
 }

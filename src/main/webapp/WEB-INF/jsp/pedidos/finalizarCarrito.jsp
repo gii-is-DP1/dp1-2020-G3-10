@@ -35,14 +35,10 @@
 
         </tbody>
     </table>
-    <form:form modelAttribute="pedido" class="form-horizontal">
+    <form:form modelAttribute="pedido" class="form-horizontal" action="/pedidos/pagar">
                 <div class="form-group has-feedback">
-
-
-
-
                     <petclinic:inputField label="Dirección de Envío" name="direccionEnvio" />
-                    <petclinic:inputField  label="id" name="id" />
+                    <input type="hidden" name="id" value="${pedido.id}" />
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">

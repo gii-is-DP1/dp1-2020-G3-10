@@ -60,7 +60,6 @@ public class PeliculaController {
 		List<Pelicula> peliculas = this.peliculaService.findPeliculas();
 		model.put("peliculas", peliculas);
 		return "/peliculas/PeliculasList";
-		
 	}
 	
 	

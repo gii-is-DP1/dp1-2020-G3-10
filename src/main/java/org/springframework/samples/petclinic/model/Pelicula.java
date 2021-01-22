@@ -54,14 +54,4 @@ public class Pelicula extends Producto {
 		getComentarios().add(comentario);
 	}
 	
-    /*
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "vendedor_id")
-	@Valid
-	private Vendedor vendedor;
-
-	
-	*/
-	
 }
