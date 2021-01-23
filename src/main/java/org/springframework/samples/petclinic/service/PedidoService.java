@@ -46,14 +46,14 @@ public class PedidoService {
 	public Iterable<Pedido> findAll() {
 		return this.pedidoRepository.findAll();
 	}
-	
+
 	@Transactional
 	public List<Pedido> findPedidosCliente(String usuario) {
 		Cliente cliente = clienteRepository.findByUsername(usuario);
 		Collection<Pedido> pedidosCliente = cliente.getPedidos();
 		List<Pedido> pedidos = new ArrayList<>();
-		for(Pedido p:pedidosCliente) {
-			if(!(p.getEstado()==EstadoPedido.CARRITO)) {
+		for (Pedido p : pedidosCliente) {
+			if (!(p.getEstado() == EstadoPedido.CARRITO)) {
 				pedidos.add(p);
 			}
 		}
@@ -74,7 +74,7 @@ public class PedidoService {
 						Collection<Pelicula> peliculas = p.getPeliculas();
 						for (Pelicula pel : peliculas) {
 							if (pel.getId() == productoId) {
-								result = true; //¿?
+								result = true; // ¿?
 							}
 						}
 						break;
@@ -115,13 +115,12 @@ public class PedidoService {
 			return pedido.get();
 		}
 	}
-	
+
 	@Transactional(readOnly = true)
 	public Optional<Pedido> findProductosCarritoByClienteId(final String usuario) {
 		Cliente cliente = clienteRepository.findByUsername(usuario);
 		return this.pedidoRepository.findProductosCarrito(cliente.getId());
-		
-		
+
 	}
 
 	@Transactional
@@ -222,44 +221,44 @@ public class PedidoService {
 		cliente.setPedidos(pedidosNuevos);
 		clienteRepository.save(cliente);
 	}
-	
+
 	@Transactional
 	public void eliminaProductoCarrito(int productoId, String tipo) {
 
 		Pedido pedido = pedidoRepository.findById(productoId).get();
-		
-		System.out.println("LOG ******************************************** "+pedido.toString());
-		
+
+		System.out.println("LOG ******************************************** " + pedido.toString());
+
 		switch (tipo) {
-			case "PELICULA":
-				Pelicula pelicula = peliculaService.findPeliculaById(productoId);
-				pedido.getPeliculas().remove(pelicula);
-				pedido.setPrecioTotal(pedido.getPrecioTotal() - pelicula.getPrecio());
-				System.out.println("LOG: Pelicula eliminada de carrito.");
-				break;
-			case "VIDEOJUEGO":
-				Videojuego videojuego = videojuegoService.findVideojuegoById(productoId);
-				pedido.getVideojuegos().remove(videojuego);
-				pedido.setPrecioTotal(pedido.getPrecioTotal() - videojuego.getPrecio());
-				System.out.println("LOG: Videojuego eliminado de carrito.");
-				break;
-			case "MERCHANDASING":
-				Merchandasing merchandasing = merchandasingService.findMerchandasingById(productoId);
-				pedido.getMerchandasings().remove(merchandasing);
-				pedido.setPrecioTotal(pedido.getPrecioTotal() - merchandasing.getPrecio());
-				System.out.println("LOG: Merchandasings eliminada de carrito.");
-				break;
-			default:
-				throw new IllegalArgumentException("El tipo no es correcto");
+		case "PELICULA":
+			Pelicula pelicula = peliculaService.findPeliculaById(productoId);
+			pedido.getPeliculas().remove(pelicula);
+			pedido.setPrecioTotal(pedido.getPrecioTotal() - pelicula.getPrecio());
+			System.out.println("LOG: Pelicula eliminada de carrito.");
+			break;
+		case "VIDEOJUEGO":
+			Videojuego videojuego = videojuegoService.findVideojuegoById(productoId);
+			pedido.getVideojuegos().remove(videojuego);
+			pedido.setPrecioTotal(pedido.getPrecioTotal() - videojuego.getPrecio());
+			System.out.println("LOG: Videojuego eliminado de carrito.");
+			break;
+		case "MERCHANDASING":
+			Merchandasing merchandasing = merchandasingService.findMerchandasingById(productoId);
+			pedido.getMerchandasings().remove(merchandasing);
+			pedido.setPrecioTotal(pedido.getPrecioTotal() - merchandasing.getPrecio());
+			System.out.println("LOG: Merchandasings eliminada de carrito.");
+			break;
+		default:
+			throw new IllegalArgumentException("El tipo no es correcto");
 		}
-		
+
 		pedidoRepository.save(pedido);
 	}
-	
 
 	@Transactional
 	public void completaPedido(final Pedido pedido) {
-		if (pedido.getCliente() == null && pedido.getDireccionEnvio() == null && pedido.getEstado() == null && pedido.getFecha() == null && pedido.getPrecioTotal() == null ) {
+		if (pedido.getCliente() == null && pedido.getDireccionEnvio() == null && pedido.getEstado() == null
+				&& pedido.getFecha() == null && pedido.getPrecioTotal() == null) {
 			throw new IllegalArgumentException("No puede haber campos nulos.");
 		} else if (pedido.getEstado() != EstadoPedido.CARRITO) {
 			throw new IllegalArgumentException("El pedido no es un carrito.");
@@ -273,10 +272,47 @@ public class PedidoService {
 			this.clienteRepository.save(cliente);
 		}
 	}
+
+	@Transactional
+	public List<Integer> listaIdPeliculasCompradas() {
+		List<Integer> idPeliculas = new ArrayList<>();
+		Iterable<Pedido> pedidos = pedidoRepository.findAll();
+		for (Pedido p : pedidos) {
+			// en el momento que una pelicula se añade a un pedido o bien esta en estado
+			// carrito
+			// o bien se ha finalizado el pedido y no se puede mostrar en la vista de
+			// peliculas
+			if (p.getPeliculas() != null) {
+				Collection<Pelicula> peliculas = p.getPeliculas();
+				for (Pelicula pel : peliculas) {
+					idPeliculas.add(pel.getId());
+				}
+			}
+
+		}
+
+		return idPeliculas;
+	}
 	
-	
-	
-	
-	
-	
+	@Transactional
+	public List<Integer> listaIdVideojuegosComprados() {
+		List<Integer> idVideojuegos = new ArrayList<>();
+		Iterable<Pedido> pedidos = pedidoRepository.findAll();
+		for (Pedido p : pedidos) {
+			// en el momento que una pelicula se añade a un pedido o bien esta en estado
+			// carrito
+			// o bien se ha finalizado el pedido y no se puede mostrar en la vista de
+			// peliculas
+			if (p.getVideojuegos() != null) {
+				Collection<Videojuego> videojuegos = p.getVideojuegos();
+				for (Videojuego v : videojuegos) {
+					idVideojuegos.add(v.getId());
+				}
+			}
+
+		}
+
+		return idVideojuegos;
+	}
+
 }

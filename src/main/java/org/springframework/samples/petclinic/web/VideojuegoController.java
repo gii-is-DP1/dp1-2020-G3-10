@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.web;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -7,6 +8,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Videojuego;
+import org.springframework.samples.petclinic.service.PedidoService;
 import org.springframework.samples.petclinic.service.VideojuegoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -26,6 +28,9 @@ public class VideojuegoController {
 
 	@Autowired
 	private final VideojuegoService videojuegoService;
+	
+	@Autowired
+	private final PedidoService pedidoService;
 
 	@InitBinder
 	public void setAllowedFields(WebDataBinder dataBinder) {
@@ -33,14 +38,23 @@ public class VideojuegoController {
 	}
 
 	@Autowired
-	public VideojuegoController(VideojuegoService videojuegoService) {
+	public VideojuegoController(VideojuegoService videojuegoService, PedidoService pedidoService) {
 		this.videojuegoService = videojuegoService;
+		this.pedidoService = pedidoService;
 	}
 
 	@GetMapping(value = "/videojuegos")
 	public String showVideojuegosList(Map<String, Object> model) {
 		List<Videojuego> videojuegos = this.videojuegoService.findVideojuegos();
-		model.put("videojuegos", videojuegos);
+		List<Integer> idProhibidos = this.pedidoService.listaIdVideojuegosComprados();
+		List<Videojuego> videojuegosPermitidos= new ArrayList<Videojuego>();
+		for(Videojuego v: videojuegos) {
+			if(!idProhibidos.contains(v.getId())) {
+				videojuegosPermitidos.add(v);
+				
+			}
+		}
+		model.put("videojuegos", videojuegosPermitidos);
 		return "/videojuegos/videojuegosList";
 	}
 

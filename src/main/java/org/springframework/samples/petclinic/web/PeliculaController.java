@@ -12,7 +12,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pelicula;
-
+import org.springframework.samples.petclinic.service.PedidoService;
 import org.springframework.samples.petclinic.service.PeliculaService;
 import org.springframework.samples.petclinic.service.ProductoService;
 import org.springframework.stereotype.Controller;
@@ -41,6 +41,9 @@ public class PeliculaController {
 	@Autowired
 	private final ProductoService productoService;
 	
+	@Autowired
+	private final PedidoService pedidoService;
+	
 	@InitBinder
 	public void setAllowedFields(WebDataBinder dataBinder) {
 		dataBinder.setDisallowedFields("id");
@@ -48,9 +51,10 @@ public class PeliculaController {
 
 	
 	@Autowired
-	public PeliculaController(final PeliculaService peliculaService,final ProductoService productoService) {
+	public PeliculaController(final PeliculaService peliculaService,final ProductoService productoService, final PedidoService pedidoService) {
 		this.peliculaService = peliculaService;
 		this.productoService = productoService;
+		this.pedidoService = pedidoService;
 		
 	}
 	
@@ -58,7 +62,14 @@ public class PeliculaController {
 	@GetMapping(value = "/peliculas")
 	public String showPeliculasList(Map<String, Object> model) {
 		List<Pelicula> peliculas = this.peliculaService.findPeliculas();
-		model.put("peliculas", peliculas);
+		List<Integer> idProhibidos = this.pedidoService.listaIdPeliculasCompradas();
+		List<Pelicula> peliculasPermitidas = new ArrayList<>();
+		for(Pelicula pel: peliculas) {
+			if(!idProhibidos.contains(pel.getId())) {
+				peliculasPermitidas.add(pel);
+			}
+		}
+		model.put("peliculas", peliculasPermitidas);
 		return "/peliculas/PeliculasList";
 	}
 	
