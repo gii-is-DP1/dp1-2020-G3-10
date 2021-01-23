@@ -39,7 +39,7 @@ public class ComentarioServiceTests {
 	
 	@Test
 	@Transactional
-	public void shouldInsertPelicula() {
+	public void shouldInsertComentario() {
 		Comentario comentario = new Comentario();
 		Cliente cliente = this.clienteService.findClienteById(1);
 		Pelicula pelicula = this.peliculaService.findPeliculaById(1);
@@ -56,6 +56,30 @@ public class ComentarioServiceTests {
 		this.comentarioService.saveComment(comentario);
 		assertThat(comentario.getId()!=null && comentario.getId()!=0);
 		
+	}
+	
+	@Test
+	@Transactional
+	public void shouldEditComentario() {
+		Comentario comentario = comentarioService.findCommentById(1);
+		String textoAnt = comentario.getTexto();
+		String textoNu = comentario.getTexto() + "2";
+		
+		comentario.setTexto(textoNu);
+		assertThat(comentario.getTexto()==textoNu);
+		
+	}
+	
+	@Test
+	@Transactional
+	public void shouldDeleteComentario() {
+		Comentario comentario = comentarioService.findCommentById(1);
+		Integer size = comentarioService.findAll().size();
+		
+		comentarioService.deleteComment(comentario);
+		
+		Integer newSize = comentarioService.findAll().size();
+		assertThat((size != newSize) && comentarioService.findCommentById(1)==null);
 	}
 
 }

@@ -16,6 +16,8 @@
             <th style="width: 150px;">Titulo</th>
             <th style="width: 200px;">Texto</th>
             <th style="width: 120px">Autor</th>
+            <th style="width: 250px">Producto</th>
+  
         </tr>
         </thead>
         <tbody>
@@ -30,6 +32,11 @@
                 <td>
                     <c:out value="${comentario.cliente.dni}"/>
                 </td>
+                
+                <td>
+                	 <c:out value="${comentario.pelicula}"/>
+                	 <c:out value="${comentario.videojuego}"/>
+                	 <c:out value="${comentario.merchandasing}"/>
                
                <td>
                 <spring:url value="/comentarios/{clienteId}/comentario/{comentarioId}/delete" var="deleteUrl">

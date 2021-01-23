@@ -134,6 +134,11 @@ INSERT INTO REPRODUCTORES( ID , NOMBRE , DESCRIPCION ) VALUES ( 3, 'WII','La cl√
 INSERT INTO REPRODUCTORES( ID , NOMBRE , DESCRIPCION ) VALUES ( 2, 'XBOX SERIE X','La nueva consola de Microsoft');
 INSERT INTO REPRODUCTORES( ID , NOMBRE , DESCRIPCION ) VALUES ( 1, 'PS5','La nueva consola de Sony');
 
+
+--Comentarios
+
+INSERT INTO COMENTARIO(ID, TITULO, TEXTO, CLIENTE_ID, PELICULA_ID) VALUES (1, 'Increible', 'No me la esperaba tan buena', 2, 1);
+INSERT INTO COMENTARIO(ID, TITULO, TEXTO, CLIENTE_ID, VIDEOJUEGO_ID) VALUES (2, 'Titulo comentario', 'Pensaba que seria mejor', 1, 2);
 --Vendedor
 
 INSERT INTO vendedor(id,first_name,last_name,vacaciones,valoracion,nombre_tienda,direccion_tienda,telefono,username) VALUES (1,'carles','santos',true,20,'tienda bonita','calle piruleta','6085558763','guipavvar');
