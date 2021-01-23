@@ -31,8 +31,21 @@
                     <c:out value="${comentario.cliente.dni}"/>
                 </td>
                
-                
-                
+               <td>
+                <spring:url value="/comentarios/{clienteId}/comentario/{comentarioId}/delete" var="deleteUrl">
+					<spring:param name="comentarioId" value="${comentario.id}" />
+					<spring:param name="clienteId" value="${comentario.cliente.id}"/>
+				</spring:url>
+				<a href="${fn:escapeXml(deleteUrl)}" class="btn btn-default">Borrar Comentario</a>
+				</td>
+				
+				<td>
+				<spring:url value="/comentarios/{clienteId}/comentario/{comentarioId}/edit" var="editUrl">
+					<spring:param name="comentarioId" value="${comentario.id}" />
+					<spring:param name="clienteId" value="${comentario.cliente.id}"/>
+				</spring:url>
+				<a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Editar comentario</a>
+                </td>
       
 <!--
                 <td> 

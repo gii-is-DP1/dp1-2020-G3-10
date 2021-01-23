@@ -1,10 +1,14 @@
 package org.springframework.samples.petclinic.model;
 
+import java.util.Collection;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
@@ -27,5 +31,13 @@ public class Merchandasing extends Producto {
 	@NotBlank
 	@Column(name = "fabricante")
 	private String fabricante;
+	
+	@OneToMany(mappedBy = "cliente")
+	private Collection<@Valid Comentario>	comentarios;
+	
+	public void addComment(Comentario comentario) {
+		getComentarios().add(comentario);
+		comentario.setMerchandasing(this);
+	}
 	
 }

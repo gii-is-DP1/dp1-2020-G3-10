@@ -49,6 +49,7 @@ public class Videojuego extends Producto {
 	
 	public void addComment(Comentario comentario) {
 		getComentarios().add(comentario);
+		comentario.setVideojuego(this);
 	}
 	
 	/*	

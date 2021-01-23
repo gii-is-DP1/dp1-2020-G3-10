@@ -5,18 +5,22 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Comentario;
 import org.springframework.samples.petclinic.model.Merchandasing;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pelicula;
+import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.Videojuego;
 import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.ComentarioService;
+import org.springframework.samples.petclinic.service.MerchandasingService;
 import org.springframework.samples.petclinic.service.PeliculaService;
 import org.springframework.samples.petclinic.service.ProductoService;
 import org.springframework.samples.petclinic.service.VideojuegoService;
+import org.springframework.samples.petclinic.service.exceptions.DuplicatedPetNameException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -44,10 +48,15 @@ public class ComentarioController {
 	@Autowired
 	private final VideojuegoService videojuegoService;
 	
+	@Autowired 
+	private final MerchandasingService merchandasingService;
+	
 	
 	private static final String VIEWS_COMENTARIOS_CREATE_OR_UPDATE_FORM_P = "comentarios/createOrUpdateComentarioForm";
 	
-	private static final String VIEWS_COMENTARIOS_CREATE_OR_UPDATE_FORM_V = "comentarios/createOrUpdateComentarioForm";
+	private static final String VIEWS_COMENTARIOS_CREATE_OR_UPDATE_FORM_V = "comentarios/createOrUpdateComentarioFormVideojuego";
+	
+	private static final String VIEWS_COMENTARIOS_CREATE_OR_UPDATE_FORM_M = "comentarios/createOrUpdateComentarioFormMerchandasing";
 	
 	@GetMapping()
 	public String listComments(@PathVariable("clienteId") int clienteId, ModelMap modelMap) {
@@ -64,11 +73,12 @@ public class ComentarioController {
 	}
 	
 	@Autowired
-	public ComentarioController(ComentarioService comentarioService, ClienteService clienteService, PeliculaService peliculaService, VideojuegoService videojuegoService) {
+	public ComentarioController(ComentarioService comentarioService, ClienteService clienteService, PeliculaService peliculaService, VideojuegoService videojuegoService, MerchandasingService merchandasingService) {
 		this.comentarioService = comentarioService;
 		this.clienteService = clienteService;
 		this.peliculaService = peliculaService;
 		this.videojuegoService = videojuegoService;
+		this.merchandasingService = merchandasingService;
 	}
 	
 	@ModelAttribute("cliente")
@@ -91,7 +101,7 @@ public class ComentarioController {
 		dataBinder.setDisallowedFields("id");
 	}
 	
-	@InitBinder
+	@InitBinder("merchandasing")
 	public void initMerchandasingFields(WebDataBinder dataBinder) {
 		dataBinder.setDisallowedFields("id");
 	}
@@ -102,8 +112,8 @@ public class ComentarioController {
 		
 		Comentario comentario = new Comentario(cliente);
 		Pelicula pelicula = peliculaService.findPeliculaById(peliculaId);
-		comentario.setPelicula(pelicula);
-		comentario.setCliente(cliente);
+		//comentario.setPelicula(pelicula);
+		//comentario.setCliente(cliente);
 		
 		pelicula.addComment(comentario);
 		cliente.addComment(comentario);
@@ -115,23 +125,35 @@ public class ComentarioController {
 	
 	@GetMapping(value = "/videojuego/{videojuegoId}/new")
 	public String initCreationFormVideojuego(@PathVariable("videojuegoId") int videojuegoId, Cliente cliente, ModelMap model) {
+		
 		Comentario comentario = new Comentario(cliente);
 		Videojuego videojuego = videojuegoService.findVideojuegoById(videojuegoId);
-		comentario.setVideojuego(videojuego);
+		//comentario.setVideojuego(videojuego);
 		//comentario.setCliente(cliente);
+		
 		videojuego.addComment(comentario);
 		cliente.addComment(comentario);
+		
 		model.put("comentario", comentario);
-		model.put("cliente", cliente);
 		return VIEWS_COMENTARIOS_CREATE_OR_UPDATE_FORM_V;
+	}
+	
+	@GetMapping(value = "merchandasing/{merchandasingId}/new")
+	public String initCreationFormMerchandasing(@PathVariable("merchandasingId") int merchandasingId, Cliente cliente, ModelMap model) {
+		
+		Comentario comentario = new Comentario(cliente);
+		Merchandasing merchandasing = this.merchandasingService.findMerchandasingById(merchandasingId);
+		
+		merchandasing.addComment(comentario);
+		cliente.addComment(comentario);
+		
+		model.put("comentario", comentario);
+		return VIEWS_COMENTARIOS_CREATE_OR_UPDATE_FORM_M;
 	}
 	
 	
 	@PostMapping(value = "/pelicula/{peliculaId}/new")
-	public String processCreationForm(Comentario comentario, BindingResult result, ModelMap model) {	
-		
-		System.out.println("ENTRA POSTTTTTTTTTTTTT: " + comentario.getCliente().getId() );
-		System.out.println("ENTRA POSTTTTTTTTTTTTT: " + comentario.getPelicula().getId() );
+	public String processCreationFormPelicula(Comentario comentario, BindingResult result, ModelMap model) {	
 		if (result.hasErrors()) {
 			System.out.println(result.getAllErrors());
 			model.addAttribute("comentario", comentario);
@@ -168,43 +190,110 @@ public class ComentarioController {
 	}
 	
 	@PostMapping(value = "/videojuego/{videojuegoId}/new")
-	public String processCreationFormVideojuego(Videojuego videojuego, Cliente cliente, @Valid Comentario comentario, BindingResult result, ModelMap model) {
+	public String processCreationFormVideojuego(Comentario comentario, BindingResult result, ModelMap model) {
 		if(result.hasErrors()) {
+			System.out.println(result.getAllErrors());
 			model.addAttribute("comentario", comentario);
 			model.addAttribute("message", "El comentario no se ha podido crear");
 			return VIEWS_COMENTARIOS_CREATE_OR_UPDATE_FORM_V;
 		} else {
+			
+				comentario.setCliente(clienteService.findClienteById(comentario.getCliente().getId()));
+				comentario.setVideojuego(videojuegoService.findVideojuegoById(comentario.getVideojuego().getId()));
+				
+				Cliente cliente = comentario.getCliente();
+				Collection<Comentario> comentariosCliente = cliente.getComentarios();
+				comentariosCliente.add(comentario);
+				cliente.setComentarios(comentariosCliente);
+				
+				Videojuego videojuego = comentario.getVideojuego();
+				Collection<Comentario> comentariosVideojuego = videojuego.getComentarios();
+				comentariosVideojuego.add(comentario);
+				videojuego.setComentarios(comentariosVideojuego);
+				
+				this.comentarioService.saveComment(comentario);
+				this.clienteService.saveCliente(cliente);
+				this.videojuegoService.saveVideojuego(videojuego);
+				Iterable<Comentario> comentarios = comentarioService.findAll();
+            	model.addAttribute("comentarios", comentarios);
+            	model.addAttribute("message", "Comentario creado con exito");
+            	
 			return "redirect:/comentarios/" + cliente.getId();
 		}
 	}
-	/*
-	@GetMapping(value = "/comentarios/{comentarioId}/edit")
-	public String initUpdateForm(@PathVariable("comentarioId") int comentarioId, ModelMap model) {
-		Comentario comentario = this.comentarioService.findCommentById(comentarioId);
-		model.put("comentario", comentario);
-		return VIEWS_COMENTARIOS_CREATE_OR_UPDATE_FORM;
+	
+	@PostMapping(value = "/merchandasing/{merchandasingId}/new")
+	public String processCreationFormMerchandasing(Comentario comentario , BindingResult result, ModelMap model) {
+		if(result.hasErrors()) {
+			model.addAttribute("comentario", comentario);
+			model.addAttribute("message", "El comentario no se ha podido crear");
+			return VIEWS_COMENTARIOS_CREATE_OR_UPDATE_FORM_M;
+		} else {
+			comentario.setCliente(clienteService.findClienteById(comentario.getCliente().getId()));
+			comentario.setMerchandasing(merchandasingService.findMerchandasingById(comentario.getMerchandasing().getId()));
+			
+			Cliente cliente = comentario.getCliente();
+			Collection<Comentario> comentariosCliente = cliente.getComentarios();
+			comentariosCliente.add(comentario);
+			cliente.setComentarios(comentariosCliente);
+			
+			Merchandasing merchandasing = comentario.getMerchandasing();
+			Collection<Comentario> comentariosMerchandasing = merchandasing.getComentarios();
+			comentariosMerchandasing.add(comentario);
+			merchandasing.setComentarios(comentariosMerchandasing);
+			
+			this.comentarioService.saveComment(comentario);
+			this.clienteService.saveCliente(cliente);
+			this.merchandasingService.saveMerchandasing(merchandasing);
+			Iterable<Comentario> comentarios = comentarioService.findAll();
+			model.addAttribute("comentarios", comentarios);
+			model.addAttribute("message", "Comentario creado con exito");
+			
+			return "redirect:/comentarios/" + cliente.getId();
+		}
 	}
 	
-	@PostMapping(value = "/comentarios/{comentarioId}/edit")
-	public String processUpdateForm(@Valid Comentario comentario, BindingResult result, Cliente cliente,@PathVariable("comentarioId") int comentarioId, ModelMap model) {
+	@GetMapping(value = "/comentario/{comentarioId}/edit")
+	public String initUpdateFormComentarioPelicula(@PathVariable("comentarioId") int comentarioId, ModelMap model) {
+		String res = "";
+		Comentario comentario = comentarioService.findCommentById(comentarioId);
+		model.put("comentario", comentario);
+		if(comentario.getPelicula()!=null) {
+			res = VIEWS_COMENTARIOS_CREATE_OR_UPDATE_FORM_P;
+		} else if(comentario.getVideojuego()!=null) {
+			res = VIEWS_COMENTARIOS_CREATE_OR_UPDATE_FORM_V;
+		} else {
+			res = VIEWS_COMENTARIOS_CREATE_OR_UPDATE_FORM_M;
+		}
+		return res;
+	}
+	
+	@PostMapping(value = "/comentario/{comentarioId}/edit")
+	public String processUpdateFormComentarioPelicula(Comentario comentario, BindingResult result, Cliente cliente,@PathVariable("comentarioId") int comentarioId, ModelMap model) {
 		if (result.hasErrors()) {
 			model.put("comentario", comentario);
-			return VIEWS_COMENTARIOS_CREATE_OR_UPDATE_FORM;
+			return VIEWS_COMENTARIOS_CREATE_OR_UPDATE_FORM_P;
 		}
 		else {
-			Comentario comentarioToUpdate = this.comentarioService.findCommentById(comentarioId);
-			BeanUtils.copyProperties(comentario, comentarioToUpdate, "id","cliente","vendedor");                                                                                              
-            this.comentarioService.saveComment(comentarioToUpdate);                    
+                        Comentario comentarioToUpdate=this.comentarioService.findCommentById(comentarioId);
+                        BeanUtils.copyProperties(comentario, comentarioToUpdate, "id","cliente","pelicula", "videojuego", "merchandasing");                                                                                                     
+                        this.comentarioService.saveComment(comentarioToUpdate);
                     
-			return "redirect:/comentarios/{comentarioId}";
+                        return "redirect:/comentarios/" + cliente.getId();
 		}
 	}
 	
-	
-	
-	*/
-	
-	
+	@GetMapping("comentario/{comentarioId}/delete")
+	public String deleteComentario(@PathVariable("comentarioId") int comentarioId, ModelMap model) {
+		Comentario comentario = comentarioService.findCommentById(comentarioId);
+		String view = "comentarios/comentariosList";
+		if(comentario!=null) {
+			comentarioService.deleteComment(comentario);
+		} else {
+			model.addAttribute("message", "ERROR!");
+		}
+		return view;
+	}
 	
 	
 	
