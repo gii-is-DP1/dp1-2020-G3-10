@@ -1,11 +1,17 @@
 
 package org.springframework.samples.petclinic.service;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.model.Merchandasing;
+import org.springframework.samples.petclinic.model.Pelicula;
 import org.springframework.samples.petclinic.model.Vendedor;
+import org.springframework.samples.petclinic.model.Videojuego;
 import org.springframework.samples.petclinic.repository.VendedorRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,14 +20,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class VendedorService {
 
 	@Autowired
-	private VendedorRepository	vendedorRepository;
+	private VendedorRepository vendedorRepository;
 
 	@Autowired
-	private UserService			userService;
+	private UserService userService;
 
 	@Autowired
-	private AuthoritiesService	authoritiesService;
-
+	private AuthoritiesService authoritiesService;
 
 	@Transactional
 	public int conteoPedido() {
@@ -35,7 +40,7 @@ public class VendedorService {
 
 	}
 
-	//Te devuelve un Optional
+	// Te devuelve un Optional
 
 	@Transactional(readOnly = true)
 	public Optional<Vendedor> findVendedorById(final int id) {
@@ -43,7 +48,7 @@ public class VendedorService {
 
 	}
 
-	//Te devuelve un Vendedor
+	// Te devuelve un Vendedor
 
 	public Vendedor findVendedorByIdNormal(final int id) throws DataAccessException {
 
@@ -69,6 +74,27 @@ public class VendedorService {
 	public void deleteVendedorById(final int id) throws DataAccessException {
 
 		this.vendedorRepository.deleteById(id);
+	}
+
+	@Transactional(readOnly = true)
+	public Collection<Pelicula> obtenerPeliculas(int vendedorId) {
+		
+		Collection<Pelicula> peliculas = this.vendedorRepository.peliculasVendedor(vendedorId);
+		return peliculas;
+	}
+	
+	@Transactional(readOnly = true)
+	public Collection<Videojuego> obtenerVideojuegos(int vendedorId) {
+		
+		Collection<Videojuego> videojuegos = this.vendedorRepository.videojuegosVendedor(vendedorId);
+		return videojuegos;
+	}
+	
+	@Transactional(readOnly = true)
+	public Collection<Merchandasing> obtenerMerchandasings(int vendedorId) {
+		
+		Collection<Merchandasing> merchadasings = this.vendedorRepository.merchandasingsVendedor(vendedorId);
+		return merchadasings;
 	}
 
 }
