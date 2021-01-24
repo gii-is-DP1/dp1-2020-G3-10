@@ -16,6 +16,7 @@
 	<table id="merchandasingsTable" class="table table-striped">
 		<thead>
 			<tr>
+				<th>Nombre</th>
 				<th>Fabricante</th>
 				<th>Tipo</th>
 				<th>Acciones</th>
@@ -25,6 +26,13 @@
 		<tbody>
 			<c:forEach items="${merchandasings}" var="merchandasing">
 				<tr>
+				
+					<td><spring:url value="/merchandasings/{merchandasingId}"
+							var="merchandasingUrl">
+							<spring:param name="merchandasingId" value="${merchandasing.id}" />
+						</spring:url> <a href="${fn:escapeXml(merchandasingUrl)}">${merchandasing.nombre}</a>
+					</td>
+					
 					<td><spring:url value="/merchandasings/{merchandasingId}"
 							var="merchandasingUrl">
 							<spring:param name="merchandasingId" value="${merchandasing.id}" />
@@ -36,6 +44,7 @@
 							<spring:param name="merchandasingId" value="${merchandasing.id}" />
 						</spring:url> <a href="${fn:escapeXml(merchandasingUrl)}">${merchandasing.tipo}</a>
 					</td>
+					
 
 
 					<td><sec:authorize access="hasAuthority('vendedor')">
