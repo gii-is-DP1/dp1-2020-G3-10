@@ -37,8 +37,15 @@
             
             
         </div>
-                <petclinic:inputField label="fabricante"
-					name="Fabricante" />
+        
+        		<petclinic:inputField label="Nombre" name="Nombre"/>
+        		<petclinic:inputField label="Imagen" name="Imagen"/>
+                <petclinic:inputField label="Fabricante" name="Fabricante" />
+                <petclinic:inputField label="Precio" name="Precio"/>
+                <petclinic:inputField label="Descripci&oacuten" name="Descripcion"/>
+                <petclinic:inputField label="Fecha salida" name="FechaSalida"/>
+					
+				
        
             </div>
             <div class="form-group">

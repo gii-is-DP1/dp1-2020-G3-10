@@ -32,6 +32,12 @@ public class Comentario extends BaseEntity {
 	private Cliente cliente;
 	
 	
+	
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "merchandasing_id")
+	@Valid
+	private Merchandasing merchandasing;
+	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "pelicula_id")
 	@Valid
