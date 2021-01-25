@@ -52,6 +52,7 @@ public class Pelicula extends Producto {
 	
 	public void addComment(Comentario comentario) {
 		getComentarios().add(comentario);
+		comentario.setPelicula(this);
 	}
 	
 }
