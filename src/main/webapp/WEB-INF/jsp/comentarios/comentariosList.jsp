@@ -16,6 +16,8 @@
             <th style="width: 150px;">Titulo</th>
             <th style="width: 200px;">Texto</th>
             <th style="width: 120px">Autor</th>
+            <th style="width: 250px">Producto</th>
+  
         </tr>
         </thead>
         <tbody>
@@ -28,11 +30,29 @@
                     <c:out value="${comentario.texto}"/>
                 </td>
                 <td>
-                    <c:out value="${comentario.cliente.dni}"/>
+                    <c:out value="${comentario.cliente.email}"/>
                 </td>
+                
+                <td>
+                	 <c:out value="${comentario.pelicula.nombre}"/>
+                	 <c:out value="${comentario.videojuego.nombre}"/>
+                	 <c:out value="${comentario.merchandasing.nombre}"/>
                
-                
-                
+               <td>
+                <spring:url value="/comentarios/{clienteId}/comentario/{comentarioId}/delete" var="deleteUrl">
+					<spring:param name="comentarioId" value="${comentario.id}" />
+					<spring:param name="clienteId" value="${comentario.cliente.id}"/>
+				</spring:url>
+				<a href="${fn:escapeXml(deleteUrl)}" class="btn btn-default">Borrar Comentario</a>
+				</td>
+				
+				<td>
+				<spring:url value="/comentarios/{clienteId}/comentario/{comentarioId}/edit" var="editUrl">
+					<spring:param name="comentarioId" value="${comentario.id}" />
+					<spring:param name="clienteId" value="${comentario.cliente.id}"/>
+				</spring:url>
+				<a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Editar comentario</a>
+                </td>
       
 <!--
                 <td> 

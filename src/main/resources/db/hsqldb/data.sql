@@ -127,6 +127,9 @@ INSERT INTO VIDEOJUEGOS VALUES(3, 'Compra ahora el juego de PS4, consigue gratis
 INSERT INTO VIDEOJUEGOS VALUES(4, 'Adéntrate en una aventura compleja y desconocida en la que explorarás una impresionante versión alternativa de una historia clásica. ','2013-01-01','https://media.game.es/COVERV2/3D_L/173/173386.png','GOD OF WAR PS HITS', 9.95,2021,'Film SA', 'PS4');
 INSERT INTO VIDEOJUEGOS VALUES(5, 'Tu nueva experiencia Minecraft está aquí, en esta nueva y completa edición de tu juego favorito se incluye contenido extra como parte de la Bedrock Edition, así podrás disfrutar de un Minecraft con un mundo más grande, mejor y mucho más bonito.','2013-01-01','https://media.game.es/COVERV2/3D_L/150/150363.png','MINECRAFT - NINTENDO SWITCH EDITION', 29.95,2021,'Film SA', 'NINTENDO_SWITCH');
 
+--Comentarios
+INSERT INTO COMENTARIO(ID, TITULO, TEXTO, CLIENTE_ID, PELICULA_ID) VALUES (1, 'Increible', 'No me la esperaba tan buena', 1, 1);
+
 --Reproductores
 
 INSERT INTO REPRODUCTORES( ID , NOMBRE , DESCRIPCION ) VALUES ( 4, 'DVD','El viejo amigo que te ayudaba a ver tus pelis allá por el 2000');

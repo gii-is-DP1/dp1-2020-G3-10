@@ -38,6 +38,7 @@ public class Merchandasing extends Producto {
 	
 	public void addComment(Comentario comentario) {
 		getComentarios().add(comentario);
+		comentario.setMerchandasing(this);
 	}
 	
 	

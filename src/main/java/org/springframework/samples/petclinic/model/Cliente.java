@@ -93,6 +93,7 @@ public class Cliente extends Persona {
 	
 	public void addComment(Comentario comentario) {
 		getComentarios().add(comentario);
+		comentario.setCliente(this);
 	}
 
 	@Override
