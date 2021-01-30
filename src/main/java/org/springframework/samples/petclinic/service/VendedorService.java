@@ -47,11 +47,15 @@ public class VendedorService {
 		return this.vendedorRepository.findById(id);
 
 	}
+	
+	@Transactional(readOnly = true)
+	public Vendedor findVendedorByUsername(final String username) {
+		return this.vendedorRepository.findByUsername(username);
+	}
 
 	// Te devuelve un Vendedor
 
 	public Vendedor findVendedorByIdNormal(final int id) throws DataAccessException {
-
 		return this.vendedorRepository.findById(id).get();
 
 	}
@@ -78,23 +82,20 @@ public class VendedorService {
 
 	@Transactional(readOnly = true)
 	public Collection<Pelicula> obtenerPeliculas(int vendedorId) {
-		
-		Collection<Pelicula> peliculas = this.vendedorRepository.peliculasVendedor(vendedorId);
-		return peliculas;
+		Vendedor vendedor = this.findVendedorByIdNormal(vendedorId);
+		return vendedor.getPeliculas();
 	}
 	
 	@Transactional(readOnly = true)
 	public Collection<Videojuego> obtenerVideojuegos(int vendedorId) {
-		
-		Collection<Videojuego> videojuegos = this.vendedorRepository.videojuegosVendedor(vendedorId);
-		return videojuegos;
+		Vendedor vendedor = this.findVendedorByIdNormal(vendedorId);
+		return vendedor.getVideojuegos();
 	}
 	
 	@Transactional(readOnly = true)
 	public Collection<Merchandasing> obtenerMerchandasings(int vendedorId) {
-		
-		Collection<Merchandasing> merchadasings = this.vendedorRepository.merchandasingsVendedor(vendedorId);
-		return merchadasings;
+		Vendedor vendedor = this.findVendedorByIdNormal(vendedorId);
+		return vendedor.getMerchandasings();
 	}
 
 }

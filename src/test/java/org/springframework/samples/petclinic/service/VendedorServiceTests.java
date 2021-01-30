@@ -12,6 +12,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.Formato;
 import org.springframework.samples.petclinic.model.Pelicula;
 import org.springframework.samples.petclinic.model.Vendedor;
+import org.springframework.samples.petclinic.repository.VendedorRepository;
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
@@ -23,6 +24,9 @@ public class VendedorServiceTests {
 
 	@Autowired
 	protected PeliculaService peliculaService;
+	
+	@Autowired
+	protected VendedorRepository vendedorRepository;
 	
 	
 	@Test
@@ -37,10 +41,17 @@ public class VendedorServiceTests {
 		peliculas.add(pel);
 		vendedor.setPeliculas(peliculas);
 		
+		System.out.println("TIENEEEEEEEEEEE"+vendedor.getPeliculas().toString());
+		
+		this.vendedorService.save(vendedor);
+		
 		System.out.println(pel);
-		Collection<Pelicula> pels = this.vendedorService.obtenerPeliculas(1);
-		System.out.println("PELICULA DEL VENDEDOR" + pels.toString());
+		Collection<Pelicula> pels = this.vendedorService.obtenerPeliculas(vendedor.getId());
+		System.out.println("PELICULAAAAAAAAAA DEL VENDEDOR" + pels.toString());
 	
 	}
 	
+	
+
 }
+

@@ -9,7 +9,7 @@ INSERT INTO users(username,password,enabled) VALUES ('vet1','v3t',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (3,'vet1','veterinarian');
 -- One owner user, named owner1 with passwor Carles
 INSERT INTO users(username,password,enabled) VALUES ('guipavvar','Carles',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (8,'guipavvar','owner');
+INSERT INTO authorities(id,username,authority) VALUES (8,'guipavvar','vendedor');
 -- Owner ivacarmen
 INSERT INTO users(username,password,enabled) VALUES ('ivacarmen','ivacarmen',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (4,'ivacarmen','owner');
@@ -105,6 +105,8 @@ INSERT INTO CLIENTES VALUES (1, 'apellido','12345678X','email@email.com','2013-0
 
 --Pedido
 
+
+
 --INSERT INTO pedido(id, estado, precio_total, fecha, direccion_envio) VALUES (1,2,20,'2013-01-01','carles company');
 
 --Oferta
@@ -135,6 +137,11 @@ INSERT INTO REPRODUCTORES( ID , NOMBRE , DESCRIPCION ) VALUES ( 2, 'XBOX SERIE X
 INSERT INTO REPRODUCTORES( ID , NOMBRE , DESCRIPCION ) VALUES ( 1, 'PS5','La nueva consola de Sony');
 
 --Vendedor
+--PROBANDO
+INSERT INTO vendedor(id,first_name,last_name,vacaciones,valoracion,nombre_tienda,direccion_tienda,telefono,username) VALUES (8,'carles','santos',true,20,'tienda bonita','calle piruleta','6085558763','guipavvar');
+INSERT INTO users(username,password,enabled) VALUES ('usuario2','usuario2',TRUE);
 
-INSERT INTO vendedor(id,first_name,last_name,vacaciones,valoracion,nombre_tienda,direccion_tienda,telefono,username) VALUES (1,'carles','santos',true,20,'tienda bonita','calle piruleta','6085558763','guipavvar');
-
+INSERT INTO VENDEDOR_PELICULAS VALUES(8,1);
+INSERT INTO VENDEDOR_PELICULAS VALUES(8,2);
+INSERT INTO VENDEDOR_PELICULAS VALUES(8,3);
+INSERT INTO VENDEDOR_VIDEOJUEGOS VALUES(8,1);

@@ -24,9 +24,9 @@
 			</tr>
 		</thead>
 		<tbody>
+		 
 			<c:forEach items="${peliculas}" var="pelicula">
 				<tr>
-
 					<td><img src=<c:out value="${pelicula.imagen}"/> width="250"
 						height="350"></td>
 					<td><c:out value="${pelicula.nombre}" /></td>
@@ -36,6 +36,36 @@
 							var="peliculaUrl">
 							<spring:param name="peliculaId" value="${pelicula.id}" />
 						</spring:url> <a href="${fn:escapeXml(peliculaUrl)}" class="btn btn-default">Eliminar Pelicula</a>
+
+
+				</tr>
+			</c:forEach>
+			<c:forEach items="${videojuegos}" var="videojuego">
+				<tr>
+					<td><img src=<c:out value="${videojuego.imagen}"/> width="250"
+						height="350"></td>
+					<td><c:out value="${videojuego.nombre}" /></td>
+					<td><c:out value="${videojuego.descripcion}" /></td>
+					<td><c:out value="${videojuego.precio}" /></td>
+					<td><spring:url value="/videojuegos/delete/{videojuegoId}"
+							var="videojuegoUrl">
+							<spring:param name="videojuegoId" value="${videojuego.id}" />
+						</spring:url> <a href="${fn:escapeXml(videojuegoUrl)}" class="btn btn-default">Eliminar Videojuego</a>
+
+
+				</tr>
+			</c:forEach>
+			<c:forEach items="${merch}" var="merch">
+				<tr>
+					<td><img src=<c:out value="${merch.imagen}"/> width="250"
+						height="350"></td>
+					<td><c:out value="${merch.nombre}" /></td>
+					<td><c:out value="${merch.descripcion}" /></td>
+					<td><c:out value="${merch.precio}" /></td>
+					<td><spring:url value="/merchandasing/delete/{merchandasingId}"
+							var="merchadasingUrl">
+							<spring:param name="merchandasingId" value="${merch.id}" />
+						</spring:url> <a href="${fn:escapeXml(merchadasingUrl)}" class="btn btn-default">Eliminar Merchandasing</a>
 
 
 				</tr>

@@ -16,6 +16,9 @@ import org.springframework.samples.petclinic.service.MerchandasingService;
 import org.springframework.samples.petclinic.service.PeliculaService;
 import org.springframework.samples.petclinic.service.VendedorService;
 import org.springframework.samples.petclinic.service.VideojuegoService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -161,22 +164,28 @@ public class VendedorController {
 	
 	
 	//VISTA PRODUCTOSVENDEDOR
-	@GetMapping(value = "/{vendedorId}/productos")
-	public String listProducts(@PathVariable("vendedorId") final int vendedorId, ModelMap modelMap) {
+	@GetMapping(value = "/productos")
+	public String listProducts(ModelMap modelMap) {
 		
-		if(this.vendedorService.obtenerPeliculas(vendedorId)!=null) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+		String usuario = userDetail.getUsername();
+		
+		Vendedor vendedor = this.vendedorService.findVendedorByUsername(usuario);
+		
+		if(this.vendedorService.obtenerPeliculas(vendedor.getId())!=null) {
 			List<Pelicula> peliculas = new ArrayList<>();
-			peliculas.addAll(this.vendedorService.obtenerPeliculas(vendedorId));
+			peliculas.addAll(this.vendedorService.obtenerPeliculas(vendedor.getId()));
 			modelMap.addAttribute("peliculas", peliculas);
 		}
-		if(this.vendedorService.obtenerVideojuegos(vendedorId)!=null) {
+		if(this.vendedorService.obtenerVideojuegos(vendedor.getId())!=null) {
 			List<Videojuego> videojuegos = new ArrayList<>();
-			videojuegos.addAll(this.vendedorService.obtenerVideojuegos(vendedorId));
+			videojuegos.addAll(this.vendedorService.obtenerVideojuegos(vendedor.getId()));
 			modelMap.addAttribute("videojuegos", videojuegos);
 		}
-		if(this.vendedorService.obtenerMerchandasings(vendedorId)!=null) {
+		if(this.vendedorService.obtenerMerchandasings(vendedor.getId())!=null) {
 			List<Merchandasing> merch = new ArrayList<>();
-			merch.addAll(this.vendedorService.obtenerMerchandasings(vendedorId));
+			merch.addAll(this.vendedorService.obtenerMerchandasings(vendedor.getId()));
 			modelMap.addAttribute("merch", merch);
 		}
 		
