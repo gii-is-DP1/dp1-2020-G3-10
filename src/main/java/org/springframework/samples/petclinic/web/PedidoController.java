@@ -180,7 +180,7 @@ public class PedidoController {
 			Pedido pedido = optionalPedido.get();
 		
 			modelMap.addAttribute("pedidoId", pedido.getId());
-			modelMap.addAttribute("precioTotal", pedido.getPrecioTotal());
+			modelMap.addAttribute("precioTotal",String.format("%.2f", pedido.getPrecioTotal()));
 
 			modelMap.addAttribute("peliculas", pedido.getPeliculas());
 			modelMap.addAttribute("videojuegos", pedido.getVideojuegos());
