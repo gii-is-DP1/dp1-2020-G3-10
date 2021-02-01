@@ -47,9 +47,10 @@
 								<td><c:out value="${pelicula.precio}" /></td>
 
 								<td><spring:url
-										value="/pedidos/eliminaProductoCarrito/{productoId}/{tipo}"
+										value="/pedidos/eliminaProductoCarrito/{pedidoId}/{productoId}/{tipo}"
 										var="peliculaUrl">
 										<spring:param name="productoId" value="${pelicula.id}" />
+										<spring:param name="pedidoId" value="${pedidoId}" />
 										<spring:param name="tipo" value="${'PELICULA'}" />
 									</spring:url> <a href="${fn:escapeXml(peliculaUrl)}" class="btn btn-default">Eliminar</a>
 								</td>
@@ -69,9 +70,10 @@
 								<td><c:out value="${videojuego.precio}" /></td>
 
 								<td><spring:url
-										value="/pedidos/eliminaProductoCarrito/{productoId}/{tipo}"
+										value="/pedidos/eliminaProductoCarrito/{pedidoId}/{productoId}/{tipo}"
 										var="videojuegoUrl">
 										<spring:param name="productoId" value="${videojuego.id}" />
+										<spring:param name="pedidoId" value="${pedidoId}" />
 										<spring:param name="tipo" value="${'VIDEOJUEGO'}" />
 									</spring:url> <a href="${fn:escapeXml(videojuegoUrl)}"
 									class="btn btn-default">Eliminar</a></td>
@@ -91,9 +93,10 @@
 								<td><c:out value="${merchandasing.precio}" /></td>
 
 								<td><spring:url
-										value="/pedidos/eliminaProductoCarrito/{productoId}/{tipo}"
+										value="/pedidos/eliminaProductoCarrito/{pedidoId}/{productoId}/{tipo}"
 										var="merchandasingUrl">
 										<spring:param name="productoId" value="${merchandasing.id}" />
+										<spring:param name="pedidoId" value="${pedidoId}" />
 										<spring:param name="tipo" value="${'MERCHANDASING'}" />
 									</spring:url> <a href="${fn:escapeXml(merchandasingUrl)}"
 									class="btn btn-default">Eliminar</a></td>

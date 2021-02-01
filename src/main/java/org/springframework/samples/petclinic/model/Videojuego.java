@@ -45,22 +45,5 @@ public class Videojuego extends Producto {
 		comentario.setVideojuego(this);
 	}
 	
-	/*	
-	 
-	@OneToMany (mappedBy = "videojuego")
-	private Collection<@Valid Comentario>	comentarios;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "vendedor_id")
-	@Valid
-	private Vendedor 	vendedor;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "pedido_id")
-	@NotNull
-	@Valid
-	private Pedido		pedido;
-	
-	*/
 }
 
