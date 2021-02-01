@@ -2,61 +2,57 @@
 package org.springframework.samples.petclinic.model;
 
 import java.util.Collection;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
-import javax.websocket.Decoder.Text;
-
 import lombok.Getter;
 import lombok.Setter;
-
+/**
+ * @author Marta Díaz
+ */
 @Entity
 @Getter
+@Setter
 @Table(name = "peliculas")
 public class Pelicula extends Producto {
+
+	@Override
+	public String toString() {
+		return "Pelicula [director=" + director + ", agno=" + agno + ", duracion=" + duracion 
+				+ ", formato=" + formato + ", edicion=" + edicion + ", imagen=" + getImagen() + ", comentarios="
+				+ comentarios + "]";
+	}
 
 	@Column(name = "director")
 	@NotEmpty
 	private String	director;
 
 	@Column(name = "agno")
-	@NotEmpty
 	private Integer	agno;
 	
 	@Column(name = "duracion")
-	@NotEmpty
 	private Double	duracion;
 
-	@NotEmpty
-	private String	sinopsis;
 	
 	@Column(name = "formato")
-	@NotEmpty
+	@Enumerated(EnumType.STRING)
 	private Formato formato;
 
-	@NotEmpty
+	@Column(name = "edicion")
 	private Integer edicion;
+
 	
-	@Column(name = "imagen")
-	@NotEmpty
-	private String imagen;
-	
-	@OneToMany
-	private Collection<@Valid Oferta>	ofertas;
-	
-	@OneToMany //(mappedBy = "producto")
+	@OneToMany(mappedBy = "pelicula")
 	private Collection<@Valid Comentario>	comentarios;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "cliente_id")
-	@Valid
-	private Cliente	cliente;
+	public void addComment(Comentario comentario) {
+		getComentarios().add(comentario);
+		comentario.setPelicula(this);
+	}
 	
 }

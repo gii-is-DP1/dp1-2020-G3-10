@@ -3,79 +3,127 @@ package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
 import java.util.Collection;
-
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.Valid;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
 
-import org.hibernate.validator.constraints.Length;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
+
 @Entity
-@Table(name = "cliente")
-public class Cliente extends BaseEntity {
+@Table(name = "clientes")
+public class Cliente extends Persona {
 
+	@Column(name = "ciudad")
 	@NotEmpty
-	@Length(min = 9, max = 9, message = "la longitud debe ser de 9 caracteres")
-	private String							dni;
+	private String ciudad;
 
+	@Column(name = "codigo_postal")
 	@NotEmpty
-	@Email
-	private String							email;
+	private String codigoPostal;
 
+	@Column(name = "direccion")
 	@NotEmpty
-	private String							nombre;
+	private String direccion;
 
+
+	@Column(name = "tarjeta_credito")
 	@NotEmpty
-	private String							apellidos;
+	private String	tarjetaCredito;
+	
+	@Column(name = "cartera")
+	private Double cartera;
+	/*
+	public Cliente(@NotEmpty String nombre, @NotEmpty String apellidos, @NotEmpty @NotEmpty @NotEmpty LocalDate fechaNacimiento,
+			@NotEmpty String dni, @NotEmpty @Email String email,
+			@NotEmpty @Digits(fraction = 0, integer = 10) String telefono, @NotEmpty String ciudad,
+			@NotEmpty String codigoPostal, @NotEmpty String direccion, @NotEmpty String tarjetaCredito,
+			@NotEmpty Double cartera) {
+		super(nombre, apellidos, fechaNacimiento, dni, email, telefono);
+		this.ciudad = ciudad;
+		this.codigoPostal = codigoPostal;
+		this.direccion = direccion;
+		this.tarjetaCredito = tarjetaCredito;
+		this.cartera = cartera;
+	}
+	*/
+	
+	
 
-	@NotEmpty
-	private String							direccion;
+	public Cliente(@NotEmpty String nombre, @NotEmpty String apellidos, @NotEmpty @NotEmpty @NotEmpty LocalDate fechaNacimiento,
+			@NotEmpty String dni, @NotEmpty @Email String email,
+			@NotEmpty @Digits(fraction = 0, integer = 10) String telefono) {
+		super(nombre, apellidos, fechaNacimiento, dni, email, telefono);
+		this.ciudad = ciudad;
+		this.codigoPostal = codigoPostal;
+		this.direccion = direccion;
+		this.tarjetaCredito = tarjetaCredito;
+		this.cartera = cartera;
+		this.pedidos = null;
+	}
 
-	//@CreditCardNumber
-	@NotEmpty
-	private String							tarjeta_credito;
-
-	@Past
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private LocalDate						f_nacimiento;
-
-	@NotNull
-	private Double							cartera;
-
-	@NotNull
-	private Boolean							admin;
-
+	public Cliente() {
+	}
+    
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "username", referencedColumnName = "username")
 	@Valid
-	private User							user;
+	private User	user;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "vendedor_id")
-	private Vendedor						vendedor;
+	@ManyToMany(mappedBy = "clientes")
+	private Collection<Reproductor> reproductores;
+	
+	@OneToMany(mappedBy = "cliente")
+	private Collection<@Valid Comentario>	comentarios;
+
+
+	
+	public void addComment(Comentario comentario) {
+		getComentarios().add(comentario);
+		comentario.setCliente(this);
+	}
+
+	@Override
+	public String toString() {
+		return "Cliente [ciudad=" + ciudad + ", codigoPostal=" + codigoPostal + ", direccion=" + direccion
+				+ ", tarjetaCredito=" + tarjetaCredito + ", cartera=" + cartera + ", user=" + user + ", reproductores="
+				+ reproductores + ", comentarios=" + comentarios + "]";
+	}
+	
+	public Cliente(@NotEmpty String nombre, @NotEmpty String apellidos, @NotEmpty @NotEmpty LocalDate fechaNacimiento,
+			@NotEmpty String dni, @NotEmpty @Email String email,
+			@NotEmpty @Digits(fraction = 0, integer = 10) String telefono, @NotEmpty String ciudad,
+			@NotEmpty String codigoPostal, @NotEmpty String direccion, @NotEmpty String tarjetaCredito, Double cartera,
+			@Valid User user, Collection<Reproductor> reproductores, Collection<@Valid Comentario> comentarios,
+			Collection<@Valid Pedido> pedidos) {
+		super(nombre, apellidos, fechaNacimiento, dni, email, telefono);
+		this.ciudad = ciudad;
+		this.codigoPostal = codigoPostal;
+		this.direccion = direccion;
+		this.tarjetaCredito = tarjetaCredito;
+		this.cartera = cartera;
+		this.user = user;
+		this.reproductores = reproductores;
+		this.comentarios = comentarios;
+		this.pedidos = pedidos;
+	}
 
 	@OneToMany(mappedBy = "cliente")
-	private Collection<@Valid Mensaje>		bandeja;
-
-	@OneToMany(mappedBy = "clientes")
-	private Collection<@Valid Plataforma>	plataformas;
-	/*
-	 * @OneToMany(mappedBy = "cliente")
-	 * private Collection<@Valid Producto> deseado;
-	 */
-	//	@OneToMany(mappedBy = "cliente")
-	//	private Collection<@Valid Pedido>	pedidos;
-
+	private Collection<@Valid Pedido>	pedidos;
+	
+	
 }
+

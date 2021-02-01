@@ -11,7 +11,7 @@
     </jsp:attribute>
     <jsp:body>
         <h2>Vendedor</h2>
-        <form:form modelAttribute="vendedor" class="form-horizontal" action="/vendedores/save">
+        <form:form modelAttribute="vendedor" class="form-horizontal">
             <div class="form-group has-feedback">
                 <petclinic:inputField label="firstName" name="firstName"/>
                 <petclinic:inputField label="lastName" name="lastName"/>
@@ -19,13 +19,30 @@
                 <petclinic:inputField label="Vacaciones" name="vacaciones"/>
                 <petclinic:inputField label="nombre tienda" name="nombreTienda"/>
                 <petclinic:inputField label="direccion tienda" name="direccionTienda"/>
+                <petclinic:inputField label="telefono" name="telefono"/>
+                <petclinic:inputField label="Username" name="user.username"/>
+                <petclinic:inputField label="Password" name="user.password"/>
+                
+                
             </div>
+            
+            
+            <div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+				
+				
+				 <button class="btn btn-default" type="submit">Actualizar Cliente</button>
+				
+							
+               
+				</div>
+			</div>
 
             <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <input type="hidden" name="vendedorId" value="${vendedor.id}"/>
-                    <button class="btn btn-default" type="submit">Add Vendedor</button>
-                </div>
+            
+            
+            
+               
             </div>
         </form:form>
 

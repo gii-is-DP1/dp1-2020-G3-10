@@ -1,25 +1,23 @@
 package org.springframework.samples.petclinic.service;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Pelicula;
-import org.springframework.samples.petclinic.model.Producto;
-import org.springframework.samples.petclinic.model.Videojuego;
 import org.springframework.samples.petclinic.repository.PeliculaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * @author Marta Díaz
+ */
+
 @Service
 public class PeliculaService {
 	
-	private PeliculaRepository peliculaRepository;
-	
 	@Autowired
-	private ProductoService productoService;
+	private PeliculaRepository peliculaRepository;
 	
 	public PeliculaService(PeliculaRepository peliculaRepository) {
 		this.peliculaRepository = peliculaRepository;
@@ -46,6 +44,12 @@ public class PeliculaService {
 	@Transactional
 	public void deletePelicula(int peliculaId) throws DataAccessException{
 		peliculaRepository.deleteById(peliculaId);
+		
+	}
+	
+	@Transactional
+	public void delete(Pelicula p) throws DataAccessException{
+		peliculaRepository.delete(p);
 		
 	}
 }

@@ -1,17 +1,10 @@
 package org.springframework.samples.petclinic.model;
 
-import java.util.Collection;
-import java.util.List;
+import java.time.LocalDate;
 
-import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToMany;
-import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -24,23 +17,15 @@ public class Producto extends BaseEntity {
 
 	private String nombre;
 	
+	private String descripcion;
+	
+	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	private LocalDate fechaSalida;
+	
 	private Double precio;
 	
+	private String imagen;
 	
 	
-	
-	
-	/*
-	@OneToMany
-	private Collection<@Valid Oferta>	ofertas;
-	
-	@OneToMany(mappedBy = "producto")
-	private Collection<@Valid Comentario>	comentarios;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "cliente_id")
-	@Valid
-	private Cliente	cliente;
-	*/
 
 }

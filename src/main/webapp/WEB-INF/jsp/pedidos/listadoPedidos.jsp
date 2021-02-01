@@ -11,10 +11,11 @@
     <table id="pedidosTable" class="table table-striped">
         <thead>
         <tr>
-            <th style="width: 150px;">Estado</th>
-            <th style="width: 200px;">precio Total</th>
-            <th style="width: 120px">Fecha</th>
-            <th style="width: 120px">direccionEnvio</th>
+            <th style="width: 20%;">Estado</th>
+            <th style="width: 20%;">Precio Total</th>
+            <th style="width: 20%;">Fecha</th>
+            <th style="width: 20%;">Dirección</th>
+            <th style="width: 20%;"></th>
         </tr>
         </thead>
         <tbody>
