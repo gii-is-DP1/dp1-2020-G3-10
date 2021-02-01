@@ -210,6 +210,8 @@ public class PedidoService {
 				throw new IllegalArgumentException("El tipo no es correcto");
 			}
 		}
+		Double precioTotalRedondeado = Double.valueOf(String.format("%.2f", pedido.getPrecioTotal()).replace(",", "."));
+		pedido.setPrecioTotal(precioTotalRedondeado);
 
 		pedidoRepository.save(pedido);
 		Collection<Pedido> pedidosNuevos = new ArrayList<>();
@@ -224,11 +226,9 @@ public class PedidoService {
 	}
 	
 	@Transactional
-	public void eliminaProductoCarrito(int productoId, String tipo) {
+	public void eliminaProductoCarrito(int pedidoId, int productoId, String tipo) {
 
-		Pedido pedido = pedidoRepository.findById(productoId).get();
-		
-		System.out.println("LOG ******************************************** "+pedido.toString());
+		Pedido pedido = pedidoRepository.findById(pedidoId).get();
 		
 		switch (tipo) {
 			case "PELICULA":
@@ -252,6 +252,8 @@ public class PedidoService {
 			default:
 				throw new IllegalArgumentException("El tipo no es correcto");
 		}
+		Double precioTotalRedondeado = Double.valueOf(String.format("%.2f", pedido.getPrecioTotal()).replace(",", "."));
+		pedido.setPrecioTotal(precioTotalRedondeado);
 		
 		pedidoRepository.save(pedido);
 	}
@@ -266,10 +268,12 @@ public class PedidoService {
 		} else if (pedido.getCliente().getCartera() < pedido.getPrecioTotal()) {
 			throw new IllegalArgumentException("El cliente no dispone de suficiente dinero en la cartera.");
 		} else {
+			Double precioTotalRedondeado = Double.valueOf(String.format("%.2f", pedido.getPrecioTotal()).replace(",", "."));
+			
 			pedido.setEstado(EstadoPedido.PENDIENTE);
 			this.pedidoRepository.save(pedido);
 			Cliente cliente = pedido.getCliente();
-			cliente.setCartera(cliente.getCartera() - pedido.getPrecioTotal());
+			cliente.setCartera(cliente.getCartera() - precioTotalRedondeado);
 			this.clienteRepository.save(cliente);
 		}
 	}

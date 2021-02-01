@@ -149,12 +149,11 @@ public class PedidoController {
 		return "redirect:/pedidos/mostrarCarrito";
 	}
 
-	@GetMapping(path = "/eliminaProductoCarrito/{productoId}/{tipo}")
-	public String eliminaProductoCarrito(@PathVariable("productoId") final int productoId,
+	@GetMapping(path = "/eliminaProductoCarrito/{pedidoId}/{productoId}/{tipo}")
+	public String eliminaProductoCarrito(@PathVariable("pedidoId") final int pedidoId, @PathVariable("productoId") final int productoId,
 			@PathVariable("tipo") final String tipo, final ModelMap modelMap) {
 		try {
-			System.out.println("LOG: PRODUCTO ID: " + productoId + " ********************************* Tipo: " + tipo);
-			pedidoService.eliminaProductoCarrito(productoId, tipo);
+			pedidoService.eliminaProductoCarrito(pedidoId,productoId, tipo);
 			modelMap.addAttribute("mensaje", "El producto se ha eliminado del carrito.");
 
 		} catch (Exception e) {
@@ -181,7 +180,7 @@ public class PedidoController {
 			Pedido pedido = optionalPedido.get();
 		
 			modelMap.addAttribute("pedidoId", pedido.getId());
-			modelMap.addAttribute("precioTotal", pedido.getPrecioTotal());
+			modelMap.addAttribute("precioTotal",String.format("%.2f", pedido.getPrecioTotal()));
 
 			modelMap.addAttribute("peliculas", pedido.getPeliculas());
 			modelMap.addAttribute("videojuegos", pedido.getVideojuegos());
