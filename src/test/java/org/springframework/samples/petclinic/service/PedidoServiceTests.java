@@ -39,13 +39,6 @@ public class PedidoServiceTests {
 	@Autowired
 	private PeliculaRepository peliculaRepository;
 	
-	final int pedidoId1 = 1; 
-	final int pedidoId2 = 2; 
-	final int pedidoId3 = 3; 
-	final int pedidoId4 = 4; 
-	final int pedidoId5 = 5; 
-
-	
 	public Pedido getDummyPedidoCarrito() {
 		List<Pelicula> productos = new ArrayList<>();
 		productos.add(peliculaService.findPeliculaById(1));
@@ -83,7 +76,7 @@ public class PedidoServiceTests {
 	public void testCountWithInitialData() {
 
 		int count = this.pedidoService.conteoPedido();
-		Assertions.assertThat(count).isEqualTo(0);
+		Assertions.assertThat(count).isEqualTo(1);
 
 	}
 	
@@ -103,12 +96,14 @@ public class PedidoServiceTests {
 		);
 	}
 	
+	*/
+	
 	@Test
 	void findPedidoSuccess() {
 		
 		Pedido pedido = getDummyPedido1();
 		
-		pedidoService.save(pedido);
+		pedidoService.añadirProductoCarrito(1, "marta", "PELICULA");
 		
 		Assert.assertTrue(
 				pedido.getDireccionEnvio() == pedidoService.findPedidoById(1).getDireccionEnvio() &&
@@ -116,8 +111,6 @@ public class PedidoServiceTests {
 				pedido.getCliente() == pedidoService.findPedidoById(1).getCliente()
 		);
 	}
-	
-	*/
 	
 	@Test
 	void findPedidoNoExiste() {
