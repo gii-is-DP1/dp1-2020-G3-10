@@ -1,15 +1,23 @@
 package org.springframework.samples.petclinic.web;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Merchandasing;
+import org.springframework.samples.petclinic.model.Pelicula;
+import org.springframework.samples.petclinic.model.Vendedor;
 import org.springframework.samples.petclinic.model.Videojuego;
 import org.springframework.samples.petclinic.service.PedidoService;
+import org.springframework.samples.petclinic.service.VendedorService;
 import org.springframework.samples.petclinic.service.VideojuegoService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -31,6 +39,9 @@ public class VideojuegoController {
 	
 	@Autowired
 	private final PedidoService pedidoService;
+	
+	@Autowired
+	private final VendedorService vendedorService;
 
 	@InitBinder
 	public void setAllowedFields(WebDataBinder dataBinder) {
@@ -38,9 +49,10 @@ public class VideojuegoController {
 	}
 
 	@Autowired
-	public VideojuegoController(VideojuegoService videojuegoService, PedidoService pedidoService) {
+	public VideojuegoController(VideojuegoService videojuegoService, PedidoService pedidoService, VendedorService vendedorService) {
 		this.videojuegoService = videojuegoService;
 		this.pedidoService = pedidoService;
+		this.vendedorService = vendedorService;
 	}
 
 	@GetMapping(value = "/videojuegos")
@@ -73,27 +85,50 @@ public class VideojuegoController {
 	}
 
 	@PostMapping(value = "/videojuegos/new")
-	public String saveVideojuego(@Valid Videojuego vid, BindingResult result) {
+	public String saveVideojuego(@Valid Videojuego vid, BindingResult result, ModelMap model) {
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+		String username = userDetail.getUsername();
+		Vendedor vendedor = this.vendedorService.findVendedorByUsername(username);
+		
 		if (result.hasErrors()) {
 			return "videojuegos/formCreateVideojuegos";
 		} else {
 			this.videojuegoService.saveVideojuego(vid);
-			return "redirect:/videojuegos/" + vid.getId();
+			if (vendedor.getVideojuegos() == null) {
+				Collection<Videojuego> videojuegos = new ArrayList<Videojuego>();
+				videojuegos.add(vid);
+				vendedor.getVideojuegos().addAll(videojuegos);
+			} else {
+				vendedor.getVideojuegos().add(vid);
+			}
+			this.vendedorService.save(vendedor);
+			return showProductos(model);
 		}
 	}
 
 	@GetMapping(value = "/videojuegos/delete/{videojuegoId}")
 	public String deleteVideojuego(@PathVariable("videojuegoId") int videojuegoId, final ModelMap modelmap) {
 		Videojuego videojuegoBorrar = this.videojuegoService.findVideojuegoById(videojuegoId);
-		String view = "/videojuegos/videojuegosList";
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+		String username = userDetail.getUsername();
+		Vendedor vendedor = this.vendedorService.findVendedorByUsername(username);
+		Collection<Videojuego> videojuegos = vendedor.getVideojuegos();
 
-		if (videojuegoBorrar != null) {
+		
+		if ((videojuegoBorrar != null) && (videojuegos.contains(videojuegoBorrar))) {
+			videojuegos.remove(videojuegoBorrar);
+			this.vendedorService.save(vendedor);
+			modelmap.addAttribute("message", "¡Producto eliminado!");
 			this.videojuegoService.delete(videojuegoBorrar);
-			view = this.showVideojuegosList(modelmap);
+			return showProductos(modelmap);
 		} else {
 			modelmap.addAttribute("message", "ERROR!");
+			return "/videojuegos/videojuegosList";
 		}
-		return view;
+		
 	}
 
 	@GetMapping(value = "/videojuegos/edit/{videojuegoId}")
@@ -117,4 +152,32 @@ public class VideojuegoController {
 			return view;
 		}
 	}
+	
+	public String showProductos(ModelMap modelMap) {
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+		String usuario = userDetail.getUsername();
+		Vendedor vendedor = this.vendedorService.findVendedorByUsername(usuario);
+		
+		
+		if(this.vendedorService.obtenerPeliculas(vendedor.getId())!=null) {
+			List<Pelicula> peliculas = new ArrayList<>();
+			peliculas.addAll(this.vendedorService.obtenerPeliculas(vendedor.getId()));
+			modelMap.addAttribute("peliculas", peliculas);
+		}
+		if(this.vendedorService.obtenerVideojuegos(vendedor.getId())!=null) {
+			List<Videojuego> videojuegos = new ArrayList<>();
+			videojuegos.addAll(this.vendedorService.obtenerVideojuegos(vendedor.getId()));
+			modelMap.addAttribute("videojuegos", videojuegos);
+		}
+		if(this.vendedorService.obtenerMerchandasings(vendedor.getId())!=null) {
+			List<Merchandasing> merch = new ArrayList<>();
+			merch.addAll(this.vendedorService.obtenerMerchandasings(vendedor.getId()));
+			modelMap.addAttribute("merch", merch);
+		}
+		
+		return "/productos/productosVendedor";
+	}
+	
 }

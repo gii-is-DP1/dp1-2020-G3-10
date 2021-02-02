@@ -13,48 +13,51 @@
 
 
 	<table class="table table-striped">
-		<td><img src=<c:out value="${pelicula.imagen}"/> width="250"
-			height="350"></td>
-		<tr>
+		<thead>
+			<tr>
+				<th style="width: 150px;">Imagen</th>
+				<th style="width: 150px;">Nombre</th>
+				<th style="width: 150px;">Precio</th>
+				<th style="width: 150px;">Año</th>
+				<th style="width: 150px;">Director</th>
+				<th style="width: 150px;">Duración</th>
+				<th style="width: 150px;">Formato</th>
+				<th style="width: 150px;">Sinopsis</th>
+				<th style="width: 150px;"></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td><img src=<c:out value="${pelicula.imagen}"/> width="250"
+					height="350"></td>
 
-			<td><c:out value="${pelicula.nombre}" /></td>
-		</tr>
-		<tr>
-			<td><c:out value="${pelicula.precio}" /></td>
-		</tr>
-		<tr>
-			<td><c:out value="${pelicula.agno}" /></td>
-		</tr>
-		<tr>
-			<td><c:out value="${pelicula.director}" /></td>
-		</tr>
-		<tr>
-			<td><c:out value="${pelicula.duracion}" /></td>
-		</tr>
-		<tr>
-			<td><c:out value="${pelicula.formato}" /></td>
-		</tr>
-		<tr>
-			<td><c:out value="${pelicula.descripcion}" /></td>
-		</tr>
+
+				<td><c:out value="${pelicula.nombre}" /></td>
+
+				<td><c:out value="${pelicula.precio}" /></td>
+
+				<td><c:out value="${pelicula.agno}" /></td>
+
+				<td><c:out value="${pelicula.director}" /></td>
+
+				<td><c:out value="${pelicula.duracion}" /></td>
+
+
+				<td><c:out value="${pelicula.formato}" /></td>
+
+
+				<td><c:out value="${pelicula.descripcion}" /></td>
+				<td><spring:url value="/pedidos/addCarrito/{productoId}/{tipo}"
+						var="carritoUrl">
+						<spring:param name="productoId" value="${pelicula.id}" />
+						<spring:param name="tipo" value="${'PELICULA'}" />
+					</spring:url> <a href="${fn:escapeXml(carritoUrl)}" class="btn btn-default">Insertar
+						al carrito</a></td>
+			</tr>
+		</tbody>
 	</table>
 
 
-	<spring:url value="/peliculas/delete/{peliculaId}" var="deleteUrl">
-		<spring:param name="peliculaId" value="${pelicula.id}" />
-	</spring:url>
-	<a href="${fn:escapeXml(deleteUrl)}" class="btn btn-default">Borrar pelicula</a>
-
-	<spring:url value="/peliculas/edit/{peliculaId}" var="editUrl">
-		<spring:param name="peliculaId" value="${pelicula.id}" />
-	</spring:url>
-	<a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Editar pelicula</a>
-	
-	<spring:url value="/pedidos/addCarrito/{productoId}/{tipo}" var="carritoUrl">
-		<spring:param name="productoId" value="${pelicula.id}" />
-		<spring:param name="tipo" value="${'PELICULA'}" />
-	</spring:url>
-	<a href="${fn:escapeXml(carritoUrl)}" class="btn btn-default">Insertar al carrito</a>
 
 
 </petclinic:layout>

@@ -163,7 +163,6 @@ public class VendedorController {
 	}
 	
 	
-	//VISTA PRODUCTOSVENDEDOR
 	@GetMapping(value = "/productos")
 	public String listProducts(ModelMap modelMap) {
 		

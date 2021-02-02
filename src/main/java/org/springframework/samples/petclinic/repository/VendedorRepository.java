@@ -19,4 +19,4 @@ public interface VendedorRepository extends CrudRepository<Vendedor, Integer> {
 	
 	@Query("SELECT ALL v from Vendedor v where v.user.username =:username")
 	public Vendedor findByUsername(@Param("username") String username);
-}
+	}
