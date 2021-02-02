@@ -33,7 +33,7 @@
                             <button class="btn btn-default" type="submit">Add videojuego</button>
                         </c:when>
                         <c:otherwise>
-                            <button class="btn btn-default" type="submit">Update videojuego</button>
+                            <button class="btn btn-default" type="submit">Actualizar videojuego</button>
                         </c:otherwise>
                     </c:choose>
                 </div>
