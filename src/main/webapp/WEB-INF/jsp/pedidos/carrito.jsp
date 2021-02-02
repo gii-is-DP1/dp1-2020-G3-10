@@ -42,7 +42,7 @@
 							<tr>
 
 								<td><img src=<c:out value="${pelicula.imagen}"/>
-									width="250" height="350"></td>
+									width="70%" height="70%"></td>
 								<td><c:out value="${pelicula.nombre}" /></td>
 								<td><c:out value="1" /></td>
 								<td><c:out value="${pelicula.precio}" /></td>

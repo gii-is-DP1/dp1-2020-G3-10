@@ -227,9 +227,6 @@ public class PedidoService {
 	@Transactional
 	public void eliminaProductoCarrito(int pedidoId, int productoId, String tipo) {
 
-
-		Pedido pedido = pedidoRepository.findById(productoId).get();
-		System.out.println("LOG ******************************************** " + pedido.toString());
 		Pedido pedido = pedidoRepository.findById(pedidoId).get();
 
 		switch (tipo) {
