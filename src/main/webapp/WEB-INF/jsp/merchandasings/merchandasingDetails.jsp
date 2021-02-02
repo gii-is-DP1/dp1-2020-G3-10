@@ -16,20 +16,46 @@
 
 
 	<table class="table table-striped">
-			<tr>
-			<td><c:out value="${merchandasing.tipo}" /></td>
-		</tr>
+
 		<tr>
-			<td><c:out value="${merchandasing.fabricante}" /></td>
+			<td>Nombre: <c:out value="${merchandasing.nombre}" /></td>
 		</tr>
 		
+		
+		<td><img src=<c:out value="${merchandasing.imagen}"/> width="20%"
+			height="20%"></td>
+		
+		
+		<tr>
+			<td>Tipo: <c:out value="${merchandasing.tipo}" /></td>
+		</tr>
+		
+		<tr>
+			<td>Fabricante: <c:out value="${merchandasing.fabricante}" /></td>
+		</tr>
+		
+		<tr>
+			<td>Descripci&oacuten: <c:out value="${merchandasing.descripcion}" /></td>
+		</tr>
+
+		<tr>
+			<td>Fecha de salida: <c:out value="${merchandasing.fechaSalida}" /></td>
+		</tr>
+
+		<tr>
+			<td>Precio: <c:out value="${merchandasing.precio}" /></td>
+		</tr>
+
+		
+
 	</table>
 
 	<sec:authorize access="hasAuthority('vendedor')">
-	<spring:url value="/vendedor/merchandasings/{merchandasingId}/delete" var="deleteUrl">
-		<spring:param name="merchandasingId" value="${merchandasing.id}" />
-	</spring:url>
-	<a href="${fn:escapeXml(deleteUrl)}" class="btn btn-default">Eliminar</a>
+		<spring:url value="/vendedor/merchandasings/{merchandasingId}/delete"
+			var="deleteUrl">
+			<spring:param name="merchandasingId" value="${merchandasing.id}" />
+		</spring:url>
+		<a href="${fn:escapeXml(deleteUrl)}" class="btn btn-default">Eliminar</a>
 	</sec:authorize>
 
 

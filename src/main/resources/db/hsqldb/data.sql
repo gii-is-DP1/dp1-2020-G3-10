@@ -10,12 +10,15 @@ INSERT INTO authorities(id,username,authority) VALUES (3,'vet1','veterinarian');
 -- One owner user, named owner1 with passwor Carles
 INSERT INTO users(username,password,enabled) VALUES ('guipavvar','Carles',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (8,'guipavvar','vendedor');
+
+--INSERT INTO authorities(id,username,authority) VALUES (8,'guipavvar','cliente');
+
 -- Owner ivacarmen
 INSERT INTO users(username,password,enabled) VALUES ('ivacarmen','ivacarmen',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (4,'ivacarmen','owner');
+INSERT INTO authorities(id,username,authority) VALUES (4,'ivacarmen','cliente');
 --Owner luibelzan
 INSERT INTO users(username,password,enabled) VALUES ('luibelzan','luibelzan',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (5,'luibelzan','owner');
+INSERT INTO authorities(id,username,authority) VALUES (5,'luibelzan','cliente');
 --Owner luibelzan
 INSERT INTO users(username,password,enabled) VALUES ('marta','marta',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (6,'marta','cliente');
@@ -90,33 +93,30 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (1, 7, '2013-01-01',
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (2, 8, '2013-01-02', 'rabies shot');
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (3, 8, '2013-01-03', 'neutered');
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04', 'spayed');
-
-
-INSERT INTO merchandasings(id,tipo,fabricante,nombre,precio) VALUES (1, 'FIGURA', 'Fabricante 1', 'Goku SSJ4', 33.33);
-INSERT INTO merchandasings(id,tipo,fabricante,nombre,precio) VALUES (2, 'FIGURA', 'Bandai', 'Goku SSJ4', 33.33);
-
 ---------------------------------------------------------------------------------------------------------------------------
 
---Cliente
-INSERT INTO CLIENTES VALUES (1, 'apellido','12345678X','email@email.com','2013-01-01','nombre','123456789',200000.0,'Sevilla','41000','dir prueba','2222 2222 2222 2222','marta');
---INSERT INTO clientes(id,nombre,apellidos,dni,email,direccion,ciudad,tarjeta_credito,fecha_nacimiento,cartera,telefono,codigo_postal,pedidos,username) VALUES (1, 'Ivan', 'Cardenas Meneses', '12345678X', 'ivancarmen@alum.us.es', 'Calle Hernandez','Sevilla','0000-1111-2222-6666', '1998-10-10', '100.0','123456789','41980','ivacarmen');
---INSERT INTO clientes(id,nombre,apellidos,dni,email,direccion,ciudad,tarjeta_credito,fecha_nacimiento,cartera,telefono,codigo_postal,username) VALUES (2, 'Marta', 'ef Meneses', '12345470X', 'marta@alum.us.es', 'Calle Hndez','Sevilla', '0450-1111-2222-6666', '1998-11-10', '100.0','987654321','41980', 'marta');
---INSERT INTO clientes(id,nombre,apellidos,dni,email,direccion,ciudad,tarjeta_credito,fecha_nacimiento,cartera,telefono,codigo_postal,username) VALUES (3, 'Javier', 'Moreno Gonzalez', '32097886Y', 'antmorgon4@alum.us.es', 'Calle Tarfia 45 10','Sevilla', '0000-1111-2222-3333', '1997-05-16', '100.0','601326967','41012', 'antmorgon4');
 
---Pedido
 
+--CLIENTES
+
+INSERT INTO CLIENTES VALUES (1, 'Díaz','12345678X','email@email.com','2013-01-01','Marta','123456789',200000.0,'Sevilla','41000','dir prueba','2222 2222 2222 2222','marta');
+INSERT INTO CLIENTES VALUES (20, 'Moreno Gonzalez','32097886Y','antmorgon4@alum.us.es','1997-05-16','Javier','601326967',200000.0,'Sevilla','41012','Calle Tarfia 45 10','0000-1111-2222-3333','antmorgon4');
+INSERT INTO CLIENTES VALUES (4, 'Cárdenas Meneses', '12345678X', 'ivancarmen@alum.us.es', '1998-10-10', 'Iván','123456789',5000.0,'Sevilla','41980','Calle Hernandez','0000-1111-2222-6666','ivacarmen');
+
+--VENDEDORES
 
 
 --INSERT INTO pedido(id, estado, precio_total, fecha, direccion_envio) VALUES (1,2,20,'2013-01-01','carles company');
 
---Oferta
-
---INSERT INTO oferta(id,conservacion,precio,pedido_id,producto_id,vendedor_id) VALUES (1,1,40,1,null,null);
---INSERT INTO oferta(id,conservacion,precio,pedido_id,producto_id,vendedor_id) VALUES (2,1,20,1,null,null);
+--INSERT INTO vendedor(id,first_name,last_name,vacaciones,valoracion,nombre_tienda,direccion_tienda,telefono,username) VALUES (1,'carles','santos',true,20,'tienda bonita','calle piruleta','6085558763','guipavvar');
 
 
---INSERT INTO productos(id, nombre, precio,videojuego_id, cliente_id, merchandasing_id, pelicula_id) VALUES(1, 'Titanic', 12,null, 2, null,null );
---INSERT INTO peliculas(id, agno, director, duracion, edicion, formato, producto_id) VALUES(1, 1997, 'James Cameron', 4, 1, 1,1);
+
+--PEDIDOS
+
+INSERT INTO pedido(id, estado, precio_total, fecha, direccion_envio) VALUES (100,2,20,'2013-01-01','carles company');
+
+-- PELICULAS
 
 INSERT INTO peliculas VALUES(1, 'El hundimiento del barco, según el creador de "Downton Abbey". "Titanic" es una extraordinaria narración de este viaje condenado al fracaso, hábilmente tejido con parcelas de acción, misterio.', '2012-01-11','https://static.filmin.es/images/media/684/3/poster_0_3_256x0.webp','Titanic', 12, 2012,'Julian Fellowes',3,1, 'BLURAY');
 INSERT INTO peliculas VALUES(2, 'Luc Besson da la vuelta a la épica espacial con esta película inspirada en ‘Valérian et Laureline’ la serie de cómics que influyó enormemente en la estética de la "Star Wars" original.', '2017-09-01', 'https://static.filmin.es/images/media/20818/1/poster_0_3_720x0.webp', 'Valerian y la ciudad de los mil planetas', 12,2017,'Luc Besson',2,1, 'BLURAY' );
@@ -142,17 +142,32 @@ INSERT INTO VIDEOJUEGOS VALUES(6, 'Otro de los títulos que aparecerán en Ninte
 INSERT INTO VIDEOJUEGOS VALUES(7, 'Explora un hermoso mundo abierto y cambiante ambientado en la despiadada Inglaterra de los años oscuros. ','2021-01-01','https://media.game.es/COVERV2/3D_L/180/180101.png','ASSASSINS CREED VALHALLA', 49.95,2021,'Film SA', 'PS4');
 INSERT INTO VIDEOJUEGOS VALUES(8, 'Disfruta del caos en modo cooperativo desde el sofá con la posibilidad de jugar en pantalla dividida para tres o cuatro jugadores en multijugador local','2020-01-01','https://media.game.es/COVERV2/3D_L/165/165311.png','BORDERLANDS 3 EDICIÓN DELUXE', 9.95,2021,'Film SA', 'PS4');
 
+-- VIDEOJUEGOS
+
+INSERT INTO VIDEOJUEGOS VALUES(1, 'Vuelve el juego que te convierte en una estrella, vuelve Just dance con Just Dance 2021 para PlayStation 4, Xbox One, Nintendo Switch y PlayStation 5. Hazte con él en GAME y que empiece la fiesta.','2013-01-01', 'https://media.game.es/COVERV2/3D_L/182/182836.png', 'JUST DANCE 2021', 49.95,2021,'Film SA', 'NINTENDO_SWITCH');
+INSERT INTO VIDEOJUEGOS VALUES(2, '¡Descubre los placeres de vivir en una isla desierta y crea tu hogar perfecto en Animal Crossing: New Horizons para Nintendo Switch!','2013-01-01','https://media.game.es/COVERV2/3D_L/169/169067.png', 'ANIMAL CROSSING: NEW HORIZONS', 49.95,2021,'Film SA', 'NINTENDO_SWITCH');
+INSERT INTO VIDEOJUEGOS VALUES(3, 'Compra ahora el juego de PS4, consigue gratis el juego de PS5 el 4 de Diciembre y mantén tu progreso en Volta Football y FIFA Ultimate Team en la siguiente generación.','2013-01-01','https://media.game.es/COVERV2/3D_L/181/181108.png','FIFA 21', 39.95,2021,'Film SA', 'PS4');
+INSERT INTO VIDEOJUEGOS VALUES(4, 'Adéntrate en una aventura compleja y desconocida en la que explorarás una impresionante versión alternativa de una historia clásica. ','2013-01-01','https://media.game.es/COVERV2/3D_L/173/173386.png','GOD OF WAR PS HITS', 9.95,2021,'Film SA', 'PS4');
+INSERT INTO VIDEOJUEGOS VALUES(5, 'Tu nueva experiencia Minecraft está aquí, en esta nueva y completa edición de tu juego favorito se incluye contenido extra como parte de la Bedrock Edition, así podrás disfrutar de un Minecraft con un mundo más grande, mejor y mucho más bonito.','2013-01-01','https://media.game.es/COVERV2/3D_L/150/150363.png','MINECRAFT - NINTENDO SWITCH EDITION', 29.95,2021,'Film SA', 'NINTENDO_SWITCH');
 
 
---Reproductores
+-- MERCHANDASINGS
+
+INSERT INTO merchandasings(id,tipo,fabricante,nombre,precio) VALUES (1, 'FIGURA', 'Fabricante 1', 'Goku SSJ4', 33.33);
+INSERT INTO merchandasings(id,tipo,fabricante,nombre,precio) VALUES (2, 'FIGURA', 'Bandai', 'Goku SSJ4', 33.33);
+
+--COMENTARIOS
+
+INSERT INTO COMENTARIO(ID, TITULO, TEXTO, CLIENTE_ID, PELICULA_ID) VALUES (1, 'Increible', 'No me la esperaba tan buena', 1, 1);
+
+--REPRODUCTORES
 
 INSERT INTO REPRODUCTORES( ID , NOMBRE , DESCRIPCION ) VALUES ( 4, 'DVD','El viejo amigo que te ayudaba a ver tus pelis allá por el 2000');
 INSERT INTO REPRODUCTORES( ID , NOMBRE , DESCRIPCION ) VALUES ( 3, 'WII','La clásica consola de Nintendo');
 INSERT INTO REPRODUCTORES( ID , NOMBRE , DESCRIPCION ) VALUES ( 2, 'XBOX SERIE X','La nueva consola de Microsoft');
 INSERT INTO REPRODUCTORES( ID , NOMBRE , DESCRIPCION ) VALUES ( 1, 'PS5','La nueva consola de Sony');
-
 --Vendedor
---PROBANDO
+
 INSERT INTO vendedor(id,first_name,last_name,vacaciones,valoracion,nombre_tienda,direccion_tienda,telefono,username) VALUES (8,'carles','santos',true,20,'tienda bonita','calle piruleta','6085558763','guipavvar');
 INSERT INTO users(username,password,enabled) VALUES ('usuario2','usuario2',TRUE);
 
@@ -160,3 +175,4 @@ INSERT INTO users(username,password,enabled) VALUES ('usuario2','usuario2',TRUE)
 INSERT INTO VENDEDOR_PELICULAS VALUES(8,2);
 INSERT INTO VENDEDOR_PELICULAS VALUES(8,3);
 INSERT INTO VENDEDOR_VIDEOJUEGOS VALUES(8,1);
+

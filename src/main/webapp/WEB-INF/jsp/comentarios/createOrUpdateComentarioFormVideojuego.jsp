@@ -19,7 +19,7 @@
         <form:form modelAttribute="comentario" class="form-horizontal">
             <input name="id" value="${comentario.id}"/>
             <input name="cliente.id" value="${comentario.cliente.id}"/>
-            <input name="pelicula.id" value="${comentario.pelicula.id}"/>
+            <input name="videojuego.id" value="${comentario.videojuego.id}"/>
             <div class="form-group has-feedback">
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Autor</label>
@@ -31,9 +31,9 @@
                 </div>
                  <div class="form-group has-feedback">
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">Pelicula</label>
+                    <label class="col-sm-2 control-label">Videojuego</label>
                     <div class="col-sm-10">
-                        <c:out value="${comentario.pelicula.nombre}"/>
+                        <c:out value="${comentario.videojuego.nombre}"/>
                         
                     </div>
                  

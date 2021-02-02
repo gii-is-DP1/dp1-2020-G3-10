@@ -19,6 +19,14 @@ import lombok.Setter;
 @Table(name="comentario")
 public class Comentario extends BaseEntity {
 	
+public Comentario() {
+		
+	}
+	
+	public Comentario(Cliente cliente) {
+		this.cliente = cliente;
+	}
+	
 	@NotEmpty
 	private String titulo;
 	
@@ -27,10 +35,16 @@ public class Comentario extends BaseEntity {
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "cliente_id")
-	//@NotNull
+	@NotNull
 	@Valid
 	private Cliente cliente;
 	
+	
+	
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "merchandasing_id")
+	@Valid
+	private Merchandasing merchandasing;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "pelicula_id")
