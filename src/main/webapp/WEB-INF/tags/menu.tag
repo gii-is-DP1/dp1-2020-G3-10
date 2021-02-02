@@ -40,7 +40,7 @@
 					<span>Videojuegos</span>
 				</petclinic:menuItem>
 
-				<petclinic:menuItem active="${name eq 'merchandasing'}" url="#"
+				<petclinic:menuItem active="${name eq 'merchandasing'}" url="/merchandasings"
 					title="merchandasing">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 					<span>Merchandasing</span>
