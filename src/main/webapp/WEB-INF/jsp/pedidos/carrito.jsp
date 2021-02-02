@@ -10,7 +10,7 @@
 
 <petclinic:layout pageName="cestaCompra">
 	<h1>CESTA DE LA COMPRA</h1>
-	
+
 	<h3>
 		<c:out value="${mensaje}" />
 	</h3>
@@ -19,29 +19,30 @@
 			<c:out value="¡Vaya! No tienes productos en el carrito." />
 		</c:when>
 		<c:otherwise>
-		
+
 			<h3>
 				<c:out value="Precio Total: ${precioTotal}" />
 			</h3>
 
-			<table class="table table-stripped" style="text-align:center;" id="pedidosTable">
+			<table class="table table-stripped" style="text-align: center;"
+				id="pedidosTable">
 				<thead>
 					<tr>
 						<th style="width: 20%;"><center>Producto</center></th>
 						<th style="width: 20%;"><center>Nombre</center></th>
-						<th style="width: 20%"><center>Cantidad</center></th>
-						<th style="width: 20%"><center>Precio</center></th>
-						<th style="width: 20%"></th>
+						<th style="width: 20%;"><center>Cantidad</center></th>
+						<th style="width: 20%;"><center>Precio</center></th>
+						<th style="width: 20%;"></th>
 					</tr>
 				</thead>
 				<tbody>
-				
+
 					<c:if test="true" var="peliculasNoVacio">
 						<c:forEach items="${peliculas}" var="pelicula">
 							<tr>
 
 								<td><img src=<c:out value="${pelicula.imagen}"/>
-									width="70%" height="70%"></td>
+									width="250" height="350"></td>
 								<td><c:out value="${pelicula.nombre}" /></td>
 								<td><c:out value="1" /></td>
 								<td><c:out value="${pelicula.precio}" /></td>
@@ -108,8 +109,7 @@
 					<td><spring:url value="/pedidos/{pedidoId}/pagar"
 							var="pedidoUrl">
 							<spring:param name="pedidoId" value="${pedidoId}" />
-						</spring:url> <a href="${fn:escapeXml(pedidoUrl)}"
-									class="btn btn-default">Pagar</a></td>
+						</spring:url> <a href="${fn:escapeXml(pedidoUrl)}" class="btn btn-default">Pagar</a></td>
 
 				</tbody>
 			</table>
