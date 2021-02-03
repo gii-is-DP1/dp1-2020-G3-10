@@ -107,6 +107,8 @@ INSERT INTO vendedor(id,first_name,last_name,vacaciones,valoracion,nombre_tienda
 --PEDIDOS
 
 INSERT INTO pedido(id, estado, precio_total, fecha, direccion_envio) VALUES (100,'PENDIENTE',20,'2013-01-01','carles company');
+INSERT INTO pedido(id, estado, precio_total, fecha, direccion_envio, cliente_id) VALUES (200,'PENDIENTE',40.0,'2018-01-01','Direccion Prueba', 1);
+INSERT INTO pedido(id, estado, precio_total, fecha, direccion_envio) VALUES (300,'ENVIADO',40.0,'2019-01-01','Direccion Prueba Numero 2');
 
 -- PELICULAS
 
