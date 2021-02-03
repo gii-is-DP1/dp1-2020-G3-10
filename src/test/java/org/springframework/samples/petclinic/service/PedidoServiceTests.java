@@ -38,7 +38,29 @@ public class PedidoServiceTests {
 	private ClienteRepository clienteRepository;
 	@Autowired
 	private PeliculaRepository peliculaRepository;
+	
+	final int pedidoId1 = 1; 
+	final int pedidoId2 = 2; 
+	final int pedidoId3 = 3; 
+	final int pedidoId4 = 4; 
+	final int pedidoId5 = 5; 
 
+	
+	public Pedido getDummyPedidoCarrito() {
+		List<Pelicula> productos = new ArrayList<>();
+		productos.add(peliculaService.findPeliculaById(1));
+		productos.add(peliculaService.findPeliculaById(2));
+		
+		Pedido pedido = new Pedido();
+		pedido.setCliente(null);
+		pedido.setDireccionEnvio("Direccion Prueba");
+		pedido.setPrecioTotal(0.0);
+		pedido.setPeliculas(productos);
+		pedido.setFecha(LocalDate.of(2020, 12, 01));
+		pedido.setEstado(EstadoPedido.CARRITO);
+				
+		return pedido;
+	}
 	
 	public Pedido getDummyPedido1() {
 		List<Pelicula> productos = new ArrayList<>();
@@ -51,7 +73,7 @@ public class PedidoServiceTests {
 		pedido.setPrecioTotal(0.0);
 		pedido.setPeliculas(productos);
 		pedido.setFecha(LocalDate.of(2020, 12, 01));
-		pedido.setEstado(EstadoPedido.CARRITO);
+		pedido.setEstado(EstadoPedido.PENDIENTE);
 				
 		return pedido;
 	}
@@ -137,7 +159,7 @@ public class PedidoServiceTests {
 		
 		///// CREAR PEDIDO CON PELICULAS
 		
-		Pedido p = this.getDummyPedido1();
+		Pedido p = this.getDummyPedidoCarrito();
 		p.setCliente(cliente);
 		Collection<Pedido> nuevos = new ArrayList<>();
 		nuevos.add(p);
@@ -180,7 +202,7 @@ public class PedidoServiceTests {
 		
 		/// CREAR PEDIDO
 		
-		Pedido pedido = this.getDummyPedido1();
+		Pedido pedido = this.getDummyPedidoCarrito();
 		pedido.setCliente(cliente);
 		
 		Collection<Pedido> nuevosPedidos = new ArrayList<>();
@@ -223,7 +245,7 @@ public class PedidoServiceTests {
 			
 			/// CREAR PEDIDO
 			
-			Pedido pedido = this.getDummyPedido1();
+			Pedido pedido = this.getDummyPedidoCarrito();
 			pedido.setEstado(EstadoPedido.ENTREGADO);
 			pedido.setCliente(cliente);
 			
@@ -301,9 +323,9 @@ public class PedidoServiceTests {
 			
 			/// CREAR PEDIDO
 			
-			Pedido pedido1 = this.getDummyPedido1();
+			Pedido pedido1 = this.getDummyPedidoCarrito();
 			pedido1.setEstado(EstadoPedido.CARRITO);
-			pedido1 = this.getDummyPedido1();
+			pedido1 = this.getDummyPedidoCarrito();
 			pedido1.setCliente(cliente);		
 			cliente.getPedidos().add(pedido1);
 			pedidoRepository.save(pedido1);

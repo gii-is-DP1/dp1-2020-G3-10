@@ -40,7 +40,7 @@
 					<span>Videojuegos</span>
 				</petclinic:menuItem>
 
-				<petclinic:menuItem active="${name eq 'merchandasing'}" url="#"
+				<petclinic:menuItem active="${name eq 'merchandasing'}" url="/merchandasings"
 					title="merchandasing">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 					<span>Merchandasing</span>
@@ -78,7 +78,7 @@
 					</sec:authorize>
 					<sec:authorize access="hasAuthority('vendedor')">
 					<li><a href="<c:url value="/pedidos" />">Mis Pedidos</a></li>
-					<li><a href="<c:url value="/pedidos/mostrarCarrito" />">Mis Productos</a></li>
+					<li><a href="<c:url value="/vendedores/productos" />">Mis Productos</a></li>
 					</sec:authorize>
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span><strong><sec:authentication property="name" /></strong> <span
