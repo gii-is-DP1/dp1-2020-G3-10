@@ -108,7 +108,7 @@ public class PedidoServiceTests {
 	public void testCountWithInitialData() {
 
 		int count = this.pedidoService.conteoPedido();
-		Assertions.assertTrue(count==1);
+		Assertions.assertTrue(count==3);
 
 	}
 
@@ -370,6 +370,53 @@ public class PedidoServiceTests {
 		
 		Assertions.assertThrows(IllegalArgumentException.class, () -> {
 			pedidoService.deletePedidoById(10000);
+		  });
+
+	}
+	
+	@Test
+	void cancelaPedidoSuccess() {
+		
+		Integer  clienteId = 1;
+
+		Optional<Pedido> optionalPedido = pedidoRepository.findById(200);
+		
+		Assert.assertTrue(optionalPedido.isPresent());
+		
+		Cliente cliente = clienteRepository.findById(clienteId).get();
+		
+		Double carteraCliente = cliente.getCartera();
+		
+		Double valorPedido = optionalPedido.get().getPrecioTotal();
+		
+		pedidoService.cancelaPedidoById(200);
+		
+		Optional<Pedido> optionalPedidoAfter = pedidoRepository.findById(200);
+
+		Assert.assertTrue(!optionalPedidoAfter.isPresent());
+		
+		Cliente clienteActualizado = clienteRepository.findById(clienteId).get();
+		
+		Double carteraClienteActualizada = clienteActualizado.getCartera();
+		
+		Assert.assertTrue(carteraClienteActualizada == carteraCliente + valorPedido);
+
+	}
+	
+	@Test
+	void cancelaPedidoNoPresenteSuccess() {
+		
+		Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			pedidoService.cancelaPedidoById(10000);
+		  });
+
+	}
+	
+	@Test
+	void cancelaPedidoYaEnviado() {
+		
+		Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			pedidoService.cancelaPedidoById(300);
 		  });
 
 	}

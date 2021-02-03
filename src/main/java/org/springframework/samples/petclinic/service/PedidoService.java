@@ -135,6 +135,32 @@ public class PedidoService {
 		}
 
 	}
+	
+	@Transactional
+	public void cancelaPedidoById(int id) {
+		
+		Optional<Pedido> pedido = this.pedidoRepository.findById(id);
+
+		if (!pedido.isPresent()) {
+			throw new IllegalArgumentException("El pedido que quiere borrar no existe");
+		} else if(pedido.get().getEstado() == EstadoPedido.ENVIADO){
+			throw new IllegalArgumentException("El pedido ya ha sido enviado");
+		} else {
+			Integer clienteId = pedido.get().getCliente().getId();
+			Double precioPedido = pedido.get().getPrecioTotal();
+		
+			pedidoRepository.deleteById(id);
+			
+			Cliente cliente = clienteRepository.findById(clienteId).get();
+			
+			Double carteraActualizada = cliente.getCartera() + precioPedido;
+			cliente.setCartera(carteraActualizada);
+
+			clienteRepository.save(cliente);
+			
+		}
+
+	}
 
 	@Transactional
 	public void añadirProductoCarrito(int productoId, String usuario, String tipo) {
