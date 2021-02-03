@@ -229,6 +229,63 @@ public class PedidoServiceTests {
 	}
 	
 	@Test
+	void carritoEliminaProductoPeliculaSuccess() {
+		
+		pedidoService.añadirProductoCarrito(6, "marta", "PELICULA");
+		
+		Boolean contieneProducto = pedidoService.carritoContieneProducto(6, "marta", "PELICULA");
+
+		Assert.assertTrue(contieneProducto);
+		
+		Pedido pedidoCarrito = pedidoService.findProductosCarritoByClienteId("marta").get();
+		
+		pedidoService.eliminaProductoCarrito(pedidoCarrito.getId(), 6, "PELICULA");
+		
+		Boolean contieneProductoAfter = pedidoService.carritoContieneProducto(6, "marta", "PELICULA");
+
+		Assert.assertTrue(!contieneProductoAfter);
+
+	}
+	
+	@Test
+	void carritoEliminaProductoVideojuegoSuccess() {
+
+		pedidoService.añadirProductoCarrito(1, "marta", "VIDEOJUEGO");
+		
+		Boolean contieneProducto = pedidoService.carritoContieneProducto(1, "marta", "VIDEOJUEGO");
+
+		Assert.assertTrue(contieneProducto);
+		
+		Pedido pedidoCarrito = pedidoService.findProductosCarritoByClienteId("marta").get();
+		
+		pedidoService.eliminaProductoCarrito(pedidoCarrito.getId(), 1, "VIDEOJUEGO");
+		
+		Boolean contieneProductoAfter = pedidoService.carritoContieneProducto(1, "marta", "VIDEOJUEGO");
+
+		Assert.assertTrue(!contieneProductoAfter);
+
+	}
+	
+	@Test
+	void carritoEliminaProductoMerchandasingSuccess() {
+
+		pedidoService.añadirProductoCarrito(1, "marta", "MERCHANDASING");
+		
+		Boolean contieneProducto = pedidoService.carritoContieneProducto(1, "marta", "MERCHANDASING");
+
+		Assert.assertTrue(contieneProducto);
+		
+		Pedido pedidoCarrito = pedidoService.findProductosCarritoByClienteId("marta").get();
+		
+		pedidoService.eliminaProductoCarrito(pedidoCarrito.getId(), 1, "MERCHANDASING");
+		
+		Boolean contieneProductoAfter = pedidoService.carritoContieneProducto(1, "marta", "MERCHANDASING");
+
+		Assert.assertTrue(!contieneProductoAfter);
+
+	}
+	
+	@Test
 	void completaPedidoSuccess() {
 
 		pedidoService.añadirProductoCarrito(2, "marta", "MERCHANDASING");
@@ -262,6 +319,35 @@ public class PedidoServiceTests {
 		Pedido pedidoquery = pedidoRepository.findProductosCarrito(cliente.getId()).get();
 
 		Assert.assertTrue( pedidoquery.getPeliculas() == pedido1.getPeliculas() );
+	}
+	
+	@Test
+	void listaIdPeliculasCompradasSuccess() {
+
+		pedidoService.añadirProductoCarrito(8, "marta", "PELICULA");
+		
+		Pedido carrito = pedidoService.findProductosCarritoByClienteId("marta").get();
+		
+		pedidoService.completaPedido(carrito);
+		
+		List<Integer> idPeliculasCompradas = pedidoService.listaIdPeliculasCompradas();
+		
+		Assert.assertTrue(idPeliculasCompradas.contains(8));
+	}
+	
+	@Test
+	void listaIdVideojuegosCompradosSuccess() {
+
+		pedidoService.añadirProductoCarrito(5, "marta", "VIDEOJUEGO");
+		
+		Pedido carrito = pedidoService.findProductosCarritoByClienteId("marta").get();
+		
+		pedidoService.completaPedido(carrito);
+		
+		List<Integer> idVideojuegosComprados = pedidoService.listaIdVideojuegosComprados();
+		
+		Assert.assertTrue(idVideojuegosComprados.contains(5));
+
 	}
 	
 	@Test
