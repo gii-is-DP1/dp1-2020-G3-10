@@ -9,7 +9,7 @@ INSERT INTO users(username,password,enabled) VALUES ('vet1','v3t',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (3,'vet1','veterinarian');
 -- One owner user, named owner1 with passwor Carles
 INSERT INTO users(username,password,enabled) VALUES ('guipavvar','Carles',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (8,'guipavvar','cliente');
+INSERT INTO authorities(id,username,authority) VALUES (8,'guipavvar','vendedor');
 -- Owner ivacarmen
 INSERT INTO users(username,password,enabled) VALUES ('ivacarmen','ivacarmen',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (4,'ivacarmen','cliente');
@@ -102,7 +102,7 @@ INSERT INTO CLIENTES VALUES (4, 'Cárdenas Meneses', '12345678X', 'ivancarmen@al
 
 --VENDEDORES
 
-INSERT INTO vendedor(id,first_name,last_name,vacaciones,valoracion,nombre_tienda,direccion_tienda,telefono,username) VALUES (1,'carles','santos',true,20,'tienda bonita','calle piruleta','6085558763','guipavvar');
+INSERT INTO vendedor(id,first_name,last_name,vacaciones,valoracion,nombre_tienda,direccion_tienda,telefono,username) VALUES (8,'carles','santos',true,20,'tienda bonita','calle piruleta','6085558763','guipavvar');
 
 --PEDIDOS
 
@@ -142,14 +142,14 @@ INSERT INTO merchandasings(id,tipo,fabricante,nombre,precio) VALUES (2, 'FIGURA'
 
 -- VENDEDOR-PELICULA
 
-INSERT INTO VENDEDOR_PELICULAS VALUES(1,2);
-INSERT INTO VENDEDOR_PELICULAS VALUES(1,3);
+INSERT INTO VENDEDOR_PELICULAS VALUES(8,2);
+INSERT INTO VENDEDOR_PELICULAS VALUES(8,3);
 
 -- VENDEDOR-MERCHANDASING
 
 -- VENDEDOR-VIDEOJUEGO
 
-INSERT INTO VENDEDOR_VIDEOJUEGOS VALUES(1,1);
+INSERT INTO VENDEDOR_VIDEOJUEGOS VALUES(8,1);
 
 --COMENTARIOS
 
