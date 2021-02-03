@@ -13,7 +13,7 @@
         <tr>
             <th>Nombre y Apellidos</th>
             <td>
-              <c:out value="${vendedor.firstName} ${vendedor.lastName}"/>
+              <c:out value="${vendedor.nombre} ${vendedor.apellidos}"/>
             </td>
         </tr>
         <tr>

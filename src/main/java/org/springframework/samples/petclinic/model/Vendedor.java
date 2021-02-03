@@ -10,7 +10,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.Valid;
-import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotEmpty;
 
 import lombok.Getter;
@@ -21,33 +20,28 @@ import lombok.Setter;
 @Entity
 @Table(name = "vendedor")
 
-public class Vendedor extends Person {
+public class Vendedor extends Persona {
 
-	private Boolean	vacaciones;
+	private Boolean								vacaciones;
 
-	private Double	valoracion;
-
-	@NotEmpty
-	private String	nombreTienda;
+	private Double								valoracion;
 
 	@NotEmpty
-	private String	direccionTienda;
+	private String								nombreTienda;
 
-	@Digits(fraction = 0, integer = 10)
-	private String	telefono;
+	@NotEmpty
+	private String								direccionTienda;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "username", referencedColumnName = "username")
 	@Valid
-	private User	user;
-	
+	private User								user;
+
 	@OneToMany
-	private Collection<@Valid Pelicula>	peliculas;
+	private Collection<@Valid Pelicula>			peliculas;
 	@OneToMany
-	private Collection<@Valid Videojuego>	videojuegos;
+	private Collection<@Valid Videojuego>		videojuegos;
 	@OneToMany
 	private Collection<@Valid Merchandasing>	merchandasings;
-	
-	
 
 }
