@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
@@ -182,6 +183,67 @@ public class PedidoServiceTests {
 		Assert.assertTrue(pedidoCarritoNuevo.getMerchandasings().contains(merchandasingRepository.findById(1)));
 
 	}
+	
+	@Test
+	void carritoContienePeliculaSuccess() {
+		
+		pedidoService.añadirProductoCarrito(6, "marta", "PELICULA");
+		
+		Boolean contieneProducto = pedidoService.carritoContieneProducto(6, "marta", "PELICULA");
+
+		Assert.assertTrue(contieneProducto);
+
+	}
+	
+	@Test
+	void carritoContieneVideojuegoSuccess() {
+
+		pedidoService.añadirProductoCarrito(1, "marta", "VIDEOJUEGO");
+		
+		Boolean contieneProducto = pedidoService.carritoContieneProducto(1, "marta", "VIDEOJUEGO");
+
+		Assert.assertTrue(contieneProducto);
+
+	}
+	
+	@Test
+	void carritoContieneMerchandasingSuccess() {
+
+		pedidoService.añadirProductoCarrito(1, "marta", "MERCHANDASING");
+		
+		Boolean contieneProducto = pedidoService.carritoContieneProducto(1, "marta", "MERCHANDASING");
+
+		Assert.assertTrue(contieneProducto);
+
+	}
+	
+	@Test
+	void carritoContieneProductoConTipoIncorrecto() {
+		
+		pedidoService.añadirProductoCarrito(1, "marta", "MERCHANDASING");
+		
+		Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			pedidoService.carritoContieneProducto(1, "marta", "MERCHANestaMalEscrito");
+		});
+	
+	}
+	
+	@Test
+	void completaPedidoSuccess() {
+
+		pedidoService.añadirProductoCarrito(2, "marta", "MERCHANDASING");
+		
+		Optional<Pedido> pedidoCarritoOptional = pedidoService.findProductosCarritoByClienteId("marta");
+		
+		Assert.assertTrue(pedidoCarritoOptional.isPresent());
+		
+		pedidoService.completaPedido(pedidoCarritoOptional.get());
+		
+		Optional<Pedido> pedidoCarritoOptionalAfter = pedidoService.findProductosCarritoByClienteId("marta");
+
+		Assert.assertTrue(!pedidoCarritoOptionalAfter.isPresent());
+
+	}
 
 	@Test
 	void queryFindCarritoTest() {
@@ -200,6 +262,30 @@ public class PedidoServiceTests {
 		Pedido pedidoquery = pedidoRepository.findProductosCarrito(cliente.getId()).get();
 
 		Assert.assertTrue( pedidoquery.getPeliculas() == pedido1.getPeliculas() );
+	}
+	
+	@Test
+	void deletePedidoSuccess() {
+
+		Optional<Pedido> optionalPedido = pedidoRepository.findById(100);
+		
+		Assert.assertTrue(optionalPedido.isPresent());
+		
+		pedidoService.deletePedidoById(100);
+		
+		Optional<Pedido> optionalPedidoAfter = pedidoRepository.findById(100);
+
+		Assert.assertTrue(!optionalPedidoAfter.isPresent());
+
+	}
+	
+	@Test
+	void deletePedidoNoPresenteSuccess() {
+		
+		Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			pedidoService.deletePedidoById(10000);
+		  });
+
 	}
 
 }

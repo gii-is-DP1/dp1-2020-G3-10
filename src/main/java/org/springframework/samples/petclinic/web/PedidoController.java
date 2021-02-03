@@ -114,7 +114,7 @@ public class PedidoController {
 		String vista = "pedidos/listadoPedidos";
 
 		try {
-			pedidoService.delete(pedidoId);
+			pedidoService.deletePedidoById(pedidoId);
 			modelMap.addAttribute("message", "El pedido se ha borrado satisfactoriamente.");
 		} catch (Exception e) {
 			modelMap.addAttribute("message", "El pedido no ha podido borrarse");

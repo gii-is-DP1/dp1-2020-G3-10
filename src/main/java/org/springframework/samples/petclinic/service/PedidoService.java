@@ -124,7 +124,7 @@ public class PedidoService {
 	}
 
 	@Transactional
-	public void delete(final int id) {
+	public void deletePedidoById(final int id) {
 
 		Optional<Pedido> pedido = this.pedidoRepository.findById(id);
 
