@@ -10,8 +10,12 @@
 	uri="http://www.springframework.org/security/tags"%>
 
 <petclinic:layout pageName="merchandasings">
+ 
+ 
+ <!--
 	<h2>MERCHANDASINGS</h2>
-
+		</br>
+		</br>
 
 	<table id="merchandasingsTable" class="table table-striped">
 		<thead>
@@ -76,4 +80,57 @@
 			var="createMerchandasingUrl"></spring:url>
 		<a class="btn btn-default" href="${fn:escapeXml(createMerchandasingUrl)}">Crear nuevo</a>
 	</sec:authorize>
+	
+	 -->
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+
+	 
+	 
+	<h2>MERCHANDASINGS</h2>
+		</br>
+		</br>
+
+	<table class="table table-stripped" id="merchandasingsTable">
+
+		<tbody>
+				<c:forEach items="${merchandasings}" var="merchandasing">
+
+
+				<div class="col-sm-6 col-md-4">
+					<div class="thumbnail">
+					
+					
+						<spring:url value="/merchandasings/{merchandasingId}"
+							var="merchandasingUrl">
+							<spring:param name="merchandasingId" value="${merchandasing.id}" />
+						</spring:url>
+						
+						
+						<a href="${fn:escapeXml(merchandasingUrl)}"><img src=<c:out value="${merchandasing.imagen}"/> width="70%" height="70%"></a>
+						
+						
+						
+						<center> 
+						<a href="${fn:escapeXml(merchandasingUrl)}"><c:out value="${merchandasing.nombre}"/></a>
+						</center>
+
+					</div>
+				</div>
+
+			</c:forEach>
+		</tbody>
+	</table>
+	
+	
+	 
 </petclinic:layout>

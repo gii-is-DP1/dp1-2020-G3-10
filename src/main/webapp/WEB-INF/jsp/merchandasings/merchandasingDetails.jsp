@@ -13,7 +13,7 @@
 
 <petclinic:layout pageName="descripcionMerchandasing">
 
-
+<!-- 
 
 	<table class="table table-striped">
 
@@ -57,7 +57,44 @@
 		</spring:url>
 		<a href="${fn:escapeXml(deleteUrl)}" class="btn btn-default">Eliminar</a>
 	</sec:authorize>
+ -->
+ 
+ 
+	
+	
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th style="width: 150px;">Imagen</th>
+				<th style="width: 150px;">Nombre</th>
+				<th style="width: 150px;">Tipo</th>
+				<th style="width: 150px;">Fabricante</th>
+				<th style="width: 150px;">Descripción</th>
+				<th style="width: 150px;">Precio</th>
+				<th style="width: 150px;"></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td><img src=<c:out value="${merchandasing.imagen}"/> width="250"	height="350"></td>
+				<td><c:out value="${merchandasing.nombre}" /></td>
+				<td><c:out value="${merchandasing.tipo}" /></td>
+				<td><c:out value="${merchandasing.fabricante}" /></td>
+				<td><c:out value="${merchandasing.descripcion}" /></td>
+				<td><c:out value="${merchandasing.precio}" /></td>
+				<td><spring:url value="/pedidos/addCarrito/{productoId}/{tipo}"
+						var="carritoUrl">
+						<spring:param name="productoId" value="${merchandasing.id}" />
+						<spring:param name="tipo" value="${'MERCHANDASING'}" />
+					</spring:url> <a href="${fn:escapeXml(carritoUrl)}" class="btn btn-default">Insertar
+						al carrito</a></td>
+			</tr>
+		</tbody>
+	</table>
 
+
+	
+ 
 
 
 </petclinic:layout>
