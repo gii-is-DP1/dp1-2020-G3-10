@@ -19,7 +19,7 @@
         <form:form modelAttribute="comentario" class="form-horizontal">
             <input hidden="id" value="${comentario.id}"/>
             <input hidden="cliente.id" value="${comentario.cliente.id}"/>
-            <input hidden="merchandasing.id" value="${comentario.videojuego.id}"/>
+            <input hidden="merchandasing.id" value="${comentario.merchandasing.id}"/>
             <div class="form-group has-feedback">
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Autor</label>
@@ -31,7 +31,7 @@
                 </div>
                  <div class="form-group has-feedback">
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">Videojuego</label>
+                    <label class="col-sm-2 control-label">Merchandasing</label>
                     <div class="col-sm-10">
                         <c:out value="${comentario.merchandasing.nombre}"/>
                         

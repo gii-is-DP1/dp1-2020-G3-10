@@ -2,7 +2,7 @@ package org.springframework.samples.petclinic.web;
 
 import java.util.Collection;
 import java.util.List;
-
+import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +10,15 @@ import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Comentario;
 import org.springframework.samples.petclinic.model.Merchandasing;
 import org.springframework.samples.petclinic.model.Pelicula;
+import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.Videojuego;
 import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.ComentarioService;
 import org.springframework.samples.petclinic.service.MerchandasingService;
 import org.springframework.samples.petclinic.service.PeliculaService;
+import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.samples.petclinic.service.VideojuegoService;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -35,6 +38,9 @@ public class ComentarioController {
 	
 	@Autowired
 	private final ComentarioService comentarioService;
+	
+	@Autowired
+	private final UserService userService;
 
 	@Autowired
 	private final ClienteService clienteService;
@@ -70,12 +76,14 @@ public class ComentarioController {
 	}
 	
 	@Autowired
-	public ComentarioController(ComentarioService comentarioService, ClienteService clienteService, PeliculaService peliculaService, VideojuegoService videojuegoService, MerchandasingService merchandasingService) {
+	public ComentarioController(ComentarioService comentarioService, ClienteService clienteService, PeliculaService peliculaService, VideojuegoService videojuegoService, MerchandasingService merchandasingService, UserService userService) {
 		this.comentarioService = comentarioService;
 		this.clienteService = clienteService;
 		this.peliculaService = peliculaService;
 		this.videojuegoService = videojuegoService;
 		this.merchandasingService = merchandasingService;
+		this.userService = userService;
+		
 	}
 	
 	@ModelAttribute("cliente")
@@ -104,8 +112,14 @@ public class ComentarioController {
 	}
 	
 	@GetMapping(value = "/pelicula/{peliculaId}/new")
-	public String initCreationFormPelicula(@PathVariable("peliculaId") int peliculaId, Cliente cliente, ModelMap model) {
+	public String initCreationFormPelicula(@PathVariable("peliculaId") int peliculaId, ModelMap model) {
 		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetails = (UserDetails) auth.getPrincipal();
+		User usuario = this.userService.findUser(userDetails.getUsername()).get();
+		
+		
+		Cliente cliente = clienteService.findClienteByUserName(usuario.getUsername());
 		Comentario comentario = new Comentario(cliente);
 		Pelicula pelicula = peliculaService.findPeliculaById(peliculaId);
 		
@@ -118,8 +132,13 @@ public class ComentarioController {
 	}
 	
 	@GetMapping(value = "/videojuego/{videojuegoId}/new")
-	public String initCreationFormVideojuego(@PathVariable("videojuegoId") int videojuegoId, Cliente cliente, ModelMap model) {
+	public String initCreationFormVideojuego(@PathVariable("videojuegoId") int videojuegoId, ModelMap model) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetails = (UserDetails) auth.getPrincipal();
+		User usuario = this.userService.findUser(userDetails.getUsername()).get();
 		
+		
+		Cliente cliente = clienteService.findClienteByUserName(usuario.getUsername());
 		Comentario comentario = new Comentario(cliente);
 		Videojuego videojuego = videojuegoService.findVideojuegoById(videojuegoId);
 		
@@ -131,8 +150,13 @@ public class ComentarioController {
 	}
 	
 	@GetMapping(value = "merchandasing/{merchandasingId}/new")
-	public String initCreationFormMerchandasing(@PathVariable("merchandasingId") int merchandasingId, Cliente cliente, ModelMap model) {
+	public String initCreationFormMerchandasing(@PathVariable("merchandasingId") int merchandasingId, ModelMap model) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetails = (UserDetails) auth.getPrincipal();
+		User usuario = this.userService.findUser(userDetails.getUsername()).get();
 		
+		
+		Cliente cliente = clienteService.findClienteByUserName(usuario.getUsername());
 		Comentario comentario = new Comentario(cliente);
 		Merchandasing merchandasing = this.merchandasingService.findMerchandasingById(merchandasingId);
 		
