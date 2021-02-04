@@ -13,15 +13,19 @@
         <h2>Vendedor</h2>
         <form:form modelAttribute="vendedor" class="form-horizontal">
             <div class="form-group has-feedback">
-                <petclinic:inputField label="firstName" name="firstName"/>
-                <petclinic:inputField label="lastName" name="lastName"/>
+                <petclinic:inputField label="nombre" name="nombre"/>
+                <petclinic:inputField label="apellidos" name="apellidos"/>
                 <petclinic:inputField label="Valoracion" name="valoracion"/>
                 <petclinic:inputField label="Vacaciones" name="vacaciones"/>
                 <petclinic:inputField label="nombre tienda" name="nombreTienda"/>
                 <petclinic:inputField label="direccion tienda" name="direccionTienda"/>
                 <petclinic:inputField label="telefono" name="telefono"/>
+                <petclinic:inputField label="dni" name="dni"/>
+                <petclinic:inputField label="email" name="email"/>
+                <petclinic:inputField label="fechaNacimiento" name="fechaNacimiento"/>             
                 <petclinic:inputField label="Username" name="user.username"/>
                 <petclinic:inputField label="Password" name="user.password"/>
+                
                 
                 
             </div>
