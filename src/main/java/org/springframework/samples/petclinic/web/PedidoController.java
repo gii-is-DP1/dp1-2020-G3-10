@@ -46,10 +46,15 @@ public class PedidoController {
 	@Autowired
 	private UserService userService;
 
-	/*
-	 * @GetMapping public boolean esMiPedido(@AuthenticationPrincipal User user,
-	 * Pedido pedido) { return pedido.getCliente().getUser() == user; }
-	 */
+
+	public boolean esMiPedido(Pedido pedido) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+
+		String username = userDetail.getUsername();
+		
+		return pedido.getCliente().getUser().getUsername() ==  username; 
+	}
 	
 	/// REVISAR SI SE USA O NO
 	@GetMapping
@@ -114,7 +119,7 @@ public class PedidoController {
 		String vista = "pedidos/listadoPedidos";
 
 		try {
-			pedidoService.delete(pedidoId);
+			pedidoService.deletePedidoById(pedidoId);
 			modelMap.addAttribute("message", "El pedido se ha borrado satisfactoriamente.");
 		} catch (Exception e) {
 			modelMap.addAttribute("message", "El pedido no ha podido borrarse");
@@ -230,6 +235,27 @@ public class PedidoController {
         }
 
         return "/pedidos/pedidoCompletado";
+    }
+	
+	@GetMapping(value = "/cancelarPedido/{pedidoId}")
+    public String cancelarPedido(@PathVariable("pedidoId") int pedidoId, final ModelMap modelMap) {
+		
+		System.out.println("LLEGA AQUI ********************************************************** "+pedidoId);
+		
+		String vista = "redirect:/pedidos/cliente";
+
+        try{
+            
+             pedidoService.cancelaPedidoById(pedidoId);
+                
+        }catch(Exception e) {
+        	
+             modelMap.addAttribute("message", e.getMessage());
+             vista = "redirect:/exception";
+             
+        }
+
+        return vista;
     }
 	
 	
