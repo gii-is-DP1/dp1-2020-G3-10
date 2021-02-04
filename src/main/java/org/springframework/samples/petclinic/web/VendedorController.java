@@ -43,9 +43,6 @@ public class VendedorController {
 	@Autowired
 	private PeliculaService			peliculaService;
 
-	@Autowired
-	private VideojuegoService		videojuegoService;
-
     @Autowired
 	private UserService userService;
 	
