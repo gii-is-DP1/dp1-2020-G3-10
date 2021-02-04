@@ -15,7 +15,26 @@
             <div class="form-group has-feedback">
                 <petclinic:inputField label="Nombre" name="nombre"/>
                 <petclinic:inputField label="Apellidos" name="apellidos"/>
-                <petclinic:inputField label="Vacaciones" name="vacaciones"/>
+                
+            <div class="contentcontainer med left" style="margin-left: 100px;">
+             
+                <label for="vacaciones">Vacaciones</label>
+                
+                <select  title="Vacaciones" id="vacaciones" name="vacaciones" size="2" class="form-control"
+						required>
+						
+                <option value="true">De vacaciones</option>
+                <option value="false">Disponible</option>
+                
+				</select>
+			
+			
+			</div>	
+				<br><br>
+				
+				
+							
+                
                 <petclinic:inputField label="Nombre tienda" name="nombreTienda"/>
                 <petclinic:inputField label="Direccion tienda" name="direccionTienda"/>
                 <petclinic:inputField label="Teléfono" name="telefono"/>
