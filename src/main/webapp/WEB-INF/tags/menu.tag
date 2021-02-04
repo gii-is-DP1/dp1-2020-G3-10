@@ -112,7 +112,15 @@
 									<div class="row">
 										<div class="col-lg-12">
 											<p>
-												<a href="/clientes/miPerfil" class="btn btn-primary btn-block">Mi Perfil</a>
+											
+												<sec:authorize access="hasAuthority('cliente')">
+													<a href="/clientes/miPerfil" class="btn btn-primary btn-block">Mi Perfil</a>
+												</sec:authorize>
+												
+												<sec:authorize access="hasAuthority('vendedor')">
+													<a href="/vendedores/miPerfil" class="btn btn-primary btn-block">Mi Perfil</a>
+												</sec:authorize>
+												
 												
 												<%-- <spring:url value="/vendedores/{vendedorId}" var="vendedorUrl">
                                                 <spring:param name="vendedorId" value="${vendedor.id}"/>

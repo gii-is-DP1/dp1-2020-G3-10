@@ -8,12 +8,15 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Merchandasing;
 import org.springframework.samples.petclinic.model.Pelicula;
+import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.Vendedor;
 import org.springframework.samples.petclinic.model.Videojuego;
 import org.springframework.samples.petclinic.service.MerchandasingService;
 import org.springframework.samples.petclinic.service.PeliculaService;
+import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.samples.petclinic.service.VendedorService;
 import org.springframework.samples.petclinic.service.VideojuegoService;
 import org.springframework.security.core.Authentication;
@@ -43,6 +46,12 @@ public class VendedorController {
 	@Autowired
 	private VideojuegoService		videojuegoService;
 
+    @Autowired
+	private UserService userService;
+	
+	@Autowired
+	private VideojuegoService videojuegoService;
+	
 	@Autowired
 	private MerchandasingService	merchandasingService;
 
@@ -127,6 +136,33 @@ public class VendedorController {
 		//		ModelAndView mav = new ModelAndView("vendedores/vendedorDetails");
 		//		mav.addObject(this.vendedorService.findVendedorById(vendedorId));
 		//		return mav;
+	}
+	
+	@GetMapping("/miPerfil")
+	public String showPerfilVendedor(ModelMap mp) {
+		String vista;
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
+		User currUser = userService.findUser(auth.getName()).get(); 
+
+		Vendedor vendedor = this.vendedorService.findVendedorByUsername(currUser.getUsername());
+	
+		 
+		if(vendedor == null) {
+			 
+			 SecurityContextHolder.clearContext();
+			 vista = "redirect:/login";
+			 mp.addAttribute("message", "El usuario debe volver a loggear para actualizar los cambios");
+			 
+		 }else {
+			 
+			mp.addAttribute("vendedor",vendedor);
+			vista = "redirect:/vendedores/" + vendedor.getId();
+			 
+		 }
+		 
+		return vista;
 	}
 
 	//Formulario Editar Vendedor
