@@ -16,6 +16,9 @@
             <th style="width: 120px">vacaciones</th>
             <th style="width: 120px">valoracion</th>
             <th style="width: 120px">telefono</th>
+            <th style="width: 120px">dni</th>
+            <th style="width: 120px">email</th>
+            <th style="width: 120px">Fecha de Nacimiento</th>
             <th style="width: 120px">Nombre Tienda</th>
             <th style="width: 120px">Direccion tienda</th>
             <th style="width: 120px">Usuario</th>
@@ -26,10 +29,10 @@
             <tr>
                 
                 <td>
-                    <c:out value="${vendedor.firstName}"/>
+                    <c:out value="${vendedor.nombre}"/>
                 </td>
                 <td>
-                    <c:out value="${vendedor.lastName}"/>
+                    <c:out value="${vendedor.apellidos}"/>
                 </td>
                 <td>
                     <c:out value="${vendedor.vacaciones}"/>  
@@ -40,6 +43,18 @@
                 <td>
                     <c:out value="${vendedor.telefono}"/>  
                 </td>
+                <td>
+                    <c:out value="${vendedor.dni}"/>  
+                </td>
+                
+                <td>
+                    <c:out value="${vendedor.email}"/>  
+                </td>
+                
+                <td>
+                    <c:out value="${vendedor.fechaNacimiento}"/>  
+                </td>
+                
                 <td>
                     <c:out value="${vendedor.nombreTienda}"/>  
                 </td>

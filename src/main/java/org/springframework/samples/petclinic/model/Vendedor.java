@@ -4,14 +4,16 @@ package org.springframework.samples.petclinic.model;
 import java.util.Collection;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.Valid;
-import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Range;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -21,33 +23,40 @@ import lombok.Setter;
 @Entity
 @Table(name = "vendedor")
 
-public class Vendedor extends Person {
+public class Vendedor extends Persona {
 
-	private Boolean	vacaciones;
+	@Column(name = "vacaciones")
+	private Boolean								vacaciones;
 
-	private Double	valoracion;
+	@Column(name = "valoracion")
+	@Range(min = 0, max = 5)
+	private Double								valoracion;
 
 	@NotEmpty
-	private String	nombreTienda;
+	@Column(name = "nombre_tienda")
+	private String								nombreTienda;
 
 	@NotEmpty
-	private String	direccionTienda;
-
-	@Digits(fraction = 0, integer = 10)
-	private String	telefono;
+	@Column(name = "direccion_tienda")
+	private String								direccionTienda;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "username", referencedColumnName = "username")
 	@Valid
-	private User	user;
-	
+	private User								user;
+
 	@OneToMany
-	private Collection<@Valid Pelicula>	peliculas;
+	private Collection<@Valid Pelicula>			peliculas;
 	@OneToMany
-	private Collection<@Valid Videojuego>	videojuegos;
+	private Collection<@Valid Videojuego>		videojuegos;
 	@OneToMany
 	private Collection<@Valid Merchandasing>	merchandasings;
-	
-	
+
+
+	@Override
+	public String toString() {
+		return "Vendedor [ciudad=" + this.vacaciones + ", codigoPostal=" + this.nombreTienda + ", direccion=" + this.direccionTienda + ", peliculas=" + this.peliculas + ", merchandasings=" + this.merchandasings + ", user=" + this.user + ", videojuegos="
+			+ this.videojuegos + "]";
+	}
 
 }

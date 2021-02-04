@@ -35,22 +35,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/vendedores")
 public class VendedorController {
 
-	private static final String	VIEWS_VENDEDOR_CREATE_OR_UPDATE_FORM	= "vendedores/editVendedor";
+	private static final String		VIEWS_VENDEDOR_CREATE_OR_UPDATE_FORM	= "vendedores/editVendedor";
 
 	@Autowired
-	private VendedorService		vendedorService;
-	
+	private VendedorService			vendedorService;
+
 	@Autowired
-	private PeliculaService peliculaService;
-	
-	@Autowired
+	private PeliculaService			peliculaService;
+
+    @Autowired
 	private UserService userService;
 	
 	@Autowired
 	private VideojuegoService videojuegoService;
 	
 	@Autowired
-	private MerchandasingService merchandasingService;
+	private MerchandasingService	merchandasingService;
 
 
 	@GetMapping
@@ -82,6 +82,9 @@ public class VendedorController {
 		System.out.print("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee    save ");
 		if (result.hasErrors()) {
 			modelMap.addAttribute("vendedor", vendedor);
+
+			System.out.print("Hay errores en el formulario (controlador de save vendedor) ");
+
 			return "vendedores/nuevoVendedor";
 		} else {
 			this.vendedorService.save(vendedor);
@@ -194,33 +197,32 @@ public class VendedorController {
 			return "redirect:/vendedores/{vendedorId}";
 		}
 	}
-	
-	
+
 	@GetMapping(value = "/productos")
-	public String listProducts(ModelMap modelMap) {
-		
+	public String listProducts(final ModelMap modelMap) {
+
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userDetail = (UserDetails) auth.getPrincipal();
 		String usuario = userDetail.getUsername();
-		
+
 		Vendedor vendedor = this.vendedorService.findVendedorByUsername(usuario);
-		
-		if(this.vendedorService.obtenerPeliculas(vendedor.getId())!=null) {
+
+		if (this.vendedorService.obtenerPeliculas(vendedor.getId()) != null) {
 			List<Pelicula> peliculas = new ArrayList<>();
 			peliculas.addAll(this.vendedorService.obtenerPeliculas(vendedor.getId()));
 			modelMap.addAttribute("peliculas", peliculas);
 		}
-		if(this.vendedorService.obtenerVideojuegos(vendedor.getId())!=null) {
+		if (this.vendedorService.obtenerVideojuegos(vendedor.getId()) != null) {
 			List<Videojuego> videojuegos = new ArrayList<>();
 			videojuegos.addAll(this.vendedorService.obtenerVideojuegos(vendedor.getId()));
 			modelMap.addAttribute("videojuegos", videojuegos);
 		}
-		if(this.vendedorService.obtenerMerchandasings(vendedor.getId())!=null) {
+		if (this.vendedorService.obtenerMerchandasings(vendedor.getId()) != null) {
 			List<Merchandasing> merch = new ArrayList<>();
 			merch.addAll(this.vendedorService.obtenerMerchandasings(vendedor.getId()));
 			modelMap.addAttribute("merch", merch);
 		}
-		
+
 		return "/productos/productosVendedor";
 	}
 

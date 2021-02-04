@@ -100,7 +100,9 @@ INSERT INTO CLIENTES VALUES (4, 'Cárdenas Meneses', '12345678X', 'ivancarmen@al
 
 --VENDEDORES
 
-INSERT INTO vendedor(id,first_name,last_name,vacaciones,valoracion,nombre_tienda,direccion_tienda,telefono,username) VALUES (8,'carles','santos',true,20,'tienda bonita','calle piruleta','6085558763','guipavvar');
+
+INSERT INTO vendedor(id,apellidos,dni,email,fecha_nacimiento,nombre,telefono,nombre_tienda,direccion_tienda,valoracion,vacaciones,username) VALUES (8,'carles','4897312x','carles@gmail.com','2013-01-01','Africa','601326967','TiendaCarles','Calle del Olmo',5,true,'guipavvar');
+
 
 --PEDIDOS
 
