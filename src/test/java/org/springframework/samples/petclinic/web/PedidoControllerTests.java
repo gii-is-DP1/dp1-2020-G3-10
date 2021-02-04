@@ -105,6 +105,19 @@ class PedidoControllerTests {
 		cliente1 = new Cliente();
 		cliente1.setId(TEST_CLIENTE_ID_1);
 		cliente1.setCartera(1000.0);
+		cliente1.setUser(user1);
+		cliente1.setDni("12345612Y");
+		cliente1.setCodigoPostal("41980");
+		cliente1.setComentarios(null);
+		cliente1.setApellidos("Apellido1");
+		cliente1.setNombre("NombrePrueba");
+		cliente1.setCiudad("Sevilla");
+		cliente1.setFechaNacimiento(LocalDate.of(1998, 5, 20));
+		cliente1.setEmail("email@email.es");
+		cliente1.setDireccion("Direccion 1");
+		cliente1.setTelefono("123456789");
+		cliente1.setReproductores(null);
+		cliente1.setTarjetaCredito("1212 2323 3434 5566");
 
 		pelicula = new Pelicula();
 		pelicula.setId(TEST_PELICULA_ID_1);
