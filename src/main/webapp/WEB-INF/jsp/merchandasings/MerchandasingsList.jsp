@@ -41,13 +41,5 @@
 		</tbody>
 	</table>
 
-
-
-
-	<sec:authorize access="hasAuthority('vendedor')">
-		<spring:url value="/vendedor/merchandasings/new"
-			var="createMerchandasingUrl"></spring:url>
-		<a class="btn btn-default" href="${fn:escapeXml(createMerchandasingUrl)}">Crear nuevo</a>
-	</sec:authorize>
 	
 </petclinic:layout>

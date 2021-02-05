@@ -87,7 +87,7 @@
 					<td><c:out value="${merch.descripcion}" /></td>
 					<td><c:out value="${merch.precio}" /></td>
 					<td><spring:url
-							value="/merchandasing/delete/{merchandasingId}"
+							value="/vendedor/merchandasings/{merchandasingId}/delete"
 							var="merchadasingUrl">
 							<spring:param name="merchandasingId" value="${merch.id}" />
 						</spring:url> <a href="${fn:escapeXml(merchadasingUrl)}"

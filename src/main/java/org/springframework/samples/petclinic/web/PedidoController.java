@@ -189,7 +189,7 @@ public class PedidoController {
 
 			modelMap.addAttribute("peliculas", pedido.getPeliculas());
 			modelMap.addAttribute("videojuegos", pedido.getVideojuegos());
-			modelMap.addAttribute("merchandasing", pedido.getMerchandasings());
+			modelMap.addAttribute("merchandasings", pedido.getMerchandasings());
 
 			modelMap.addAttribute("peliculasNoVacio", !(pedido.getPeliculas().isEmpty()));
 			modelMap.addAttribute("videojuegosNoVacio", !(pedido.getVideojuegos().isEmpty()));
