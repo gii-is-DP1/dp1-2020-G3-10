@@ -10,60 +10,33 @@
 	uri="http://www.springframework.org/security/tags"%>
 
 <petclinic:layout pageName="merchandasings">
+	
 	<h2>MERCHANDASINGS</h2>
+		
+		</br>
+		</br>
 
+	<table class="table table-stripped" id="merchandasingTable">
 
-	<table id="merchandasingsTable" class="table table-striped">
-		<thead>
-			<tr>
-				<th>Nombre</th>
-				<th>Fabricante</th>
-				<th>Tipo</th>
-				<th>Acciones</th>
-
-			</tr>
-		</thead>
 		<tbody>
 			<c:forEach items="${merchandasings}" var="merchandasing">
-				<tr>
-				
-					<td><spring:url value="/merchandasings/{merchandasingId}"
-							var="merchandasingUrl">
+
+
+				<div class="col-sm-6 col-md-4">
+					<div class="thumbnail">
+						<spring:url value="/merchandasings/{merchandasingId}" var="merchandasingUrl">
 							<spring:param name="merchandasingId" value="${merchandasing.id}" />
-						</spring:url> <a href="${fn:escapeXml(merchandasingUrl)}">${merchandasing.nombre}</a>
-					</td>
-					
-					<td><spring:url value="/merchandasings/{merchandasingId}"
-							var="merchandasingUrl">
+						</spring:url>
+						<a href="${fn:escapeXml(merchandasingUrl)}"><img src=<c:out value="${merchandasing.imagen}"/> width="70%" height="70%"></a>
+
+						<spring:url value="/merchandasings/{merchandasingId}" var="merchandasingUrl">
 							<spring:param name="merchandasingId" value="${merchandasing.id}" />
-						</spring:url> <a href="${fn:escapeXml(merchandasingUrl)}">${merchandasing.fabricante}</a>
-					</td>
+						</spring:url>
+						<center> <a href="${fn:escapeXml(merchandasingUrl)}"><c:out value="${merchandasing.nombre}"/></a></center>
 
-					<td><spring:url value="/merchandasings/{merchandasingId}"
-							var="merchandasingUrl">
-							<spring:param name="merchandasingId" value="${merchandasing.id}" />
-						</spring:url> <a href="${fn:escapeXml(merchandasingUrl)}">${merchandasing.tipo}</a>
-					</td>
-					
+					</div>
+				</div>
 
-
-					<td><sec:authorize access="hasAuthority('vendedor')">
-							<spring:url
-								value="/vendedor/merchandasings/{merchandasingId}/edit"
-								var="merchandasingEditUrl">
-								<spring:param name="merchandasingId" value="${merchandasing.id}" />
-							</spring:url>
-							<a href="${fn:escapeXml(merchandasingEditUrl)}">Editar</a>
-						</sec:authorize> <sec:authorize access="hasAuthority('vendedor')">
-							<spring:url
-								value="/vendedor/merchandasings/{merchandasingId}/delete"
-								var="merchandasingDeleteUrl">
-								<spring:param name="merchandasingId" value="${merchandasing.id}" />
-							</spring:url>
-							<a href="${fn:escapeXml(merchandasingDeleteUrl)}">Eliminar</a>
-						</sec:authorize></td>
-
-				</tr>
 			</c:forEach>
 		</tbody>
 	</table>
@@ -76,4 +49,5 @@
 			var="createMerchandasingUrl"></spring:url>
 		<a class="btn btn-default" href="${fn:escapeXml(createMerchandasingUrl)}">Crear nuevo</a>
 	</sec:authorize>
+	
 </petclinic:layout>

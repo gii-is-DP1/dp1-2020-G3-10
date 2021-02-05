@@ -137,8 +137,10 @@ INSERT INTO VIDEOJUEGOS VALUES(8, 'Disfruta del caos en modo cooperativo desde e
 
 -- MERCHANDASINGS
 
-INSERT INTO merchandasings(id,tipo,fabricante,nombre,precio) VALUES (1, 'FIGURA', 'Fabricante 1', 'Goku SSJ4', 33.33);
-INSERT INTO merchandasings(id,tipo,fabricante,nombre,precio) VALUES (2, 'FIGURA', 'Bandai', 'Goku SSJ4', 33.33);
+INSERT INTO merchandasings(id,tipo,fabricante,nombre,precio,descripcion,fecha_salida,imagen) VALUES (1, 'FIGURA', 'Tamashii Nations', 'EVA 01', 70.00,'Figura articulada Evangelion EVA-01 Test Type Rebuild of Evangelion 17cm','2020-01-10','https://m.media-amazon.com/images/I/618bqLLKakL._AC_UL320_.jpg');
+INSERT INTO merchandasings(id,tipo,fabricante,nombre,precio,descripcion,fecha_salida,imagen) VALUES (2, 'FIGURA', 'Ban Presto', 'Super Saiyan 4 Full Scratch Son Goku', 27.00, 'Figura de plastico','2020-01-10','https://m.media-amazon.com/images/I/61EkYMTPOqL._AC_UL320_.jpg');
+INSERT INTO merchandasings(id,tipo,fabricante,nombre,precio,descripcion,fecha_salida,imagen) VALUES (3, 'ROPA', 'Marvel', 'Camiseta Capitan America', 14.50, 'Un regalo perfecto para fanáticos de los Avengers','2016-05-10','https://m.media-amazon.com/images/I/713WP1I2QDL._AC_UL320_.jpg');
+INSERT INTO merchandasings(id,tipo,fabricante,nombre,precio,descripcion,fecha_salida,imagen) VALUES (4, 'POSTER', 'Grupo Erik', ' Poster Pulp Fiction', 12.99, 'Perfecto para cambiar la decoración de tu sala de juegos con este póster de Pulp Fiction.','2019-06-10','https://m.media-amazon.com/images/I/61qGQG3woqL._AC_UL320_.jpg');
 
 -- VENDEDOR-PELICULA
 
