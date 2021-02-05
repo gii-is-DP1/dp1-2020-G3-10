@@ -8,7 +8,6 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Merchandasing;
 import org.springframework.samples.petclinic.model.Pelicula;
 import org.springframework.samples.petclinic.model.User;
@@ -43,12 +42,12 @@ public class VendedorController {
 	@Autowired
 	private PeliculaService			peliculaService;
 
-    @Autowired
-	private UserService userService;
-	
 	@Autowired
-	private VideojuegoService videojuegoService;
-	
+	private UserService				userService;
+
+	@Autowired
+	private VideojuegoService		videojuegoService;
+
 	@Autowired
 	private MerchandasingService	merchandasingService;
 
@@ -89,10 +88,8 @@ public class VendedorController {
 		} else {
 			this.vendedorService.save(vendedor);
 			modelMap.addAttribute("message", "Vendedor guardo correctamente");
-			vista = this.listadoVendedor(modelMap);
+			return "redirect:/vendedores/" + vendedor.getId();
 		}
-
-		return vista;
 
 	}
 	@GetMapping(path = "/delete/{vendedorId}")
@@ -134,31 +131,30 @@ public class VendedorController {
 		//		mav.addObject(this.vendedorService.findVendedorById(vendedorId));
 		//		return mav;
 	}
-	
+
 	@GetMapping("/miPerfil")
-	public String showPerfilVendedor(ModelMap mp) {
+	public String showPerfilVendedor(final ModelMap mp) {
 		String vista;
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		
-		User currUser = userService.findUser(auth.getName()).get(); 
+
+		User currUser = this.userService.findUser(auth.getName()).get();
 
 		Vendedor vendedor = this.vendedorService.findVendedorByUsername(currUser.getUsername());
-	
-		 
-		if(vendedor == null) {
-			 
-			 SecurityContextHolder.clearContext();
-			 vista = "redirect:/login";
-			 mp.addAttribute("message", "El usuario debe volver a loggear para actualizar los cambios");
-			 
-		 }else {
-			 
-			mp.addAttribute("vendedor",vendedor);
+
+		if (vendedor == null) {
+
+			SecurityContextHolder.clearContext();
+			vista = "redirect:/login";
+			mp.addAttribute("message", "El usuario debe volver a loggear para actualizar los cambios");
+
+		} else {
+
+			mp.addAttribute("vendedor", vendedor);
 			vista = "redirect:/vendedores/" + vendedor.getId();
-			 
-		 }
-		 
+
+		}
+
 		return vista;
 	}
 
