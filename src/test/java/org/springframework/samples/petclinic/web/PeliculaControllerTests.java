@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.web;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,19 +11,19 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.model.Formato;
 import org.springframework.samples.petclinic.model.Pelicula;
+import org.springframework.samples.petclinic.service.PedidoService;
 import org.springframework.samples.petclinic.service.PeliculaService;
 import org.springframework.samples.petclinic.service.ProductoService;
+import org.springframework.samples.petclinic.service.VendedorService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.ui.ModelMap;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 import java.time.LocalDate;
-
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -47,6 +48,12 @@ class PeliculaControllerTests {
 
 	@MockBean
 	private ProductoService productoService;
+	
+	@MockBean
+	private PedidoService pedidoService;
+	
+	@MockBean
+	private VendedorService vendedorService;
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -91,14 +98,6 @@ class PeliculaControllerTests {
 				.andExpect(MockMvcResultMatchers.view().name("/peliculas/PeliculasList"));
 	}
 
-	// /peliculas/delete/{peliculaId}
-	@WithMockUser(value = "spring")
-	@Test
-	void testDeletePelicula() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/peliculas/delete/{peliculaId}", TEST_PELICULA_ID))
-				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
-				.andExpect(MockMvcResultMatchers.view().name("/peliculas/PeliculasList"));
-	}
 
 	// GET /peliculas/new
 	@WithMockUser(value = "spring")
@@ -131,8 +130,7 @@ class PeliculaControllerTests {
 				.param("director", "director de la pelicula")
 				.param("duracion", "2")
 				.param("edicion", "3")
-				.param("formato", "DVD")).andExpect(status().is3xxRedirection());
-
+				.param("formato", "DVD")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
 	}
 	// POST /peliculas/edit/{peliculaId}
 			@WithMockUser(value = "spring")
@@ -151,7 +149,14 @@ class PeliculaControllerTests {
 
 			}
 
-	
+//	@Test
+//	void testdeletePelicula() {
+//		ModelMap modelMap = null;
+//		this.peliculaController.deletePelicula(TEST_PELICULA_ID, modelMap);
+//		for(Pelicula p : this.peliculaService.findPeliculas()) {
+//			Assertions.assertTrue(!(p.getId()== TEST_PELICULA_ID));
+//		}
+//	}
 	
 
 }
