@@ -6,6 +6,8 @@ import javax.persistence.MappedSuperclass;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.sun.istack.NotNull;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,9 +16,10 @@ import lombok.Setter;
 @Setter
 public class Producto extends BaseEntity {
 	
-
+	@NotNull
 	private String nombre;
 	
+	@NotNull
 	private String descripcion;
 	
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
@@ -24,6 +27,7 @@ public class Producto extends BaseEntity {
 	
 	private Double precio;
 	
+	@NotNull
 	private String imagen;
 	
 	
