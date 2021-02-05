@@ -12,13 +12,13 @@
         <thead>
         <tr>
             <th style="width: 150px;">Nombre</th>
-            <th style="width: 200px;">apellido</th>
-            <th style="width: 120px">vacaciones</th>
-            <th style="width: 120px">valoracion</th>
-            <th style="width: 120px">telefono</th>
-            <th style="width: 120px">dni</th>
-            <th style="width: 120px">email</th>
-            <th style="width: 120px">Fecha de Nacimiento</th>
+            <th style="width: 200px;">Apellido</th>
+            <th style="width: 120px">Vacaciones</th>
+            <th style="width: 120px">Valoración</th>
+            <th style="width: 120px">Teléfono</th>
+            <th style="width: 120px">DNI</th>
+            <th style="width: 120px">Email</th>
+            <th style="width: 120px">Fecha de nacimiento</th>
             <th style="width: 120px">Nombre Tienda</th>
             <th style="width: 120px">Direccion tienda</th>
             <th style="width: 120px">Usuario</th>
@@ -38,7 +38,7 @@
                     <c:out value="${vendedor.vacaciones}"/>  
                 </td>
                 <td>
-                    <c:out value="${vendedor.valoracion}"/>  
+                    <c:out value="${vendedor.valoracion / vendedor.votos}"/>  
                 </td>
                 <td>
                     <c:out value="${vendedor.telefono}"/>  

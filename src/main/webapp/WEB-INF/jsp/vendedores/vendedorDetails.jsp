@@ -7,6 +7,7 @@
 <petclinic:layout pageName="vendedor">
 
     <h2>Perfil Vendedor</h2>
+    
 
 
     <table class="table table-striped">
@@ -22,7 +23,7 @@
         </tr>
          <tr>
             <th>Valoracion</th>
-            <td><c:out value="${vendedor.valoracion}"/></td>
+            <td><c:out value="${vendedor.valoracion / vendedor.votos}"/></td>
         </tr>
          <tr>
             <th>Nombre Tienda</th>
@@ -48,6 +49,7 @@
             <th>Teléfono</th>
             <td><c:out value="${vendedor.telefono}"/></td>
         </tr>
+        
         
         
     </table>
