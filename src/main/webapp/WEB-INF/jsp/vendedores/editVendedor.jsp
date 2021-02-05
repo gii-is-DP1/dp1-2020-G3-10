@@ -13,18 +13,36 @@
         <h2>Vendedor</h2>
         <form:form modelAttribute="vendedor" class="form-horizontal">
             <div class="form-group has-feedback">
-                <petclinic:inputField label="nombre" name="nombre"/>
-                <petclinic:inputField label="apellidos" name="apellidos"/>
-                <petclinic:inputField label="Valoracion" name="valoracion"/>
-                <petclinic:inputField label="Vacaciones" name="vacaciones"/>
-                <petclinic:inputField label="nombre tienda" name="nombreTienda"/>
-                <petclinic:inputField label="direccion tienda" name="direccionTienda"/>
-                <petclinic:inputField label="telefono" name="telefono"/>
-                <petclinic:inputField label="dni" name="dni"/>
-                <petclinic:inputField label="email" name="email"/>
-                <petclinic:inputField label="fechaNacimiento" name="fechaNacimiento"/>             
-                <petclinic:inputField label="Username" name="user.username"/>
-                <petclinic:inputField label="Password" name="user.password"/>
+                <petclinic:inputField label="Nombre" name="nombre"/>
+                <petclinic:inputField label="Apellidos" name="apellidos"/>
+                
+            <div class="contentcontainer med left" style="margin-left: 100px;">
+             
+                <label for="vacaciones">Vacaciones</label>
+                
+                <select  title="Vacaciones" id="vacaciones" name="vacaciones" size="2" class="form-control"
+						required>
+						
+                <option value="true">De vacaciones</option>
+                <option value="false">Disponible</option>
+                
+				</select>
+			
+			
+			</div>	
+				<br><br>
+				
+				
+							
+                
+                <petclinic:inputField label="Nombre tienda" name="nombreTienda"/>
+                <petclinic:inputField label="Direccion tienda" name="direccionTienda"/>
+                <petclinic:inputField label="Teléfono" name="telefono"/>
+                <petclinic:inputField label="Dni" name="dni"/>
+                <petclinic:inputField label="Email" name="email"/>
+                <petclinic:inputField label="Fecha de Nacimiento" name="fechaNacimiento"/>             
+                <petclinic:inputField label="Usuario" name="user.username"/>
+                <petclinic:inputField label="Contaseña" name="user.password"/>
                 
                 
                 
