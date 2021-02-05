@@ -27,7 +27,7 @@
 						<spring:url value="/merchandasings/{merchandasingId}" var="merchandasingUrl">
 							<spring:param name="merchandasingId" value="${merchandasing.id}" />
 						</spring:url>
-						<a href="${fn:escapeXml(merchandasingUrl)}"><img src=<c:out value="${merchandasing.imagen}"/> width="70%" height="70%"></a>
+						<a href="${fn:escapeXml(merchandasingUrl)}"><img src=<c:out value="${merchandasing.imagen}"/> width="250" height="350"></a>
 
 						<spring:url value="/merchandasings/{merchandasingId}" var="merchandasingUrl">
 							<spring:param name="merchandasingId" value="${merchandasing.id}" />
