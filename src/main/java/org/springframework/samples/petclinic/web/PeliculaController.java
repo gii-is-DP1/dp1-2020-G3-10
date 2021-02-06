@@ -86,6 +86,7 @@ public class PeliculaController {
 	@GetMapping(value = "/peliculas/edit/{peliculaId}")
 	public String initUpdateForm(@PathVariable("peliculaId") int peliculaId, ModelMap model) {
 		Pelicula p = this.peliculaService.findPeliculaById(peliculaId);
+		model.addAttribute("formatos", this.peliculaService.getFormatos());
 		model.put("pelicula", p);
 		String view = "/peliculas/formCreatePeliculas";
 		return view;
@@ -98,7 +99,8 @@ public class PeliculaController {
 		String view = "/peliculas/formCreatePeliculas";
 
 		if (result.hasErrors()) {
-			model.addAttribute("message", "ERROR!");
+			model.addAttribute("formatos", this.peliculaService.getFormatos());
+			model.addAttribute("message", "¡No se pudo actualizar la pelicula!");
 		} else {
 			p.setId(peliculaId);
 			this.peliculaService.savePelicula(p);
@@ -120,6 +122,7 @@ public class PeliculaController {
 	@GetMapping(value = "/peliculas/new")
 	public String createPelicula(final ModelMap modelmap) {
 		String view = "/peliculas/formCreatePeliculas";
+		modelmap.addAttribute("formatos", this.peliculaService.getFormatos());
 		modelmap.addAttribute("pelicula", new Pelicula()); 
 		return view;
 	}
@@ -134,6 +137,7 @@ public class PeliculaController {
 		Vendedor vendedor = this.vendedorService.findVendedorByUsername(username);
 		
 		if (result.hasErrors()) {
+			model.addAttribute("formatos", this.peliculaService.getFormatos());	
 			return "/peliculas/formCreatePeliculas";
 		} else {
 			this.peliculaService.savePelicula(pel);
