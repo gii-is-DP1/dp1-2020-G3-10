@@ -9,10 +9,14 @@
 
 <petclinic:layout pageName="peliculas">
 
+	<h3>
+		<c:out value="${mensaje}" />
+	</h3>
+
 	<h2>PELÍCULAS</h2>
-		
-		</br>
-		</br>
+
+	</br>
+	</br>
 
 	<table class="table table-stripped" id="peliculasTable">
 
@@ -25,12 +29,16 @@
 						<spring:url value="/peliculas/{peliculaId}" var="peliculaUrl">
 							<spring:param name="peliculaId" value="${pel.id}" />
 						</spring:url>
-						<a href="${fn:escapeXml(peliculaUrl)}"><img src=<c:out value="${pel.imagen}"/> width="70%" height="70%"></a>
+						<a href="${fn:escapeXml(peliculaUrl)}"><img
+							src=<c:out value="${pel.imagen}"/> width="70%" height="70%"></a>
 
 						<spring:url value="/peliculas/{peliculaId}" var="peliculaUrl">
 							<spring:param name="peliculaId" value="${pel.id}" />
 						</spring:url>
-						<center> <a href="${fn:escapeXml(peliculaUrl)}"><c:out value="${pel.nombre}"/></a></center>
+						<center>
+							<a href="${fn:escapeXml(peliculaUrl)}"><c:out
+									value="${pel.nombre}" /></a>
+						</center>
 
 					</div>
 				</div>
@@ -38,6 +46,6 @@
 			</c:forEach>
 		</tbody>
 	</table>
-	
-	
+
+
 </petclinic:layout>

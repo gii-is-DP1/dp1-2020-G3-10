@@ -1,10 +1,13 @@
 package org.springframework.samples.petclinic.service;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.model.Formato;
 import org.springframework.samples.petclinic.model.Pelicula;
 import org.springframework.samples.petclinic.repository.PeliculaRepository;
 import org.springframework.stereotype.Service;
@@ -68,5 +71,13 @@ public class PeliculaService {
 		}else {
 			throw new IllegalArgumentException("La pelicula que desea borrar no existe");
 		}
+	}
+	
+	public Collection<Formato> getFormatos(){
+		Collection<Formato> formatos = new ArrayList<Formato>();
+		for(Formato f: Formato.values()) {
+			formatos.add(f);
+		}
+		return formatos;
 	}
 }

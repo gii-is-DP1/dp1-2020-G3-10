@@ -80,6 +80,7 @@ public class VideojuegoController {
 	@GetMapping(value = "/videojuegos/new")
 	public String createVideojuego(final ModelMap modelmap) {
 		String view = "/videojuegos/formCreateVideojuegos";
+		modelmap.addAttribute("plataformas", this.videojuegoService.getPlataformas());
 		modelmap.addAttribute("videojuego", new Videojuego());
 		return view;
 	}
@@ -93,6 +94,7 @@ public class VideojuegoController {
 		Vendedor vendedor = this.vendedorService.findVendedorByUsername(username);
 		
 		if (result.hasErrors()) {
+			model.addAttribute("plataformas", this.videojuegoService.getPlataformas());
 			return "videojuegos/formCreateVideojuegos";
 		} else {
 			this.videojuegoService.saveVideojuego(vid);
@@ -108,42 +110,41 @@ public class VideojuegoController {
 		}
 	}
 
-	@GetMapping(value = "/videojuegos/delete/{videojuegoId}")
-	public String deleteVideojuego(@PathVariable("videojuegoId") int videojuegoId, final ModelMap modelmap) {
-		Videojuego videojuegoBorrar = this.videojuegoService.findVideojuegoById(videojuegoId);
+	@GetMapping(value = "/videojuegos/edit/{videojuegoId}")
+	public String initUpdateForm(@PathVariable("videojuegoId") int videojuegoId, ModelMap model) {
+		Videojuego videojuegoEditar = this.videojuegoService.findVideojuegoById(videojuegoId);
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userDetail = (UserDetails) auth.getPrincipal();
 		String username = userDetail.getUsername();
 		Vendedor vendedor = this.vendedorService.findVendedorByUsername(username);
 		Collection<Videojuego> videojuegos = vendedor.getVideojuegos();
-
+		List<Integer> idVideojuegosPedidos= pedidoService.listaIdVideojuegosComprados();
 		
-		if ((videojuegoBorrar != null) && (videojuegos.contains(videojuegoBorrar))) {
-			videojuegos.remove(videojuegoBorrar);
-			this.vendedorService.save(vendedor);
-			modelmap.addAttribute("message", "¡Producto eliminado!");
-			this.videojuegoService.delete(videojuegoBorrar);
-			return showProductos(modelmap);
-		} else {
-			modelmap.addAttribute("message", "ERROR!");
-			return "/videojuegos/videojuegosList";
+		if(videojuegoEditar == null) {
+			model.addAttribute("message", "El videojuego que se quiere editar no existe.");
+			return showProductos(model);
+		}else if(!videojuegos.contains(videojuegoEditar)) {
+			model.addAttribute("message", "No tiene permisos para editar el videojuego.");
+			return showProductos(model);
+		}else if(idVideojuegosPedidos.contains(videojuegoId)) {
+			model.addAttribute("message", "El videojuego no puede editarse porque esta en un pedido.");
+			return showProductos(model);
+		}else {
+			model.addAttribute("plataformas", this.videojuegoService.getPlataformas());
+			model.put("videojuego", videojuegoEditar);
+			return "/videojuegos/formCreateVideojuegos";
+			
 		}
 		
 	}
 
-	@GetMapping(value = "/videojuegos/edit/{videojuegoId}")
-	public String initUpdateForm(@PathVariable("videojuegoId") int videojuegoId, ModelMap model) {
-		Videojuego v = this.videojuegoService.findVideojuegoById(videojuegoId);
-		model.put("videojuego", v);
-		String view = "/videojuegos/formCreateVideojuegos";
-		return view;
-	}
-
 	@PostMapping(value = "/videojuegos/edit/{videojuegoId}")
 	public String processUpdatePeliculaForm(@Valid final Videojuego v, BindingResult result,
-			@PathVariable("videojuegoId") int videojuegoId) {
+			@PathVariable("videojuegoId") int videojuegoId, ModelMap model) {
 		String view = "/videojuegos/formCreateVideojuegos";
 		if (result.hasErrors()) {
+			model.addAttribute("plataformas", this.videojuegoService.getPlataformas());
+			model.addAttribute("message", "¡No se pudo actualizar el videojuego!");
 			return view;
 		} else {
 			v.setId(videojuegoId);
@@ -151,6 +152,32 @@ public class VideojuegoController {
 			view = "redirect:/videojuegos/" + v.getId();
 			return view;
 		}
+	}
+	
+	@GetMapping(value = "/videojuegos/delete/{videojuegoId}")
+	public String deleteVideojuego(@PathVariable("videojuegoId") int videojuegoId, final ModelMap modelMap) {
+		
+		Videojuego videojuegoBorrar = this.videojuegoService.findVideojuegoById(videojuegoId);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+		String username = userDetail.getUsername();
+		Vendedor vendedor = this.vendedorService.findVendedorByUsername(username);
+		Collection<Videojuego> videojuegos = vendedor.getVideojuegos();
+		List<Integer> idVideojuegosPedidos = pedidoService.listaIdVideojuegosComprados();
+		
+		if (videojuegoBorrar == null) {
+			modelMap.addAttribute("message", "El videojuego que se quiere borrar no existe.");
+		}else if(!videojuegos.contains(videojuegoBorrar)) {
+			modelMap.addAttribute("message", "No tiene permisos para eliminar el videojuego.");
+		}else if(idVideojuegosPedidos.contains(videojuegoId)) {	
+			modelMap.addAttribute("message", "El videojuego no puede borrarse porque esta en un pedido.");
+		}else {
+			videojuegos.remove(videojuegoBorrar);
+			this.vendedorService.save(vendedor);
+			this.videojuegoService.delete(videojuegoBorrar);
+			modelMap.addAttribute("message", "¡Producto eliminado!");
+		}
+		return showProductos(modelMap);
 	}
 	
 	public String showProductos(ModelMap modelMap) {

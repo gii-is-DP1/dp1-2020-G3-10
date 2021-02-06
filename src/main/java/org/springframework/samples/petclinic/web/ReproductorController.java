@@ -67,7 +67,7 @@ public class ReproductorController {
 		String view = "reproductores/listadoReproductores" ;
 		if (result.hasErrors()) {
 			mp.addAttribute("Reproductor",Reproductor);
-			mp.addAttribute("message","La Reproductor no se ha podido crear");
+			mp.addAttribute("message","El Reproductor no se ha podido crear");
 			return "reproductores/editReproductor";
 		} else {
 			this.ReproductorService.saveReproductor(Reproductor);

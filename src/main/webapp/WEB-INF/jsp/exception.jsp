@@ -11,4 +11,5 @@
 
     <p>${exception.message}</p>
 
+
 </petclinic:layout>

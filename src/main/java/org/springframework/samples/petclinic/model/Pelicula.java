@@ -29,7 +29,7 @@ public class Pelicula extends Producto {
 	}
 
 	@Column(name = "director")
-	@NotEmpty
+	@NotEmpty(message = "El director es obligatorio.")
 	private String	director;
 
 	@Column(name = "agno")
