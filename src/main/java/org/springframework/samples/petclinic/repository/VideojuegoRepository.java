@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.repository.Repository;
@@ -16,7 +17,7 @@ public interface VideojuegoRepository extends Repository<Videojuego, Integer>{
 	
 	List<Videojuego> findAll() throws DataAccessException;
 	
-	Videojuego findVideojuegoById(int id) throws DataAccessException;
+	Optional<Videojuego> findVideojuegoById(int id);
 
 	void deleteById(int id) throws DataAccessException;
 

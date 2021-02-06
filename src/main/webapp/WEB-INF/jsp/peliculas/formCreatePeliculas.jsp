@@ -35,7 +35,7 @@
                 </div>
                 <petclinic:inputField label="Imagen" name="imagen"/>
                 <petclinic:inputField label="Descripcion" name="descripcion"/>
-                <petclinic:inputField label="FechaSalida" name="fechaSalida"  />
+                <petclinic:inputField label="Fecha Salida" name="fechaSalida"  />
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
