@@ -45,7 +45,7 @@ public class Pedido extends BaseEntity {
 	@Column(name = "direccion_envio")
 	private String			direccionEnvio;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "cliente_id")
 	@Valid
 	private Cliente					    cliente;

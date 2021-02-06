@@ -42,10 +42,7 @@
 		</tbody>
 	</table>
 
-	<spring:url value="/videojuegos/new" var="addVideojuegoUrl">
-	</spring:url>
-	<a href="${fn:escapeXml(addVideojuegoUrl)}" class="btn btn-default">Nuevo
-		Videojuego</a>
+	
 
 
 

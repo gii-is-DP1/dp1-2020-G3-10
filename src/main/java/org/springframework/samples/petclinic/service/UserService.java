@@ -51,20 +51,4 @@ public class UserService {
 		return userRepository.findById(username);
 	}
 	
-	
-	/*
-	@Transactional
-	public Cliente getCurrentMedico() throws DataAccessException {
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		String username;
-
-		if (principal instanceof UserDetails) {
-			username = ((UserDetails) principal).getUsername();
-		} else {
-			username = principal.toString();
-		}
-		Cliente cliente = null ; // this.clienteService.getClienteByUsername(username);
-		return cliente;
-	}
-	*/
 }

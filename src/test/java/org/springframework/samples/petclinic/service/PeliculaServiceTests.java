@@ -9,6 +9,8 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -17,28 +19,51 @@ import org.springframework.samples.petclinic.model.Formato;
 import org.springframework.samples.petclinic.model.Pelicula;
 import org.springframework.stereotype.Service;
 
-
-
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 class PeliculaServiceTests {
 
 	@Autowired
 	protected PeliculaService peliculaService;
-	
-	
+
 	@Test
 	void findPeliculaById() {
-		List<Pelicula> peliculas =  this.peliculaService.findPeliculas();
-		Integer tamaño = peliculas.size();
-		Pelicula p = this.peliculaService.findPeliculaById(3);
-		peliculas.remove(p);
-		assertThat(peliculas.size()==tamaño-1);
+
+		Pelicula pelicula = peliculaService.findPeliculaById(4);
+		Assert.assertTrue(pelicula.getId() == 4);
+
 	}
-	
+
 	@Test
-	@Transactional
-	public void shouldInsertPelicula() {
+	void findPeliculaNoExiste() {
+
+		Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			peliculaService.findPeliculaById(200);
+		});
+	}
+
+	@Test
+	void deletePeliculaSuccess() {
+		
+		List<Pelicula> peliculas = this.peliculaService.findPeliculas();
+		Pelicula Titanic = this.peliculaService.findPeliculaById(1);
+		
+		Assertions.assertTrue(peliculas.contains(Titanic));
+		peliculas.remove(Titanic);
+		Assertions.assertTrue(!peliculas.contains(Titanic));
+	}
+
+	@Test
+	void deletePeliculaNoSuccess() {
+		Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			peliculaService.deletePelicula(200);
+		});
+	}
+
+	@Test
+	void shouldInsertPelicula() {
+
 		Pelicula pelicula = new Pelicula();
+		pelicula.setId(15);
 		pelicula.setNombre("pelicula1");
 		pelicula.setPrecio(12.50);
 		pelicula.setAgno(2023);
@@ -49,35 +74,21 @@ class PeliculaServiceTests {
 		pelicula.setFormato(Formato.DVD);
 		pelicula.setImagen("https://static.filmin.es/images/media/23729/2/poster_0_3_720x0.webp");
 		pelicula.setDescripcion("Ganadora del Premio del Público Joven de los Premios EFA, una historia vitalista y con carisma sobre una joven luchadora de kickboxing.");
-		
-		
+
 		this.peliculaService.savePelicula(pelicula);
-		assertThat(pelicula.getId()!=null && pelicula.getId()!=0);
-		
+		assertThat(pelicula.getId() != null && pelicula.getId() != 0);
+
 	}
-	
+
 	@Test
-	@Transactional
-	public void shouldEditPelicula() {
-		Pelicula p = this.peliculaService.findPeliculaById(1);
-		String nombreAntiguo= p.getNombre();
-		String nuevoNombre= nombreAntiguo + "AAA";
+	void shouldEditSuccess() {
 		
-		p.setNombre(nuevoNombre);
-		this.peliculaService.savePelicula(p);
-		assertThat(p.getNombre() == nuevoNombre);
+		Pelicula pelicula = this.peliculaService.findPeliculaById(2);
+		String nombre = pelicula.getNombre();
+		pelicula.setNombre("AAA");
+		this.peliculaService.savePelicula(pelicula);
+		
+		Assert.assertTrue(nombre != pelicula.getNombre());
 	}
-	
-	@Test
-	@Transactional
-	public void shouldDeletePelicula() {
-		int id = 1;
-		Pelicula p = this.peliculaService.findPeliculaById(id);
-		Integer size=  this.peliculaService.findPeliculas().size();
-		this.peliculaService.delete(p);
-		Integer sizeNew = this.peliculaService.findPeliculas().size();
-		assertThat((size != sizeNew) && this.peliculaService.findPeliculaById(id)==null);
-	}
-	
-	
+
 }
