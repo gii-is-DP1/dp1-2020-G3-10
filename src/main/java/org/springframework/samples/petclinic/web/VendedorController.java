@@ -10,10 +10,12 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Merchandasing;
 import org.springframework.samples.petclinic.model.Pelicula;
+import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.Vendedor;
 import org.springframework.samples.petclinic.model.Videojuego;
 import org.springframework.samples.petclinic.service.MerchandasingService;
 import org.springframework.samples.petclinic.service.PeliculaService;
+import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.samples.petclinic.service.VendedorService;
 import org.springframework.samples.petclinic.service.VideojuegoService;
 import org.springframework.security.core.Authentication;
@@ -32,19 +34,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/vendedores")
 public class VendedorController {
 
-	private static final String	VIEWS_VENDEDOR_CREATE_OR_UPDATE_FORM	= "vendedores/editVendedor";
+	private static final String		VIEWS_VENDEDOR_CREATE_OR_UPDATE_FORM	= "vendedores/editVendedor";
 
 	@Autowired
-	private VendedorService		vendedorService;
-	
+	private VendedorService			vendedorService;
+
 	@Autowired
-	private PeliculaService peliculaService;
-	
+	private PeliculaService			peliculaService;
+
 	@Autowired
-	private VideojuegoService videojuegoService;
-	
+	private UserService				userService;
+
 	@Autowired
-	private MerchandasingService merchandasingService;
+	private VideojuegoService		videojuegoService;
+
+	@Autowired
+	private MerchandasingService	merchandasingService;
 
 
 	@GetMapping
@@ -76,14 +81,15 @@ public class VendedorController {
 		System.out.print("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee    save ");
 		if (result.hasErrors()) {
 			modelMap.addAttribute("vendedor", vendedor);
+
+			System.out.print("Hay errores en el formulario (controlador de save vendedor) ");
+
 			return "vendedores/nuevoVendedor";
 		} else {
 			this.vendedorService.save(vendedor);
 			modelMap.addAttribute("message", "Vendedor guardo correctamente");
-			vista = this.listadoVendedor(modelMap);
+			return "redirect:/vendedores/" + vendedor.getId();
 		}
-
-		return vista;
 
 	}
 	@GetMapping(path = "/delete/{vendedorId}")
@@ -126,6 +132,32 @@ public class VendedorController {
 		//		return mav;
 	}
 
+	@GetMapping("/miPerfil")
+	public String showPerfilVendedor(final ModelMap mp) {
+		String vista;
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+		User currUser = this.userService.findUser(auth.getName()).get();
+
+		Vendedor vendedor = this.vendedorService.findVendedorByUsername(currUser.getUsername());
+
+		if (vendedor == null) {
+
+			SecurityContextHolder.clearContext();
+			vista = "redirect:/login";
+			mp.addAttribute("message", "El usuario debe volver a loggear para actualizar los cambios");
+
+		} else {
+
+			mp.addAttribute("vendedor", vendedor);
+			vista = "redirect:/vendedores/" + vendedor.getId();
+
+		}
+
+		return vista;
+	}
+
 	//Formulario Editar Vendedor
 
 	@GetMapping(value = "/{vendedorId}/edit")
@@ -161,33 +193,32 @@ public class VendedorController {
 			return "redirect:/vendedores/{vendedorId}";
 		}
 	}
-	
-	
+
 	@GetMapping(value = "/productos")
-	public String listProducts(ModelMap modelMap) {
-		
+	public String listProducts(final ModelMap modelMap) {
+
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userDetail = (UserDetails) auth.getPrincipal();
 		String usuario = userDetail.getUsername();
-		
+
 		Vendedor vendedor = this.vendedorService.findVendedorByUsername(usuario);
-		
-		if(this.vendedorService.obtenerPeliculas(vendedor.getId())!=null) {
+
+		if (this.vendedorService.obtenerPeliculas(vendedor.getId()) != null) {
 			List<Pelicula> peliculas = new ArrayList<>();
 			peliculas.addAll(this.vendedorService.obtenerPeliculas(vendedor.getId()));
 			modelMap.addAttribute("peliculas", peliculas);
 		}
-		if(this.vendedorService.obtenerVideojuegos(vendedor.getId())!=null) {
+		if (this.vendedorService.obtenerVideojuegos(vendedor.getId()) != null) {
 			List<Videojuego> videojuegos = new ArrayList<>();
 			videojuegos.addAll(this.vendedorService.obtenerVideojuegos(vendedor.getId()));
 			modelMap.addAttribute("videojuegos", videojuegos);
 		}
-		if(this.vendedorService.obtenerMerchandasings(vendedor.getId())!=null) {
+		if (this.vendedorService.obtenerMerchandasings(vendedor.getId()) != null) {
 			List<Merchandasing> merch = new ArrayList<>();
 			merch.addAll(this.vendedorService.obtenerMerchandasings(vendedor.getId()));
 			modelMap.addAttribute("merch", merch);
 		}
-		
+
 		return "/productos/productosVendedor";
 	}
 

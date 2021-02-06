@@ -51,15 +51,7 @@
 					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
 					<span>Error</span>
 				</petclinic:menuItem>
-	-->			
-				<sec:authorize access="hasAuthority('admin')">
-				<petclinic:menuItem active="${name eq 'reproductores'}" url="/reproductores"
-					title="reproductores">
-					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-					<span>Reproductores</span>
-				</petclinic:menuItem>
-				</sec:authorize>
-
+	-->	
 
 			</ul>
 
@@ -112,7 +104,25 @@
 									<div class="row">
 										<div class="col-lg-12">
 											<p>
-												<a href="/clientes/miPerfil" class="btn btn-primary btn-block">Mi Perfil</a>
+											
+												<sec:authorize access="hasAuthority('cliente')">
+													<a href="/clientes/miPerfil" class="btn btn-primary btn-block">Mi Perfil</a>
+												</sec:authorize>
+												
+												<sec:authorize access="hasAuthority('cliente')">
+													<petclinic:menuItem active="${name eq 'reproductores'}" url="/reproductores"
+														title="reproductores">
+													<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+													<span>Reproductores</span>
+													</petclinic:menuItem>
+												</sec:authorize>
+												
+												<sec:authorize access="hasAuthority('vendedor')">
+													<a href="/vendedores/miPerfil" class="btn btn-primary btn-block">Mi Perfil</a>
+												</sec:authorize>
+												
+												
+												
 												
 												<%-- <spring:url value="/vendedores/{vendedorId}" var="vendedorUrl">
                                                 <spring:param name="vendedorId" value="${vendedor.id}"/>

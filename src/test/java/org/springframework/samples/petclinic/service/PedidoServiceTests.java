@@ -404,6 +404,20 @@ public class PedidoServiceTests {
 	}
 	
 	@Test
+	void findPedidosClienteSuccess() {
+		
+		pedidoService.findPedidosCliente("marta");
+
+	}
+	
+	@Test
+	void findAllPedidosSuccess() {
+		
+		pedidoService.findAll();
+
+	}
+	
+	@Test
 	void cancelaPedidoNoPresenteSuccess() {
 		
 		Assertions.assertThrows(IllegalArgumentException.class, () -> {

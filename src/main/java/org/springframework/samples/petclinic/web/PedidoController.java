@@ -189,7 +189,7 @@ public class PedidoController {
 
 			modelMap.addAttribute("peliculas", pedido.getPeliculas());
 			modelMap.addAttribute("videojuegos", pedido.getVideojuegos());
-			modelMap.addAttribute("merchandasing", pedido.getMerchandasings());
+			modelMap.addAttribute("merchandasings", pedido.getMerchandasings());
 
 			modelMap.addAttribute("peliculasNoVacio", !(pedido.getPeliculas().isEmpty()));
 			modelMap.addAttribute("videojuegosNoVacio", !(pedido.getVideojuegos().isEmpty()));
@@ -208,6 +208,7 @@ public class PedidoController {
 
         Pedido pedido = pedidoService.findPedidoById(pedidoId);
         Cliente cliente = pedido.getCliente();
+        pedido.setDireccionEnvio(cliente.getDireccion()+" ("+cliente.getCiudad()+")");
         modelMap.addAttribute("pedido", pedido);
         modelMap.addAttribute("cliente", cliente);
         return "/pedidos/finalizarCarrito";
