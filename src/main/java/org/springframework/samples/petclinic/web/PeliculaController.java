@@ -82,53 +82,6 @@ public class PeliculaController {
 		model.put("peliculas", peliculasPermitidas);
 		return "/peliculas/PeliculasList";
 	}
-
-	@GetMapping(value = "/peliculas/edit/{peliculaId}")
-	public String initUpdateForm(@PathVariable("peliculaId") int peliculaId, ModelMap modelMap) {
-		
-		Pelicula peliculaEditar = this.peliculaService.findPeliculaById(peliculaId);
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		UserDetails userDetail = (UserDetails) auth.getPrincipal();
-		String username = userDetail.getUsername();
-		Vendedor vendedor = this.vendedorService.findVendedorByUsername(username);
-		Collection<Pelicula> peliculas = vendedor.getPeliculas();
-		List<Integer> idPeliculasPedidos = pedidoService.listaIdPeliculasCompradas();
-		
-		if(peliculaEditar == null) {
-			modelMap.addAttribute("message", "La pelicula que se quiere editar no existe.");
-			return mostrarProductos(modelMap);
-		}else if(!peliculas.contains(peliculaEditar)) {
-			modelMap.addAttribute("message", "No tiene permisos para editar la pelicula.");
-			return mostrarProductos(modelMap);
-		}else if(idPeliculasPedidos.contains(peliculaId)) {
-			modelMap.addAttribute("message", "La pelicula no puede editarse porque esta en un pedido.");
-			return mostrarProductos(modelMap);
-		}else {
-      modelMap.addAttribute("formatos", this.peliculaService.getFormatos());
-			modelMap.put("pelicula", peliculaEditar);
-			return "/peliculas/formCreatePeliculas";
-		}
-
-	}
-
-	@PostMapping(value = "/peliculas/edit/{peliculaId}")
-	public String processUpdatePeliculaForm(@Valid final Pelicula p, BindingResult result,
-			@PathVariable("peliculaId") int peliculaId,ModelMap model) {
-
-		String view = "/peliculas/formCreatePeliculas";
-
-		if (result.hasErrors()) {
-			model.addAttribute("formatos", this.peliculaService.getFormatos());
-			model.addAttribute("message", "¡No se pudo actualizar la pelicula!");
-		} else {
-			p.setId(peliculaId);
-			this.peliculaService.savePelicula(p);
-			view = "redirect:/peliculas/" + p.getId();
-			
-		}
-		return view;
-	}
-
 	
 	@GetMapping("/peliculas/{peliculaId}")
 	public String showPelicula(@PathVariable("peliculaId") int peliculaId, Map<String, Object> model) {
@@ -136,8 +89,7 @@ public class PeliculaController {
 		model.put("pelicula", pelicula);
 		return "/peliculas/peliculaDetails";
 	}
-
-
+	
 	@GetMapping(value = "/peliculas/new")
 	public String createPelicula(final ModelMap modelmap) {
 		String view = "/peliculas/formCreatePeliculas";
@@ -145,7 +97,6 @@ public class PeliculaController {
 		modelmap.addAttribute("pelicula", new Pelicula()); 
 		return view;
 	}
-
 	
 	@PostMapping(value = "/peliculas/new")
 	public String savePelicula(@Valid Pelicula pel, BindingResult result, ModelMap model) {
@@ -172,6 +123,51 @@ public class PeliculaController {
 		}
 	}
 
+	@GetMapping(value = "/peliculas/edit/{peliculaId}")
+	public String initUpdateForm(@PathVariable("peliculaId") int peliculaId, ModelMap modelMap) {
+		
+		Pelicula peliculaEditar = this.peliculaService.findPeliculaById(peliculaId);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+		String username = userDetail.getUsername();
+		Vendedor vendedor = this.vendedorService.findVendedorByUsername(username);
+		Collection<Pelicula> peliculas = vendedor.getPeliculas();
+		List<Integer> idPeliculasPedidos = pedidoService.listaIdPeliculasCompradas();
+		
+		if(peliculaEditar == null) {
+			modelMap.addAttribute("message", "La pelicula que se quiere editar no existe.");
+			return mostrarProductos(modelMap);
+		}else if(!peliculas.contains(peliculaEditar)) {
+			modelMap.addAttribute("message", "No tiene permisos para editar la pelicula.");
+			return mostrarProductos(modelMap);
+		}else if(idPeliculasPedidos.contains(peliculaId)) {
+			modelMap.addAttribute("message", "La pelicula no puede editarse porque esta en un pedido.");
+			return mostrarProductos(modelMap);
+		}else {
+			modelMap.addAttribute("formatos", this.peliculaService.getFormatos());
+			modelMap.put("pelicula", peliculaEditar);
+			return "/peliculas/formCreatePeliculas";
+		}
+
+	}
+
+	@PostMapping(value = "/peliculas/edit/{peliculaId}")
+	public String processUpdatePeliculaForm(@Valid final Pelicula p, BindingResult result,
+			@PathVariable("peliculaId") int peliculaId,ModelMap model) {
+
+		String view = "/peliculas/formCreatePeliculas";
+
+		if (result.hasErrors()) {
+			model.addAttribute("formatos", this.peliculaService.getFormatos());
+			model.addAttribute("message", "¡No se pudo actualizar la pelicula!");
+		} else {
+			p.setId(peliculaId);
+			this.peliculaService.savePelicula(p);
+			view = "redirect:/peliculas/" + p.getId();
+			
+		}
+		return view;
+	}
 	
 	@GetMapping("/peliculas/delete/{peliculaId}")
 	public String deletePelicula(@PathVariable("peliculaId") int peliculaId, final ModelMap modelMap) {
@@ -195,7 +191,6 @@ public class PeliculaController {
 			this.vendedorService.save(vendedor);
 			this.peliculaService.delete(peliculaBorrar);
 			modelMap.addAttribute("message", "¡Producto eliminado!");
-			return mostrarProductos(modelMap);
 		}
 		
 		return mostrarProductos(modelMap);
