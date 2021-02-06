@@ -71,10 +71,6 @@ public class ClienteController{
 	@PostMapping(value = "/clientes/new")
 	public String postFormularioCreacion(@Valid Cliente cliente, @Valid User user, BindingResult result, ModelMap mp) {	
 				
-		System.out.println("================================================================>" + cliente);
-		System.out.println("================================================================>" + user);
-		
-		
 		if (result.hasErrors()) {
 			mp.addAttribute("cliente", cliente);
 			mp.addAttribute("message", "El cliente no se ha podido actualizar correctamente " + result);
@@ -126,18 +122,10 @@ public class ClienteController{
 			cliente.setReproductores(clienteAntiguo.getReproductores());
 			cliente.setComentarios(clienteAntiguo.getComentarios());
 			this.clienteService.saveCliente(cliente);
-//			System.out.println("===========================El cliente actualizado es:"+ this.clienteService.findClienteById(clienteId)+"==========================");
 			mp.addAttribute("cliente", cliente);
 			mp.addAttribute("message", "El cliente se ha actualizado satisfactoriamente");
 			
-//			if(clienteAntiguo.getUser() != cliente.getUser()) {
-//				
-//				return "redirect:/clientes/miPerfil";
-//				
-//			}
-			
-			
-			return "redirect:/clientes/miPerfil";//"{clienteId}";
+			return "redirect:/clientes/miPerfil";
 		}
 	}
 
@@ -203,7 +191,6 @@ public class ClienteController{
 	@GetMapping("clientes/{clienteId}/addReproductores")
 		public ModelAndView ClienteAnyadeReproductores(@PathVariable("clienteId") int clienteId) {
 			ModelAndView mav = new ModelAndView("/reproductores/listadoReproductores");
-			
 			Cliente cliente = this.clienteService.findClienteById(clienteId);
 			Collection<Reproductor> reproductoresCliente = cliente.getReproductores();
 			Collection<Reproductor> reproductores = (Collection<Reproductor>) reproductorService.findAllReproductor();

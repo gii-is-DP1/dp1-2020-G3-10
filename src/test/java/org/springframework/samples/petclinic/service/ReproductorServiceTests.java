@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class ReproductorServiceTests {
 
 	private ReproductorService repService;
-	
+
 	@Autowired
 	public ReproductorServiceTests(ReproductorService repService) {
 		super();
@@ -30,15 +30,15 @@ public class ReproductorServiceTests {
 	}
 
 	private Reproductor crearReproductorCorrecto() {
-		
+
 		Reproductor r = new Reproductor();
 		r.setNombre("Prueba");
 		r.setDescripcion("Fallando fallando acabé aprobando");
-		
+
 		return r;
 	}
-	
-	@Test //Un nuevo reproductor se crea correctamente
+
+	@Test // Un nuevo reproductor se crea correctamente
 	void testPositivoCrearReproductor() {
 
 		Collection<Reproductor> reproductores = this.repService.findAllReproductor();
@@ -55,46 +55,35 @@ public class ReproductorServiceTests {
 		assertThat(reproductores.contains(reproductor)).isEqualTo(true);
 
 	}
-	
+
 	@Test // Un nuevo reproductor no se crea al ser el nombre demasiado corto
 	void testNegativoCrearReproductorNombreCorto() {
-		
-		Reproductor reproductor = crearReproductorCorrecto();
-		reproductor.setNombre("X");	
-		
-		try {
-			
-			this.repService.saveReproductor(reproductor);
-		
-		}catch(Exception e) {
-			
-			assertThat(e).hasMessageContainingAll("el tamaño tiene que estar entre 2 y 20");
 
-		}
+		Reproductor reproductor = crearReproductorCorrecto();
+		reproductor.setNombre("X");
+
+		assertThrows(javax.validation.ConstraintViolationException.class, () -> {
+			this.repService.saveReproductor(reproductor);
+		});
+
 	}
-	
+
 	@Test // Un nuevo reproductor no se crea al tener el mismo nombre que otro reproductor
 	void testNegativoCrearReproductorDuplicado() {
 
 		Reproductor reproductor = crearReproductorCorrecto();
 		this.repService.saveReproductor(reproductor);
-		
+
 		Reproductor reproductor2 = crearReproductorCorrecto();
 
-		try {
-		
+		assertThrows(org.springframework.dao.DataIntegrityViolationException.class, () -> {
 			this.repService.saveReproductor(reproductor2);
-		
-		}catch(Exception e) {
-			
-			assertThat(e).hasMessageContainingAll("could not execute statement");
-
-		}
+		});
 
 	}
-	
+
 	@Test // Un nuevo reproductor se elimina correctamente
-	
+
 	void testPositivoEliminarReproductor() {
 
 		Collection<Reproductor> reproductores = this.repService.findAllReproductor();
@@ -102,12 +91,12 @@ public class ReproductorServiceTests {
 
 		this.repService.delete(1);
 
-		int newfound= this.repService.findAllReproductor().size();
-		
+		int newfound = this.repService.findAllReproductor().size();
+
 		assertThat(newfound).isEqualTo(found - 1);
 
 	}
-	
+
 	@Test // Un nuevo reproductor se elimina correctamente
 	void testPositivoModificarReproductor() {
 
@@ -115,16 +104,17 @@ public class ReproductorServiceTests {
 		int found = reproductores.size();
 
 		Reproductor reproductor = crearReproductorCorrecto();
-		
+
 		this.repService.saveReproductor(reproductor);
 		reproductor.setNombre("Actualizando Nombre");
 		this.repService.saveReproductor(reproductor);
 
-		int newfound= this.repService.findAllReproductor().size();
-		
+		int newfound = this.repService.findAllReproductor().size();
+
 		assertThat(newfound).isEqualTo(found + 1);
-		assertThat(this.repService.findReproductorById(reproductor.getId()).get().getNombre()).isEqualTo("Actualizando Nombre");
+		assertThat(this.repService.findReproductorById(reproductor.getId()).get().getNombre())
+				.isEqualTo("Actualizando Nombre");
 
 	}
-	
+
 }

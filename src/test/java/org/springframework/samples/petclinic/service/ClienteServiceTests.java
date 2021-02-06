@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.LocalDate;
 import java.util.Collection;
@@ -157,47 +158,26 @@ class ClienteServiceTests {
 	}
 
 	@Test // Un nuevo cliente con DNI no válido no se puede crear
-	void testNegativoCrearCliente() {
-
-		Collection<Cliente> clientes = this.clienteService.findAllCliente();
-		int found = clientes.size();
+	void testNegativoCrearClienteDNI() {
 
 		Cliente cliente = creaClienteCorrecto();
-		cliente.setDni("000000000A");
+		cliente.setDni("123456789Y");
 
-		try {
-
+		assertThrows(javax.validation.ConstraintViolationException.class, () -> {
 			this.clienteService.saveCliente(cliente);
-			assertThat(cliente.getId().longValue()).isNotEqualTo(0);
-			clientes = this.clienteService.findAllCliente();
-
-		} catch (Exception e) {
-			assertThat(e).hasMessageContainingAll("DNI No Valido");
-			assertThat(clientes.size()).isNotEqualTo(found + 1);
-		}
-
+		});
+		
 	}
 
 	@Test // Un nuevo cliente menor de edad no se puede crear
-	void testNegativoCrearCliente2() {
-
-		Collection<Cliente> clientes = this.clienteService.findAllCliente();
-		int found = clientes.size();
+	void testNegativoCrearClienteMenor() {
 
 		Cliente cliente = creaClienteCorrecto();
 		cliente.setFechaNacimiento(LocalDate.parse("2020-01-01"));
 
-		try {
-
+		assertThrows(javax.validation.ConstraintViolationException.class, () -> {
 			this.clienteService.saveCliente(cliente);
-			assertThat(cliente.getId().longValue()).isNotEqualTo(0);
-			clientes = this.clienteService.findAllCliente();
-
-		} catch (Exception e) {
-
-			assertThat(e).hasMessageContainingAll("El usuario debe ser mayor de edad");
-			assertThat(clientes.size()).isNotEqualTo(found + 1);
-		}
+		});
 
 	}
 
@@ -223,32 +203,18 @@ class ClienteServiceTests {
 
 	}
 
-	@Test // Un cliente no puedo modificar sus datos porque son inválidos
+	@Test //Un cliente no puedo modificar sus datos porque son inválidos
 	void testNegativoModificarCliente() {
 
 		Cliente cliente = creaClienteCorrecto();
 		this.clienteService.saveCliente(cliente);
 		assertThat(cliente.getId().longValue()).isNotEqualTo(0);
+		cliente.setDni("123456789Y");
 
-		Collection<Cliente> clientes = this.clienteService.findAllCliente();
-		int found = clientes.size();
-
-		cliente.setDni("000000000Y");
-
-		try {
-
+		assertThrows(javax.validation.ConstraintViolationException.class, () -> {
 			this.clienteService.saveCliente(cliente);
-
-		} catch (Exception e) {
-
-			clientes = this.clienteService.findAllCliente();
-			Cliente clienteModificado = this.clienteService.findClienteById(cliente.getId());
-
-			assertThat(clientes.size()).isEqualTo(found);
-			assertThat(clienteModificado.getDni()).isEqualTo("32097886Y");
-			assertThat(e).hasMessageContainingAll("DNI No Valido");
-
-		}
+		});
+		
 
 	}
 

@@ -2,6 +2,8 @@ package org.springframework.samples.petclinic.service;
 
 import java.util.Collection;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Cliente;
@@ -20,7 +22,7 @@ public class ClienteService {
 	private AuthoritiesService authoritiesService;
 	
 	@Transactional
-	public void saveCliente(Cliente cliente) throws DataAccessException {
+	public void saveCliente(@Valid Cliente cliente) throws DataAccessException {
 		
 		clienteRepository.save(cliente);
 		this.userService.saveUser(cliente.getUser());
@@ -39,7 +41,7 @@ public class ClienteService {
 		clienteRepository.deleteById(id);
 	}
 	
-	public void deleteCliente (Cliente cliente) throws DataAccessException {
+	public void deleteCliente (@Valid Cliente cliente) throws DataAccessException {
 
 		this.userService.deleteUser(cliente.getUser());
 		this.clienteRepository.delete(cliente);
