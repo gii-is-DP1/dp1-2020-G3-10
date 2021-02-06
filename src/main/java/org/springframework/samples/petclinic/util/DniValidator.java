@@ -1,32 +1,15 @@
 
 package org.springframework.samples.petclinic.util;
 
-public class DniValidator {
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 
-	private String dni;
+import org.springframework.samples.petclinic.constraints.DniConstraint;
+
+public class DniValidator implements ConstraintValidator<DniConstraint, String> {
 
 
-	public DniValidator(final String dni) {
-		this.dni = dni;
-	}
-
-	public boolean validar() {
-
-		String letraMayuscula = "";
-		if (this.dni.length() != 9 || Character.isLetter(this.dni.charAt(8)) == false) {
-			return false;
-		}
-
-		letraMayuscula = this.dni.substring(8).toUpperCase();
-
-		if (this.soloNumeros() == true && this.letraDNI().equals(letraMayuscula)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	private boolean soloNumeros() {
+	private boolean soloNumeros(String dni) {
 
 		int i, j = 0;
 		String numero = "";
@@ -35,8 +18,8 @@ public class DniValidator {
 			"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"
 		};
 
-		for (i = 0; i < this.dni.length() - 1; i++) {
-			numero = this.dni.substring(i, i + 1);
+		for (i = 0; i < dni.length() - 1; i++) {
+			numero = dni.substring(i, i + 1);
 
 			for (j = 0; j < unoNueve.length; j++) {
 				if (numero.equals(unoNueve[j])) {
@@ -52,9 +35,9 @@ public class DniValidator {
 		}
 	}
 
-	private String letraDNI() {
+	private String letraDNI(String dni) {
 
-		int miDNI = Integer.parseInt(this.dni.substring(0, 8));
+		int miDNI = Integer.parseInt(dni.substring(0, 8));
 		int resto = 0;
 		String miLetra = "";
 		String[] asignacionLetra = {
@@ -66,5 +49,25 @@ public class DniValidator {
 		miLetra = asignacionLetra[resto];
 
 		return miLetra;
+	}
+
+	public void initialize(DniConstraint dni) {
+		
+	}
+	
+	@Override
+	public boolean isValid(String dni, ConstraintValidatorContext context) {
+		String letraMayuscula = "";
+		if (dni.length() != 9 || Character.isLetter(dni.charAt(8)) == false) {
+			return false;
+		}
+
+		letraMayuscula = dni.substring(8).toUpperCase();
+
+		if (this.soloNumeros(dni) == true && this.letraDNI(dni).equals(letraMayuscula)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

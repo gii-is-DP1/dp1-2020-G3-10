@@ -1,6 +1,6 @@
 package org.springframework.samples.petclinic.service;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,6 @@ public class ReproductorService {
 	@Transactional
 	public void saveReproductor(Reproductor Reproductor) throws DataAccessException {
 
-		System.out.println();
 		reproductorRepo.save(Reproductor);
 	}
 
@@ -28,9 +27,8 @@ public class ReproductorService {
 		return Optional.of(reproductorRepo.findById((id)).get());
 	}
 
-	
-	public Iterable<Reproductor> findAllReproductor() throws DataAccessException {
-		return reproductorRepo.findAll();
+	public Collection<Reproductor> findAllReproductor() throws DataAccessException {
+		return (Collection<Reproductor>) reproductorRepo.findAll();
 	}
 
 	@Transactional()
