@@ -83,6 +83,8 @@ public class PedidoController {
 
 		return vista;
 	}
+	
+	/*    NO SE USA
 
 	@GetMapping(path = "/new")
 	public String crearPedido(final ModelMap modelMap) {
@@ -112,6 +114,8 @@ public class PedidoController {
 
 		return vista;
 	}
+	
+	*/
 
 	@GetMapping(path = "/delete/{pedidoId}")
 	public String borrarPedido(@PathVariable("pedidoId") final int pedidoId, final ModelMap modelMap) {
@@ -134,7 +138,6 @@ public class PedidoController {
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userDetail = (UserDetails) auth.getPrincipal();
-		// userDetail.getAuthorities() == "Cliente"
 
 		String usuario = userDetail.getUsername();
 		if (auth.getPrincipal() == "anonymousUser") {
@@ -240,8 +243,6 @@ public class PedidoController {
 	
 	@GetMapping(value = "/cancelarPedido/{pedidoId}")
     public String cancelarPedido(@PathVariable("pedidoId") int pedidoId, final ModelMap modelMap) {
-		
-		System.out.println("LLEGA AQUI ********************************************************** "+pedidoId);
 		
 		String vista = "redirect:/pedidos/cliente";
 
