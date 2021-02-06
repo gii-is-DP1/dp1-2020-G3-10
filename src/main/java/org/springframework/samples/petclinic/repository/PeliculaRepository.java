@@ -17,15 +17,11 @@ import org.springframework.samples.petclinic.model.Pelicula;
 public interface PeliculaRepository extends Repository<Pelicula , Integer>{
 
 	
-	void save(Pelicula pelicula) throws DataAccessException;
-	
-	List<Pelicula> findAll() throws DataAccessException;
-
-	Pelicula findById(int id) throws DataAccessException;
-	
-	void deleteById(int id) throws DataAccessException;
-	
-	void delete(Pelicula p) throws DataAccessException;
+	void save(Pelicula pelicula);
+	List<Pelicula> findAll();
+	Optional<Pelicula> findById(int id);
+	void deleteById(int id);	
+	void delete(Pelicula p);
 
 
 }

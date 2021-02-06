@@ -13,8 +13,6 @@ import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 
-import org.hibernate.validator.constraints.Range;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,7 +27,6 @@ public class Vendedor extends Persona {
 	private Boolean								vacaciones;
 
 	@Column(name = "valoracion")
-	@Range(min = 0, max = 5)
 	private Double								valoracion;
 
 	@NotEmpty
@@ -39,6 +36,9 @@ public class Vendedor extends Persona {
 	@NotEmpty
 	@Column(name = "direccion_tienda")
 	private String								direccionTienda;
+
+	@Column(name = "votos")
+	private Integer								votos;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "username", referencedColumnName = "username")
@@ -52,6 +52,17 @@ public class Vendedor extends Persona {
 	@OneToMany
 	private Collection<@Valid Merchandasing>	merchandasings;
 
+
+	public void setValoracion2(final Double valoracion) {
+		this.valoracion = valoracion;
+		this.votos = this.votos + 1;
+	}
+
+	public Double valoracionFinal() {
+		Double votosFinal = this.valoracion / this.votos;
+		return votosFinal;
+
+	}
 
 	@Override
 	public String toString() {

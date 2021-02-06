@@ -57,6 +57,15 @@
 		</spring:url>
 		<a href="${fn:escapeXml(deleteUrl)}" class="btn btn-default">Eliminar</a>
 	</sec:authorize>
+	
+	<sec:authorize access="hasAuthority('cliente')">
+						<spring:url value="/pedidos/addCarrito/{productoId}/{tipo}"
+							var="carritoUrl">
+							<spring:param name="productoId" value="${merchandasing.id}" />
+							<spring:param name="tipo" value="${'MERCHANDASING'}" />
+						</spring:url> <a href="${fn:escapeXml(carritoUrl)}" class="btn btn-default">Insertar
+							al carrito</a>
+					</sec:authorize>
 
 
 

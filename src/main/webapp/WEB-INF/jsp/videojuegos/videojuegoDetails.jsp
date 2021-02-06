@@ -6,7 +6,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
-
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <petclinic:layout pageName="descripcionVideojuego">
 
@@ -26,19 +26,23 @@
 		</thead>
 		<tbody>
 			<tr>
-				<td><img src=<c:out value="${videojuego.imagen}"/> width="250"
-					height="350"></td>
+				<td><img src=<c:out value="${videojuego.imagen}"/> width="110%"
+					height="110%"></td>
 				<td><c:out value="${videojuego.nombre}" /></td>
 				<td><c:out value="${videojuego.precio}" /></td>
 				<td><c:out value="${videojuego.agno}" /></td>
 				<td><c:out value="${videojuego.plataforma}" /></td>
 				<td><c:out value="${videojuego.descripcion}" /></td>
-				<td><spring:url value="/pedidos/addCarrito/{productoId}/{tipo}"
+				<td>
+				<sec:authorize access="hasAuthority('cliente')">
+				<spring:url value="/pedidos/addCarrito/{productoId}/{tipo}"
 						var="carritoUrl">
 						<spring:param name="productoId" value="${videojuego.id}" />
 						<spring:param name="tipo" value="${'VIDEOJUEGO'}" />
 					</spring:url> <a href="${fn:escapeXml(carritoUrl)}" class="btn btn-default">Insertar
-						al carrito</a></td>
+						al carrito</a>
+				</sec:authorize>
+				</td>
 			</tr>
 		</tbody>
 	</table>
