@@ -8,7 +8,13 @@
 <!DOCTYPE html>
 
 <petclinic:layout pageName="videojuegosAdd">
-   
+   <jsp:attribute name="customScript">
+        <script>
+            $(function () {
+                $("#fechaSalida").datepicker({dateFormat: 'yy/mm/dd'});
+            });
+        </script>
+    </jsp:attribute>
     <jsp:body>
         <h2>
             <c:if test="${videojuego['new']}">Nuevo </c:if> Videojuego
@@ -19,10 +25,12 @@
             <div class="form-group has-feedback">
                 <petclinic:inputField label="Nombre" name="nombre"/>
                 <petclinic:inputField label="Precio" name="precio"/>
+                <petclinic:inputField label="Fecha de lanzamiento" name="fechaSalida"  />
                 <petclinic:inputField label="Año" name="agno"/>
                 <petclinic:inputField label="Descripcion" name="descripcion"/>
                 <petclinic:inputField label="Estudio" name="estudio"/>
                 <petclinic:inputField label="Imagen" name="imagen"/>
+                
                 <div class="control-group">
                     <petclinic:selectField name="plataforma" label="Plataforma" names="${plataformas}" size="4"/>
                 </div>

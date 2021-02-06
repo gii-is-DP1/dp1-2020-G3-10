@@ -30,7 +30,7 @@
                 <petclinic:inputField label="Director" name="director"/>
                 <petclinic:inputField label="Duración" name="duracion"/>
                 <petclinic:inputField label="Edición" name="edicion"/>
-                <div class="control-group">
+                <div class="control-group" >
                     <petclinic:selectField name="formato" label="Formato" names="${formatos}" size="3"/>
                 </div>
                 <petclinic:inputField label="Imagen" name="imagen"/>
