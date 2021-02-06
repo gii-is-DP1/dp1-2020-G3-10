@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Cliente;
@@ -169,7 +171,7 @@ public class ComentarioController {
 	
 	
 	@PostMapping(value = "/pelicula/{peliculaId}/new")
-	public String processCreationFormPelicula(Comentario comentario, BindingResult result, ModelMap model) {	
+	public String processCreationFormPelicula(@Valid Comentario comentario, BindingResult result, ModelMap model) {	
 		if (result.hasErrors()) {
 			System.out.println(result.getAllErrors());
 			model.addAttribute("comentario", comentario);

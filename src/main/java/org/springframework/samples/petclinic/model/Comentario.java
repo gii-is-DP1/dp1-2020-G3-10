@@ -27,33 +27,29 @@ public Comentario() {
 		this.cliente = cliente;
 	}
 	
-	@NotEmpty
+	@NotEmpty(message="El titulo no puede estar vacio")
 	private String titulo;
 	
-	@NotEmpty
+	@NotEmpty(message="El texto no puede estar vacio")
 	private String texto;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "cliente_id")
 	@NotNull
-	@Valid
 	private Cliente cliente;
 	
 	
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "merchandasing_id")
-	@Valid
 	private Merchandasing merchandasing;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "pelicula_id")
-	@Valid
 	private Pelicula pelicula;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "videojuego_id")
-	@Valid
 	private Videojuego videojuego;
 	
 	@Override

@@ -29,12 +29,16 @@ public class ComentarioServiceTests {
 	protected PeliculaService peliculaService;
 	
 	@Test
-	void findComentariosByClientId() {
+	void shouldFindComentariosByClientId() {
 		List<Comentario> comentarios =  this.comentarioService.findByClientId(1);
-		Integer tamaño = comentarios.size();
-		Comentario c = comentarios.get(0);
-		comentarios.remove(c);
-		assertThat(comentarios.size()==tamaño-1);
+		assertThat(comentarios.size()).isEqualTo(1);
+	}
+	
+	@Test
+	void shouldFindComentarioById() {
+		Comentario comentario = this.comentarioService.findCommentById(1);
+		List<Comentario> comentarios = this.comentarioService.findAll();
+		assertThat(comentario).isEqualTo(comentarios.get(0));
 	}
 	
 	@Test
@@ -51,10 +55,9 @@ public class ComentarioServiceTests {
 		pelicula.addComment(comentario);
 		cliente.addComment(comentario);
 		
-		this.clienteService.saveCliente(cliente);
-		this.peliculaService.savePelicula(pelicula);
 		this.comentarioService.saveComment(comentario);
-		assertThat(comentario.getId()!=null && comentario.getId()!=0);
+		List<Comentario> comentarios = this.comentarioService.findAll();
+		assertThat(comentarios.get(comentarios.size()-1)).isEqualTo(comentario);
 		
 	}
 	
