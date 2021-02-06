@@ -40,8 +40,9 @@ public class ClienteService {
 	}
 	
 	public void deleteCliente (Cliente cliente) throws DataAccessException {
-		
-		clienteRepository.delete(cliente);
+
+		this.userService.deleteUser(cliente.getUser());
+		this.clienteRepository.delete(cliente);
 	}
 	
 	@Transactional(readOnly = true)

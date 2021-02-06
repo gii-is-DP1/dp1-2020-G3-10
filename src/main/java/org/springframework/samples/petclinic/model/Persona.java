@@ -9,6 +9,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.samples.petclinic.constraints.DniConstraint;
+import org.springframework.samples.petclinic.constraints.MayorEdadConstraint;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -28,16 +30,17 @@ public class Persona extends BaseEntity {
 
 	@Column(name = "fecha_nacimiento")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@MayorEdadConstraint
 	protected LocalDate	fechaNacimiento;
 
 	@Column(name = "dni")
 	@NotEmpty
-	//TODO hacer un custom validate para validar los DNIs 
+	@DniConstraint
 	protected String dni;
 
 	@Column(name = "email")
 	@NotEmpty
-	@Email //TODO revisar como funciona y que valida @Email
+	@Email
 	protected String email;
 
 	@Column(name = "telefono")
