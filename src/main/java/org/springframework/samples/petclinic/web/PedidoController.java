@@ -208,6 +208,7 @@ public class PedidoController {
 
         Pedido pedido = pedidoService.findPedidoById(pedidoId);
         Cliente cliente = pedido.getCliente();
+        pedido.setDireccionEnvio(cliente.getDireccion()+" ("+cliente.getCiudad()+")");
         modelMap.addAttribute("pedido", pedido);
         modelMap.addAttribute("cliente", cliente);
         return "/pedidos/finalizarCarrito";
