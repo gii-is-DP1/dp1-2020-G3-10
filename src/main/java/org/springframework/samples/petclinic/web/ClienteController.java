@@ -1,30 +1,23 @@
 
 package org.springframework.samples.petclinic.web;
 
-import java.security.Principal;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.ehcache.shadow.org.terracotta.offheapstore.util.FindbugsSuppressWarnings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Authorities;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Reproductor;
 import org.springframework.samples.petclinic.model.User;
-import org.springframework.samples.petclinic.repository.ClienteRepository;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.ReproductorService;
 import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.security.core.session.SessionRegistryImpl;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -69,8 +62,8 @@ public class ClienteController{
 	}
 	
 	@PostMapping(value = "/clientes/new")
-	public String postFormularioCreacion(@Valid Cliente cliente, @Valid User user, BindingResult result, ModelMap mp) {	
-				
+	public String postFormularioCreacion(@Valid Cliente cliente, BindingResult result, ModelMap mp) {	
+		
 		if (result.hasErrors()) {
 			mp.addAttribute("cliente", cliente);
 			mp.addAttribute("message", "El cliente no se ha podido actualizar correctamente " + result);

@@ -8,6 +8,7 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.samples.petclinic.constraints.DniConstraint;
 import org.springframework.samples.petclinic.constraints.MayorEdadConstraint;
