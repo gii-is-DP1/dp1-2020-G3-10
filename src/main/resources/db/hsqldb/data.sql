@@ -9,7 +9,7 @@ INSERT INTO users(username,password,enabled) VALUES ('vet1','v3t',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (3,'vet1','veterinarian');
 -- One owner user, named owner1 with passwor Carles
 INSERT INTO users(username,password,enabled) VALUES ('guipavvar','Carles',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (8,'guipavvar','cliente');
+INSERT INTO authorities(id,username,authority) VALUES (8,'guipavvar','vendedor');
 -- Owner ivacarmen
 INSERT INTO users(username,password,enabled) VALUES ('ivacarmen','ivacarmen',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (4,'ivacarmen','cliente');
@@ -23,8 +23,6 @@ INSERT INTO authorities(id,username,authority) VALUES (6,'marta','cliente');
 INSERT INTO users(username,password,enabled) VALUES ('antmorgon4','password',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (20,'antmorgon4','cliente');
 
-INSERT INTO users(username,password,enabled) VALUES ('vendedor1','vendedor1',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (111,'vendedor1','vendedor');
 
 INSERT INTO vets VALUES (1, 'James', 'Carter');
 INSERT INTO vets VALUES (2, 'Helen', 'Leary');
@@ -96,13 +94,14 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04',
 
 --CLIENTES
 
-INSERT INTO CLIENTES VALUES (1, 'Díaz','12345678X','email@email.com','2013-01-01','Marta','123456789',200000.0,'Sevilla','41000','dir prueba','2222 2222 2222 2222','marta');
+INSERT INTO CLIENTES VALUES (1, 'Díaz','12345678X','email@email.com','2013-01-01','Marta','123456789',200000.0,'Sevilla','41000','Calle Prueba Numero 12 1E ','2222 2222 2222 2222','marta');
 INSERT INTO CLIENTES VALUES (20, 'Moreno Gonzalez','32097886Y','antmorgon4@alum.us.es','1997-05-16','Javier','601326967',200000.0,'Sevilla','41012','Calle Tarfia 45 10','0000-1111-2222-3333','antmorgon4');
 INSERT INTO CLIENTES VALUES (4, 'Cárdenas Meneses', '12345678X', 'ivancarmen@alum.us.es', '1998-10-10', 'Iván','123456789',5000.0,'Sevilla','41980','Calle Hernandez','0000-1111-2222-6666','ivacarmen');
 
 --VENDEDORES
 
-INSERT INTO vendedor(id,first_name,last_name,vacaciones,valoracion,nombre_tienda,direccion_tienda,telefono,username) VALUES (1,'carles','santos',true,20,'tienda bonita','calle piruleta','6085558763','guipavvar');
+INSERT INTO vendedor(id,apellidos,dni,email,fecha_nacimiento,nombre,telefono,nombre_tienda,direccion_tienda,valoracion,votos,vacaciones,username) VALUES (8,'carles','4897312x','carles@gmail.com','2013-01-01','Africa','601326967','TiendaCarles','Calle del Olmo',500,125,true,'guipavvar');
+
 
 --PEDIDOS
 
@@ -137,19 +136,23 @@ INSERT INTO VIDEOJUEGOS VALUES(8, 'Disfruta del caos en modo cooperativo desde e
 
 -- MERCHANDASINGS
 
-INSERT INTO merchandasings(id,tipo,fabricante,nombre,precio) VALUES (1, 'FIGURA', 'Fabricante 1', 'Goku SSJ4', 33.33);
-INSERT INTO merchandasings(id,tipo,fabricante,nombre,precio) VALUES (2, 'FIGURA', 'Bandai', 'Goku SSJ4', 33.33);
+INSERT INTO merchandasings(id,tipo,fabricante,nombre,precio,descripcion,fecha_salida,imagen) VALUES (1, 'FIGURA', 'Tamashii Nations', 'EVA 01', 70.00,'Figura articulada Evangelion EVA-01 Test Type Rebuild of Evangelion 17cm','2020-01-10','https://m.media-amazon.com/images/I/71uzqfk8PVL._AC_UL320_.jpg');
+INSERT INTO merchandasings(id,tipo,fabricante,nombre,precio,descripcion,fecha_salida,imagen) VALUES (2, 'FIGURA', 'Ban Presto', 'Super Saiyan 4 Full Scratch Son Goku', 27.00, 'Figura de plastico','2020-01-10','https://m.media-amazon.com/images/I/61EkYMTPOqL._AC_UL320_.jpg');
+INSERT INTO merchandasings(id,tipo,fabricante,nombre,precio,descripcion,fecha_salida,imagen) VALUES (3, 'ROPA', 'Marvel', 'Camiseta Capitan America', 14.50, 'Un regalo perfecto para fanáticos de los Avengers','2016-05-10','https://m.media-amazon.com/images/I/713WP1I2QDL._AC_UL320_.jpg');
+INSERT INTO merchandasings(id,tipo,fabricante,nombre,precio,descripcion,fecha_salida,imagen) VALUES (4, 'POSTER', 'Grupo Erik', ' Poster Pulp Fiction', 12.99, 'Perfecto para cambiar la decoración de tu sala de juegos con este póster de Pulp Fiction.','2019-06-10','https://m.media-amazon.com/images/I/61qGQG3woqL._AC_UL320_.jpg');
 
 -- VENDEDOR-PELICULA
 
-INSERT INTO VENDEDOR_PELICULAS VALUES(1,2);
-INSERT INTO VENDEDOR_PELICULAS VALUES(1,3);
+INSERT INTO VENDEDOR_PELICULAS VALUES(8,2);
+INSERT INTO VENDEDOR_PELICULAS VALUES(8,3);
 
 -- VENDEDOR-MERCHANDASING
-
+INSERT INTO VENDEDOR_MERCHANDASINGS VALUES(8,1);
+INSERT INTO VENDEDOR_MERCHANDASINGS VALUES(8,2);
+INSERT INTO VENDEDOR_MERCHANDASINGS VALUES(8,3);
 -- VENDEDOR-VIDEOJUEGO
 
-INSERT INTO VENDEDOR_VIDEOJUEGOS VALUES(1,1);
+INSERT INTO VENDEDOR_VIDEOJUEGOS VALUES(8,1);
 
 --COMENTARIOS
 

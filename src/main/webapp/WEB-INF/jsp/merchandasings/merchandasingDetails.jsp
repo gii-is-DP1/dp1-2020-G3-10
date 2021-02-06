@@ -57,6 +57,7 @@
 		</spring:url>
 		<a href="${fn:escapeXml(deleteUrl)}" class="btn btn-default">Eliminar</a>
 	</sec:authorize>
+
  -->
  
  
@@ -69,7 +70,7 @@
 				<th style="width: 150px;">Nombre</th>
 				<th style="width: 150px;">Tipo</th>
 				<th style="width: 150px;">Fabricante</th>
-				<th style="width: 150px;">Descripción</th>
+				<th style="width: 150px;">Descripciï¿½n</th>
 				<th style="width: 150px;">Precio</th>
 				<th style="width: 150px;"></th>
 			</tr>
@@ -91,6 +92,17 @@
 			</tr>
 		</tbody>
 	</table>
+
+
+	
+	<sec:authorize access="hasAuthority('cliente')">
+						<spring:url value="/pedidos/addCarrito/{productoId}/{tipo}"
+							var="carritoUrl">
+							<spring:param name="productoId" value="${merchandasing.id}" />
+							<spring:param name="tipo" value="${'MERCHANDASING'}" />
+						</spring:url> <a href="${fn:escapeXml(carritoUrl)}" class="btn btn-default">Insertar
+							al carrito</a>
+					</sec:authorize>
 
 
 	
