@@ -31,6 +31,9 @@ INSERT INTO authorities(id,username,authority) VALUES (200,'clientepruebas','cli
 INSERT INTO users(username,password,enabled) VALUES ('vendedor1','vendedor1',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (111,'vendedor1','vendedor');
 
+INSERT INTO users(username,password,enabled) VALUES ('vendedor2','vendedor2',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (120,'vendedor2','vendedor');
+
 INSERT INTO vets VALUES (1, 'James', 'Carter');
 INSERT INTO vets VALUES (2, 'Helen', 'Leary');
 INSERT INTO vets VALUES (3, 'Linda', 'Douglas');
@@ -109,6 +112,7 @@ INSERT INTO CLIENTES VALUES (200, 'Apellidos Prueba','15224795Z','correoprueba@a
 --VENDEDORES
 
 INSERT INTO vendedor(id,apellidos,dni,email,fecha_nacimiento,nombre,telefono,nombre_tienda,direccion_tienda,valoracion,votos,vacaciones,username) VALUES (8,'carles','4897312x','carles@gmail.com','2013-01-01','Africa','601326967','TiendaCarles','Calle del Olmo',500,125,true,'guipavvar');
+INSERT INTO vendedor(id,apellidos,dni,email,fecha_nacimiento,nombre,telefono,nombre_tienda,direccion_tienda,valoracion,votos,vacaciones,username) VALUES (120,'prueba','4897312x','carles@gmail.com','2013-01-01','Africa','601326967','TiendaCarles','Calle del Olmo',500,125,true,'vendedor2');
 
 
 --PEDIDOS
