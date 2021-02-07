@@ -13,11 +13,8 @@ import org.springframework.samples.petclinic.model.Pelicula;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.Vendedor;
 import org.springframework.samples.petclinic.model.Videojuego;
-import org.springframework.samples.petclinic.service.MerchandasingService;
-import org.springframework.samples.petclinic.service.PeliculaService;
 import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.samples.petclinic.service.VendedorService;
-import org.springframework.samples.petclinic.service.VideojuegoService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,22 +31,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/vendedores")
 public class VendedorController {
 
-	private static final String		VIEWS_VENDEDOR_CREATE_OR_UPDATE_FORM	= "vendedores/editVendedor";
+	private static final String	VIEWS_VENDEDOR_CREATE_OR_UPDATE_FORM	= "vendedores/editVendedor";
 
 	@Autowired
-	private VendedorService			vendedorService;
+	private VendedorService		vendedorService;
 
 	@Autowired
-	private PeliculaService			peliculaService;
-
-	@Autowired
-	private UserService				userService;
-
-	@Autowired
-	private VideojuegoService		videojuegoService;
-
-	@Autowired
-	private MerchandasingService	merchandasingService;
+	private UserService			userService;
 
 
 	@GetMapping
@@ -76,15 +64,14 @@ public class VendedorController {
 
 	@PostMapping(path = "/save")
 	public String salvarVendedor(@Valid final Vendedor vendedor, final BindingResult result, final ModelMap modelMap) {
-		String vista = "vendedores/listadoVendedores";
 
-		System.out.print("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee    save ");
 		if (result.hasErrors()) {
 			modelMap.addAttribute("vendedor", vendedor);
 
 			System.out.print("Hay errores en el formulario (controlador de save vendedor) ");
 
 			return "vendedores/nuevoVendedor";
+
 		} else {
 			this.vendedorService.save(vendedor);
 			modelMap.addAttribute("message", "Vendedor guardo correctamente");
