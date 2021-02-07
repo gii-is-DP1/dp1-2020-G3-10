@@ -108,4 +108,58 @@ public class VendedorServiceTests {
 		Assertions.assertThat(vendedores.size()).isEqualTo(tamaño + 1);
 	}
 
+	@Test // Un vendedor se modifica correctamente
+	void testPositivoModificarVendedor() {
+
+		Vendedor vendedor = this.creaVendedorCorrecto();
+		this.vendedorService.save(vendedor);
+		Assertions.assertThat(vendedor.getId().longValue()).isNotEqualTo(0);
+
+		Collection<Vendedor> vendedores = this.vendedorService.findAllVendedor();
+		int found = vendedores.size();
+
+		vendedor.setApellidos("Prueba apellidos");
+		this.vendedorService.save(vendedor);
+
+		Vendedor vendedorModificado = this.vendedorService.findVendedorByUsername(vendedor.getUser().getUsername());
+		vendedores = this.vendedorService.findAllVendedor();
+
+		Assertions.assertThat(vendedores.size()).isEqualTo(found);
+		Assertions.assertThat(vendedor.getId()).isEqualTo(vendedorModificado.getId());
+		Assertions.assertThat(vendedorModificado.getApellidos()).isEqualTo("Prueba apellidos");
+
+	}
+
+	@Test // Un nuevo vendedor se elimina correctamente
+	void testPositivoEliminarVendedor() {
+
+		Collection<Vendedor> vendedores = this.vendedorService.findAllVendedor();
+		int found = vendedores.size();
+
+		Vendedor vendedorpruebas = this.vendedorService.findVendedorByIdNormal(120);
+		Assertions.assertThat(vendedores.contains(vendedorpruebas)).isEqualTo(true);
+
+		this.vendedorService.delete(vendedorpruebas);
+		vendedores = this.vendedorService.findAllVendedor();
+		Assertions.assertThat(vendedores.size()).isEqualTo(found - 1);
+		Assertions.assertThat(vendedores.contains(vendedorpruebas)).isEqualTo(false);
+
+	}
+	
+	@Test // Un nuevo vendedor se elimina correctamente por id
+	void testPositivoEliminarVendedorPorId() {
+
+		Collection<Vendedor> vendedores = this.vendedorService.findAllVendedor();
+		int found = vendedores.size();
+
+		Vendedor vendedorpruebas = this.vendedorService.findVendedorByIdNormal(120);
+		Assertions.assertThat(vendedores.contains(vendedorpruebas)).isEqualTo(true);
+
+		this.vendedorService.deleteVendedorById(vendedorpruebas.getId());
+		vendedores = this.vendedorService.findAllVendedor();
+		Assertions.assertThat(vendedores.size()).isEqualTo(found - 1);
+		Assertions.assertThat(vendedores.contains(vendedorpruebas)).isEqualTo(false);
+
+	}
+
 }
