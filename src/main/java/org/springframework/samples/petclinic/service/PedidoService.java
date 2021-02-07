@@ -309,10 +309,6 @@ public class PedidoService {
 		List<Integer> idPeliculas = new ArrayList<>();
 		Iterable<Pedido> pedidos = pedidoRepository.findAll();
 		for (Pedido p : pedidos) {
-			// en el momento que una pelicula se añade a un pedido o bien esta en estado
-			// carrito
-			// o bien se ha finalizado el pedido y no se puede mostrar en la vista de
-			// peliculas
 			if (p.getPeliculas() != null) {
 				Collection<Pelicula> peliculas = p.getPeliculas();
 				for (Pelicula pel : peliculas) {
@@ -330,10 +326,6 @@ public class PedidoService {
 		List<Integer> idVideojuegos = new ArrayList<>();
 		Iterable<Pedido> pedidos = pedidoRepository.findAll();
 		for (Pedido p : pedidos) {
-			// en el momento que una pelicula se añade a un pedido o bien esta en estado
-			// carrito
-			// o bien se ha finalizado el pedido y no se puede mostrar en la vista de
-			// peliculas
 			if (p.getVideojuegos() != null) {
 				Collection<Videojuego> videojuegos = p.getVideojuegos();
 				for (Videojuego v : videojuegos) {
@@ -344,6 +336,24 @@ public class PedidoService {
 		}
 
 		return idVideojuegos;
+	}
+	
+	
+	@Transactional
+	public List<Integer> listaIdMerchandasingsComprados() {
+		List<Integer> idMerchandasings = new ArrayList<>();
+		Iterable<Pedido> pedidos = pedidoRepository.findAll();
+		for (Pedido p : pedidos) {
+			if (p.getMerchandasings() != null) {
+				Collection<Merchandasing> merchandasings = p.getMerchandasings();
+				for (Merchandasing m : merchandasings) {
+					idMerchandasings.add(m.getId());
+				}
+			}
+
+		}
+
+		return idMerchandasings;
 	}
 
 }

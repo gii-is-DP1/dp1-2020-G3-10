@@ -21,18 +21,22 @@
 				<th style="width: 150px;">Año</th>
 				<th style="width: 150px;">Plataforma</th>
 				<th style="width: 150px;">Descripción</th>
+				<th style="width: 150px;">Estudio</th>
+				<th style="width: 150px;">Fecha de lanzamiento</th>
 				<th style="width: 150px;"></th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr>
-				<td><img src=<c:out value="${videojuego.imagen}"/> width="110%"
-					height="110%"></td>
+				<td><img src=<c:out value="${videojuego.imagen}"/> width="250px"
+					height="350px"></td>
 				<td><c:out value="${videojuego.nombre}" /></td>
 				<td><c:out value="${videojuego.precio}" /></td>
 				<td><c:out value="${videojuego.agno}" /></td>
 				<td><c:out value="${videojuego.plataforma}" /></td>
 				<td><c:out value="${videojuego.descripcion}" /></td>
+				<td><c:out value="${videojuego.estudio}" /></td>
+				<td><c:out value="${videojuego.fechaSalida}" /></td>
 				<td>
 				<sec:authorize access="hasAuthority('cliente')">
 				<spring:url value="/pedidos/addCarrito/{productoId}/{tipo}"

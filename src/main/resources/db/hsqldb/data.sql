@@ -101,7 +101,7 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04',
 
 --CLIENTES
 
-INSERT INTO CLIENTES VALUES (1, 'Díaz','12345678X','email@email.com','2013-01-01','Marta','123456789',200000.0,'Sevilla','41000','Calle Prueba Numero 12 1E ','2222 2222 2222 2222','marta');
+INSERT INTO CLIENTES VALUES (1, 'Díaz','15224795Z','emailemail@email.com','1998-01-01','Marta','656522543',200000.0,'Sevilla','41000','Calle Prueba Numero 12 1E ','4538328114264664','marta');
 INSERT INTO CLIENTES VALUES (20, 'Moreno González','32097886Y','antmorgon4@alum.us.es','1997-05-16','Antonio Javier', '601326967', 200.0, 'Sevilla', '41012', 'Calle Tarfia 45, 10', '4484241682520405', 'antmorgon4');
 INSERT INTO CLIENTES VALUES (4, 'Cárdenas Meneses', '12345678X', 'ivancarmen@alum.us.es', '1998-10-10', 'Iván','123456789',5000.0,'Sevilla','41980','Calle Hernandez','0000-1111-2222-6666','ivacarmen');
 INSERT INTO CLIENTES VALUES (200, 'Apellidos Prueba','15224795Z','correoprueba@alum.us.es','1990-01-01','Nombre Prueba', '600102030', 5000.0, 'Sevilla', '41013', 'Calle Pruebas 45, 10', '4538328114264664', 'clientepruebas');

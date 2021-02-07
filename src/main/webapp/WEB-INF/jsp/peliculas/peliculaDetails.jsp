@@ -22,6 +22,8 @@
 				<th style="width: 150px;">Año</th>
 				<th style="width: 150px;">Director</th>
 				<th style="width: 150px;">Duración</th>
+				<th style="width: 150px;">Fecha de Estreno</th>
+				<th style="width: 150px;">Edicion</th>
 				<th style="width: 150px;">Formato</th>
 				<th style="width: 150px;">Sinopsis</th>
 				<th style="width: 150px;"></th>
@@ -29,8 +31,8 @@
 		</thead>
 		<tbody>
 			<tr>
-				<td><img src=<c:out value="${pelicula.imagen}"/> width="110%"
-					height="110%"></td>
+				<td><img src=<c:out value="${pelicula.imagen}"/> width="250px"
+					height="350px"></td>
 
 
 				<td><c:out value="${pelicula.nombre}" /></td>
@@ -43,6 +45,9 @@
 
 				<td><c:out value="${pelicula.duracion}" /></td>
 
+				<td><c:out value="${pelicula.fechaSalida}" /></td>
+				
+				<td><c:out value="${pelicula.edicion}" /></td>
 
 				<td><c:out value="${pelicula.formato}" /></td>
 
