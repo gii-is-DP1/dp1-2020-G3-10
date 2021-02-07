@@ -8,35 +8,43 @@
 <!DOCTYPE html>
 
 <petclinic:layout pageName="peliculasAdd">
-   
+   	<jsp:attribute name="customScript">
+        <script>
+            $(function () {
+                $("#fechaSalida").datepicker({dateFormat: 'yy/mm/dd'});
+            });
+        </script>
+    </jsp:attribute>
    
     <jsp:body>
         <h2>
-            <c:if test="${pelicula['new']}">New </c:if> Pelicula
+            <c:if test="${pelicula['new']}">Nueva</c:if> Pelicula
         </h2>
         <form:form modelAttribute="pelicula"
                    class="form-horizontal">
                   
             <div class="form-group has-feedback">
-                <petclinic:inputField label="Nombre" name="Nombre"/>
-                <petclinic:inputField label="Precio" name="Precio"/>
-                <petclinic:inputField label="Año" name="Agno"/>
-                <petclinic:inputField label="Director" name="Director"/>
-                <petclinic:inputField label="Duración" name="Duracion"/>
-                <petclinic:inputField label="Edición" name="Edicion"/>
-                <petclinic:inputField label="Formato" name="Formato"/>
-                <petclinic:inputField label="Imagen" name="Imagen"/>
-                <petclinic:inputField label="Descripcion" name="Descripcion"/>
-                <petclinic:inputField label="FechaSalida" name="FechaSalida"/>
+                <petclinic:inputField label="Nombre" name="nombre"/>
+                <petclinic:inputField label="Precio" name="precio"/>
+                <petclinic:inputField label="Año" name="agno"/>
+                <petclinic:inputField label="Director" name="director"/>
+                <petclinic:inputField label="Duración" name="duracion"/>
+                <petclinic:inputField label="Edición" name="edicion"/>
+                <div class="control-group" >
+                    <petclinic:selectField name="formato" label="Formato" names="${formatos}" size="3"/>
+                </div>
+                <petclinic:inputField label="Imagen" name="imagen"/>
+                <petclinic:inputField label="Descripcion" name="descripcion"/>
+                <petclinic:inputField label="Fecha Salida" name="fechaSalida"  />
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                     <c:choose>
                         <c:when test="${pelicula['new']}">
-                            <button class="btn btn-default" type="submit">Add Pelicula</button>
+                            <button class="btn btn-default" type="submit">Añadir Pelicula</button>
                         </c:when>
                         <c:otherwise>
-                            <button class="btn btn-default" type="submit">Update Pet</button>
+                            <button class="btn btn-default" type="submit">Actualizar Pelicula</button>
                         </c:otherwise>
                     </c:choose>
                 </div>

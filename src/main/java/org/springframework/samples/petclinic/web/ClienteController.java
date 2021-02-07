@@ -1,30 +1,23 @@
 
 package org.springframework.samples.petclinic.web;
 
-import java.security.Principal;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.ehcache.shadow.org.terracotta.offheapstore.util.FindbugsSuppressWarnings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Authorities;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Reproductor;
 import org.springframework.samples.petclinic.model.User;
-import org.springframework.samples.petclinic.repository.ClienteRepository;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.ReproductorService;
 import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.security.core.session.SessionRegistryImpl;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -69,11 +62,7 @@ public class ClienteController{
 	}
 	
 	@PostMapping(value = "/clientes/new")
-	public String postFormularioCreacion(@Valid Cliente cliente, @Valid User user, BindingResult result, ModelMap mp) {	
-				
-		System.out.println("================================================================>" + cliente);
-		System.out.println("================================================================>" + user);
-		
+	public String postFormularioCreacion(@Valid Cliente cliente, BindingResult result, ModelMap mp) {	
 		
 		if (result.hasErrors()) {
 			mp.addAttribute("cliente", cliente);
@@ -126,18 +115,10 @@ public class ClienteController{
 			cliente.setReproductores(clienteAntiguo.getReproductores());
 			cliente.setComentarios(clienteAntiguo.getComentarios());
 			this.clienteService.saveCliente(cliente);
-//			System.out.println("===========================El cliente actualizado es:"+ this.clienteService.findClienteById(clienteId)+"==========================");
 			mp.addAttribute("cliente", cliente);
 			mp.addAttribute("message", "El cliente se ha actualizado satisfactoriamente");
 			
-//			if(clienteAntiguo.getUser() != cliente.getUser()) {
-//				
-//				return "redirect:/clientes/miPerfil";
-//				
-//			}
-			
-			
-			return "redirect:/clientes/miPerfil";//"{clienteId}";
+			return "redirect:/clientes/miPerfil";
 		}
 	}
 
@@ -203,7 +184,6 @@ public class ClienteController{
 	@GetMapping("clientes/{clienteId}/addReproductores")
 		public ModelAndView ClienteAnyadeReproductores(@PathVariable("clienteId") int clienteId) {
 			ModelAndView mav = new ModelAndView("/reproductores/listadoReproductores");
-			
 			Cliente cliente = this.clienteService.findClienteById(clienteId);
 			Collection<Reproductor> reproductoresCliente = cliente.getReproductores();
 			Collection<Reproductor> reproductores = (Collection<Reproductor>) reproductorService.findAllReproductor();

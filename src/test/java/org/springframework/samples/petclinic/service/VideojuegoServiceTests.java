@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -23,17 +24,23 @@ class VideojuegoServiceTests {
 
 	@Test
 	void findVideojuegoById() {
-		List<Videojuego> videojuegos = this.videojuegoService.findVideojuegos();
-		Integer tamaño = videojuegos.size();
-		Videojuego v = this.videojuegoService.findVideojuegoById(1);
-		videojuegos.remove(v);
-		assertThat(videojuegos.size() == tamaño - 1);
+		Videojuego v = this.videojuegoService.findVideojuegoById(4);
+		assertThat(v.getId()==4);
 	}
+	
+	@Test
+	void findVideojuegoNoExiste() {
+		Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			videojuegoService.findVideojuegoById(2000);
+		});
+		}
 
 	@Test
 	@Transactional
 	public void shouldInsertVideojuego() {
+		
 		Videojuego videojuego = new Videojuego();
+		videojuego.setId(15);
 		videojuego.setNombre("ANIMAL CROSSING: NEW HORIZONS");
 		videojuego.setPrecio(12.0);
 		videojuego.setAgno(2015);
@@ -63,12 +70,19 @@ class VideojuegoServiceTests {
 	@Test
 	@Transactional
 	public void shouldDeleteVideojuego() {
-		Videojuego v = this.videojuegoService.findVideojuegoById(1);
-		Integer size = this.videojuegoService.findVideojuegos().size();
-		this.videojuegoService.delete(v);
-		Integer sizeNew = this.videojuegoService.findVideojuegos().size();
-		assertThat((size!=sizeNew)&& this.videojuegoService.findVideojuegoById(1)==null);
+		
+		Videojuego videojuego = this.videojuegoService.findVideojuegoById(2);
+		Assertions.assertTrue(this.videojuegoService.findVideojuegos().contains(videojuego));
+		this.videojuegoService.delete(videojuego);
+		Assertions.assertTrue(!this.videojuegoService.findVideojuegos().contains(videojuego));
 		
 	}
+	
+	@Test
+	void deleteVideojuegoNoSuccess() {
+		Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			videojuegoService.deleteVideojuego(500);
+		});
+		}
 
 }

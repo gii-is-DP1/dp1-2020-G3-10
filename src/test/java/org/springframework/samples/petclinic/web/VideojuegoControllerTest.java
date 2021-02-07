@@ -10,7 +10,9 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.model.Plataforma;
 import org.springframework.samples.petclinic.model.Videojuego;
+import org.springframework.samples.petclinic.service.PedidoService;
 import org.springframework.samples.petclinic.service.ProductoService;
+import org.springframework.samples.petclinic.service.VendedorService;
 import org.springframework.samples.petclinic.service.VideojuegoService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -46,6 +48,12 @@ class VideojuegoControllerTest {
 
 	@MockBean
 	private ProductoService productoService;
+
+	@MockBean
+	private PedidoService pedidoService;
+
+	@MockBean
+	private VendedorService vendedorService;
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -108,33 +116,37 @@ class VideojuegoControllerTest {
 	void testProcessCreationFormVideojuegoSuccess() throws Exception {
 
 		this.mockMvc.perform(post("/videojuegos/new", videojuego).with(csrf()).param("nombre", "JUST DANCE 2021")
-				.param("precio", "49.95").param("agno", "2012").param("descripcion", "Vuelve el juego que te convierte en una estrella")
-				.param("estudio", "estudio").param("fechaSalida", "2021/09/09").param("imagen", "https://media.game.es/COVERV2/3D_L/182/182836.png	").param("plataforma", "PS4")).andExpect(status().is3xxRedirection());
+				.param("precio", "49.95").param("agno", "2012")
+				.param("descripcion", "Vuelve el juego que te convierte en una estrella").param("estudio", "Film SA")
+				.param("fechaSalida", "2021/09/09")
+				.param("imagen", "https://media.game.es/COVERV2/3D_L/182/182836.png	").param("plataforma", "PS4"))
+				.andExpect(status().is2xxSuccessful());
 
 	}
 
-	
 	// GET /videojuegos/edit/{videojuegoId}
-		@WithMockUser(value = "spring")
-		@Test
-		void testInitUpdateFormVideojuego() throws Exception {
-			this.mockMvc.perform(MockMvcRequestBuilders.get("/videojuegos/edit/{videojuegoId}", TEST_VIDEOJUEGO_ID))
-					.andExpect(MockMvcResultMatchers.status().isOk())
-					.andExpect(MockMvcResultMatchers.view().name("/videojuegos/formCreateVideojuegos"));
-		}
-		
-		// POST /videojuegos/edit/{videojuegoId}
-		@WithMockUser(value = "spring")
-		@Test
-		void testProcessEditFormVideojuegoSuccess() throws Exception {
-			this.mockMvc
-					.perform(MockMvcRequestBuilders.post("/videojuegos/edit/{videojuegoId}", TEST_VIDEOJUEGO_ID).param("nombre", "JUST DANCE 2021")
-							.with(csrf())
-							.param("precio", "49.95").param("agno", "2012").param("descripcion", "Vuelve el juego que te convierte en una estrella")
-							.param("estudio", "estudio").param("fechaSalida", "2021/09/09").param("imagen", "https://media.game.es/COVERV2/3D_L/182/182836.png	").param("plataforma", "PS4"))
-					.andExpect(status().is3xxRedirection())
-					.andExpect(view().name("redirect:/videojuegos/" + TEST_VIDEOJUEGO_ID));
+	@WithMockUser(value = "spring")
+	@Test
+	void testInitUpdateFormVideojuego() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/videojuegos/edit/{videojuegoId}", TEST_VIDEOJUEGO_ID))
+				.andExpect(status().is2xxSuccessful())
+				.andExpect(MockMvcResultMatchers.view().name("/videojuegos/formCreateVideojuegos"));
+	}
 
-		}
+	// POST /videojuegos/edit/{videojuegoId}
+	@WithMockUser(value = "spring")
+	@Test
+	void testProcessEditFormVideojuegoSuccess() throws Exception {
+		this.mockMvc
+				.perform(MockMvcRequestBuilders.post("/videojuegos/edit/{videojuegoId}", TEST_VIDEOJUEGO_ID)
+						.param("nombre", "JUST DANCE 2021").with(csrf()).param("precio", "49.95").param("agno", "2012")
+						.param("descripcion", "Vuelve el juego que te convierte en una estrella")
+						.param("estudio", "Film SA").param("fechaSalida", "2021/09/09")
+						.param("imagen", "https://media.game.es/COVERV2/3D_L/182/182836.png	")
+						.param("plataforma", "PS4"))
+				.andExpect(status().is3xxRedirection())
+				.andExpect(view().name("redirect:/videojuegos/" + TEST_VIDEOJUEGO_ID));
+
+	}
 
 }

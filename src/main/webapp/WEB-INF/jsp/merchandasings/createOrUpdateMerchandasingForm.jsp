@@ -8,7 +8,12 @@
 <!DOCTYPE html>
 
 <petclinic:layout pageName="merchandasingsAdd">
-
+	<jsp:attribute name="customScript">
+        <script>
+			$(function() {
+			$("#fechaSalida").datepicker({dateFormat : 'yy/mm/dd'});});
+		</script>
+    </jsp:attribute>
 	<jsp:body>
         <h2>
             <c:if test="${merchandasing['new']}">Nuevo </c:if> merchandasing
@@ -17,47 +22,30 @@
 			class="form-horizontal">
             
             <div class="form-group has-feedback">
-                
-                
-                
-                <label class="col-sm-2 control-label">Tipo </label>
-
-        <div class="col-sm-10">
-            <select id="tipo" name="tipo" class="form-control" size="3"
-						required>
-            <option value="FIGURA">figura</option>
-            <option value="ROPA">ropa</option>
-            <option value="POSTER">poster</option>
             
-					</select>
-            
-                <span
-						class="glyphicon glyphicon-ok form-control-feedback"
-						aria-hidden="true"></span>
-            
-            
+            <petclinic:inputField label="Nombre" name="nombre" />
+        		<petclinic:inputField label="Imagen" name="imagen" />
+                <petclinic:inputField label="fabricante" name="Fabricante" />
+                <petclinic:inputField label="Precio" name="precio" />
+                <petclinic:inputField label="Descripcion" name="descripcion" />
+                <petclinic:inputField label="Fecha Salida" name="fechaSalida" />
+					
+				<div class="control-group">
+                    <petclinic:selectField name="tipo" label="Tipo" names="${tipos}" size="3"/>
+                </div>
+             
         </div>
         
-        		<petclinic:inputField label="Nombre" name="Nombre"/>
-        		<petclinic:inputField label="Imagen" name="Imagen"/>
-                <petclinic:inputField label="Fabricante" name="Fabricante" />
-                <petclinic:inputField label="Precio" name="Precio"/>
-                <petclinic:inputField label="Descripci&oacuten" name="Descripcion"/>
-                <petclinic:inputField label="Fecha salida" name="FechaSalida"/>
-					
-				
-       
-            </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                     <c:choose>
                         <c:when test="${merchandasing['new']}">
                             <button class="btn btn-default"
-								type="submit">Añadir</button>
+								type="submit">Añadir Merchandising</button>
                         </c:when>
                         <c:otherwise>
                             <button class="btn btn-default"
-								type="submit">Actualizar</button>
+								type="submit">Actualizar Merchandising</button>
                         </c:otherwise>
                     </c:choose>
                 </div>

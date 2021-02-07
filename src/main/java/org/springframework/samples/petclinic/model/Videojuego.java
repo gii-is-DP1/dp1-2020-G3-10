@@ -27,7 +27,7 @@ public class Videojuego extends Producto {
 	@Column(name = "agno")
 	private Integer	agno;
 
-	@NotEmpty
+	@NotEmpty(message = "El estudio es obligatorio.")
 	@Column(name = "estudio")
 	private String	estudio;
 

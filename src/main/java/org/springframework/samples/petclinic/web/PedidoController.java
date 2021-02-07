@@ -83,6 +83,8 @@ public class PedidoController {
 
 		return vista;
 	}
+	
+	/*    NO SE USA
 
 	@GetMapping(path = "/new")
 	public String crearPedido(final ModelMap modelMap) {
@@ -112,6 +114,8 @@ public class PedidoController {
 
 		return vista;
 	}
+	
+	*/
 
 	@GetMapping(path = "/delete/{pedidoId}")
 	public String borrarPedido(@PathVariable("pedidoId") final int pedidoId, final ModelMap modelMap) {
@@ -134,7 +138,6 @@ public class PedidoController {
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userDetail = (UserDetails) auth.getPrincipal();
-		// userDetail.getAuthorities() == "Cliente"
 
 		String usuario = userDetail.getUsername();
 		if (auth.getPrincipal() == "anonymousUser") {
@@ -189,7 +192,7 @@ public class PedidoController {
 
 			modelMap.addAttribute("peliculas", pedido.getPeliculas());
 			modelMap.addAttribute("videojuegos", pedido.getVideojuegos());
-			modelMap.addAttribute("merchandasing", pedido.getMerchandasings());
+			modelMap.addAttribute("merchandasings", pedido.getMerchandasings());
 
 			modelMap.addAttribute("peliculasNoVacio", !(pedido.getPeliculas().isEmpty()));
 			modelMap.addAttribute("videojuegosNoVacio", !(pedido.getVideojuegos().isEmpty()));
@@ -208,6 +211,7 @@ public class PedidoController {
 
         Pedido pedido = pedidoService.findPedidoById(pedidoId);
         Cliente cliente = pedido.getCliente();
+        pedido.setDireccionEnvio(cliente.getDireccion()+" ("+cliente.getCiudad()+")");
         modelMap.addAttribute("pedido", pedido);
         modelMap.addAttribute("cliente", cliente);
         return "/pedidos/finalizarCarrito";
@@ -226,6 +230,7 @@ public class PedidoController {
             pedidoAntiguo.setFecha(LocalDate.now());
             pedidoAntiguo.setDireccionEnvio(pedido.getDireccionEnvio());
             try{
+            	mp.addAttribute("pedido", pedidoAntiguo);
                 pedidoService.completaPedido(pedidoAntiguo);
             }catch(Exception e) {
                 mp.addAttribute("message", e.getMessage());
@@ -239,8 +244,6 @@ public class PedidoController {
 	
 	@GetMapping(value = "/cancelarPedido/{pedidoId}")
     public String cancelarPedido(@PathVariable("pedidoId") int pedidoId, final ModelMap modelMap) {
-		
-		System.out.println("LLEGA AQUI ********************************************************** "+pedidoId);
 		
 		String vista = "redirect:/pedidos/cliente";
 
