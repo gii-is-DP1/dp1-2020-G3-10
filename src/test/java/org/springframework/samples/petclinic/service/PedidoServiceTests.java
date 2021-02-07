@@ -148,7 +148,7 @@ public class PedidoServiceTests {
 
 		Pedido pedidoCarrito = pedidoService.findProductosCarritoByClienteId("marta").get();
 
-		Assert.assertTrue(pedidoCarrito.getPeliculas().contains(peliculaRepository.findById(3)));
+		Assert.assertTrue(pedidoCarrito.getPeliculas().contains(peliculaRepository.findById(3).get()));
 	}
 
 	@Test
@@ -158,7 +158,7 @@ public class PedidoServiceTests {
 		
 		Pedido pedidoCarritoNuevo = pedidoService.findProductosCarritoByClienteId("marta").get();
 
-		Assert.assertTrue(pedidoCarritoNuevo.getPeliculas().contains(peliculaRepository.findById(6)));
+		Assert.assertTrue(pedidoCarritoNuevo.getPeliculas().contains(peliculaRepository.findById(6).get()));
 
 	}
 	
@@ -169,18 +169,20 @@ public class PedidoServiceTests {
 		
 		Pedido pedidoCarritoNuevo = pedidoService.findProductosCarritoByClienteId("marta").get();
 
-		Assert.assertTrue(pedidoCarritoNuevo.getVideojuegos().contains(videojuegoRepository.findVideojuegoById(1)));
+		Assert.assertTrue(pedidoCarritoNuevo.getVideojuegos().contains(videojuegoRepository.findVideojuegoById(1).get()));
 
 	}
 	
 	@Test
 	void creaPedidoCarritoMerchandasingSuccess() {
+		
+		int productoId = 1;
 
-		pedidoService.añadirProductoCarrito(1, "marta", "MERCHANDASING");
+		pedidoService.añadirProductoCarrito(productoId, "marta", "MERCHANDASING");
 		
 		Pedido pedidoCarritoNuevo = pedidoService.findProductosCarritoByClienteId("marta").get();
 
-		Assert.assertTrue(pedidoCarritoNuevo.getMerchandasings().contains(merchandasingRepository.findById(1)));
+		Assert.assertTrue(pedidoCarritoNuevo.getMerchandasings().contains(merchandasingRepository.findById(productoId).get()));
 
 	}
 	
