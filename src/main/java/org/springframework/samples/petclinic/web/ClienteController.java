@@ -66,7 +66,7 @@ public class ClienteController{
 		
 		if (result.hasErrors()) {
 			mp.addAttribute("cliente", cliente);
-			mp.addAttribute("message", "El cliente no se ha podido actualizar correctamente " + result);
+			mp.addAttribute("message", "El cliente no se ha podido actualizar correctamente ");
 			return VIEWS_CLIENTE_CREATE_OR_UPDATE_FORM;
 		}
 		else {
@@ -76,7 +76,7 @@ public class ClienteController{
 			this.authoritiesService.saveAuthorities(cliente.getUser().getUsername(), "cliente");
 			mp.addAttribute("cliente", cliente);
 			mp.addAttribute("message", "Cliente creado satisfactoriamente");
-			return "redirect:/clientes/" + cliente.getId();
+			return "redirect:/login";
 		}
 	}
 	
