@@ -122,7 +122,7 @@ public class ClienteController{
 			mp.addAttribute("cliente", cliente);
 			mp.addAttribute("message", "El cliente se ha actualizado satisfactoriamente");
 			
-			return "/clientes/clienteDetails";
+			return "redirect:/clientes/miPerfil";
 		}
 	}
 
