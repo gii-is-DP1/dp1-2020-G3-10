@@ -7,6 +7,7 @@ import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -32,6 +33,7 @@ public class Persona extends BaseEntity {
 	@Column(name = "fecha_nacimiento")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@MayorEdadConstraint
+	@NotNull
 	protected LocalDate	fechaNacimiento;
 
 	@Column(name = "dni")

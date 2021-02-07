@@ -2,6 +2,7 @@
 package org.springframework.samples.petclinic.web;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -10,10 +11,12 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Authorities;
 import org.springframework.samples.petclinic.model.Cliente;
+import org.springframework.samples.petclinic.model.Pedido;
 import org.springframework.samples.petclinic.model.Reproductor;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.ClienteService;
+import org.springframework.samples.petclinic.service.PedidoService;
 import org.springframework.samples.petclinic.service.ReproductorService;
 import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.security.core.Authentication;
@@ -38,13 +41,15 @@ public class ClienteController{
 
 	private AuthoritiesService authoritiesService;
 
+	private PedidoService pedidoService;
 	
 	@Autowired
-	public ClienteController(ClienteService clienteService,  UserService userService, AuthoritiesService authoritiesService, ReproductorService reproductorService ) {
+	public ClienteController(ClienteService clienteService,  UserService userService, AuthoritiesService authoritiesService, ReproductorService reproductorService, PedidoService pedidoService) {
 		this.clienteService = clienteService;
 		this.userService = userService;
 		this.authoritiesService = authoritiesService;
 		this.reproductorService = reproductorService;
+		this.pedidoService = pedidoService;
 	}
 	
 
@@ -55,9 +60,8 @@ public class ClienteController{
 
 	//Formulario Creación
 	@GetMapping(value = "/clientes/new")
-	public String getFormularioCreacion(Map<String, Object> model) {
-		Cliente cliente = new Cliente();
-		model.put("cliente", cliente);
+	public String getFormularioCreacion(ModelMap modelmap) {
+		modelmap.put("cliente", new Cliente());
 		return VIEWS_CLIENTE_CREATE_OR_UPDATE_FORM;
 	}
 	
@@ -66,7 +70,7 @@ public class ClienteController{
 		
 		if (result.hasErrors()) {
 			mp.addAttribute("cliente", cliente);
-			mp.addAttribute("message", "El cliente no se ha podido actualizar correctamente ");
+			mp.addAttribute("message", "El cliente no se ha podido crear correctamente ");
 			return VIEWS_CLIENTE_CREATE_OR_UPDATE_FORM;
 		}
 		else {
@@ -118,17 +122,62 @@ public class ClienteController{
 			mp.addAttribute("cliente", cliente);
 			mp.addAttribute("message", "El cliente se ha actualizado satisfactoriamente");
 			
-			return "redirect:/clientes/miPerfil";
+			return "/clientes/clienteDetails";
 		}
 	}
 
 	//Eliminar Cliente
-	@PostMapping("/clientes/{clienteId}/delete")
+	@GetMapping("/clientes/{clienteId}/delete")
 	public String eliminarCliente(@PathVariable("clienteId") int clienteId, ModelMap mp) {
 
-		this.clienteService.deleteClienteById(clienteId);
-		return "redirect:/cliente/{clienteId}"; //TODO donde redirigir? 
+		String view = "/welcome";
+		
+		Cliente cliente = this.clienteService.findClienteById(clienteId);
+		
+		if(cliente.getPedidos() != null && !carritoCancelado(cliente.getPedidos())) {
+			
+			view = "/clientes/clienteDetails";
+			mp.addAttribute("message", "Un cliente no se puede eliminar mientras tenga pedidos");
+			mp.addAttribute("cliente", cliente);
+			return view;
 		}
+		
+		if(!cliente.getPedidos().isEmpty()) {
+			
+			//Como se quedan los carritos cancelados debo eliminar dichos pedidos antes de eliminar el usuario
+			cliente.getPedidos().stream().forEach(p -> this.pedidoService.cancelaPedidoById(p.getId()));
+			
+		}
+		
+		this.clienteService.deleteCliente(cliente);
+		this.userService.deleteUser(cliente.getUser());
+		SecurityContextHolder.clearContext();
+		mp.addAttribute("message", "Cliente eliminado con éxito");
+		return view; 		
+	}
+	
+	/*Si un carrito se cancela, este se muestra como un pedido en estado carrito y total 0.0 pero no se elimina de la lista de pedidos
+	por lo que hay que apañar un método que nos diga si realmente es un carrito cancelado o no*/
+	private Boolean carritoCancelado(Collection<Pedido> pedidos) {
+		
+		boolean result = true;
+		Double total = 0.0;
+		
+		List<Pedido> listaPedidos = (List<Pedido>) pedidos;
+		
+		for(Pedido p : listaPedidos) {
+			
+			total += p.getPrecioTotal();
+		}
+		
+		if(total > 0.0) {
+			
+			result = false;
+		}
+		
+		return result;
+		
+	}
 		
 	
 	//Mostrar detalles de cliente
@@ -153,7 +202,7 @@ public class ClienteController{
 		if(cliente == null) {
 			 
 			 SecurityContextHolder.clearContext();
-			 vista = "redirect:/login";
+			 vista = "/login";
 			 mp.addAttribute("message", "El usuario debe volver a loggear para actualizar los cambios");
 			 
 		 }else {

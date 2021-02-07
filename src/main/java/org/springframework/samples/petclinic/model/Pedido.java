@@ -31,7 +31,13 @@ import lombok.Setter;
 @Table(name = "pedido")
 public class Pedido extends BaseEntity {
 
-    @NotNull
+    @Override
+	public String toString() {
+		return "Pedido [estado=" + estado + ", precioTotal=" + precioTotal + ", fecha=" + fecha + ", direccionEnvio="
+				+ direccionEnvio + ", cliente=" + cliente + ", peliculas=" + peliculas + ", videojuegos=" + videojuegos
+				+ ", merchandasings=" + merchandasings + "]";
+	}
+	@NotNull
     @Enumerated(EnumType.STRING)
 	private EstadoPedido	estado;
 
