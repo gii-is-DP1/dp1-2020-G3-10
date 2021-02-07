@@ -109,14 +109,14 @@
 													<a href="/clientes/miPerfil" class="btn btn-primary btn-block">Mi Perfil</a>
 												</sec:authorize>
 												
-												<sec:authorize access="hasAuthority('cliente')">
+											<!-- 	<sec:authorize access="hasAuthority('cliente')">
 													<petclinic:menuItem active="${name eq 'reproductores'}" url="/reproductores"
 														title="reproductores">
 													<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 													<span>Reproductores</span>
 													</petclinic:menuItem>
 												</sec:authorize>
-												
+											 -->	
 												<sec:authorize access="hasAuthority('vendedor')">
 													<a href="/vendedores/miPerfil" class="btn btn-primary btn-block">Mi Perfil</a>
 												</sec:authorize>
