@@ -23,5 +23,14 @@ public interface ComentarioRepository extends Repository<Comentario, Integer>{
  	
 	@Query("SELECT comentario FROM Comentario comentario WHERE comentario.cliente.id =:id")
 	public List<Comentario> findByClientId(@Param("id") int id);
+	
+	@Query("SELECT comentario FROM Comentario comentario WHERE comentario.pelicula.id =:id")
+	public List<Comentario> findComentariosByPeliculaId(@Param("id") int id);
+	
+	@Query("SELECT comentario FROM Comentario comentario WHERE comentario.videojuego.id =:id")
+	public List<Comentario> findComentariosByVideojuegoId(@Param("id") int id);
+	
+	@Query("SELECT comentario FROM Comentario comentario WHERE comentario.merchandasing.id =:id")
+	public List<Comentario> findComentariosByMerchandasingId(@Param("id") int id);
 
 }

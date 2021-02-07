@@ -45,6 +45,12 @@
 						</spring:url>
 						<a href="${fn:escapeXml(carritoUrl)}" class="btn btn-default">Insertar
 							al carrito</a>
+							
+						<spring:url value="/comentarios/{clienteId}/merchandasing/{merchandasingId}/new" var="createUrl">
+					<spring:param name="merchandasingId" value="${merchandasing.id}" />
+					<spring:param name="clienteId" value="${cliente.id}"/>
+				</spring:url>
+				<a href="${fn:escapeXml(createUrl)}" class="btn btn-default">Añadir comentario</a>
 					</sec:authorize></td>
 			</tr>
 		</tbody>

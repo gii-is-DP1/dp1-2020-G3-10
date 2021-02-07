@@ -75,7 +75,50 @@ public class ComentarioController {
 		}
 		return vista;
 	}
+	//EN PROCESO
 	
+	@GetMapping(value = "pelicula/{peliculaId}")
+	public String listComentariosPelicula(@PathVariable("peliculaId") int peliculaId, ModelMap modelMap) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetails = (UserDetails) auth.getPrincipal();
+		User usuario = this.userService.findUser(userDetails.getUsername()).get();
+		Cliente cliente = clienteService.findClienteByUserName(usuario.getUsername());
+		
+		String vista = "peliculas/comentariosProductoList";
+		List<Comentario> comentarios = comentarioService.findComentariosByPeliculaId(peliculaId);
+		modelMap.addAttribute("comentarios", comentarios);
+		modelMap.addAttribute("cliente", cliente);
+		return vista;
+	}
+	
+	@GetMapping(value = "videojuego/{videojuegoId}")
+	public String listComentariosVideojuego(@PathVariable("videojuegoId") int videojuegoId, ModelMap modelMap) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetails = (UserDetails) auth.getPrincipal();
+		User usuario = this.userService.findUser(userDetails.getUsername()).get();
+		Cliente cliente = clienteService.findClienteByUserName(usuario.getUsername());
+		
+		String vista = "comentarios/comentariosProductoList";
+		List<Comentario> comentarios = comentarioService.findComentariosByVideojuegoId(videojuegoId);
+		modelMap.addAttribute("comentarios", comentarios);
+		modelMap.addAttribute("cliente", cliente);
+		return vista;
+	}
+	
+	@GetMapping(value = "merchandasing/{merchandasingId}")
+	public String listComentariosMerchandasing(@PathVariable("merchandasingId") int merchandasingId, ModelMap modelMap) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetails = (UserDetails) auth.getPrincipal();
+		User usuario = this.userService.findUser(userDetails.getUsername()).get();
+		Cliente cliente = clienteService.findClienteByUserName(usuario.getUsername());
+		
+		String vista = "comentarios/comentariosProductoList";
+		List<Comentario> comentarios = comentarioService.findComentariosByMerchandasingId(merchandasingId);
+		modelMap.addAttribute("comentarios", comentarios);
+		modelMap.addAttribute("cliente", cliente);
+		return vista;
+	}
+
 	@Autowired
 	public ComentarioController(ComentarioService comentarioService, ClienteService clienteService, PeliculaService peliculaService, VideojuegoService videojuegoService, MerchandasingService merchandasingService, UserService userService) {
 		this.comentarioService = comentarioService;

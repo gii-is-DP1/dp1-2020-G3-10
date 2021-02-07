@@ -50,5 +50,20 @@ private ComentarioRepository comentarioRepository;
 	public List<Comentario> findAll(){
 		return comentarioRepository.findAll();
 	}
+	
+	@Transactional
+	public List<Comentario> findComentariosByPeliculaId(int id) throws DataAccessException{
+		return comentarioRepository.findComentariosByPeliculaId(id);
+	}
+	
+	@Transactional
+	public List<Comentario> findComentariosByVideojuegoId(int id) throws DataAccessException{
+		return comentarioRepository.findComentariosByVideojuegoId(id);
+	}
+	
+	@Transactional
+	public List<Comentario> findComentariosByMerchandasingId(int id) throws DataAccessException{
+		return comentarioRepository.findComentariosByMerchandasingId(id);
+	}
 
 }

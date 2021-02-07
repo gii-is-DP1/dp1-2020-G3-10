@@ -61,6 +61,12 @@
 							<spring:param name="tipo" value="${'PELICULA'}" />
 						</spring:url> <a href="${fn:escapeXml(carritoUrl)}" class="btn btn-default">Insertar
 							al carrito</a>
+							
+						 <spring:url value="/comentarios/{clienteId}/pelicula/{peliculaId}/new" var="createUrl">
+					<spring:param name="peliculaId" value="${pelicula.id}" />
+					<spring:param name="clienteId" value="${cliente.id}"/>
+				</spring:url>
+				<a href="${fn:escapeXml(createUrl)}" class="btn btn-default">Añadir comentario</a>
 					</sec:authorize>
 				</td>
 			</tr>

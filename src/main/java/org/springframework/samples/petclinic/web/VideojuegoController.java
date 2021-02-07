@@ -8,11 +8,15 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Merchandasing;
 import org.springframework.samples.petclinic.model.Pelicula;
+import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.Vendedor;
 import org.springframework.samples.petclinic.model.Videojuego;
+import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.PedidoService;
+import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.samples.petclinic.service.VendedorService;
 import org.springframework.samples.petclinic.service.VideojuegoService;
 import org.springframework.security.core.Authentication;
@@ -42,6 +46,12 @@ public class VideojuegoController {
 	
 	@Autowired
 	private final VendedorService vendedorService;
+	
+	@Autowired
+	private final UserService userService;
+	
+	@Autowired
+	private final ClienteService clienteService;
 
 	@InitBinder
 	public void setAllowedFields(WebDataBinder dataBinder) {
@@ -49,10 +59,13 @@ public class VideojuegoController {
 	}
 
 	@Autowired
-	public VideojuegoController(VideojuegoService videojuegoService, PedidoService pedidoService, VendedorService vendedorService) {
+	public VideojuegoController(VideojuegoService videojuegoService, PedidoService pedidoService, VendedorService vendedorService, UserService userService, ClienteService clienteService) {
 		this.videojuegoService = videojuegoService;
 		this.pedidoService = pedidoService;
 		this.vendedorService = vendedorService;
+		this.userService = userService;
+		this.clienteService = clienteService;
+		
 	}
 
 	@GetMapping(value = "/videojuegos")
@@ -72,8 +85,13 @@ public class VideojuegoController {
 
 	@GetMapping(value = "/videojuegos/{videojuegoId}")
 	public String showVideojuego(@PathVariable("videojuegoId") int videojuegoId, Map<String, Object> model) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetails = (UserDetails) auth.getPrincipal();
+		User usuario = this.userService.findUser(userDetails.getUsername()).get();
+		Cliente cliente = clienteService.findClienteByUserName(usuario.getUsername());
 		Videojuego v = this.videojuegoService.findVideojuegoById(videojuegoId);
 		model.put("videojuego", v);
+		model.put("cliente", cliente);
 		return "/videojuegos/videojuegoDetails";
 	}
 

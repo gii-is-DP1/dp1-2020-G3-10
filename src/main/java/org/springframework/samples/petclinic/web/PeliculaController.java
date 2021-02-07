@@ -9,14 +9,18 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Merchandasing;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pelicula;
+import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.Vendedor;
 import org.springframework.samples.petclinic.model.Videojuego;
+import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.PedidoService;
 import org.springframework.samples.petclinic.service.PeliculaService;
 import org.springframework.samples.petclinic.service.ProductoService;
+import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.samples.petclinic.service.VendedorService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -52,6 +56,12 @@ public class PeliculaController {
 
 	@Autowired
 	private final VendedorService vendedorService;
+	
+	@Autowired
+	private final UserService userService;
+	
+	@Autowired
+	private final ClienteService clienteService;
 
 	@InitBinder
 	public void setAllowedFields(WebDataBinder dataBinder) {
@@ -60,11 +70,13 @@ public class PeliculaController {
 
 	@Autowired
 	public PeliculaController(final PeliculaService peliculaService, final ProductoService productoService,
-			final PedidoService pedidoService, final VendedorService vendedorService) {
+			final PedidoService pedidoService, final VendedorService vendedorService, final UserService userService, final ClienteService clienteService) {
 		this.peliculaService = peliculaService;
 		this.productoService = productoService;
 		this.pedidoService = pedidoService;
 		this.vendedorService = vendedorService;
+		this.userService = userService;
+		this.clienteService = clienteService;
 
 	}
 
@@ -85,8 +97,13 @@ public class PeliculaController {
 	
 	@GetMapping("/peliculas/{peliculaId}")
 	public String showPelicula(@PathVariable("peliculaId") int peliculaId, Map<String, Object> model) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetails = (UserDetails) auth.getPrincipal();
+		User usuario = this.userService.findUser(userDetails.getUsername()).get();
+		Cliente cliente = clienteService.findClienteByUserName(usuario.getUsername());
 		Pelicula pelicula = this.peliculaService.findPeliculaById(peliculaId);
 		model.put("pelicula", pelicula);
+		model.put("cliente", cliente);
 		return "/peliculas/peliculaDetails";
 	}
 	
