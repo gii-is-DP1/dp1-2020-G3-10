@@ -2,10 +2,12 @@ package org.springframework.samples.petclinic.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -29,16 +31,37 @@ public class ComentarioServiceTests {
 	protected PeliculaService peliculaService;
 	
 	@Test
-	void shouldFindComentariosByClientId() {
-		List<Comentario> comentarios =  this.comentarioService.findByClientId(1);
-		assertThat(comentarios.size()).isEqualTo(1);
+	void shouldFindComentariosByClientIdSuccess() {
+		List<Comentario> comentariosCliente =  this.comentarioService.findByClientId(1);
+		List<Comentario> comentarios = this.comentarioService.findAll();
+		List<Comentario> aux = new ArrayList<>();
+		for(Comentario c: comentarios) {
+			if(c.getCliente().getId()==1) {
+				aux.add(c);
+			}
+		}
+		assertThat(comentariosCliente.size()).isEqualTo(aux.size());
 	}
 	
 	@Test
-	void shouldFindComentarioById() {
+	void shouldFindComentariosByClientIdNoSuccess() {
+		Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			comentarioService.findByClientId(200);
+		});
+	}
+	
+	@Test
+	void shouldFindComentarioByIdSuccess() {
 		Comentario comentario = this.comentarioService.findCommentById(1);
 		List<Comentario> comentarios = this.comentarioService.findAll();
 		assertThat(comentario).isEqualTo(comentarios.get(0));
+	}
+	
+	@Test
+	void shouldFindComentarioByIdNoSuccess() {
+		Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			comentarioService.findCommentById(1000);
+		});
 	}
 	
 	@Test
@@ -73,15 +96,18 @@ public class ComentarioServiceTests {
 		
 	}
 	
+	
 	@Test
-	@Transactional
-	public void shouldDeleteComentario() {
-		Comentario comentario = comentarioService.findCommentById(1);
-		Integer size = comentarioService.findAll().size();
+	void deleteComentarioSuccess() {
 		
-		comentarioService.deleteComment(comentario);
+		List<Comentario> comentarios = this.comentarioService.findAll();
+		Comentario c = this.comentarioService.findCommentById(1);
 		
-		Integer newSize = comentarioService.findAll().size();
-		assertThat((size != newSize) && comentarioService.findCommentById(1)==null);
+		Assertions.assertTrue(comentarios.contains(c));
+		comentarios.remove(c);
+		Assertions.assertTrue(!comentarios.contains(c));
+		this.comentarioService.deleteComment(c);
+		List<Comentario> comentarios2 = this.comentarioService.findAll();
+		Assertions.assertTrue(!comentarios2.contains(c));
 	}
 }

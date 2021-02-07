@@ -93,6 +93,8 @@ public class MerchandasingController {
 		
 		if(auth.getPrincipal() == "anonymousUser") {
 			Merchandasing merchandasing = this.merchandasingService.findMerchandasingById(merchandasingId);
+			List<Comentario> comentarios = comentarioService.findComentariosByMerchandasingId(merchandasing.getId());
+			model.put("comentarios", comentarios);
 			model.put("merchandasing", merchandasing);
 		} else {
 			UserDetails userDetails = (UserDetails) auth.getPrincipal();

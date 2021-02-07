@@ -107,6 +107,8 @@ public class PeliculaController {
 		
 		if(auth.getPrincipal() == "anonymousUser") {
 			Pelicula pelicula = this.peliculaService.findPeliculaById(peliculaId);
+			List<Comentario> comentarios = comentarioService.findComentariosByPeliculaId(pelicula.getId());
+			model.put("comentarios", comentarios);
 			model.put("pelicula", pelicula);
 		} else {
 			UserDetails userDetails = (UserDetails) auth.getPrincipal();

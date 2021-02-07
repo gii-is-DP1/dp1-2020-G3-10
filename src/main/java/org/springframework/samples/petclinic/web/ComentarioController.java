@@ -79,43 +79,25 @@ public class ComentarioController {
 	
 	@GetMapping(value = "pelicula/{peliculaId}")
 	public String listComentariosPelicula(@PathVariable("peliculaId") int peliculaId, ModelMap modelMap) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		UserDetails userDetails = (UserDetails) auth.getPrincipal();
-		User usuario = this.userService.findUser(userDetails.getUsername()).get();
-		Cliente cliente = clienteService.findClienteByUserName(usuario.getUsername());
-		
 		String vista = "peliculas/comentariosProductoList";
 		List<Comentario> comentarios = comentarioService.findComentariosByPeliculaId(peliculaId);
 		modelMap.addAttribute("comentarios", comentarios);
-		modelMap.addAttribute("cliente", cliente);
 		return vista;
 	}
 	
 	@GetMapping(value = "videojuego/{videojuegoId}")
 	public String listComentariosVideojuego(@PathVariable("videojuegoId") int videojuegoId, ModelMap modelMap) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		UserDetails userDetails = (UserDetails) auth.getPrincipal();
-		User usuario = this.userService.findUser(userDetails.getUsername()).get();
-		Cliente cliente = clienteService.findClienteByUserName(usuario.getUsername());
-		
 		String vista = "comentarios/comentariosProductoList";
 		List<Comentario> comentarios = comentarioService.findComentariosByVideojuegoId(videojuegoId);
 		modelMap.addAttribute("comentarios", comentarios);
-		modelMap.addAttribute("cliente", cliente);
 		return vista;
 	}
 	
 	@GetMapping(value = "merchandasing/{merchandasingId}")
 	public String listComentariosMerchandasing(@PathVariable("merchandasingId") int merchandasingId, ModelMap modelMap) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		UserDetails userDetails = (UserDetails) auth.getPrincipal();
-		User usuario = this.userService.findUser(userDetails.getUsername()).get();
-		Cliente cliente = clienteService.findClienteByUserName(usuario.getUsername());
-		
 		String vista = "comentarios/comentariosProductoList";
 		List<Comentario> comentarios = comentarioService.findComentariosByMerchandasingId(merchandasingId);
 		modelMap.addAttribute("comentarios", comentarios);
-		modelMap.addAttribute("cliente", cliente);
 		return vista;
 	}
 
@@ -343,13 +325,13 @@ public class ComentarioController {
 	@GetMapping("comentario/{comentarioId}/delete")
 	public String deleteComentario(@PathVariable("comentarioId") int comentarioId, ModelMap model) {
 		Comentario comentario = comentarioService.findCommentById(comentarioId);
-		String view = "comentarios/comentariosList";
-		if(comentario!=null) {
+		Cliente cliente = comentario.getCliente();
+		if(comentario!=null && cliente!=null) {
 			comentarioService.deleteComment(comentario);
 		} else {
 			model.addAttribute("message", "ERROR!");
 		}
-		return view;
+		return "redirect:/comentarios/" + cliente.getId();
 	}
 	
 	

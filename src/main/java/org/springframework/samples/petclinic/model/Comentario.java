@@ -33,22 +33,22 @@ public Comentario() {
 	@NotEmpty(message="El titulo no puede estar vacio")
 	private String texto;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "cliente_id")
 	@NotNull
 	private Cliente cliente;
 	
 	
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "merchandasing_id")
 	private Merchandasing merchandasing;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "pelicula_id")
 	private Pelicula pelicula;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "videojuego_id")
 	private Videojuego videojuego;
 	

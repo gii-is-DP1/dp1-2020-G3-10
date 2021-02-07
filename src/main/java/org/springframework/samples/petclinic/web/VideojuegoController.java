@@ -95,6 +95,8 @@ public class VideojuegoController {
 		
 		if(auth.getPrincipal() == "anonymousUser") {
 			Videojuego videojuego = this.videojuegoService.findVideojuegoById(videojuegoId);
+			List<Comentario> comentarios = comentarioService.findComentariosByVideojuegoId(videojuego.getId());
+			model.put("comentarios", comentarios);
 			model.put("videojuego", videojuego);
 		} else {
 			UserDetails userDetails = (UserDetails) auth.getPrincipal();
