@@ -61,8 +61,10 @@
 							<spring:param name="tipo" value="${'PELICULA'}" />
 						</spring:url> <a href="${fn:escapeXml(carritoUrl)}" class="btn btn-default">Insertar
 							al carrito</a>
+					</sec:authorize>
 							
-						 <spring:url value="/comentarios/{clienteId}/pelicula/{peliculaId}/new" var="createUrl">
+					<sec:authorize access="hasAuthority('cliente')">
+					<spring:url value="/comentarios/{clienteId}/pelicula/{peliculaId}/new" var="createUrl">
 					<spring:param name="peliculaId" value="${pelicula.id}" />
 					<spring:param name="clienteId" value="${cliente.id}"/>
 				</spring:url>
@@ -72,7 +74,34 @@
 			</tr>
 		</tbody>
 	</table>
-
+	        
+        
+        <table id="commentsTable" class="table table-striped">
+        <thead>
+        <tr>
+            <th style="width: 150px;">Titulo</th>
+            <th style="width: 200px;">Texto</th>
+            <th style="width: 120px">Autor</th>
+  
+        </tr>
+        </thead>
+        <tbody>
+      		  <c:forEach items="${comentarios}" var="comentario">
+            <tr>
+                <td>
+                    <c:out value="${comentario.titulo}"/>
+                </td>
+                <td>
+                    <c:out value="${comentario.texto}"/>
+                </td>
+                <td>
+                    <c:out value="${comentario.cliente.email}"/>
+                </td>
+               
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
 
 
 

@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.model.Comentario;
 import org.springframework.samples.petclinic.model.Formato;
 import org.springframework.samples.petclinic.model.Pelicula;
 import org.springframework.samples.petclinic.repository.PeliculaRepository;
@@ -19,6 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class PeliculaService {
+	
+	@Autowired
+	private ComentarioService comentarioService;
 
 	@Autowired
 	private PeliculaRepository peliculaRepository;
@@ -66,6 +70,12 @@ public class PeliculaService {
 	@Transactional
 	public void delete(Pelicula p) throws DataAccessException {
 		Optional<Pelicula> pelicula = this.peliculaRepository.findById(p.getId());
+		List<Comentario> comentarios = comentarioService.findComentariosByPeliculaId(p.getId());
+		if(!comentarios.isEmpty()) {
+			for(Comentario c: comentarios) {
+				comentarioService.deleteComment(c);	
+			}
+		}
 		if(pelicula.isPresent()) {
 			peliculaRepository.delete(p);
 		}else {

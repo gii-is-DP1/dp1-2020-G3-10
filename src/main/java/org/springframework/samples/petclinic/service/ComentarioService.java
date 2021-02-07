@@ -27,7 +27,12 @@ private ComentarioRepository comentarioRepository;
 	
 	@Transactional(readOnly = true)
 	public Comentario findCommentById(int id) throws DataAccessException{
-		return comentarioRepository.findById(id);
+		Optional<Comentario> comentario = this.comentarioRepository.findById(id);
+		if(comentario.isPresent()) {
+			return comentario.get();
+		} else {
+			throw new IllegalArgumentException("No existe el comentario");
+		}
 	}
 	
 	@Transactional
@@ -43,7 +48,12 @@ private ComentarioRepository comentarioRepository;
 	
 	@Transactional 
 	public void deleteComment(Comentario comentario) {
-		comentarioRepository.delete(comentario);
+		Optional<Comentario> comentario2 = this.comentarioRepository.findById(comentario.getId());
+		if(comentario2.isPresent()) {
+			comentarioRepository.delete(comentario2.get());
+		} else {
+			throw new IllegalArgumentException("No existe el comentario");
+		}
 	}
 	
 	@Transactional

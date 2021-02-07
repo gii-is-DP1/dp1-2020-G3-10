@@ -9,12 +9,14 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Cliente;
+import org.springframework.samples.petclinic.model.Comentario;
 import org.springframework.samples.petclinic.model.Merchandasing;
 import org.springframework.samples.petclinic.model.Pelicula;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.Vendedor;
 import org.springframework.samples.petclinic.model.Videojuego;
 import org.springframework.samples.petclinic.service.ClienteService;
+import org.springframework.samples.petclinic.service.ComentarioService;
 import org.springframework.samples.petclinic.service.PedidoService;
 import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.samples.petclinic.service.VendedorService;
@@ -52,6 +54,9 @@ public class VideojuegoController {
 	
 	@Autowired
 	private final ClienteService clienteService;
+	
+	@Autowired
+	private final ComentarioService comentarioService;
 
 	@InitBinder
 	public void setAllowedFields(WebDataBinder dataBinder) {
@@ -59,12 +64,13 @@ public class VideojuegoController {
 	}
 
 	@Autowired
-	public VideojuegoController(VideojuegoService videojuegoService, PedidoService pedidoService, VendedorService vendedorService, UserService userService, ClienteService clienteService) {
+	public VideojuegoController(VideojuegoService videojuegoService, PedidoService pedidoService, VendedorService vendedorService, UserService userService, ClienteService clienteService, ComentarioService comentarioService) {
 		this.videojuegoService = videojuegoService;
 		this.pedidoService = pedidoService;
 		this.vendedorService = vendedorService;
 		this.userService = userService;
 		this.clienteService = clienteService;
+		this.comentarioService = comentarioService;
 		
 	}
 
@@ -86,12 +92,22 @@ public class VideojuegoController {
 	@GetMapping(value = "/videojuegos/{videojuegoId}")
 	public String showVideojuego(@PathVariable("videojuegoId") int videojuegoId, Map<String, Object> model) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		UserDetails userDetails = (UserDetails) auth.getPrincipal();
-		User usuario = this.userService.findUser(userDetails.getUsername()).get();
-		Cliente cliente = clienteService.findClienteByUserName(usuario.getUsername());
-		Videojuego v = this.videojuegoService.findVideojuegoById(videojuegoId);
-		model.put("videojuego", v);
-		model.put("cliente", cliente);
+		
+		if(auth.getPrincipal() == "anonymousUser") {
+			Videojuego videojuego = this.videojuegoService.findVideojuegoById(videojuegoId);
+			model.put("videojuego", videojuego);
+		} else {
+			UserDetails userDetails = (UserDetails) auth.getPrincipal();
+			User usuario = this.userService.findUser(userDetails.getUsername()).get();
+			Cliente cliente = clienteService.findClienteByUserName(usuario.getUsername());
+			
+			Videojuego videojuego = this.videojuegoService.findVideojuegoById(videojuegoId);
+			List<Comentario> comentarios = comentarioService.findComentariosByVideojuegoId(videojuego.getId());
+			model.put("videojuego", videojuego);
+			model.put("cliente", cliente);
+			model.put("comentarios", comentarios);
+			
+		}
 		return "/videojuegos/videojuegoDetails";
 	}
 

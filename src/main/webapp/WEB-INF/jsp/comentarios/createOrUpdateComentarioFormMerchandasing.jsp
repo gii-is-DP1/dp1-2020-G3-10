@@ -17,9 +17,9 @@
             <c:if test="${comentario['new']}">New </c:if> Comentario
         </h2>
         <form:form modelAttribute="comentario" class="form-horizontal">
-            <input hidden="id" value="${comentario.id}"/>
-            <input hidden="cliente.id" value="${comentario.cliente.id}"/>
-            <input hidden="merchandasing.id" value="${comentario.videojuego.id}"/>
+            <input name="id" value="${comentario.id}"/>
+            <input name="cliente.id" value="${comentario.cliente.id}"/>
+            <input name="merchandasing.id" value="${comentario.merchandasing.id}"/>
             <div class="form-group has-feedback">
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Autor</label>

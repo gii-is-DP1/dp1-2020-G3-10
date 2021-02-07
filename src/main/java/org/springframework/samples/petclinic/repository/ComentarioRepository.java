@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.Query;
@@ -15,7 +16,7 @@ public interface ComentarioRepository extends Repository<Comentario, Integer>{
 	
 	List<Comentario> findAll() throws DataAccessException;
 	
-	Comentario findById(int id) throws DataAccessException;
+	Optional<Comentario> findById(int id) throws DataAccessException;
 	
 	void deleteById(int id) throws DataAccessException;
 	
