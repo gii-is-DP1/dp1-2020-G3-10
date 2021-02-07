@@ -230,6 +230,7 @@ public class PedidoController {
             pedidoAntiguo.setFecha(LocalDate.now());
             pedidoAntiguo.setDireccionEnvio(pedido.getDireccionEnvio());
             try{
+            	mp.addAttribute("pedido", pedidoAntiguo);
                 pedidoService.completaPedido(pedidoAntiguo);
             }catch(Exception e) {
                 mp.addAttribute("message", e.getMessage());
