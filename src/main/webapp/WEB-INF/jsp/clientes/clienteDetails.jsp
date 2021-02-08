@@ -5,12 +5,15 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 	
 <petclinic:layout pageName="cliente">
 
     <h2>Perfil Usuario</h2>
 
-
+	<div><c:if test="${message}"> <c:out value="${message}"/> </c:if> </div>
+	
     <table class="table table-striped">
         <tr>
             <th>Nombre y Apellidos</th>
@@ -56,6 +59,12 @@
     </spring:url>
     <a href="${fn:escapeXml(listaReproductoresUrl)}" class="btn btn-default">Ver Reproductores</a>
 	</sec:authorize>
+	
+	<!-- Botón que permitirá al usuario eliminar su cuenta  -->
+    <spring:url value="/clientes/{clienteId}/delete" var="deleteUrl">
+        <spring:param name="clienteId" value="${cliente.id}"/>
+    </spring:url>
+    <a href="${fn:escapeXml(deleteUrl)}" class="btn btn-default" onclick="return confirm('¿Continuar?') ? true : false;">Eliminar Usuario</a>
 	
     <br/>
     <br/>

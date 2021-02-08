@@ -203,21 +203,6 @@ class ClienteServiceTests {
 
 	}
 
-	@Test //Un cliente no puedo modificar sus datos porque son inválidos
-	void testNegativoModificarCliente() {
-
-		Cliente cliente = creaClienteCorrecto();
-		this.clienteService.saveCliente(cliente);
-		assertThat(cliente.getId().longValue()).isNotEqualTo(0);
-		cliente.setDni("123456789Y");
-
-		assertThrows(javax.validation.ConstraintViolationException.class, () -> {
-			this.clienteService.saveCliente(cliente);
-		});
-		
-
-	}
-
 	@Test // Un nuevo cliente se elimina correctamente
 	void testPositivoEliminarCliente() {
 
