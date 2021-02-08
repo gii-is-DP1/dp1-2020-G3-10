@@ -28,6 +28,7 @@ import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.ClienteService;
+import org.springframework.samples.petclinic.service.PedidoService;
 import org.springframework.samples.petclinic.service.ReproductorService;
 import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
@@ -49,6 +50,11 @@ public class ClienteControllerTest {
 
 	@MockBean
 	private ReproductorService reproductorService;
+	
+
+	@MockBean
+	private PedidoService pedidoService;
+
 
 	@MockBean
 	private UserService userService;
