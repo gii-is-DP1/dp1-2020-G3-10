@@ -198,6 +198,7 @@ public class MerchandasingController {
 		Vendedor vendedor = this.vendedorService.findVendedorByUsername(username);
 		Collection<Merchandasing> merchandisings = vendedor.getMerchandasings();
 		List<Integer> idMerchPedidos = this.pedidoService.listaIdMerchandasingsComprados();
+		List<Comentario> comentarios = comentarioService.findComentariosByMerchandasingId(merchandasingId);
 
 		if (merchBorrar == null) {
 			modelMap.addAttribute("message", "El merchandising que se quiere borrar no existe.");
@@ -206,6 +207,11 @@ public class MerchandasingController {
 		} else if (idMerchPedidos.contains(merchandasingId)) {
 			modelMap.addAttribute("message", "El merchandising no puede borrarse porque esta en un pedido.");
 		} else {
+			if(!comentarios.isEmpty()) {
+				for(Comentario c: comentarios) {
+					comentarioService.deleteComment(c);
+				}
+			}
 			merchandisings.remove(merchBorrar);
 			this.vendedorService.save(vendedor);
 			this.merchandasingService.delete(merchBorrar);

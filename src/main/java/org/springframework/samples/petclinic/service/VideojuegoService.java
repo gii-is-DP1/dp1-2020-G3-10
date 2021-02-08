@@ -7,7 +7,9 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.model.Comentario;
 import org.springframework.samples.petclinic.model.Plataforma;
 import org.springframework.samples.petclinic.model.Videojuego;
 import org.springframework.samples.petclinic.repository.VideojuegoRepository;
@@ -22,6 +24,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class VideojuegoService {
 
 	private VideojuegoRepository videojuegoRepository;
+	
+	@Autowired
+	private ComentarioService comentarioService;
 
 	public VideojuegoService(VideojuegoRepository videojuegoRepository) {
 		this.videojuegoRepository = videojuegoRepository;
@@ -63,6 +68,12 @@ public class VideojuegoService {
 	@Transactional
 	public void delete(Videojuego v) throws DataAccessException {
 		Optional<Videojuego> videojuego = this.videojuegoRepository.findVideojuegoById(v.getId());
+		List<Comentario> comentarios = comentarioService.findComentariosByVideojuegoId(v.getId());
+		if(!comentarios.isEmpty()) {
+			for(Comentario c: comentarios) {
+				comentarioService.deleteComment(c);	
+			}
+		}
 		if(videojuego.isPresent()) {
 			videojuegoRepository.delete(v);
 		}else {
