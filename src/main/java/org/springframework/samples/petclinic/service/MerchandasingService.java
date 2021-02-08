@@ -9,6 +9,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.model.Comentario;
 import org.springframework.samples.petclinic.model.Merchandasing;
 import org.springframework.samples.petclinic.model.TipoMerchandasing;
 import org.springframework.samples.petclinic.repository.MerchandasingRepository;
@@ -20,6 +21,9 @@ public class MerchandasingService {
 
 	@Autowired
 	private MerchandasingRepository merchandasingRepository;
+	
+	@Autowired
+	private ComentarioService comentarioService;
 
 //	@Transactional
 //	public void saveMerchandasing(final Merchandasing merchandasing) throws DataAccessException {
@@ -76,6 +80,12 @@ public class MerchandasingService {
 
 	public void delete(Merchandasing m) {
 		Optional<Merchandasing> merch = this.merchandasingRepository.findById(m.getId());
+		List<Comentario> comentarios = comentarioService.findComentariosByMerchandasingId(m.getId());
+		if(!comentarios.isEmpty()) {
+			for(Comentario c: comentarios) {
+				comentarioService.deleteComment(c);	
+			}
+		}
 		if (merch.isPresent()) {
 			merchandasingRepository.delete(m);
 		}else {

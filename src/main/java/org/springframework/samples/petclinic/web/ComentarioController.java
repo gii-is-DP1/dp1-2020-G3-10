@@ -196,6 +196,10 @@ public class ComentarioController {
 	public String processCreationFormComentarioPelicula(@Valid Comentario comentario, BindingResult result, ModelMap model) {	
 		if (result.hasErrors()) {
 			System.out.println(result.getAllErrors());
+			Cliente cliente = clienteService.findClienteById(comentario.getCliente().getId());
+			Pelicula pelicula = peliculaService.findPeliculaById(comentario.getPelicula().getId());
+			comentario.setCliente(cliente);
+			comentario.setPelicula(pelicula);
 			model.addAttribute("comentario", comentario);
 			model.addAttribute("message", "El comentario no se ha podido crear");
 			return VIEWS_COMENTARIOS_CREATE_OR_UPDATE_FORM_P;
@@ -224,7 +228,7 @@ public class ComentarioController {
                     	model.addAttribute("message", "Comentario creado con exito");
                     	
                     
-                    return "redirect:/" ;
+                    return "redirect:/peliculas/" + pelicula.getId() ;
 		}
 	}
 	
@@ -232,6 +236,10 @@ public class ComentarioController {
 	public String processCreationFormComentarioVideojuego(@Valid Comentario comentario, BindingResult result, ModelMap model) {
 		if(result.hasErrors()) {
 			System.out.println(result.getAllErrors());
+			Cliente cliente = clienteService.findClienteById(comentario.getCliente().getId());
+			Videojuego videojuego = videojuegoService.findVideojuegoById(comentario.getVideojuego().getId());
+			comentario.setCliente(cliente);
+			comentario.setVideojuego(videojuego);
 			model.addAttribute("comentario", comentario);
 			model.addAttribute("message", "El comentario no se ha podido crear");
 			return VIEWS_COMENTARIOS_CREATE_OR_UPDATE_FORM_V;
@@ -257,13 +265,17 @@ public class ComentarioController {
             	model.addAttribute("comentarios", comentarios);
             	model.addAttribute("message", "Comentario creado con exito");
             	
-			return "redirect:/comentarios/" + cliente.getId();
+			return "redirect:/videojuegos/" + videojuego.getId();
 		}
 	}
 	
 	@PostMapping(value = "/merchandasing/{merchandasingId}/new")
 	public String processCreationFormComentarioMerchandasing(@Valid Comentario comentario , BindingResult result, ModelMap model) {
 		if(result.hasErrors()) {
+			Cliente cliente = clienteService.findClienteById(comentario.getCliente().getId());
+			Merchandasing merchandasing = merchandasingService.findMerchandasingById(comentario.getMerchandasing().getId());
+			comentario.setCliente(cliente);
+			comentario.setMerchandasing(merchandasing);
 			model.addAttribute("comentario", comentario);
 			model.addAttribute("message", "El comentario no se ha podido crear");
 			return VIEWS_COMENTARIOS_CREATE_OR_UPDATE_FORM_M;
@@ -288,7 +300,7 @@ public class ComentarioController {
 			model.addAttribute("comentarios", comentarios);
 			model.addAttribute("message", "Comentario creado con exito");
 			
-			return "redirect:/comentarios/" + cliente.getId();
+			return "redirect:/merchandasings/" + merchandasing.getId();
 		}
 	}
 	
@@ -310,6 +322,18 @@ public class ComentarioController {
 	@PostMapping(value = "/comentario/{comentarioId}/edit")
 	public String processUpdateFormComentario(@Valid Comentario comentario, BindingResult result, Cliente cliente,@PathVariable("comentarioId") int comentarioId, ModelMap model) {
 		if (result.hasErrors()) {
+			Cliente cliente2 = clienteService.findClienteById(comentario.getCliente().getId());
+			if(comentario.getPelicula()!=null) {
+				Pelicula pelicula = peliculaService.findPeliculaById(comentario.getPelicula().getId());
+				comentario.setPelicula(pelicula);
+			} else if(comentario.getVideojuego()!=null) {
+				Videojuego videojuego = videojuegoService.findVideojuegoById(comentario.getVideojuego().getId());
+				comentario.setVideojuego(videojuego);
+			} else {
+				Merchandasing merchandasing = merchandasingService.findMerchandasingById(comentario.getMerchandasing().getId());
+				comentario.setMerchandasing(merchandasing);
+			}
+			comentario.setCliente(cliente2);
 			model.put("comentario", comentario);
 			return VIEWS_COMENTARIOS_CREATE_OR_UPDATE_FORM_P;
 		}
