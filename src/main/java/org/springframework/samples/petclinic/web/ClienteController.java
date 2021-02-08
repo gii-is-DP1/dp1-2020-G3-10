@@ -152,6 +152,8 @@ public class ClienteController {
 
 		Cliente cliente = this.clienteService.findClienteById(clienteId);
 
+		System.out.println("=============================="+ cliente.getPedidos() + "==============================");
+		
 		if (cliente.getPedidos() != null && !this.carritoCancelado(cliente.getPedidos())) {
 
 			view = "/clientes/clienteDetails";
@@ -172,14 +174,6 @@ public class ClienteController {
 			//Si el cliente tiene comentarios posteados pasamos a eliminarlos
 			
 			cliente.getComentarios().stream().forEach(c -> this.comentarioService.deleteComentario(c.getId()));
-			
-//			List<Comentario> comentarios = this.comentarioService.findByClientId(cliente.getId());
-//			
-//			for(Comentario c : comentarios) {
-//				
-//				this.comentarioService.deleteComment(c);
-//				
-//			}
 			
 		}
 

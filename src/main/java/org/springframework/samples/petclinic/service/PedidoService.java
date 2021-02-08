@@ -210,8 +210,8 @@ public class PedidoService {
 
 		if (!pedido.isPresent()) {
 			throw new IllegalArgumentException("El pedido que quiere borrar no existe");
-		} else if (pedido.get().getEstado() != EstadoPedido.PENDIENTE) {
-			throw new IllegalArgumentException("El pedido ya ha sido enviado");
+		} else if (pedido.get().getEstado() == EstadoPedido.ENVIADO || pedido.get().getEstado() == EstadoPedido.ENTREGADO ) {
+			throw new IllegalArgumentException("No ha sido posible cancelar el pedido: El pedido ya ha sido enviado o entregado");
 		} else {
 			Integer clienteId = pedido.get().getCliente().getId();
 			Double precioPedido = pedido.get().getPrecioTotal();
