@@ -72,21 +72,20 @@ public class ClienteController{
 	}
 	
 	@PostMapping(value = "/clientes/new")
-	public String postFormularioCreacion(@Valid Cliente cliente, BindingResult result, ModelMap mp) {	
-		
+	public String postFormularioCreacion(@Valid final Cliente cliente, final BindingResult result, final ModelMap mp) {
+
 		if (result.hasErrors()) {
 			mp.addAttribute("cliente", cliente);
-			mp.addAttribute("message", "El cliente no se ha podido actualizar correctamente " + result);
-			return VIEWS_CLIENTE_CREATE_OR_UPDATE_FORM;
-		}
-		else {
+			mp.addAttribute("message", "El cliente no se ha podido crear correctamente ");
+			return ClienteController.VIEWS_CLIENTE_CREATE_OR_UPDATE_FORM;
+		} else {
 			//creating owner, user and authorities
 			this.clienteService.saveCliente(cliente);
 			this.userService.saveUser(cliente.getUser());
 			this.authoritiesService.saveAuthorities(cliente.getUser().getUsername(), "cliente");
 			mp.addAttribute("cliente", cliente);
 			mp.addAttribute("message", "Cliente creado satisfactoriamente");
-			return "redirect:/clientes/" + cliente.getId();
+			return "redirect:/login";
 		}
 	}
 	
@@ -147,6 +146,14 @@ public class ClienteController{
 			mp.addAttribute("cliente", cliente);
 			return view;
 		}
+		
+		if(!cliente.getReproductores().isEmpty()) {
+			
+			view = "/clientes/clienteDetails";
+			mp.addAttribute("message", "Un cliente no se puede eliminar mientras tenga reproductores, por favor, eliminelos");
+			mp.addAttribute("cliente", cliente);
+			return view;
+		}
 
 		if (!cliente.getPedidos().isEmpty()) {
 
@@ -160,14 +167,6 @@ public class ClienteController{
 			//Si el cliente tiene comentarios posteados pasamos a eliminarlos
 			
 			cliente.getComentarios().stream().forEach(c -> this.comentarioService.deleteComentario(c.getId()));
-			
-//			List<Comentario> comentarios = this.comentarioService.findByClientId(cliente.getId());
-//			
-//			for(Comentario c : comentarios) {
-//				
-//				this.comentarioService.deleteComment(c);
-//				
-//			}
 			
 		}
 

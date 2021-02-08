@@ -8,6 +8,9 @@
 <petclinic:layout pageName="home">
 	<h1>Bienvenido</h1>
 	</br>
+	
+	<div><c:if test="${message}"> <c:out value="${message}"/> </c:if> </div>
+	
 	<div class="row">
 			<h2>Proyecto Freak Tracker</h2>
 			<p>

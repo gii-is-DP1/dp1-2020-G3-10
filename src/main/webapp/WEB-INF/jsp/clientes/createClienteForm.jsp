@@ -5,7 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
-
+    
 <petclinic:layout pageName="clientes">
 
 	<jsp:attribute name="customScript">
@@ -21,11 +21,11 @@
     <h2>
         <c:if test="${cliente['new']}">Nuevo </c:if> Cliente
     </h2>
-    <form:form modelAttribute="cliente" class="form-horizontal" id="add-cliente-form">
+    <form:form modelAttribute="cliente" class="form-horizontal" id="add-cliente-form" onsubmit="return confirm('¿Continuar?') ? true : false;">
         <div class="form-group has-feedback">
         	<input type="hidden" name="admin" value="0"/>
         	<input type="hidden" name="cartera" value="0.0"/>
-            <petclinic:inputField label="DNI" name="dni" />
+            <petclinic:inputField label="DNI" name="dni"/>
             <petclinic:inputField label="Nombre" name="nombre"/>
             <petclinic:inputField label="Apellidos" name="apellidos"/>
             <petclinic:inputField label="Email" name="email"/>
@@ -39,13 +39,26 @@
             <petclinic:inputField label="Contraseña" name="user.password"/>
         </div>
         <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-            
-              	<button class="btn btn-default" type="submit">Nuevo Cliente</button>
-                    
+                <div class="col-sm-offset-2 col-sm-10">
+                    <c:choose>
+                        <c:when test="${cliente['new']}">
+                            <button class="btn btn-default" type="submit">Crea mi perfil!</button>
+                        </c:when>
+                        <c:otherwise>
+                            <button class="btn btn-default" type="submit">Actualiza mis datos!</button>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
             </div>
-        </div>
     </form:form>
     
     </jsp:body>
+    
 </petclinic:layout>
+
+<!-- Es necesario añadir un required a fechaNacimiento ya que NotNull por algún motivo no funciona 
+y si se deja en blanco no lo toma como un error de binding por lo que va a la página de error genérica-->
+	
+    <script>
+            $("#fechaNacimiento").attr('required', ''); 
+    </script>
