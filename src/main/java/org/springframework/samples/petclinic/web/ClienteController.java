@@ -10,11 +10,13 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Authorities;
 import org.springframework.samples.petclinic.model.Cliente;
+import org.springframework.samples.petclinic.model.Comentario;
 import org.springframework.samples.petclinic.model.Pedido;
 import org.springframework.samples.petclinic.model.Reproductor;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.ClienteService;
+import org.springframework.samples.petclinic.service.ComentarioService;
 import org.springframework.samples.petclinic.service.PedidoService;
 import org.springframework.samples.petclinic.service.ReproductorService;
 import org.springframework.samples.petclinic.service.UserService;
@@ -46,14 +48,16 @@ public class ClienteController {
 
 	private PedidoService			pedidoService;
 
-
+	private ComentarioService		comentarioService;
+	
 	@Autowired
-	public ClienteController(final ClienteService clienteService, final UserService userService, final AuthoritiesService authoritiesService, final ReproductorService reproductorService, final PedidoService pedidoService) {
+	public ClienteController(final ClienteService clienteService, final UserService userService, final AuthoritiesService authoritiesService, final ReproductorService reproductorService, final PedidoService pedidoService, final ComentarioService comentarioService) {
 		this.clienteService = clienteService;
 		this.userService = userService;
 		this.authoritiesService = authoritiesService;
 		this.reproductorService = reproductorService;
 		this.pedidoService = pedidoService;
+		this.comentarioService = comentarioService;
 	}
 
 	@InitBinder
@@ -161,6 +165,22 @@ public class ClienteController {
 			//Como se quedan los carritos cancelados debo eliminar dichos pedidos antes de eliminar el usuario
 			cliente.getPedidos().stream().forEach(p -> this.pedidoService.cancelaPedidoById(p.getId()));
 
+		}
+		
+		if(!cliente.getComentarios().isEmpty()) {
+			
+			//Si el cliente tiene comentarios posteados pasamos a eliminarlos
+			
+			cliente.getComentarios().stream().forEach(c -> this.comentarioService.deleteComentario(c.getId()));
+			
+//			List<Comentario> comentarios = this.comentarioService.findByClientId(cliente.getId());
+//			
+//			for(Comentario c : comentarios) {
+//				
+//				this.comentarioService.deleteComment(c);
+//				
+//			}
+			
 		}
 
 		this.clienteService.deleteCliente(cliente);
