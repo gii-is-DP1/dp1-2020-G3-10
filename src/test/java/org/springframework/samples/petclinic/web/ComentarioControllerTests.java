@@ -153,23 +153,15 @@ class ComentarioControllerTests {
 	@Test
 	void testDeleteComentario() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/comentarios/{clienteId}/comentario/{comentarioId}/delete", TEST_CLIENTE_ID, TEST_COMENTARIO_ID))
-				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
-				.andExpect(MockMvcResultMatchers.view().name("comentarios/comentariosList"));
+				.andExpect(MockMvcResultMatchers.status().is3xxRedirection());
 	}
 	
-	@WithMockUser(value = "spring")
-	@Test
-	void testInitCreationFormComentarioPelicula() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/comentarios/{clienteId}/pelicula/{peliculaId}/new", TEST_CLIENTE_ID, TEST_PELICULA_ID))
-				.andExpect(MockMvcResultMatchers.status().isOk())
-				.andExpect(MockMvcResultMatchers.view().name("comentarios/createOrUpdateComentarioForm")).andExpect(model().attributeExists("comentario"));
-	}
 	
 	@WithMockUser(value = "spring")
 	@Test
 	void testInitCreationFormComentarioVideojuego() throws Exception {
-		mockMvc.perform(get("/comentarios/{clienteId}/videojuego/{videojuegoId}/new", TEST_CLIENTE_ID, TEST_VIDEOJUEGO_ID)).andExpect(status().isOk())
-				.andExpect(view().name("comentarios/createOrUpdateComentarioFormVideojuego")).andExpect(model().attributeExists("comentario"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/comentarios/{clienteId}/videojuego/{videojuegoId}/new", TEST_CLIENTE_ID, TEST_VIDEOJUEGO_ID))
+				.andExpect(MockMvcResultMatchers.status().isOk());
 	}
 	
 	@WithMockUser(value = "spring")
