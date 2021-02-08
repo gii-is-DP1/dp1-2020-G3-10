@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/vendedores")
@@ -156,7 +157,7 @@ public class VendedorController {
 	}
 
 	@PostMapping(value = "/{vendedorId}/edit")
-	public String processUpdateVendedorForm(@Valid final Vendedor vendedor, final BindingResult result, @PathVariable("vendedorId") final int vendedorId, final ModelMap mp) {
+	public String processUpdateVendedorForm(@Valid final Vendedor vendedor, final BindingResult result, @PathVariable("vendedorId") final int vendedorId, final ModelMap mp, @RequestParam(value = "version", required = false) final Integer version) {
 
 		System.out.print("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee    edit ");
 
@@ -167,15 +168,34 @@ public class VendedorController {
 			return VendedorController.VIEWS_VENDEDOR_CREATE_OR_UPDATE_FORM;
 		} else {
 
-			System.out.print("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee    2 ");
+			System.out.println("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee    2 ");
+
+			System.out.println("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee    version " + version);
 
 			vendedor.setId(vendedorId);
 
-			System.out.print("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee    2,5 ");
+			//Cosas de versiones
+
+			Integer version2 = vendedor.getVersion();
+
+			if (version2 != version) {
+				mp.addAttribute("message", "Se esta produciendo un cambio actualmente, pruebe de nuevo");
+				return VendedorController.VIEWS_VENDEDOR_CREATE_OR_UPDATE_FORM;
+			}
+
+			if (version2 == null) {
+				version2 = 0;
+			}
+
+			vendedor.setVersion(version2 + 1);
+
+			//----------------------
+
+			System.out.println("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee    2,5 ");
 
 			this.vendedorService.save(vendedor);
 
-			System.out.print("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee    3 ");
+			System.out.println("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee    3 ");
 
 			return "redirect:/vendedores/{vendedorId}";
 		}

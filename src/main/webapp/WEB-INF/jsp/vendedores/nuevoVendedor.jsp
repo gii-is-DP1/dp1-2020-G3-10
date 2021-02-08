@@ -32,6 +32,7 @@
 				<div class="col-sm-offset-2 col-sm-10">
 			
                     <input type="hidden" name="vendedorId" value="${vendedor.id}"/>
+                    <input type="hidden" name="version" value="${vendedor.version}"/>
                     <button class="btn btn-default" type="submit">Add Vendedor</button>
                 </div>
 						
