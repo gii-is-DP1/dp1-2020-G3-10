@@ -14,6 +14,7 @@ import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.EstadoPedido;
 import org.springframework.samples.petclinic.model.Pedido;
 import org.springframework.samples.petclinic.model.Producto;
+import org.springframework.samples.petclinic.repository.PedidoRepository;
 import org.springframework.samples.petclinic.service.MerchandasingService;
 import org.springframework.samples.petclinic.service.PedidoService;
 import org.springframework.samples.petclinic.service.PeliculaService;
@@ -84,38 +85,67 @@ public class PedidoController {
 		return vista;
 	}
 	
-	/*    NO SE USA
+	@GetMapping(path = "/detalles/{pedidoId}")
+	public String mostrarDetallesPedido(@PathVariable("pedidoId") final int pedidoId, final ModelMap modelMap) {
 
-	@GetMapping(path = "/new")
-	public String crearPedido(final ModelMap modelMap) {
+		String vista = "pedidos/pedidoDetails";
 
-		String vista = "pedidos/editPedido";
-
-		Pedido pedido = new Pedido();
-		pedido.setEstado(EstadoPedido.CARRITO);
-
-		modelMap.addAttribute("pedido", new Pedido());
-
-		return vista;
-
-	}
-
-	@PostMapping(path = "/save")
-	public String salvarPedido(@Valid final Pedido pedido, final BindingResult result, final ModelMap modelMap) {
-		String vista = "pedidos/listadoPedidos";
-		if (result.hasErrors()) {
+		try {
+			Pedido pedido = pedidoService.findPedidoById(pedidoId);
 			modelMap.addAttribute("pedido", pedido);
-			return "pedidos/editPedido";
-		} else {
-
-			// modelMap.addAttribute("message", "Pedido guardado"); do correctamente");
-			vista = this.listadoPedidos(modelMap);
+		} catch (Exception e) {
+			modelMap.addAttribute("message", "Error al mostrar los detalles del pedido.");
+			vista = "reedirect:/";
 		}
 
 		return vista;
 	}
 	
-	*/
+	@GetMapping(path = "/vendedor")
+	public String listadoPedidosVendedor(final ModelMap modelMap) {
+		String vista = "pedidos/listadoPedidos";
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+
+		String username = userDetail.getUsername();
+
+		Collection<Pedido> pedidos = pedidoService.findPedidosVendedor(username);
+
+		modelMap.addAttribute("pedidos", pedidos);
+
+		return vista;
+	}
+	
+	@GetMapping(path = "/enviado/{pedidoId}")
+	public String marcarPedidoEnviado(@PathVariable("pedidoId") final int pedidoId, final ModelMap modelMap) {
+
+		String vista = "redirect:/pedidos/detalles/" + String.valueOf(pedidoId);
+
+		try {
+			Pedido pedido = pedidoService.findPedidoById(pedidoId);
+			pedidoService.pedidoEnviado(pedido);
+		} catch (Exception e) {
+			modelMap.addAttribute("message", "Error al marcar como enviado.");
+		}
+
+		return vista;
+	}
+	
+	@GetMapping(path = "/entregado/{pedidoId}")
+	public String marcarPedidoEntregado(@PathVariable("pedidoId") final int pedidoId, final ModelMap modelMap) {
+
+		String vista = "redirect:/pedidos/detalles/" + String.valueOf(pedidoId);
+
+		try {
+			Pedido pedido = pedidoService.findPedidoById(pedidoId);
+			pedidoService.pedidoEntregado(pedido);
+		} catch (Exception e) {
+			modelMap.addAttribute("message", "Error al marcar como entregado.");
+		}
+
+		return vista;
+	}
 
 	@GetMapping(path = "/delete/{pedidoId}")
 	public String borrarPedido(@PathVariable("pedidoId") final int pedidoId, final ModelMap modelMap) {

@@ -15,7 +15,8 @@
 				<th style="width: 20%;">Precio Total</th>
 				<th style="width: 20%;">Fecha</th>
 				<th style="width: 20%;">Dirección</th>
-				<th style="width: 20%;"></th>
+				<th style="width: 10%;"></th>
+				<th style="width: 10%;"></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -27,14 +28,23 @@
 					<td><c:out value="${pedido.fecha}" /></td>
 					<td><c:out value="${pedido.direccionEnvio}" /></td>
 					
-					<td><c:if test="${pedido.estado != 'ENVIADO'}">
+					<td>
+						<spring:url value="/pedidos/detalles/{pedidoId}" var="pedidoDetallesUrl">
+								<spring:param name="pedidoId" value="${pedido.id}" />
+						</spring:url>
+						<a href="${fn:escapeXml(pedidoDetallesUrl)}">Detalles</a>
+						</td>
+					
+					<td><c:if test="${pedido.estado == 'PENDIENTE'}">
 							<spring:url value="/pedidos/cancelarPedido/{pedidoId}"
 								var="pedidoUrl">
 								<spring:param name="pedidoId" value="${pedido.id}" />
 							</spring:url>
 							<a href="${fn:escapeXml(pedidoUrl)}">Cancelar</a>
+							
 
 						</c:if></td>
+						
 
 				</tr>
 

@@ -69,7 +69,7 @@
 					<li><a href="<c:url value="/pedidos/mostrarCarrito" />">Carrito</a></li>
 					</sec:authorize>
 					<sec:authorize access="hasAuthority('vendedor')">
-					<li><a href="<c:url value="/pedidos" />">Mis Pedidos</a></li>
+					<li><a href="<c:url value="/pedidos/vendedor" />">Mis Pedidos</a></li>
 					<li><a href="<c:url value="/vendedores/productos" />">Mis Productos</a></li>
 					</sec:authorize>
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
