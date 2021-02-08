@@ -45,10 +45,44 @@
 						<spring:param name="tipo" value="${'VIDEOJUEGO'}" />
 					</spring:url> <a href="${fn:escapeXml(carritoUrl)}" class="btn btn-default">Insertar
 						al carrito</a>
+						
+					<spring:url value="/comentarios/{clienteId}/videojuego/{videojuegoId}/new" var="createUrl">
+					<spring:param name="videojuegoId" value="${videojuego.id}" />
+					<spring:param name="clienteId" value="${cliente.id}"/>
+				</spring:url>
+				<a href="${fn:escapeXml(createUrl)}" class="btn btn-default">Añadir comentario</a>
 				</sec:authorize>
 				</td>
 			</tr>
 		</tbody>
 	</table>
+	
+	
+	<table id="commentsTable" class="table table-striped">
+        <thead>
+        <tr>
+            <th style="width: 150px;">Titulo</th>
+            <th style="width: 200px;">Texto</th>
+            <th style="width: 120px">Autor</th>
+  
+        </tr>
+        </thead>
+        <tbody>
+      		  <c:forEach items="${comentarios}" var="comentario">
+            <tr>
+                <td>
+                    <c:out value="${comentario.titulo}"/>
+                </td>
+                <td>
+                    <c:out value="${comentario.texto}"/>
+                </td>
+                <td>
+                    <c:out value="${comentario.cliente.email}"/>
+                </td>
+               
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
 
 </petclinic:layout>

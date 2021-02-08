@@ -8,12 +8,18 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Cliente;
+import org.springframework.samples.petclinic.model.Comentario;
 import org.springframework.samples.petclinic.model.Merchandasing;
 import org.springframework.samples.petclinic.model.Pelicula;
+import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.Vendedor;
 import org.springframework.samples.petclinic.model.Videojuego;
+import org.springframework.samples.petclinic.service.ClienteService;
+import org.springframework.samples.petclinic.service.ComentarioService;
 import org.springframework.samples.petclinic.service.MerchandasingService;
 import org.springframework.samples.petclinic.service.PedidoService;
+import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.samples.petclinic.service.VendedorService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -38,6 +44,15 @@ public class MerchandasingController {
 
 	@Autowired
 	private final VendedorService vendedorService;
+	
+	@Autowired
+	private final UserService userService;
+	
+	@Autowired
+	private final ClienteService clienteService;
+	
+	@Autowired
+	private final ComentarioService comentarioService;
 
 	@InitBinder
 	public void setAllowedFields(WebDataBinder dataBinder) {
@@ -46,10 +61,13 @@ public class MerchandasingController {
 
 	@Autowired
 	public MerchandasingController(final MerchandasingService merchandasingService, VendedorService vendedorService,
-			PedidoService pedidoService) {
+			PedidoService pedidoService, UserService userService, ClienteService clienteService, ComentarioService comentarioService) {
 		this.merchandasingService = merchandasingService;
 		this.vendedorService = vendedorService;
 		this.pedidoService = pedidoService;
+		this.userService = userService;
+		this.clienteService = clienteService;
+		this.comentarioService = comentarioService;
 
 	}
 
@@ -71,8 +89,26 @@ public class MerchandasingController {
 
 	@GetMapping("/merchandasings/{merchandasingId}")
 	public String showMerchandasing(@PathVariable("merchandasingId") int merchandasingId, Map<String, Object> model) {
-		Merchandasing merchandasing = this.merchandasingService.findMerchandasingById(merchandasingId);
-		model.put("merchandasing", merchandasing);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
+		if(auth.getPrincipal() == "anonymousUser") {
+			Merchandasing merchandasing = this.merchandasingService.findMerchandasingById(merchandasingId);
+			List<Comentario> comentarios = comentarioService.findComentariosByMerchandasingId(merchandasing.getId());
+			model.put("comentarios", comentarios);
+			model.put("merchandasing", merchandasing);
+		} else {
+			UserDetails userDetails = (UserDetails) auth.getPrincipal();
+			User usuario = this.userService.findUser(userDetails.getUsername()).get();
+			Cliente cliente = clienteService.findClienteByUserName(usuario.getUsername());
+			
+			Merchandasing merchandasing = this.merchandasingService.findMerchandasingById(merchandasingId);
+			List<Comentario> comentarios = comentarioService.findComentariosByMerchandasingId(merchandasing.getId());
+			model.put("merchandasing", merchandasing);
+			model.put("cliente", cliente);
+			model.put("comentarios", comentarios);
+			
+		}
+		
 		return "/merchandasings/merchandasingDetails";
 	}
 

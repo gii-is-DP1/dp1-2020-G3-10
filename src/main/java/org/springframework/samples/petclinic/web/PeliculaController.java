@@ -9,14 +9,20 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Cliente;
+import org.springframework.samples.petclinic.model.Comentario;
 import org.springframework.samples.petclinic.model.Merchandasing;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pelicula;
+import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.Vendedor;
 import org.springframework.samples.petclinic.model.Videojuego;
+import org.springframework.samples.petclinic.service.ClienteService;
+import org.springframework.samples.petclinic.service.ComentarioService;
 import org.springframework.samples.petclinic.service.PedidoService;
 import org.springframework.samples.petclinic.service.PeliculaService;
 import org.springframework.samples.petclinic.service.ProductoService;
+import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.samples.petclinic.service.VendedorService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -52,6 +58,15 @@ public class PeliculaController {
 
 	@Autowired
 	private final VendedorService vendedorService;
+	
+	@Autowired
+	private final UserService userService;
+	
+	@Autowired
+	private final ClienteService clienteService;
+	
+	@Autowired
+	private final ComentarioService comentarioService;
 
 	@InitBinder
 	public void setAllowedFields(WebDataBinder dataBinder) {
@@ -60,11 +75,14 @@ public class PeliculaController {
 
 	@Autowired
 	public PeliculaController(final PeliculaService peliculaService, final ProductoService productoService,
-			final PedidoService pedidoService, final VendedorService vendedorService) {
+			final PedidoService pedidoService, final VendedorService vendedorService, final UserService userService, final ClienteService clienteService, final ComentarioService comentarioService) {
 		this.peliculaService = peliculaService;
 		this.productoService = productoService;
 		this.pedidoService = pedidoService;
 		this.vendedorService = vendedorService;
+		this.userService = userService;
+		this.clienteService = clienteService;
+		this.comentarioService = comentarioService;
 
 	}
 
@@ -85,8 +103,25 @@ public class PeliculaController {
 	
 	@GetMapping("/peliculas/{peliculaId}")
 	public String showPelicula(@PathVariable("peliculaId") int peliculaId, Map<String, Object> model) {
-		Pelicula pelicula = this.peliculaService.findPeliculaById(peliculaId);
-		model.put("pelicula", pelicula);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
+		if(auth.getPrincipal() == "anonymousUser") {
+			Pelicula pelicula = this.peliculaService.findPeliculaById(peliculaId);
+			List<Comentario> comentarios = comentarioService.findComentariosByPeliculaId(pelicula.getId());
+			model.put("comentarios", comentarios);
+			model.put("pelicula", pelicula);
+		} else {
+			UserDetails userDetails = (UserDetails) auth.getPrincipal();
+			User usuario = this.userService.findUser(userDetails.getUsername()).get();
+			Cliente cliente = clienteService.findClienteByUserName(usuario.getUsername());
+			
+			Pelicula pelicula = this.peliculaService.findPeliculaById(peliculaId);
+			List<Comentario> comentarios = comentarioService.findComentariosByPeliculaId(pelicula.getId());
+			model.put("pelicula", pelicula);
+			model.put("cliente", cliente);
+			model.put("comentarios", comentarios);
+			
+		}
 		return "/peliculas/peliculaDetails";
 	}
 	
@@ -179,6 +214,7 @@ public class PeliculaController {
 		Vendedor vendedor = this.vendedorService.findVendedorByUsername(username);
 		Collection<Pelicula> peliculas = vendedor.getPeliculas();
 		List<Integer> idPeliculasPedidos = pedidoService.listaIdPeliculasCompradas();
+		List<Comentario> comentarios = comentarioService.findComentariosByPeliculaId(peliculaId);
 		
 		if(peliculaBorrar == null) {
 			modelMap.addAttribute("message", "La pelicula que se quiere borrar no existe.");
@@ -187,6 +223,12 @@ public class PeliculaController {
 		}else if(idPeliculasPedidos.contains(peliculaId)) {
 			modelMap.addAttribute("message", "La pelicula no puede borrarse porque esta en un pedido.");
 		}else {
+			if(!comentarios.isEmpty()) {
+				for(Comentario c: comentarios) {
+					comentarioService.deleteComment(c);
+				}
+				this.peliculaService.savePelicula(peliculaBorrar);
+			}
 			peliculas.remove(peliculaBorrar);
 			this.vendedorService.save(vendedor);
 			this.peliculaService.delete(peliculaBorrar);

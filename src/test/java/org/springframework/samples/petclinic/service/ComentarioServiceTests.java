@@ -2,14 +2,17 @@ package org.springframework.samples.petclinic.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Comentario;
 import org.springframework.samples.petclinic.model.Formato;
@@ -30,11 +33,75 @@ public class ComentarioServiceTests {
 	
 	@Test
 	void findComentariosByClientId() {
-		List<Comentario> comentarios =  this.comentarioService.findByClientId(1);
-		Integer tamaño = comentarios.size();
-		Comentario c = comentarios.get(0);
-		comentarios.remove(c);
-		assertThat(comentarios.size()==tamaño-1);
+		List<Comentario> comentariosCliente =  this.comentarioService.findByClientId(1);
+		List<Comentario> comentarios = this.comentarioService.findAll();
+		List<Comentario> aux = new ArrayList<>();
+		for(Comentario c: comentarios) {
+			if(c.getCliente().getId()==1) {
+				aux.add(c);
+			}
+		}
+		assertThat(comentariosCliente.size()).isEqualTo(aux.size());
+	}
+	
+	
+	@Test
+	void findComentarioByIdSuccess() {
+		Comentario comentario = this.comentarioService.findCommentById(1);
+		List<Comentario> comentarios = this.comentarioService.findAll();
+		assertThat(comentario).isEqualTo(comentarios.get(0));
+	}
+	
+	@Test
+	void findComentarioByIdNoSuccess() {
+		Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			comentarioService.findCommentById(1000);
+		});
+	}
+	
+	@Test
+	void findComentariosByPeliculaId() {
+		List<Comentario> comentarios = this.comentarioService.findAll();
+		List<Comentario> comentariosPelicula = this.comentarioService.findComentariosByPeliculaId(1);
+		List<Comentario> aux = new ArrayList<>();
+		if(!comentarios.isEmpty()) {
+			for(Comentario c: comentarios) {
+				if(c.getPelicula()!=null && c.getPelicula().getId()==1) {
+					aux.add(c);
+				}
+			}
+			}
+		assertThat(comentariosPelicula.size()).isEqualTo(aux.size());
+	}
+	
+	@Test
+	void findComentariosByVideojuegoId() {
+		List<Comentario> comentarios = this.comentarioService.findAll();
+		List<Comentario> comentariosVideojuego = this.comentarioService.findComentariosByVideojuegoId(1);
+		List<Comentario> aux = new ArrayList<>();
+		if(!comentarios.isEmpty()) {
+			for(Comentario c: comentarios) {
+				if(c.getVideojuego()!=null && c.getVideojuego().getId()==1) {
+					aux.add(c);
+				}
+			}
+			}
+		assertThat(comentariosVideojuego.size()).isEqualTo(aux.size());
+	}
+	
+	@Test
+	void findComentariosByMerchandasingId() {
+		List<Comentario> comentarios = this.comentarioService.findAll();
+		List<Comentario> comentariosMerchandasing = this.comentarioService.findComentariosByMerchandasingId(1);
+		List<Comentario> aux = new ArrayList<>();
+		if(!comentarios.isEmpty()) {
+		for(Comentario c: comentarios) {
+			if(c.getMerchandasing()!=null && c.getMerchandasing().getId()==1) {
+				aux.add(c);
+			}
+		}
+		}
+		assertThat(comentariosMerchandasing.size()).isEqualTo(aux.size());
 	}
 	
 	@Test
@@ -51,10 +118,9 @@ public class ComentarioServiceTests {
 		pelicula.addComment(comentario);
 		cliente.addComment(comentario);
 		
-		this.clienteService.saveCliente(cliente);
-		this.peliculaService.savePelicula(pelicula);
 		this.comentarioService.saveComment(comentario);
-		assertThat(comentario.getId()!=null && comentario.getId()!=0);
+		List<Comentario> comentarios = this.comentarioService.findAll();
+		assertThat(comentarios.get(comentarios.size()-1)).isEqualTo(comentario);
 		
 	}
 	
@@ -70,15 +136,25 @@ public class ComentarioServiceTests {
 		
 	}
 	
+	
 	@Test
-	@Transactional
-	public void shouldDeleteComentario() {
-		Comentario comentario = comentarioService.findCommentById(1);
-		Integer size = comentarioService.findAll().size();
+	void deleteComentarioSuccess() {
 		
-		comentarioService.deleteComment(comentario);
+		List<Comentario> comentarios = this.comentarioService.findAll();
+		Comentario c = this.comentarioService.findCommentById(1);
 		
-		Integer newSize = comentarioService.findAll().size();
-		assertThat((size != newSize) && comentarioService.findCommentById(1)==null);
+		Assertions.assertTrue(comentarios.contains(c));
+		comentarios.remove(c);
+		Assertions.assertTrue(!comentarios.contains(c));
+		this.comentarioService.deleteComment(c);
+		List<Comentario> comentarios2 = this.comentarioService.findAll();
+		Assertions.assertTrue(!comentarios2.contains(c));
+	}
+	
+	@Test
+	void deleteComentarioNoSuccess() {
+		Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			comentarioService.deleteComentario(1000);
+		});
 	}
 }
