@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.web;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -37,6 +38,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -65,6 +67,8 @@ class PedidoControllerTests {
 	private static final int TEST_PEDIDO_ID_3 = 3;
 	private static final int TEST_PEDIDO_ID_4 = 4;
 	private static final int TEST_PEDIDO_ID_5 = 5;
+	private static final int TEST_PEDIDO_ID_6 = 6;
+	private static final int TEST_PEDIDO_ID_7 = 7;
 
 	@Autowired
 	private PedidoController pedidoController;
@@ -102,8 +106,11 @@ class PedidoControllerTests {
 	private Pedido pedido3;
 	private Pedido pedido4;
 	private Pedido pedido5;
+	private Pedido pedido6;
+	private Pedido pedido7;
 
 	private Pelicula pelicula;
+	private Pelicula pelicula2;
 	
 	private Videojuego videojuego;
 	
@@ -143,7 +150,7 @@ class PedidoControllerTests {
 		
 		user2 = new User();
 		user2.setUsername(TEST_USER_ID_USERNAME_2);
-		user2.setPassword("usuario1");
+		user2.setPassword("usuarioSinCarrito");
 		user2.setEnabled(true);
 		
 		authorities2 = new Authorities();
@@ -151,22 +158,22 @@ class PedidoControllerTests {
 		authorities2.setUser(user2);
 		authorities2.setAuthority("cliente");
 		
-		cliente1 = new Cliente();
-		cliente1.setId(TEST_CLIENTE_ID_1);
-		cliente1.setCartera(1000.0);
-		cliente1.setUser(user2);
-		cliente1.setDni("12345612Y");
-		cliente1.setCodigoPostal("41980");
-		cliente1.setComentarios(null);
-		cliente1.setApellidos("Apellido1");
-		cliente1.setNombre("NombrePrueba");
-		cliente1.setCiudad("Sevilla");
-		cliente1.setFechaNacimiento(LocalDate.of(1998, 5, 20));
-		cliente1.setEmail("email@email.es");
-		cliente1.setDireccion("Direccion 1");
-		cliente1.setTelefono("123456789");
-		cliente1.setReproductores(null);
-		cliente1.setTarjetaCredito("1212 2323 3434 5566");
+		cliente2 = new Cliente();
+		cliente2.setId(TEST_CLIENTE_ID_1);
+		cliente2.setCartera(1000.0);
+		cliente2.setUser(user2);
+		cliente2.setDni("12345632Y");
+		cliente2.setCodigoPostal("41180");
+		cliente2.setComentarios(null);
+		cliente2.setApellidos("ApellidoCliente2");
+		cliente2.setNombre("NombrePrueba1");
+		cliente2.setCiudad("Sevilla");
+		cliente2.setFechaNacimiento(LocalDate.of(1998, 5, 20));
+		cliente2.setEmail("email@email.es");
+		cliente2.setDireccion("Direccion Prueba 2");
+		cliente2.setTelefono("123456789");
+		cliente2.setReproductores(null);
+		cliente2.setTarjetaCredito("1212232334345566");
 		
 		
 
@@ -183,6 +190,19 @@ class PedidoControllerTests {
 		pelicula.setImagen("https://static.filmin.es/images/media/23729/2/poster_0_3_720x0.webp");
 		pelicula.setDescripcion("Ganadora del Premio del Público Joven de los Premios EFA, una historia vitalista y con carisma sobre una joven luchadora de kickboxing.");
 		pelicula.setFechaSalida(LocalDate.now());
+		
+		pelicula2 = new Pelicula();
+		pelicula2.setId(TEST_PELICULA_ID_2);
+		pelicula2.setNombre("pelicula2");
+		pelicula2.setPrecio(12.50);
+		pelicula2.setAgno(2023);
+		pelicula2.setDirector("director2");
+		pelicula2.setDuracion(2.6);
+		pelicula2.setEdicion(2);
+		pelicula2.setFormato(Formato.DVD);
+		pelicula2.setImagen("https://static.filmin.es/images/media/23729/2/poster_0_3_720x0.webp");
+		pelicula2.setDescripcion("DescPrueba");
+		pelicula2.setFechaSalida(LocalDate.now());
 		
 		
 		
@@ -242,10 +262,40 @@ class PedidoControllerTests {
 		pedido5.setPeliculas(null);
 		pedido5.setVideojuegos(null);
 		
+		
+		
+		pedido6 = new Pedido();
+		pedido6.setId(TEST_PEDIDO_ID_6);
+		pedido6.setDireccionEnvio("Direccion Prueba Numero 6");
+		pedido6.setEstado(EstadoPedido.PENDIENTE);
+		pedido6.setPrecioTotal(150.0);
+		pedido6.setFecha(LocalDate.of(2019, 12, 15));
+		pedido6.setCliente(cliente2);
+		pedido6.setMerchandasings(null);
+		pedido6.setPeliculas(null);
+		pedido6.setVideojuegos(null);
+		
+		pedido7 = new Pedido();
+		pedido7.setId(TEST_PEDIDO_ID_7);
+		pedido7.setDireccionEnvio("Direccion Prueba Numero 7");
+		pedido7.setEstado(EstadoPedido.ENTREGADO);
+		pedido7.setPrecioTotal(150.0);
+		pedido7.setFecha(LocalDate.of(2019, 12, 15));
+		pedido7.setCliente(cliente2);
+		pedido7.setMerchandasings(null);
+		pedido7.setPeliculas(null);
+		pedido7.setVideojuegos(null);
+		
+		
 		List<Pedido> listaPedidosCliente = new ArrayList<>();
 		listaPedidosCliente.add(pedido1);
 		listaPedidosCliente.add(pedido2);
 		given(this.pedidoService.findPedidosCliente(TEST_USER_ID_USERNAME_1)).willReturn(listaPedidosCliente);
+		
+		given(pedidoService.carritoContieneProducto(TEST_PELICULA_ID_1, "usuario1", "PELICULA")).willReturn(true);
+		given(pedidoService.carritoContieneProducto(TEST_PELICULA_ID_2, "usuario1", "PELICULA")).willReturn(false);
+		
+		
 
 	}
 
@@ -261,36 +311,42 @@ class PedidoControllerTests {
 	@WithMockUser(value = "usuario1")
 	@Test
 	void mostrarCarritoSuccess() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/pedidos/cliente"))
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/mostrarCarrito"))
 				.andExpect(MockMvcResultMatchers.status().isOk())
-				.andExpect(MockMvcResultMatchers.view().name("pedidos/listadoPedidos"));
+				.andExpect(MockMvcResultMatchers.view().name("/pedidos/mostrarCarrito"));
 
 	}
 	
 	@WithMockUser(value = "usuario1")
 	@Test
-	void añadirACarritoExistenteSuccess() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/pedidos/cliente"))
+	void añadirACarritoSuccess() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/addCarrito/{productoId}/{tipo}",TEST_PELICULA_ID_1,"PELICULA"))
 				.andExpect(MockMvcResultMatchers.status().isOk())
-				.andExpect(MockMvcResultMatchers.view().name("pedidos/listadoPedidos"));
-
-	}
-	
-	@WithMockUser(value = "usuarioSinCarrito")
-	@Test
-	void añadirACarritoNuevoSuccess() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/pedidos/cliente"))
-				.andExpect(MockMvcResultMatchers.status().isOk())
-				.andExpect(MockMvcResultMatchers.view().name("pedidos/listadoPedidos"));
-
+				.andExpect(MockMvcResultMatchers.view().name("redirect:/pedidos/mostrarCarrito"));
 	}
 	
 	@WithMockUser(value = "usuario1")
 	@Test
 	void eliminaProductoCarritoSuccess() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/pedidos/cliente"))
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/eliminaProductoCarrito/{pedidoId}/{productoId}/{tipo}",TEST_PEDIDO_ID_1,TEST_PELICULA_ID_1,"PELICULA"))
 				.andExpect(MockMvcResultMatchers.status().isOk())
 				.andExpect(MockMvcResultMatchers.view().name("pedidos/listadoPedidos"));
+	}
+	
+	@WithMockUser(value = "usuario1")
+	@Test
+	void finalizarCarritoFormSuccess() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/pagar"))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.view().name("/pedidos/pedidoCompletado"));
+	}
+	
+	@WithMockUser(value = "usuario1")
+	@Test
+	void finalizarCarritoSuccess() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/{pedidoId}/pagar",TEST_PEDIDO_ID_2))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.view().name("/pedidos/finalizarCarrito"));
 	}
 	
 	@WithMockUser(value = "usuario1")

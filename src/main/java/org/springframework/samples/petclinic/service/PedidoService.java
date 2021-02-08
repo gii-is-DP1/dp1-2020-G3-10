@@ -13,11 +13,13 @@ import org.springframework.samples.petclinic.model.Merchandasing;
 import org.springframework.samples.petclinic.model.Pedido;
 import org.springframework.samples.petclinic.model.Pelicula;
 import org.springframework.samples.petclinic.model.Producto;
+import org.springframework.samples.petclinic.model.Vendedor;
 import org.springframework.samples.petclinic.model.Videojuego;
 import org.springframework.samples.petclinic.repository.ClienteRepository;
 import org.springframework.samples.petclinic.repository.MerchandasingRepository;
 import org.springframework.samples.petclinic.repository.PedidoRepository;
 import org.springframework.samples.petclinic.repository.PeliculaRepository;
+import org.springframework.samples.petclinic.repository.VendedorRepository;
 import org.springframework.samples.petclinic.repository.VideojuegoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +37,8 @@ public class PedidoService {
 	private MerchandasingService merchandasingService;
 	@Autowired
 	private ClienteRepository clienteRepository;
+	@Autowired
+	private VendedorRepository vendedorRepository;
 
 	@Transactional
 	public int conteoPedido() {
@@ -45,6 +49,26 @@ public class PedidoService {
 	@Transactional
 	public Iterable<Pedido> findAll() {
 		return this.pedidoRepository.findAll();
+	}
+	
+	@Transactional
+	public void pedidoEnviado(Pedido pedido) {
+		if(pedido.getEstado() == EstadoPedido.PENDIENTE) {
+			pedido.setEstado(EstadoPedido.ENVIADO);
+			pedidoRepository.save(pedido);
+		}else {
+			throw new IllegalArgumentException("El pedido no esta pendiente");
+		}
+	}
+	
+	@Transactional
+	public void pedidoEntregado(Pedido pedido) {
+		if(pedido.getEstado() == EstadoPedido.ENVIADO) {
+			pedido.setEstado(EstadoPedido.ENTREGADO);
+			pedidoRepository.save(pedido);
+		}else {
+			throw new IllegalArgumentException("El pedido esta enviado");
+		}
 	}
 
 	@Transactional
@@ -58,6 +82,49 @@ public class PedidoService {
 			}
 		}
 		return pedidos;
+	}
+
+	@Transactional
+	public List<Pedido> findPedidosVendedor(String username) {
+		Vendedor vendedor = vendedorRepository.findByUsername(username);
+		List<Pedido> pedidosVendedor = new ArrayList<>();
+
+		Collection<Pelicula> peliculasVendedor = vendedor.getPeliculas();
+		Collection<Videojuego> videojuegosVendedor = vendedor.getVideojuegos();
+		Collection<Merchandasing> merchanVendedor = vendedor.getMerchandasings();
+
+		for (Pedido p : pedidoRepository.findAll()) {
+			if (!pedidosVendedor.contains(p)) {
+				for (Pelicula pe : peliculasVendedor) {
+					if (p.getPeliculas().contains(pe)) {
+						pedidosVendedor.add(p);
+						break;
+					}
+					break;
+				}
+			}
+			if (!pedidosVendedor.contains(p)) {
+					for (Videojuego v : videojuegosVendedor) {
+						if (p.getVideojuegos().contains(v)) {
+							pedidosVendedor.add(p);
+							break;
+						}
+						break;
+					}
+			}
+			
+				if (!pedidosVendedor.contains(p)) {
+					for (Merchandasing m : merchanVendedor) {
+						if (p.getMerchandasings().contains(m)) {
+							pedidosVendedor.add(p);
+							break;
+						}
+						break;
+					}
+			}
+		}
+		
+		return pedidosVendedor;
 	}
 
 	@Transactional
@@ -135,29 +202,29 @@ public class PedidoService {
 		}
 
 	}
-	
+
 	@Transactional
 	public void cancelaPedidoById(int id) {
-		
+
 		Optional<Pedido> pedido = this.pedidoRepository.findById(id);
 
 		if (!pedido.isPresent()) {
 			throw new IllegalArgumentException("El pedido que quiere borrar no existe");
-		} else if(pedido.get().getEstado() == EstadoPedido.ENVIADO){
+		} else if (pedido.get().getEstado() != EstadoPedido.PENDIENTE) {
 			throw new IllegalArgumentException("El pedido ya ha sido enviado");
 		} else {
 			Integer clienteId = pedido.get().getCliente().getId();
 			Double precioPedido = pedido.get().getPrecioTotal();
-		
+
 			pedidoRepository.deleteById(id);
-			
+
 			Cliente cliente = clienteRepository.findById(clienteId).get();
-			
+
 			Double carteraActualizada = cliente.getCartera() + precioPedido;
 			cliente.setCartera(carteraActualizada);
 
 			clienteRepository.save(cliente);
-			
+
 		}
 
 	}
@@ -280,7 +347,7 @@ public class PedidoService {
 
 		Double precioTotalRedondeado = Double.valueOf(String.format("%.2f", pedido.getPrecioTotal()).replace(",", "."));
 		pedido.setPrecioTotal(precioTotalRedondeado);
-	
+
 		pedidoRepository.save(pedido);
 	}
 
@@ -294,8 +361,9 @@ public class PedidoService {
 		} else if (pedido.getCliente().getCartera() < pedido.getPrecioTotal()) {
 			throw new IllegalArgumentException("El cliente no dispone de suficiente dinero en la cartera.");
 		} else {
-			Double precioTotalRedondeado = Double.valueOf(String.format("%.2f", pedido.getPrecioTotal()).replace(",", "."));
-			
+			Double precioTotalRedondeado = Double
+					.valueOf(String.format("%.2f", pedido.getPrecioTotal()).replace(",", "."));
+
 			pedido.setEstado(EstadoPedido.PENDIENTE);
 			this.pedidoRepository.save(pedido);
 			Cliente cliente = pedido.getCliente();
@@ -320,7 +388,7 @@ public class PedidoService {
 
 		return idPeliculas;
 	}
-	
+
 	@Transactional
 	public List<Integer> listaIdVideojuegosComprados() {
 		List<Integer> idVideojuegos = new ArrayList<>();
@@ -337,8 +405,7 @@ public class PedidoService {
 
 		return idVideojuegos;
 	}
-	
-	
+
 	@Transactional
 	public List<Integer> listaIdMerchandasingsComprados() {
 		List<Integer> idMerchandasings = new ArrayList<>();
