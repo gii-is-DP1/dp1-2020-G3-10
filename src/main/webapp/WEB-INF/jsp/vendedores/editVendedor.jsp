@@ -16,6 +16,8 @@
                 <petclinic:inputField label="Nombre" name="nombre"/>
                 <petclinic:inputField label="Apellidos" name="apellidos"/>
                 
+                 
+                            
             <div class="contentcontainer med left" style="margin-left: 100px;">
              
                 <label for="vacaciones">Vacaciones</label>
@@ -46,11 +48,15 @@
                 
                 
                 
+                
+                
             </div>
             
             
             <div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
+				
+				 <input type="hidden" name="version" value="${vendedor.version}"/>
 				
 				
 				 <button class="btn btn-default" type="submit">Actualizar Cliente</button>

@@ -40,6 +40,7 @@
         </div>
         <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
+                <input type="hidden" name="version" value="${cliente.version}"/>
                     <c:choose>
                         <c:when test="${cliente['new']}">
                             <button class="btn btn-default" type="submit">Crea mi perfil!</button>
