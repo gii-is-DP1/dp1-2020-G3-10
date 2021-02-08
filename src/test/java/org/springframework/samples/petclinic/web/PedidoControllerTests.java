@@ -40,6 +40,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -228,6 +230,7 @@ class PedidoControllerTests {
 		pedido2.setMerchandasings(null);
 		pedido2.setPeliculas(null);
 		pedido2.setVideojuegos(null);
+		given(pedidoService.findPedidoById(TEST_PEDIDO_ID_2)).willReturn(pedido2);
 		
 		pedido3 = new Pedido();
 		pedido3.setId(TEST_PEDIDO_ID_3);
@@ -295,7 +298,7 @@ class PedidoControllerTests {
 		given(pedidoService.carritoContieneProducto(TEST_PELICULA_ID_1, "usuario1", "PELICULA")).willReturn(true);
 		given(pedidoService.carritoContieneProducto(TEST_PELICULA_ID_2, "usuario1", "PELICULA")).willReturn(false);
 		
-		
+		given(pedidoService.findPedidoById(TEST_PEDIDO_ID_5)).willReturn(pedido5);
 
 	}
 
@@ -310,43 +313,56 @@ class PedidoControllerTests {
 	
 	@WithMockUser(value = "usuario1")
 	@Test
-	void mostrarCarritoSuccess() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/mostrarCarrito"))
+	void testListPedidosVendedorSuccess() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/pedidos/vendedor"))
 				.andExpect(MockMvcResultMatchers.status().isOk())
-				.andExpect(MockMvcResultMatchers.view().name("/pedidos/mostrarCarrito"));
+				.andExpect(MockMvcResultMatchers.view().name("pedidos/listadoPedidos"));
+
+	}
+	
+	@WithMockUser(value = "usuario1")
+	@Test
+	void mostrarCarritoSuccess() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/pedidos/mostrarCarrito"))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.view().name("/pedidos/carrito"));
 
 	}
 	
 	@WithMockUser(value = "usuario1")
 	@Test
 	void añadirACarritoSuccess() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/addCarrito/{productoId}/{tipo}",TEST_PELICULA_ID_1,"PELICULA"))
-				.andExpect(MockMvcResultMatchers.status().isOk())
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/pedidos/addCarrito/{productoId}/{tipo}",TEST_PELICULA_ID_1,"PELICULA"))
+				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
 				.andExpect(MockMvcResultMatchers.view().name("redirect:/pedidos/mostrarCarrito"));
 	}
 	
 	@WithMockUser(value = "usuario1")
 	@Test
 	void eliminaProductoCarritoSuccess() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/eliminaProductoCarrito/{pedidoId}/{productoId}/{tipo}",TEST_PEDIDO_ID_1,TEST_PELICULA_ID_1,"PELICULA"))
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/pedidos/eliminaProductoCarrito/{pedidoId}/{productoId}/{tipo}",TEST_PEDIDO_ID_1,TEST_PELICULA_ID_1,"PELICULA"))
 				.andExpect(MockMvcResultMatchers.status().isOk())
-				.andExpect(MockMvcResultMatchers.view().name("pedidos/listadoPedidos"));
+				.andExpect(model().attribute("mensaje", "El producto se ha eliminado del carrito."))
+				.andExpect(MockMvcResultMatchers.view().name("/pedidos/carrito"));
 	}
 	
 	@WithMockUser(value = "usuario1")
 	@Test
-	void finalizarCarritoFormSuccess() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/pagar"))
-				.andExpect(MockMvcResultMatchers.status().isOk())
-				.andExpect(MockMvcResultMatchers.view().name("/pedidos/pedidoCompletado"));
-	}
-	
-	@WithMockUser(value = "usuario1")
-	@Test
-	void finalizarCarritoSuccess() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/{pedidoId}/pagar",TEST_PEDIDO_ID_2))
-				.andExpect(MockMvcResultMatchers.status().isOk())
+	void finalizarCarritoIntroducirFormularioSuccess() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/pedidos/{pedidoId}/pagar",TEST_PEDIDO_ID_2))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+				//.andExpect(model().attribute("pedido", hasProperty("direccionEnvio", is("Direccion Prueba Numero 2"))))
+				.andExpect(model().attribute("cliente", hasProperty("nombre", is("NombrePrueba"))))
 				.andExpect(MockMvcResultMatchers.view().name("/pedidos/finalizarCarrito"));
+	}
+
+	@WithMockUser(value = "usuario1")
+	@Test
+	void finalizarCarritoPostFormulario() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/pedidos/pagar")
+													.with(csrf()).sessionAttr("pedido", pedido5)
+												)
+				.andExpect(MockMvcResultMatchers.status().isOk());
 	}
 	
 	@WithMockUser(value = "usuario1")
@@ -361,8 +377,8 @@ class PedidoControllerTests {
 	@WithMockUser(value = "usuario1")
 	@Test
 	void cancelarPedidoSuccess() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/cancelarPedido/{pedidoId}",TEST_PEDIDO_ID_2))
-					.andExpect(MockMvcResultMatchers.status().isOk())
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/pedidos/cancelarPedido/{pedidoId}",TEST_PEDIDO_ID_2))
+					.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
 					.andExpect(MockMvcResultMatchers.view().name("redirect:/pedidos/cliente"));
 
 	}
@@ -370,9 +386,9 @@ class PedidoControllerTests {
 	@WithMockUser(value = "usuario1")
 	@Test
 	void cancelarPedidoEnviado() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/cancelarPedido/{pedidoId}",TEST_PEDIDO_ID_4))
-					.andExpect(MockMvcResultMatchers.status().is4xxClientError())
-					.andExpect(MockMvcResultMatchers.view().name("redirect:/pedidos/cliente"));
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/pedidos/cancelarPedido/{pedidoId}",TEST_PEDIDO_ID_4))
+					.andExpect(MockMvcResultMatchers.status().is3xxRedirection());
+	
 
 	}
 	

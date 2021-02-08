@@ -239,11 +239,16 @@ public class PedidoController {
 	@GetMapping(path = "/{pedidoId}/pagar")
     public String finalizarCarrito(@PathVariable("pedidoId") final int pedidoId, final ModelMap modelMap) {
 
-        Pedido pedido = pedidoService.findPedidoById(pedidoId);
-        Cliente cliente = pedido.getCliente();
-        pedido.setDireccionEnvio(cliente.getDireccion()+" ("+cliente.getCiudad()+")");
-        modelMap.addAttribute("pedido", pedido);
-        modelMap.addAttribute("cliente", cliente);
+		try {
+	        Pedido pedido = pedidoService.findPedidoById(pedidoId);
+	        Cliente cliente = pedido.getCliente();
+	        pedido.setDireccionEnvio(cliente.getDireccion()+" ("+cliente.getCiudad()+")");
+	        modelMap.addAttribute("pedido", pedido);
+	        modelMap.addAttribute("cliente", cliente);
+		}catch(Exception e){
+			modelMap.addAttribute("menssage", e.getMessage());
+			return "redirect:/exception";
+		}
         return "/pedidos/finalizarCarrito";
 
     }
