@@ -8,7 +8,9 @@ import javax.validation.groups.Default;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Comentario;
+import org.springframework.samples.petclinic.model.Pelicula;
 import org.springframework.samples.petclinic.repository.ComentarioRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,6 +56,18 @@ private ComentarioRepository comentarioRepository;
 		} else {
 			throw new IllegalArgumentException("No existe el comentario");
 		}
+	}
+	
+	@Transactional
+	public void deleteComentario(int comentarioId) throws IllegalArgumentException {
+		Optional<Comentario> pelicula = this.comentarioRepository.findById(comentarioId);
+		if(pelicula.isPresent()) {
+			comentarioRepository.deleteById(comentarioId);
+		}else {
+			throw new IllegalArgumentException("El comentario que desea borrar no existe");
+		}
+		
+
 	}
 	
 	@Transactional

@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Comentario;
 import org.springframework.samples.petclinic.model.Formato;
@@ -31,7 +32,7 @@ public class ComentarioServiceTests {
 	protected PeliculaService peliculaService;
 	
 	@Test
-	void shouldFindComentariosByClientIdSuccess() {
+	void findComentariosByClientId() {
 		List<Comentario> comentariosCliente =  this.comentarioService.findByClientId(1);
 		List<Comentario> comentarios = this.comentarioService.findAll();
 		List<Comentario> aux = new ArrayList<>();
@@ -43,25 +44,64 @@ public class ComentarioServiceTests {
 		assertThat(comentariosCliente.size()).isEqualTo(aux.size());
 	}
 	
-	@Test
-	void shouldFindComentariosByClientIdNoSuccess() {
-		Assertions.assertThrows(IllegalArgumentException.class, () -> {
-			comentarioService.findByClientId(200);
-		});
-	}
 	
 	@Test
-	void shouldFindComentarioByIdSuccess() {
+	void findComentarioByIdSuccess() {
 		Comentario comentario = this.comentarioService.findCommentById(1);
 		List<Comentario> comentarios = this.comentarioService.findAll();
 		assertThat(comentario).isEqualTo(comentarios.get(0));
 	}
 	
 	@Test
-	void shouldFindComentarioByIdNoSuccess() {
+	void findComentarioByIdNoSuccess() {
 		Assertions.assertThrows(IllegalArgumentException.class, () -> {
 			comentarioService.findCommentById(1000);
 		});
+	}
+	
+	@Test
+	void findComentariosByPeliculaId() {
+		List<Comentario> comentarios = this.comentarioService.findAll();
+		List<Comentario> comentariosPelicula = this.comentarioService.findComentariosByPeliculaId(1);
+		List<Comentario> aux = new ArrayList<>();
+		if(!comentarios.isEmpty()) {
+			for(Comentario c: comentarios) {
+				if(c.getPelicula()!=null && c.getPelicula().getId()==1) {
+					aux.add(c);
+				}
+			}
+			}
+		assertThat(comentariosPelicula.size()).isEqualTo(aux.size());
+	}
+	
+	@Test
+	void findComentariosByVideojuegoId() {
+		List<Comentario> comentarios = this.comentarioService.findAll();
+		List<Comentario> comentariosVideojuego = this.comentarioService.findComentariosByVideojuegoId(1);
+		List<Comentario> aux = new ArrayList<>();
+		if(!comentarios.isEmpty()) {
+			for(Comentario c: comentarios) {
+				if(c.getVideojuego()!=null && c.getVideojuego().getId()==1) {
+					aux.add(c);
+				}
+			}
+			}
+		assertThat(comentariosVideojuego.size()).isEqualTo(aux.size());
+	}
+	
+	@Test
+	void findComentariosByMerchandasingId() {
+		List<Comentario> comentarios = this.comentarioService.findAll();
+		List<Comentario> comentariosMerchandasing = this.comentarioService.findComentariosByMerchandasingId(1);
+		List<Comentario> aux = new ArrayList<>();
+		if(!comentarios.isEmpty()) {
+		for(Comentario c: comentarios) {
+			if(c.getMerchandasing()!=null && c.getMerchandasing().getId()==1) {
+				aux.add(c);
+			}
+		}
+		}
+		assertThat(comentariosMerchandasing.size()).isEqualTo(aux.size());
 	}
 	
 	@Test
@@ -109,5 +149,12 @@ public class ComentarioServiceTests {
 		this.comentarioService.deleteComment(c);
 		List<Comentario> comentarios2 = this.comentarioService.findAll();
 		Assertions.assertTrue(!comentarios2.contains(c));
+	}
+	
+	@Test
+	void deleteComentarioNoSuccess() {
+		Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			comentarioService.deleteComentario(1000);
+		});
 	}
 }
