@@ -13,11 +13,8 @@ import org.springframework.samples.petclinic.model.Pelicula;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.Vendedor;
 import org.springframework.samples.petclinic.model.Videojuego;
-import org.springframework.samples.petclinic.service.MerchandasingService;
-import org.springframework.samples.petclinic.service.PeliculaService;
 import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.samples.petclinic.service.VendedorService;
-import org.springframework.samples.petclinic.service.VideojuegoService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,22 +31,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/vendedores")
 public class VendedorController {
 
-	private static final String		VIEWS_VENDEDOR_CREATE_OR_UPDATE_FORM	= "vendedores/editVendedor";
+	private static final String	VIEWS_VENDEDOR_CREATE_OR_UPDATE_FORM	= "vendedores/editVendedor";
 
 	@Autowired
-	private VendedorService			vendedorService;
+	private VendedorService		vendedorService;
 
 	@Autowired
-	private PeliculaService			peliculaService;
+	private UserService			userService;
 
-	@Autowired
-	private UserService				userService;
-
-	@Autowired
-	private VideojuegoService		videojuegoService;
-
-	@Autowired
-	private MerchandasingService	merchandasingService;
+	//	@Autowired
+	//	private VideojuegoService		videojuegoService;
+	//
+	//	@Autowired
+	//	private MerchandasingService	merchandasingService;
+	//	
+	//	@Autowired
+	//	private PeliculaService			peliculaService;
 
 
 	@GetMapping

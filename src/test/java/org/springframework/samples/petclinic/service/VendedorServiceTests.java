@@ -2,14 +2,13 @@
 package org.springframework.samples.petclinic.service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Collection;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.samples.petclinic.model.Pelicula;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.Vendedor;
 import org.springframework.samples.petclinic.repository.VendedorRepository;
@@ -31,55 +30,135 @@ public class VendedorServiceTests {
 	protected UserService			userService;
 
 
-	@Test
-	public void obtenerPeliculas() {
+	private Vendedor creaVendedorCorrecto() {
 
-		Vendedor vendedor = this.vendedorService.findVendedorByIdNormal(1);
-		System.out.println("IDDDDDDDDDDDD" + vendedor.getId());
+		Vendedor vendedor = new Vendedor();
+		vendedor.setApellidos("carles");
+		vendedor.setDireccionTienda("carles street");
+		vendedor.setDni("48973312x");
+		vendedor.setEmail("guivarpa27@gmail.com");
+		vendedor.setFechaNacimiento(LocalDate.parse("1997-06-27"));
+		vendedor.setNombre("antonio");
+		vendedor.setNombreTienda("carles imc");
+		vendedor.setTelefono("956787878");
+		vendedor.setVacaciones(true);
+		vendedor.setValoracion(500.0);
+		vendedor.setVotos(100);
 
-		Pelicula pel = this.peliculaService.findPeliculaById(1);
-		System.out.println("PELICULAAAAAAAa" + pel.toString());
-		Collection<Pelicula> peliculas = new ArrayList<Pelicula>();
-		peliculas.add(pel);
-		vendedor.setPeliculas(peliculas);
+		User user = new User();
+		user.setUsername("Pepe");
+		user.setPassword("password");
+		user.setEnabled(true);
+		vendedor.setUser(user);
 
-		System.out.println("TIENEEEEEEEEEEE" + vendedor.getPeliculas().toString());
-
-		this.vendedorService.save(vendedor);
-
-		System.out.println(pel);
-		Collection<Pelicula> pels = this.vendedorService.obtenerPeliculas(vendedor.getId());
-		System.out.println("PELICULAAAAAAAAAA DEL VENDEDOR" + pels.toString());
+		return vendedor;
 
 	}
 
-	@Test
-	void obtieneVendedorPorUsuario() {
-		User user = this.userService.findUser("marta").get();
-		System.out.println("PRUEBA USERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR: " + user);
-		Vendedor vendedor = new Vendedor();
-		vendedor.setUser(user);
-		vendedor.setApellidos("prueba");
-		vendedor.setMerchandasings(null);
-		vendedor.setVacaciones(true);
-		vendedor.setPeliculas(null);
-		vendedor.setDireccionTienda("Direccion tienda");
-		vendedor.setValoracion(20.0);
-		vendedor.setFechaNacimiento(LocalDate.of(2020, 5, 12));
-		vendedor.setDni("12345678X");
-		vendedor.setNombre("nombre prueba");
-		vendedor.setTelefono("123456789");
-		vendedor.setEmail("email@email.es");
+	@Test // Se encuentra el vendedor
+	void testPositivoEncontrarVendedorPorId() {
 
-		this.vendedorRepository.save(vendedor);
+		Collection<Vendedor> vendedores = this.vendedorService.findAllVendedor();
+		int tamaño = vendedores.size();
 
-		Vendedor vendedor2 = this.vendedorRepository.findById2(1);
+		Vendedor vendedor = this.creaVendedorCorrecto();
 
-		System.out.println("PRUEBA Cliente 2222222222222222222222222222222222222222: " + vendedor2.getApellidos());
+		this.vendedorService.save(vendedor);
+		Assertions.assertThat(vendedor.getId().longValue()).isNotEqualTo(0);
 
-		Vendedor vendedor1 = this.vendedorRepository.findByUsername("marta");
+		Vendedor vendedorModificado = this.vendedorService.findVendedorByIdNormal(vendedor.getId());
+		vendedores = this.vendedorService.findAllVendedor();
 
-		System.out.println("PRUEBA: " + vendedor1.getApellidos());
+		Assertions.assertThat(vendedores.size()).isEqualTo(tamaño + 1);
+		Assertions.assertThat(vendedorModificado).isEqualTo(vendedor);
+
+	}
+
+	@Test // Se encuentra el vendedor
+	void testPositivoEncontrarVendedorPorUser() {
+
+		Collection<Vendedor> vendedores = this.vendedorService.findAllVendedor();
+		int tamaño = vendedores.size();
+
+		Vendedor vendedor = this.creaVendedorCorrecto();
+
+		this.vendedorService.save(vendedor);
+		Assertions.assertThat(vendedor.getId().longValue()).isNotEqualTo(0);
+
+		Vendedor vendedorModificado = this.vendedorService.findVendedorByUsername(vendedor.getUser().getUsername());
+		vendedores = this.vendedorService.findAllVendedor();
+
+		Assertions.assertThat(vendedores.size()).isEqualTo(tamaño + 1);
+		Assertions.assertThat(vendedorModificado).isEqualTo(vendedor);
+
+	}
+
+	@Test // Se crea el vendedor
+	void testPositivoCrearVendedor() {
+
+		Collection<Vendedor> vendedores = this.vendedorService.findAllVendedor();
+		int tamaño = vendedores.size();
+
+		Vendedor vendedor = this.creaVendedorCorrecto();
+
+		this.vendedorService.save(vendedor);
+		Assertions.assertThat(vendedor.getId().longValue()).isNotEqualTo(0);
+
+		vendedores = this.vendedorService.findAllVendedor();
+		Assertions.assertThat(vendedores.size()).isEqualTo(tamaño + 1);
+	}
+
+	@Test // Un vendedor se modifica correctamente
+	void testPositivoModificarVendedor() {
+
+		Vendedor vendedor = this.creaVendedorCorrecto();
+		this.vendedorService.save(vendedor);
+		Assertions.assertThat(vendedor.getId().longValue()).isNotEqualTo(0);
+
+		Collection<Vendedor> vendedores = this.vendedorService.findAllVendedor();
+		int found = vendedores.size();
+
+		vendedor.setApellidos("Prueba apellidos");
+		this.vendedorService.save(vendedor);
+
+		Vendedor vendedorModificado = this.vendedorService.findVendedorByUsername(vendedor.getUser().getUsername());
+		vendedores = this.vendedorService.findAllVendedor();
+
+		Assertions.assertThat(vendedores.size()).isEqualTo(found);
+		Assertions.assertThat(vendedor.getId()).isEqualTo(vendedorModificado.getId());
+		Assertions.assertThat(vendedorModificado.getApellidos()).isEqualTo("Prueba apellidos");
+
+	}
+
+	@Test // Un nuevo vendedor se elimina correctamente
+	void testPositivoEliminarVendedor() {
+
+		Collection<Vendedor> vendedores = this.vendedorService.findAllVendedor();
+		int found = vendedores.size();
+
+		Vendedor vendedorpruebas = this.vendedorService.findVendedorByIdNormal(120);
+		Assertions.assertThat(vendedores.contains(vendedorpruebas)).isEqualTo(true);
+
+		this.vendedorService.delete(vendedorpruebas);
+		vendedores = this.vendedorService.findAllVendedor();
+		Assertions.assertThat(vendedores.size()).isEqualTo(found - 1);
+		Assertions.assertThat(vendedores.contains(vendedorpruebas)).isEqualTo(false);
+
+	}
+
+	@Test // Un nuevo vendedor se elimina correctamente por id
+	void testPositivoEliminarVendedorPorId() {
+
+		Collection<Vendedor> vendedores = this.vendedorService.findAllVendedor();
+		int found = vendedores.size();
+
+		Vendedor vendedorpruebas = this.vendedorService.findVendedorByIdNormal(120);
+		Assertions.assertThat(vendedores.contains(vendedorpruebas)).isEqualTo(true);
+
+		this.vendedorService.deleteVendedorById(vendedorpruebas.getId());
+		vendedores = this.vendedorService.findAllVendedor();
+		Assertions.assertThat(vendedores.size()).isEqualTo(found - 1);
+		Assertions.assertThat(vendedores.contains(vendedorpruebas)).isEqualTo(false);
 
 	}
 
