@@ -200,6 +200,7 @@ public class VideojuegoController {
 		Vendedor vendedor = this.vendedorService.findVendedorByUsername(username);
 		Collection<Videojuego> videojuegos = vendedor.getVideojuegos();
 		List<Integer> idVideojuegosPedidos = pedidoService.listaIdVideojuegosComprados();
+		List<Comentario> comentarios = comentarioService.findComentariosByVideojuegoId(videojuegoId); 
 		
 		if (videojuegoBorrar == null) {
 			modelMap.addAttribute("message", "El videojuego que se quiere borrar no existe.");
@@ -208,6 +209,11 @@ public class VideojuegoController {
 		}else if(idVideojuegosPedidos.contains(videojuegoId)) {	
 			modelMap.addAttribute("message", "El videojuego no puede borrarse porque esta en un pedido.");
 		}else {
+			if(!comentarios.isEmpty()) { 
+				for(Comentario c: comentarios) { 
+					comentarioService.deleteComment(c); 
+				} 
+			} 
 			videojuegos.remove(videojuegoBorrar);
 			this.vendedorService.save(vendedor);
 			this.videojuegoService.delete(videojuegoBorrar);
