@@ -24,7 +24,14 @@
     <form:form modelAttribute="cliente" class="form-horizontal" id="add-cliente-form" onsubmit="return confirm('¿Continuar?') ? true : false;">
         <div class="form-group has-feedback">
         	<input type="hidden" name="admin" value="0"/>
-        	<input type="hidden" name="cartera" value="0.0"/>
+        	<c:choose>
+					<c:when test="${cliente['new']}">
+						<input type="hidden" name="cartera" value= "100.0" />
+					</c:when>
+					<c:otherwise>
+						<input type="hidden" name="cartera" value="${cliente.cartera}" />
+					</c:otherwise>
+				</c:choose>
         	<input type="hidden" name="version" value="${cliente.version}"/>
             <petclinic:inputField label="DNI" name="dni"/>
             <petclinic:inputField label="Nombre" name="nombre"/>
