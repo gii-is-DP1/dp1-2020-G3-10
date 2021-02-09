@@ -38,6 +38,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import net.bytebuddy.implementation.bind.MethodDelegationBinder.BindingResolver;
 
@@ -188,9 +189,13 @@ public class PeliculaController {
 
 	@PostMapping(value = "/peliculas/edit/{peliculaId}")
 	public String processUpdatePeliculaForm(@Valid final Pelicula p, BindingResult result,
-			@PathVariable("peliculaId") int peliculaId,ModelMap model) {
+			@PathVariable("peliculaId") int peliculaId,ModelMap model, @RequestParam(value="version", required = false) Integer version) {
 
 		String view = "/peliculas/formCreatePeliculas";
+		if(p.getVersion()!=version) {
+			model.addAttribute("message", "¡No se pudo actualizar la pelicula!");
+			return view;
+		}
 
 		if (result.hasErrors()) {
 			model.addAttribute("formatos", this.peliculaService.getFormatos());
@@ -229,6 +234,10 @@ public class PeliculaController {
 				}
 				this.peliculaService.savePelicula(peliculaBorrar);
 			}
+			
+			System.out.println("HOLAAAAAAAAAA" + auth.getPrincipal()+ peliculaBorrar.toString());
+			System.out.println("HOLAAAAAAAAAA" + vendedor.toString());
+			
 			peliculas.remove(peliculaBorrar);
 			this.vendedorService.save(vendedor);
 			this.peliculaService.delete(peliculaBorrar);
