@@ -29,7 +29,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.time.LocalDate;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 /**
@@ -158,6 +157,19 @@ class PeliculaControllerTests {
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/peliculas/delete/{peliculaId}", TEST_PELICULA_ID))
 				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
 
+	}
+	
+	@WithMockUser(value = "spring", authorities = {"vendedor"})
+	@Test
+	void testEditarConErrores() throws Exception {
+		mockMvc.perform(post("/peliculas/edit/{peliculaId}", TEST_PELICULA_ID).with(csrf()).param("descripcion", "descripcion de la pelicula").param("nombre", "nombrePelicula")
+				.param("precio", "12").param("agno", "2012").param("director", "director de la pelicula")
+				.param("duracion", "2").param("edicion", "3").param("formato", "VD")
+				.param("imagen", "https://static.filmin.es/images/media/31442/1/poster_0_3_720x0.webp")
+				.param("fechaSalida", "2009/09/09"))
+				.andExpect(model().attributeHasErrors("pelicula"))
+				.andExpect(model().attributeHasFieldErrors("pelicula", "formato"))
+				.andExpect(view().name("/peliculas/formCreatePeliculas"));
 	}
 
 }
