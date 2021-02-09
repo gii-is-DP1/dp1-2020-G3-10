@@ -29,6 +29,9 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 public class ClienteController{
 
@@ -77,6 +80,7 @@ public class ClienteController{
 		if (result.hasErrors()) {
 			mp.addAttribute("cliente", cliente);
 			mp.addAttribute("message", "El cliente no se ha podido crear correctamente ");
+			log.warn("Error al crear el cliente " + result);
 			return ClienteController.VIEWS_CLIENTE_CREATE_OR_UPDATE_FORM;
 		} else {
 			//creating owner, user and authorities
@@ -85,6 +89,7 @@ public class ClienteController{
 			this.authoritiesService.saveAuthorities(cliente.getUser().getUsername(), "cliente");
 			mp.addAttribute("cliente", cliente);
 			mp.addAttribute("message", "Cliente creado satisfactoriamente");
+			log.info("Cliente creado con éxito " + cliente);
 			return "redirect:/login";
 		}
 	}
@@ -103,6 +108,7 @@ public class ClienteController{
 		
 		if(cliente.getVersion()!=version) {
 			mp.addAttribute("message", "El cliente no se ha podido actualizar correctamente");
+			log.warn("Error al actualizar el cliente: La versión del cliente: [" + cliente.getVersion() + "] no es igual a la versión actual [" + version + "]");
 			return VIEWS_CLIENTE_CREATE_OR_UPDATE_FORM;
 		}
 		
@@ -111,6 +117,7 @@ public class ClienteController{
 			
 			mp.addAttribute("cliente", cliente);
 			mp.addAttribute("message", "El cliente no se ha podido actualizar correctamente");
+			log.warn("Error al actualizar el cliente: " + result);
 			return VIEWS_CLIENTE_CREATE_OR_UPDATE_FORM;
 		}
 		else {
@@ -132,7 +139,8 @@ public class ClienteController{
 			this.clienteService.saveCliente(cliente);
 			mp.addAttribute("cliente", cliente);
 			mp.addAttribute("message", "El cliente se ha actualizado satisfactoriamente");
-			
+			log.info("Cliente actualizado con éxito " + cliente);
+
 			return "redirect:/clientes/miPerfil";
 		}
 	}
@@ -148,8 +156,9 @@ public class ClienteController{
 		if (cliente.getPedidos() != null && !this.carritoCancelado(cliente.getPedidos())) {
 
 			view = "/clientes/clienteDetails";
-			mp.addAttribute("message", "Un cliente no se puede eliminar mientras tenga pedidos");
+			mp.addAttribute("message", "Un cliente no se puede eliminar mientras tenga pedidos o elementos en el carrito");
 			mp.addAttribute("cliente", cliente);
+			log.warn("Error eliminar cliente: Un cliente no se puede eliminar mientras tenga pedidos o elementos en el carrito");
 			return view;
 		}
 		
@@ -158,6 +167,7 @@ public class ClienteController{
 			view = "/clientes/clienteDetails";
 			mp.addAttribute("message", "Un cliente no se puede eliminar mientras tenga reproductores, por favor, eliminelos");
 			mp.addAttribute("cliente", cliente);
+			log.warn("Error eliminar cliente: Un cliente no se puede eliminar mientras tenga reproductores");
 			return view;
 		}
 
@@ -171,7 +181,6 @@ public class ClienteController{
 		if(!cliente.getComentarios().isEmpty()) {
 			
 			//Si el cliente tiene comentarios posteados pasamos a eliminarlos
-			
 			cliente.getComentarios().stream().forEach(c -> this.comentarioService.deleteComentario(c.getId()));
 			
 		}
@@ -180,6 +189,7 @@ public class ClienteController{
 		this.userService.deleteUser(cliente.getUser());
 		SecurityContextHolder.clearContext();
 		mp.addAttribute("message", "Cliente eliminado con éxito");
+		log.info("Cliente eliminado con éxito");
 		return view;
 	}
 	

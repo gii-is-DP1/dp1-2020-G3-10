@@ -122,7 +122,6 @@ public class PedidoController {
 
 		modelMap.addAttribute("pedidos", pedidos);
 		log.info("Obteniendo pedidos del vendedor");
-
 		return vista;
 	}
 	

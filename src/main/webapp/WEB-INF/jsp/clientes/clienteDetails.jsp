@@ -33,15 +33,15 @@
         </tr>
         <tr>
             <th>Dirección</th>
-            <td><b><c:out value="${cliente.direccion} Codigo Postal: ${cliente.codigoPostal}"/></b></td>
+            <td><b><c:out value="${cliente.direccion} | Codigo Postal: ${cliente.codigoPostal} [${cliente.ciudad}]"/></b></td>
         </tr>
          <tr>
             <th>Telefono</th>
             <td><b><c:out value="${cliente.telefono}"/></b></td>
         </tr>
         <tr>
-            <th>Cartera</th>
-            <td><b><c:out value="${cliente.cartera}"/> € </b></td>
+            <th>Tarjeta de Crédito</th>
+            <td><b><c:out value="${cliente.tarjetaCredito} | Saldo: ${cliente.cartera}"/> € </b></td>
         </tr>
         
     </table>
