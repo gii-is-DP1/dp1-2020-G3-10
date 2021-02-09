@@ -54,5 +54,9 @@ public class BaseEntity {
 	
 	@Version
 	private Integer version;
+	
+	public Integer getVersion() {
+		return version;
+	}
 
 }
