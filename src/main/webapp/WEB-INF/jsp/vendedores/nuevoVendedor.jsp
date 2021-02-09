@@ -50,3 +50,7 @@
     </jsp:body>
 
 </petclinic:layout>
+
+ <script>
+            $("#fechaNacimiento").attr('required', ''); 
+ </script>

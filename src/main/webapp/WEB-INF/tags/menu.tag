@@ -132,7 +132,6 @@
 												  Para ver perfil???--%>
 												
 												
-												<a active="${name eq 'error'}" url="/oups" title="trigger a RuntimeException to see how it is handled" class="btn btn-danger btn-block">Error</a>
 											</p>
 										</div>
 									</div>

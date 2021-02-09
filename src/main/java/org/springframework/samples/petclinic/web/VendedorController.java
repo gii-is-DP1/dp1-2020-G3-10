@@ -44,7 +44,7 @@ public class VendedorController {
 	//
 	//	@Autowired
 	//	private MerchandasingService	merchandasingService;
-	//	
+	//
 	//	@Autowired
 	//	private PeliculaService			peliculaService;
 
@@ -92,7 +92,7 @@ public class VendedorController {
 	@GetMapping(path = "/delete/{vendedorId}")
 	public String borrarVendedor(@PathVariable("vendedorId") final int vendedorId, final ModelMap modelMap) {
 
-		String vista = "vendedores/listadoVendedores";
+		String vista = "/welcome";
 
 		Optional<Vendedor> vendedor = this.vendedorService.findVendedorById(vendedorId);
 
@@ -100,15 +100,14 @@ public class VendedorController {
 
 			this.vendedorService.delete(vendedor.get());
 			modelMap.addAttribute("message", "Se ha borrado su vendedor");
-			vista = this.listadoVendedor(modelMap);
+			return vista;
 		} else {
 
 			modelMap.addAttribute("message", "No se ha encontrado su vendedor");
-			vista = this.listadoVendedor(modelMap);
+			return vista;
 
 		}
 
-		return vista;
 	}
 
 	@GetMapping("/{vendedorId}")

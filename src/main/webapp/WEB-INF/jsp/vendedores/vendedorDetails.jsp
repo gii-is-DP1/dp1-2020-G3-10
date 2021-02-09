@@ -58,6 +58,11 @@
         <spring:param name="vendedorId" value="${vendedor.id}"/>
     </spring:url>
     <a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Editar Vendedor</a>
+    
+    <spring:url value="/vendedores/delete/{vendedorId}" var="deleteUrl">
+        <spring:param name="vendedorId" value="${vendedor.id}"/>
+    </spring:url>
+    <a href="${fn:escapeXml(deleteUrl)}" class="btn btn-default" onclick="return confirm('¿Continuar?') ? true : false;">Eliminar Vendedor</a>
 
 
     <br/>
