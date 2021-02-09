@@ -66,7 +66,7 @@ class PeliculaServiceTests {
 		pelicula.setId(15);
 		pelicula.setNombre("pelicula1");
 		pelicula.setPrecio(12.50);
-		pelicula.setAgno(2023);
+		pelicula.setAgno(2021);
 		pelicula.setFechaSalida(LocalDate.now());
 		pelicula.setDirector("director");
 		pelicula.setDuracion(2.5);
