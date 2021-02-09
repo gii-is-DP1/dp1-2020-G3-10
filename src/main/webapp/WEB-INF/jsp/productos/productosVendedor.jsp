@@ -12,31 +12,31 @@
 
 
 	<h2>Productos</h2>
+	
+	<spring:url value="/peliculas/new" var="addPeliculaUrl"></spring:url>
+	<a href="${fn:escapeXml(addPeliculaUrl)}" class="btn btn-default">Nueva Película</a>
+	
+	<spring:url value="/videojuegos/new" var="addVideojuegoUrl"></spring:url>
+	<a href="${fn:escapeXml(addVideojuegoUrl)}" class="btn btn-default">Nuevo Videojuego</a>
+	
+	<spring:url value="/vendedor/merchandasings/new" var="addMerchUrl"></spring:url>
+	<a href="${fn:escapeXml(addMerchUrl)}" class="btn btn-default">Nuevo Merchandising</a>
 
 	<table id="productos" class="table table-striped">
 		<thead>
 			<tr>
-				<th style="width: 150px;">Imagen</th>
-				<th style="width: 150px;">Nombre</th>
-				<th style="width: 150px;">Descripción</th>
-				<th style="width: 150px;">Precio</th>
-				<th style="width: 150px;"></th>
+				<th style="width: 20%;">Imagen</th>
+				<th style="width: 20%;">Nombre</th>
+				<th style="width: 20%;">Descripción</th>
+				<th style="width: 20%;">Precio</th>
+				<th style="width: 10%;"></th>
+				<th style="width: 10%;"></th>
 			</tr>
 		</thead>
 		<tbody>
 			<h3>
 				<c:out value="${mensaje}" />
 			</h3>
-
-			<spring:url value="/peliculas/new" var="addPeliculaUrl"></spring:url>
-			<a href="${fn:escapeXml(addPeliculaUrl)}" class="btn btn-default">Nueva
-				Película</a>
-			<spring:url value="/videojuegos/new" var="addVideojuegoUrl"></spring:url>
-			<a href="${fn:escapeXml(addVideojuegoUrl)}" class="btn btn-default">Nuevo
-				Videojuego</a>
-			<spring:url value="/vendedor/merchandasings/new" var="addMerchUrl"></spring:url>
-			<a href="${fn:escapeXml(addMerchUrl)}" class="btn btn-default">Nuevo
-				Merchandising</a>
 
 			<c:forEach items="${peliculas}" var="pelicula">
 				<tr>
@@ -48,15 +48,20 @@
 					<td><c:out value="${pelicula.nombre}" /></td>
 					<td><c:out value="${pelicula.descripcion}" /></td>
 					<td><c:out value="${pelicula.precio}" /></td>
+					
 					<td><spring:url value="/peliculas/delete/{peliculaId}"
 							var="peliculaUrl">
 							<spring:param name="peliculaId" value="${pelicula.id}" />
 						</spring:url> <a href="${fn:escapeXml(peliculaUrl)}" class="btn btn-default">Eliminar
-							Pelicula</a> <spring:url value="/peliculas/edit/{peliculaId}"
-							var="editUrl">
+							Pelicula</a> 
+						</td>
+						<td>	
+						<spring:url value="/peliculas/edit/{peliculaId}" var="editUrl">
 							<spring:param name="peliculaId" value="${pelicula.id}" />
 						</spring:url> <a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Editar
-							pelicula</a></td>
+							pelicula</a>
+							
+					</td>
 				</tr>
 			</c:forEach>
 			<c:forEach items="${videojuegos}" var="videojuego">
@@ -70,12 +75,15 @@
 					<td><c:out value="${videojuego.nombre}" /></td>
 					<td><c:out value="${videojuego.descripcion}" /></td>
 					<td><c:out value="${videojuego.precio}" /></td>
-					<td><spring:url value="/videojuegos/delete/{videojuegoId}"
-							var="deleteUrl">
+					<td>
+					
+					<spring:url value="/videojuegos/delete/{videojuegoId}" var="deleteUrl">
 							<spring:param name="videojuegoId" value="${videojuego.id}" />
-						</spring:url> <a href="${fn:escapeXml(deleteUrl)}" class="btn btn-default">Borrar
-							videojuego</a> <spring:url value="/videojuegos/edit/{videojuegoId}"
-							var="editUrl">
+					</spring:url> 
+					<a href="${fn:escapeXml(deleteUrl)}" class="btn btn-default">Borrar videojuego</a>
+					</td>		
+					<td>		 
+					<spring:url value="/videojuegos/edit/{videojuegoId}" var="editUrl">
 							<spring:param name="videojuegoId" value="${videojuego.id}" />
 						</spring:url> <a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Editar
 							videojuego</a></td>
@@ -96,12 +104,11 @@
 							<spring:param name="merchandasingId" value="${merch.id}" />
 						</spring:url> <a href="${fn:escapeXml(merchadasingUrl)}"
 						class="btn btn-default">Eliminar Merchandasing</a>
-						<spring:url
-							value="/vendedor/merchandasings/{merchandasingId}/edit"
-							var="merchadisingUrl">
+						</td>
+						<td>
+						<spring:url value="/vendedor/merchandasings/{merchandasingId}/edit" var="merchadisingUrl">
 							<spring:param name="merchandasingId" value="${merch.id}" />
-						</spring:url> <a href="${fn:escapeXml(merchadisingUrl)}"
-						class="btn btn-default">Editar Merchandising</a>
+						</spring:url> <a href="${fn:escapeXml(merchadisingUrl)}" class="btn btn-default">Editar Merchandising</a>
 						</td>
 				</tr>
 			</c:forEach>

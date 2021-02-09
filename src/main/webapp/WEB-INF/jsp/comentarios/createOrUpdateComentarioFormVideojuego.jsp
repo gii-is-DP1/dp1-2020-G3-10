@@ -14,7 +14,7 @@
     </jsp:attribute>
     <jsp:body>
         <h2>
-            <c:if test="${comentario['new']}">New </c:if> Comentario
+            <c:if test="${comentario['new']}">Nuevo </c:if> Comentario
         </h2>
         <form:form modelAttribute="comentario" class="form-horizontal">
             <input type="hidden" name="id" value="${comentario.id}"/>
@@ -46,10 +46,10 @@
                 <div class="col-sm-offset-2 col-sm-10">
                     <c:choose>
                         <c:when test="${comentario['new']}">
-                            <button class="btn btn-default" type="submit">Add Comment</button>
+                            <button class="btn btn-default" type="submit">Añadir Comentario</button>
                         </c:when>
                         <c:otherwise>
-                            <button class="btn btn-default" type="submit">Update Comment</button>
+                            <button class="btn btn-default" type="submit">Actualizar Comentario</button>
                         </c:otherwise>
                     </c:choose>
                 </div>
