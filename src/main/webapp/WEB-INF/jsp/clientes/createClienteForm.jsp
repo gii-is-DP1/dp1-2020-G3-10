@@ -25,6 +25,7 @@
         <div class="form-group has-feedback">
         	<input type="hidden" name="admin" value="0"/>
         	<input type="hidden" name="cartera" value="0.0"/>
+        	<input type="hidden" name="version" value="${cliente.version}"/>
             <petclinic:inputField label="DNI" name="dni"/>
             <petclinic:inputField label="Nombre" name="nombre"/>
             <petclinic:inputField label="Apellidos" name="apellidos"/>

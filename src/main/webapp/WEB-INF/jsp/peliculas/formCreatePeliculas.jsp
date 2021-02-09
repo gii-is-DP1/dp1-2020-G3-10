@@ -24,6 +24,7 @@
                    class="form-horizontal">
                   
             <div class="form-group has-feedback">
+            	<input type="hidden" name="version" value="${pelicula.version}"/>
                 <petclinic:inputField label="Nombre" name="nombre"/>
                 <petclinic:inputField label="Precio" name="precio"/>
                 <petclinic:inputField label="Año" name="agno"/>

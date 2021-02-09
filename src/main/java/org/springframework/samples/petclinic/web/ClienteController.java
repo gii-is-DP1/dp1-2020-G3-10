@@ -99,7 +99,13 @@ public class ClienteController{
 	
 	@PostMapping(value = "/clientes/{clienteId}/edit")
 	public String processUpdateClienteForm(@Valid Cliente cliente, BindingResult result,
-			@PathVariable("clienteId") int clienteId, ModelMap mp) {
+			@PathVariable("clienteId") int clienteId, ModelMap mp, @RequestParam(value="version", required = false) Integer version) {
+		
+		if(cliente.getVersion()!=version) {
+			mp.addAttribute("message", "El cliente no se ha podido actualizar correctamente");
+			return VIEWS_CLIENTE_CREATE_OR_UPDATE_FORM;
+		}
+		
 		
 		if (result.hasErrors()) {
 			
