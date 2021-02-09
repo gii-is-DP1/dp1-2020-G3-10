@@ -33,6 +33,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @Controller
 @RequestMapping("/comentarios/{clienteId}")
 public class ComentarioController {
@@ -64,6 +66,17 @@ public class ComentarioController {
 	
 	@GetMapping()
 	public String listComments(@PathVariable("clienteId") int clienteId, ModelMap modelMap) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetails = (UserDetails) auth.getPrincipal();
+		User usuario = this.userService.findUser(userDetails.getUsername()).get();
+		
+		
+		Cliente cliente = clienteService.findClienteByUserName(usuario.getUsername());
+		if(cliente.getId()!=clienteId) {
+			log.warn("Acceso denegado");
+			return "exception";
+		}
+		
 		String vista = "comentarios/comentariosList";
 		List<Comentario> comentarios = comentarioService.findByClientId(clienteId);
 		modelMap.addAttribute("comentarios", comentarios);
@@ -202,6 +215,7 @@ public class ComentarioController {
 			comentario.setPelicula(pelicula);
 			model.addAttribute("comentario", comentario);
 			model.addAttribute("message", "El comentario no se ha podido crear");
+			log.warn("Error al crear comentario");
 			return VIEWS_COMENTARIOS_CREATE_OR_UPDATE_FORM_P;
 		}
 		else {
@@ -226,6 +240,7 @@ public class ComentarioController {
                     	Iterable<Comentario> comentarios = comentarioService.findAll();
                     	model.addAttribute("comentarios", comentarios);
                     	model.addAttribute("message", "Comentario creado con exito");
+                    	log.info("Comentario sobre pelicula creado");
                     	
                     
                     return "redirect:/peliculas/" + pelicula.getId() ;
@@ -242,6 +257,7 @@ public class ComentarioController {
 			comentario.setVideojuego(videojuego);
 			model.addAttribute("comentario", comentario);
 			model.addAttribute("message", "El comentario no se ha podido crear");
+			log.warn("Error al crear comentario");
 			return VIEWS_COMENTARIOS_CREATE_OR_UPDATE_FORM_V;
 		} else {
 			
@@ -264,6 +280,7 @@ public class ComentarioController {
 				Iterable<Comentario> comentarios = comentarioService.findAll();
             	model.addAttribute("comentarios", comentarios);
             	model.addAttribute("message", "Comentario creado con exito");
+            	log.info("Comentario sobre videojuego creado");
             	
 			return "redirect:/videojuegos/" + videojuego.getId();
 		}
@@ -278,6 +295,7 @@ public class ComentarioController {
 			comentario.setMerchandasing(merchandasing);
 			model.addAttribute("comentario", comentario);
 			model.addAttribute("message", "El comentario no se ha podido crear");
+			log.warn("Error al crear comentario");
 			return VIEWS_COMENTARIOS_CREATE_OR_UPDATE_FORM_M;
 		} else {
 			comentario.setCliente(clienteService.findClienteById(comentario.getCliente().getId()));
@@ -299,6 +317,7 @@ public class ComentarioController {
 			Iterable<Comentario> comentarios = comentarioService.findAll();
 			model.addAttribute("comentarios", comentarios);
 			model.addAttribute("message", "Comentario creado con exito");
+			log.info("Comentario sobre merchandasing creado");
 			
 			return "redirect:/merchandasings/" + merchandasing.getId();
 		}
@@ -335,12 +354,14 @@ public class ComentarioController {
 			}
 			comentario.setCliente(cliente2);
 			model.put("comentario", comentario);
+			log.warn("Error al editar comentario");
 			return VIEWS_COMENTARIOS_CREATE_OR_UPDATE_FORM_P;
 		}
 		else {
                         Comentario comentarioToUpdate=this.comentarioService.findCommentById(comentarioId);
                         BeanUtils.copyProperties(comentario, comentarioToUpdate, "id","cliente","pelicula", "videojuego", "merchandasing");                                                                                                     
                         this.comentarioService.saveComment(comentarioToUpdate);
+                        log.info("Comentario actualizado");
                     
                         return "redirect:/comentarios/" + cliente.getId();
 		}
@@ -352,8 +373,10 @@ public class ComentarioController {
 		Cliente cliente = comentario.getCliente();
 		if(comentario!=null && cliente!=null) {
 			comentarioService.deleteComment(comentario);
+			log.info("Comentario eliminado");
 		} else {
 			model.addAttribute("message", "ERROR!");
+			log.warn("Error al eliminar comentario");
 		}
 		return "redirect:/comentarios/" + cliente.getId();
 	}

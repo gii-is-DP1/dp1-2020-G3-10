@@ -33,10 +33,12 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * @author Marta Díaz
  */
-
+@Slf4j
 @Controller
 public class VideojuegoController {
 
@@ -141,6 +143,7 @@ public class VideojuegoController {
 			} else {
 				vendedor.getVideojuegos().add(vid);
 			}
+			log.info("¡Se ha creado el videojuego correctamente!");
 			this.vendedorService.save(vendedor);
 			return showProductos(model);
 		}
@@ -185,6 +188,7 @@ public class VideojuegoController {
 		} else {
 			v.setId(videojuegoId);
 			this.videojuegoService.saveVideojuego(v);
+			log.info("¡Se ha editado el videojuego correctamente!");
 			view = "redirect:/videojuegos/" + v.getId();
 			return view;
 		}
@@ -217,6 +221,7 @@ public class VideojuegoController {
 			videojuegos.remove(videojuegoBorrar);
 			this.vendedorService.save(vendedor);
 			this.videojuegoService.delete(videojuegoBorrar);
+			log.info("¡Se ha borrado el videojuego correctamente!");
 			modelMap.addAttribute("message", "¡Producto eliminado!");
 		}
 		return showProductos(modelMap);

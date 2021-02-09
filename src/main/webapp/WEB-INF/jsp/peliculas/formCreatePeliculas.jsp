@@ -13,6 +13,16 @@
             $(function () {
                 $("#fechaSalida").datepicker({dateFormat: 'yy/mm/dd'});
             });
+            $("#nombre").attr('required', '');
+            $("#precio").attr('required', '');
+            $("#agno").attr('required', '');
+            $("#director").attr('required', '');
+            $("#duracion").attr('required', '');
+            $("#edicion").attr('required', '');
+            $("#formato").attr('required', '');
+            $("#imagen").attr('required', '');
+            $("#descripcion").attr('required', '');
+            $("#fechaSalida").attr('required', '');
         </script>
     </jsp:attribute>
    
