@@ -8,11 +8,17 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
 
 <petclinic:layout pageName="peliculas">
-	<h2>PELICULAS</h2>
 
+	<h3>
+		<c:out value="${mensaje}" />
+	</h3>
 
+	<h2>PELÍCULAS</h2>
 
-	<table id="peliculasTable">
+	</br>
+	</br>
+
+	<table class="table table-stripped" id="peliculasTable">
 
 		<tbody>
 			<c:forEach items="${peliculas}" var="pel">
@@ -20,13 +26,19 @@
 
 				<div class="col-sm-6 col-md-4">
 					<div class="thumbnail">
-						<img src=<c:out value="${pel.imagen}"/> width="250" height="350">
+						<spring:url value="/peliculas/{peliculaId}" var="peliculaUrl">
+							<spring:param name="peliculaId" value="${pel.id}" />
+						</spring:url>
+						<a href="${fn:escapeXml(peliculaUrl)}"><img
+							src=<c:out value="${pel.imagen}"/> width="70%" height="70%"></a>
 
 						<spring:url value="/peliculas/{peliculaId}" var="peliculaUrl">
 							<spring:param name="peliculaId" value="${pel.id}" />
 						</spring:url>
-						<a href="${fn:escapeXml(peliculaUrl)}"><c:out
-								value="${pel.nombre}" /></a>
+						<center>
+							<a href="${fn:escapeXml(peliculaUrl)}"><c:out
+									value="${pel.nombre}" /></a>
+						</center>
 
 					</div>
 				</div>
@@ -34,14 +46,6 @@
 			</c:forEach>
 		</tbody>
 	</table>
-
-	<spring:url value="/peliculas/new" var="addPeliculaUrl">
-	</spring:url>
-	<a href="${fn:escapeXml(addPeliculaUrl)}" class="btn btn-default">Nueva
-		Pelicula</a>
-
-
-
 
 
 </petclinic:layout>

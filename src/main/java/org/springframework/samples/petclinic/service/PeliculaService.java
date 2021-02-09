@@ -3,49 +3,95 @@ package org.springframework.samples.petclinic.service;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
+import java.util.Optional;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.model.Comentario;
+import org.springframework.samples.petclinic.model.Formato;
 import org.springframework.samples.petclinic.model.Pelicula;
-import org.springframework.samples.petclinic.model.Producto;
-import org.springframework.samples.petclinic.model.Videojuego;
 import org.springframework.samples.petclinic.repository.PeliculaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * @author Marta Díaz
+ */
+
 @Service
 public class PeliculaService {
 	
-	private PeliculaRepository peliculaRepository;
-	
 	@Autowired
-	private ProductoService productoService;
-	
+	private ComentarioService comentarioService;
+
+	@Autowired
+	private PeliculaRepository peliculaRepository;
+
 	public PeliculaService(PeliculaRepository peliculaRepository) {
 		this.peliculaRepository = peliculaRepository;
 	}
 
-	
 	@Transactional
-	public void savePelicula(Pelicula pelicula) throws DataAccessException{
-		peliculaRepository.save(pelicula);
-		
+	public void savePelicula(@Valid Pelicula pelicula) throws DataAccessException {
+		try {
+			peliculaRepository.save(pelicula);
+		}catch (Exception e) {
+			throw new IllegalArgumentException("La pelicula no ha podido guardarse.");
+		}
+
 	}
-	
-	@Transactional(readOnly = true)	
-	public List<Pelicula> findPeliculas() throws DataAccessException{
+
+	@Transactional(readOnly = true)
+	public List<Pelicula> findPeliculas() throws DataAccessException {
 		return peliculaRepository.findAll();
 	}
-	
-	
+
 	@Transactional(readOnly = true)
-	public Pelicula findPeliculaById(int id) throws DataAccessException{
-		return peliculaRepository.findById(id);
+	public Pelicula findPeliculaById(int id) throws IllegalArgumentException {
+		Optional<Pelicula> pelicula = this.peliculaRepository.findById(id);
+
+		if (pelicula.isPresent()) {
+			return pelicula.get();
+		} else {
+			throw new IllegalArgumentException("La pelicula no existe");
+
+		}
+
+	}
+
+	@Transactional
+	public void deletePelicula(int peliculaId) throws IllegalArgumentException {
+		Optional<Pelicula> pelicula = this.peliculaRepository.findById(peliculaId);
+		if(pelicula.isPresent()) {
+			peliculaRepository.deleteById(peliculaId);
+		}else {
+			throw new IllegalArgumentException("La pelicula que desea borrar no existe");
+		}
+		
+
+	}
+
+	@Transactional
+	public void delete(Pelicula p) throws DataAccessException {
+		Optional<Pelicula> pelicula = this.peliculaRepository.findById(p.getId());
+		List<Comentario> comentarios = comentarioService.findComentariosByPeliculaId(p.getId());
+		if(!comentarios.isEmpty()) {
+			for(Comentario c: comentarios) {
+				comentarioService.deleteComment(c);	
+			}
+		}
+		if(pelicula.isPresent()) {
+			peliculaRepository.delete(p);
+		}else {
+			throw new IllegalArgumentException("La pelicula que desea borrar no existe");
+		}
 	}
 	
-	@Transactional
-	public void deletePelicula(int peliculaId) throws DataAccessException{
-		peliculaRepository.deleteById(peliculaId);
-		
+	public Collection<Formato> getFormatos(){
+		Collection<Formato> formatos = new ArrayList<Formato>();
+		for(Formato f: Formato.values()) {
+			formatos.add(f);
+		}
+		return formatos;
 	}
 }

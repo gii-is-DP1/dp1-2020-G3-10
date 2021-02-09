@@ -50,6 +50,12 @@ public class AuthoritiesService {
 	}
 	
 	@Transactional
+	public void deleteAuthorities(Authorities authorities) throws DataAccessException {
+		authoritiesRepository.delete(authorities);
+	}
+	
+	
+	@Transactional
 	public void saveAuthorities(String username, String role) throws DataAccessException {
 		Authorities authority = new Authorities();
 		Optional<User> user = userService.findUser(username);

@@ -12,11 +12,16 @@
         <thead>
         <tr>
             <th style="width: 150px;">Nombre</th>
-            <th style="width: 200px;">apellido</th>
-            <th style="width: 120px">vacaciones</th>
-            <th style="width: 120px">valoracion</th>
+            <th style="width: 200px;">Apellido</th>
+            <th style="width: 120px">Vacaciones</th>
+            <th style="width: 120px">Valoración</th>
+            <th style="width: 120px">Teléfono</th>
+            <th style="width: 120px">DNI</th>
+            <th style="width: 120px">Email</th>
+            <th style="width: 120px">Fecha de nacimiento</th>
             <th style="width: 120px">Nombre Tienda</th>
             <th style="width: 120px">Direccion tienda</th>
+            <th style="width: 120px">Usuario</th>
         </tr>
         </thead>
         <tbody>
@@ -24,31 +29,58 @@
             <tr>
                 
                 <td>
-                    <c:out value="${vendedor.firstName}"/>
+                    <c:out value="${vendedor.nombre}"/>
                 </td>
                 <td>
-                    <c:out value="${vendedor.lastName}"/>
+                    <c:out value="${vendedor.apellidos}"/>
                 </td>
                 <td>
                     <c:out value="${vendedor.vacaciones}"/>  
                 </td>
                 <td>
-                    <c:out value="${vendedor.valoracion}"/>  
+                    <c:out value="${vendedor.valoracion / vendedor.votos}"/>  
                 </td>
+                <td>
+                    <c:out value="${vendedor.telefono}"/>  
+                </td>
+                <td>
+                    <c:out value="${vendedor.dni}"/>  
+                </td>
+                
+                <td>
+                    <c:out value="${vendedor.email}"/>  
+                </td>
+                
+                <td>
+                    <c:out value="${vendedor.fechaNacimiento}"/>  
+                </td>
+                
                 <td>
                     <c:out value="${vendedor.nombreTienda}"/>  
                 </td>
                 <td>
                     <c:out value="${vendedor.direccionTienda}"/>  
                 </td>
+                <td>
+                    <c:out value="${vendedor.user.username}"/>  
+                </td>
                 
                 
-             <td>
+                <td>
                     <spring:url value="/vendedores/delete/{vendedorId}" var="vendedorUrl">
                         <spring:param name="vendedorId" value="${vendedor.id}"/>
                     </spring:url>
                     <a href="${fn:escapeXml(vendedorUrl)}">Delete</a>
-                </td>   
+                </td>
+                
+                <td>
+                    <spring:url value="/vendedores/{vendedorId}" var="vendedorUrl">
+                        <spring:param name="vendedorId" value="${vendedor.id}"/>
+                    </spring:url>
+                    <a href="${fn:escapeXml(vendedorUrl)}">Detalles</a>
+                </td>
+                
+                      
                 
                          
                 

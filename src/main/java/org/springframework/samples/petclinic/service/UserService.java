@@ -20,11 +20,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.repository.UserRepository;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,7 +29,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
 	private UserRepository userRepository;
-	private ClienteService clienteService;
 
 	@Autowired
 	public UserService(UserRepository userRepository) {
@@ -45,21 +41,14 @@ public class UserService {
 		userRepository.save(user);
 	}
 	
+	@Transactional
+	public void deleteUser(User user) throws DataAccessException {
+		user.setEnabled(false);
+		userRepository.delete(user);
+	}
+	
 	public Optional<User> findUser(String username) {
 		return userRepository.findById(username);
 	}
 	
-	@Transactional
-	public Cliente getCurrentMedico() throws DataAccessException {
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		String username;
-
-		if (principal instanceof UserDetails) {
-			username = ((UserDetails) principal).getUsername();
-		} else {
-			username = principal.toString();
-		}
-		Cliente cliente = null ; // this.clienteService.getClienteByUsername(username);
-		return cliente;
-	}
 }

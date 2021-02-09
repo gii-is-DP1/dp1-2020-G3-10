@@ -1,17 +1,16 @@
 package org.springframework.samples.petclinic.model;
 
-import java.util.Collection;
-import java.util.List;
+import java.time.LocalDate;
 
-import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToMany;
-import javax.validation.Valid;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.URL;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.sun.istack.NotNull;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -20,27 +19,21 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Producto extends BaseEntity {
-	
 
+	@NotEmpty(message = "El nombre no puede estar vacio.")
 	private String nombre;
+
+	@NotEmpty(message = "La descripción no puede estar vacia.")
+	private String descripcion;
+
+	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	private LocalDate fechaSalida;
 	
+	@DecimalMin("00.01")
 	private Double precio;
-	
-	
-	
-	
-	
-	/*
-	@OneToMany
-	private Collection<@Valid Oferta>	ofertas;
-	
-	@OneToMany(mappedBy = "producto")
-	private Collection<@Valid Comentario>	comentarios;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "cliente_id")
-	@Valid
-	private Cliente	cliente;
-	*/
+
+	@NotEmpty(message = "La imagen es obligatoria.")
+	@URL(message = "Debe proporcionar una URL válida que comience por http://")
+	private String imagen;
 
 }
