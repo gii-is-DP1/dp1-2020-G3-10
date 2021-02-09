@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -23,8 +25,12 @@ import org.springframework.samples.petclinic.model.Authorities;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Comentario;
 import org.springframework.samples.petclinic.model.Formato;
+import org.springframework.samples.petclinic.model.Merchandasing;
 import org.springframework.samples.petclinic.model.Pelicula;
+import org.springframework.samples.petclinic.model.Plataforma;
+import org.springframework.samples.petclinic.model.TipoMerchandasing;
 import org.springframework.samples.petclinic.model.User;
+import org.springframework.samples.petclinic.model.Videojuego;
 import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.ComentarioService;
 import org.springframework.samples.petclinic.service.MerchandasingService;
@@ -84,6 +90,10 @@ class ComentarioControllerTests {
 	
 	private Authorities authorities;
 	
+	private Videojuego videojuego;
+	
+	private Merchandasing merchandasing;
+	
 	
 	@BeforeEach
 	void setup() {
@@ -92,6 +102,8 @@ class ComentarioControllerTests {
 		pelicula = new Pelicula();
 		user = new User();
 		authorities = new Authorities();
+		videojuego = new Videojuego();
+		merchandasing = new Merchandasing();
 		
 		user.setPassword("password");
 		user.setUsername("username");
@@ -127,6 +139,22 @@ class ComentarioControllerTests {
 		pelicula.setNombre("Nombre pelicula");
 		pelicula.setPrecio(5.0);
 		
+		videojuego.setId(TEST_VIDEOJUEGO_ID);
+		videojuego.setNombre("videojuego1");
+		videojuego.setPrecio(12.6);
+		videojuego.setAgno(2018);
+		videojuego.setFechaSalida(LocalDate.now());
+		videojuego.setDescripcion("descripcion del videojuego");
+		videojuego.setEstudio("film SA");
+		videojuego.setPlataforma(Plataforma.PS4);
+		videojuego.setImagen("https://media.game.es/COVERV2/3D_L/182/182836.png");
+		
+		merchandasing.setNombre("Figura de Vegeta");
+		merchandasing.setId(300);
+		merchandasing.setFabricante("Bandai");
+		merchandasing.setTipo(TipoMerchandasing.FIGURA);
+		merchandasing.setPrecio(33.33);
+		
 		comentario.setId(TEST_COMENTARIO_ID);
 		comentario.setTexto("Texto comentario");
 		comentario.setTitulo("Titulo comentario");
@@ -135,46 +163,45 @@ class ComentarioControllerTests {
 		
 		//pelicula.getComentarios().add(comentario);
 		//cliente.getComentarios().add(comentario);
-		
+		given(this.clienteService.findClienteById(TEST_CLIENTE_ID)).willReturn(cliente);
+		given(this.peliculaService.findPeliculaById(TEST_PELICULA_ID)).willReturn(pelicula);
 		given(this.comentarioService.findCommentById(TEST_COMENTARIO_ID)).willReturn(comentario);
 		
 	}
 	
 	@WithMockUser(value = "spring")
 	@Test
-	void testShowComentarios() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/comentarios/{clienteId}", TEST_CLIENTE_ID))
-				.andExpect(MockMvcResultMatchers.status().isOk())
-				.andExpect(MockMvcResultMatchers.view().name("comentarios/comentariosList"));
-
-	}
-	
-	@WithMockUser(value = "spring")
-	@Test
 	void testDeleteComentario() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/comentarios/{clienteId}/comentario/{comentarioId}/delete", TEST_CLIENTE_ID, TEST_COMENTARIO_ID))
-				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
-				.andExpect(MockMvcResultMatchers.view().name("comentarios/comentariosList"));
+				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+				.andExpect(MockMvcResultMatchers.view().name("redirect:/comentarios/1"));
 	}
 	
 	@WithMockUser(value = "spring")
 	@Test
 	void testInitCreationFormComentarioPelicula() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/comentarios/{clienteId}/pelicula/{peliculaId}/new", TEST_CLIENTE_ID, TEST_PELICULA_ID))
-				.andExpect(MockMvcResultMatchers.status().isOk())
-				.andExpect(MockMvcResultMatchers.view().name("comentarios/createOrUpdateComentarioForm")).andExpect(model().attributeExists("comentario"));
-	}
+				.andExpect(MockMvcResultMatchers.status().isOk());
+				}
 	
 	@WithMockUser(value = "spring")
 	@Test
 	void testInitCreationFormComentarioVideojuego() throws Exception {
-		mockMvc.perform(get("/comentarios/{clienteId}/videojuego/{videojuegoId}/new", TEST_CLIENTE_ID, TEST_VIDEOJUEGO_ID)).andExpect(status().isOk())
-				.andExpect(view().name("comentarios/createOrUpdateComentarioFormVideojuego")).andExpect(model().attributeExists("comentario"));
-	}
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/comentarios/{clienteId}/videojuego/{videojuegoId}/new", TEST_CLIENTE_ID, TEST_VIDEOJUEGO_ID))
+				.andExpect(MockMvcResultMatchers.status().isOk());
+				}
 	
 	@WithMockUser(value = "spring")
 	@Test
-	void testProcessCreationFormComentarioPeliculaSuccess() throws Exception {
+	void testInitCreationFormComentariomMerchandasing() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/comentarios/{clienteId}/merchandasing/{merchandasingId}/new", TEST_CLIENTE_ID, TEST_MERCHANDASING_ID))
+				.andExpect(MockMvcResultMatchers.status().isOk());
+				}
+	
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testProcessCreationFormComentarioPelicula() throws Exception {
 		this.mockMvc.perform(post("/comentarios/{clienteId}/pelicula/{peliculaId}/new", TEST_CLIENTE_ID, TEST_PELICULA_ID, comentario).with(csrf())
 				.param("texto", "Texto comentario pelicula")
 				.param("titulo", "Titulo comentario pelicula")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
@@ -182,22 +209,25 @@ class ComentarioControllerTests {
 	
 	@WithMockUser(value = "spring")
 	@Test
-	void testProcessCreationFormComentarioVideojuegoSuccess() throws Exception {
+	void testProcessCreationFormComentarioVideojuego() throws Exception {
 		this.mockMvc.perform(post("/comentarios/{clienteId}/videojuego/{videojuegoId}/new", TEST_CLIENTE_ID, TEST_VIDEOJUEGO_ID, comentario).with(csrf())
-				.param("texto", "Texto comentario videojuego")
-				.param("titulo", "Titulo comentario videojuego")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+				.param("texto", "Texto comentario pelicula")
+				.param("titulo", "Titulo comentario pelicula")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
 	}
 	
 	@WithMockUser(value = "spring")
 	@Test
-	void testProcessEditFormComentario() throws Exception {
-		this.mockMvc
-				.perform(MockMvcRequestBuilders.post("/comentarios/{clienteId}/comentario/{comentarioId}/edit", TEST_CLIENTE_ID, TEST_COMENTARIO_ID)
-						.param("texto", "Texto comentario editado")
-						.param("titulo", "Titulo comentario editado"))
-				.andExpect(status().is3xxRedirection())
-				.andExpect(view().name("redirect:/comentarios/" + TEST_CLIENTE_ID));
-
+	void testProcessCreationFormComentarioMerchandasing() throws Exception {
+		this.mockMvc.perform(post("/comentarios/{clienteId}/merchandasing/{merchandasingId}/new", TEST_CLIENTE_ID, TEST_MERCHANDASING_ID, comentario).with(csrf())
+				.param("texto", "Texto comentario pelicula")
+				.param("titulo", "Titulo comentario pelicula")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+	}
+	
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testShowComentarios() throws Exception {
+		mockMvc.perform(get("/comentarios/{clienteId}", TEST_CLIENTE_ID)).andExpect(status().isOk());
 	}
 
 }
