@@ -11,7 +11,12 @@ import javax.persistence.Enumerated;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.Valid;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Range;
+
 import lombok.Getter;
 import lombok.Setter;
 /**
@@ -35,9 +40,11 @@ public class Pelicula extends Producto {
 	private String	director;
 
 	@Column(name = "agno")
+	@Range(min = 1980, max = 2021, message = "El año debe estar entre 1980 y 2021")
 	private Integer	agno;
 	
 	@Column(name = "duracion")
+	@DecimalMin("1.0")
 	private Double	duracion;
 
 	
@@ -46,6 +53,7 @@ public class Pelicula extends Producto {
 	private Formato formato;
 
 	@Column(name = "edicion")
+	@Min(1)
 	private Integer edicion;
 
 	

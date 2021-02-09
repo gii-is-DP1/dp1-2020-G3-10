@@ -13,6 +13,15 @@
             $(function () {
                 $("#fechaSalida").datepicker({dateFormat: 'yy/mm/dd'});
             });
+            $("#nombre").attr('required', '');
+            $("#precio").attr('required', '');
+            $("#fechaSalida").attr('required', '');
+            $("#agno").attr('required', '');
+            $("#descripcion").attr('required', '');
+            $("#estudio").attr('required', '');
+            $("#imagen").attr('required', '');
+            $("#plataforma").attr('required', '');
+            
         </script>
     </jsp:attribute>
     <jsp:body>

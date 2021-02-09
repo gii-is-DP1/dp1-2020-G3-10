@@ -11,9 +11,12 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.model.Formato;
 import org.springframework.samples.petclinic.model.Pelicula;
+import org.springframework.samples.petclinic.service.ClienteService;
+import org.springframework.samples.petclinic.service.ComentarioService;
 import org.springframework.samples.petclinic.service.PedidoService;
 import org.springframework.samples.petclinic.service.PeliculaService;
 import org.springframework.samples.petclinic.service.ProductoService;
+import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.samples.petclinic.service.VendedorService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -48,12 +51,21 @@ class PeliculaControllerTests {
 
 	@MockBean
 	private ProductoService productoService;
-	
+
+	@MockBean
+	private UserService userService;
+
 	@MockBean
 	private PedidoService pedidoService;
-	
+
 	@MockBean
 	private VendedorService vendedorService;
+
+	@MockBean
+	private ClienteService clienteService;
+
+	@MockBean
+	private ComentarioService comentarioService;
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -85,9 +97,7 @@ class PeliculaControllerTests {
 	@Test
 	void testShowPelicula() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/peliculas/{peliculaId}", TEST_PELICULA_ID))
-				.andExpect(MockMvcResultMatchers.status().isOk())
-				.andExpect(MockMvcResultMatchers.view().name("/peliculas/peliculaDetails"));
-
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
 	}
 
 	// /peliculas
@@ -98,7 +108,6 @@ class PeliculaControllerTests {
 				.andExpect(MockMvcResultMatchers.view().name("/peliculas/PeliculasList"));
 	}
 
-
 	// GET /peliculas/new
 	@WithMockUser(value = "spring")
 	@Test
@@ -108,12 +117,12 @@ class PeliculaControllerTests {
 	}
 
 	// GET /peliculas/edit/{peliculaId}
-	@WithMockUser(value = "spring")
+	@WithMockUser(value = "spring", authorities = { "vendedor" })
 	@Test
 	void testInitUpdateFormPelicula() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/peliculas/edit/{peliculaId}", TEST_PELICULA_ID))
-				.andExpect(MockMvcResultMatchers.status().isOk())
-				.andExpect(MockMvcResultMatchers.view().name("/peliculas/formCreatePeliculas"));
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+
 	}
 
 	// POST /peliculas/new
@@ -121,42 +130,34 @@ class PeliculaControllerTests {
 	@Test
 	void testProcessCreationFormPeliculaSuccess() throws Exception {
 		this.mockMvc.perform(post("/peliculas/new", pelicula).with(csrf())
-				.param("descripcion", "descripcion de la pelicula")
-				.param("fechaSalida", "2009/09/09")
+				.param("descripcion", "descripcion de la pelicula").param("fechaSalida", "2009/09/09")
 				.param("imagen", "https://static.filmin.es/images/media/31442/1/poster_0_3_720x0.webp")
-				.param("nombre", "nombrePelicula")
-				.param("precio", "12")
-				.param("agno", "2012")
-				.param("director", "director de la pelicula")
-				.param("duracion", "2")
-				.param("edicion", "3")
+				.param("nombre", "nombrePelicula").param("precio", "12").param("agno", "2012")
+				.param("director", "director de la pelicula").param("duracion", "2").param("edicion", "3")
 				.param("formato", "DVD")).andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
 	}
+
 	// POST /peliculas/edit/{peliculaId}
-			@WithMockUser(value = "spring")
-			@Test
-			void testProcessEditFormPeliculaSuccess() throws Exception {
-				this.mockMvc
-						.perform(MockMvcRequestBuilders.post("/peliculas/edit/{peliculaId}", TEST_PELICULA_ID)
-								.param("descripcion", "descripcion de la pelicula")
-								.param("nombre", "nombrePelicula").with(csrf()).param("precio", "12").param("agno", "2012")
-								.param("director", "director de la pelicula").param("duracion", "2").param("edicion", "3")
-								.param("formato", "DVD")
-								.param("imagen", "https://static.filmin.es/images/media/31442/1/poster_0_3_720x0.webp")
-								.param("fechaSalida", "2009/09/09"))
-						.andExpect(status().is3xxRedirection())
-						.andExpect(view().name("redirect:/peliculas/" + TEST_PELICULA_ID));
+	@WithMockUser(value = "spring")
+	@Test
+	void testProcessEditFormPeliculaSuccess() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/peliculas/edit/{peliculaId}", TEST_PELICULA_ID)
+				.param("descripcion", "descripcion de la pelicula").param("nombre", "nombrePelicula").with(csrf())
+				.param("precio", "12").param("agno", "2012").param("director", "director de la pelicula")
+				.param("duracion", "2").param("edicion", "3").param("formato", "DVD")
+				.param("imagen", "https://static.filmin.es/images/media/31442/1/poster_0_3_720x0.webp")
+				.param("fechaSalida", "2009/09/09")).andExpect(status().is3xxRedirection())
+				.andExpect(view().name("redirect:/peliculas/" + TEST_PELICULA_ID));
 
-			}
+	}
 
-//	@Test
-//	void testdeletePelicula() {
-//		ModelMap modelMap = null;
-//		this.peliculaController.deletePelicula(TEST_PELICULA_ID, modelMap);
-//		for(Pelicula p : this.peliculaService.findPeliculas()) {
-//			Assertions.assertTrue(!(p.getId()== TEST_PELICULA_ID));
-//		}
-//	}
-	
+	// GET /peliculas/delete/{peliculaId}
+	@WithMockUser(value = "spring", authorities = { "vendedor" })
+	@Test
+	void testDeletePelicula() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/peliculas/delete/{peliculaId}", TEST_PELICULA_ID))
+				.andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+
+	}
 
 }

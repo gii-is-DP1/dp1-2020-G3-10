@@ -11,6 +11,8 @@ import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 
+import org.hibernate.validator.constraints.Range;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,6 +27,7 @@ public class Videojuego extends Producto {
 
 	
 	@Column(name = "agno")
+	@Range(min = 1980, max = 2021, message = "El año debe estar entre 1980 y 2021")
 	private Integer	agno;
 
 	@NotEmpty(message = "El estudio es obligatorio.")
