@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
@@ -11,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.Merchandasing;
 import org.springframework.samples.petclinic.model.TipoMerchandasing;
+import org.springframework.samples.petclinic.repository.MerchandasingRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.test.annotation.DirtiesContext;
 
@@ -21,6 +23,8 @@ public class MerchandasingServiceTests {
 
 	@Autowired
 	private MerchandasingService merchandasingService;
+	@Autowired
+	private MerchandasingRepository merchandasingRepository;
 
 	@Test
 	void findMerchandasingsTest() {
@@ -38,6 +42,8 @@ public class MerchandasingServiceTests {
 		merchandasing.setId(4);
 		merchandasing.setFabricante("BANDAI");
 		merchandasing.setNombre("Figura de Goku");
+		merchandasing.setImagen("http://imagenprueba");
+		merchandasing.setDescripcion("Descripcion necesaria.");
 		merchandasing.setPrecio(33.33);
 		merchandasing.setTipo(TipoMerchandasing.FIGURA);
 		this.merchandasingService.saveMerchandasing(merchandasing);
@@ -56,8 +62,8 @@ public class MerchandasingServiceTests {
 	@Test
 	void deleteMerchandasingTest() {
 		this.merchandasingService.deleteMerchandasing(2);
-		List<Merchandasing> merchandasings = this.merchandasingService.findMerchandasings();
-		Assertions.assertThat(!merchandasings.isEmpty() && merchandasings.size() == 1);
+		Optional<Merchandasing> merchandasingOptional = this.merchandasingRepository.findById(2);
+		Assertions.assertThat(!merchandasingOptional.isPresent());
 	}
 
 	@Test

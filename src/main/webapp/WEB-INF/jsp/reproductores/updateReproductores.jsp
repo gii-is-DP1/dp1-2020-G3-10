@@ -10,14 +10,7 @@
 	<br>
 	<h3>Indica de que reproductores dispones </h3>
     <table class="table table-striped">
-    
-    	<!--  Aqui quiero hacer un iterable que recorra todas las reproductores disponibles y si 
-    	el cliente tiene alguna de esas reproductores que aparezca el circulito ya marcado, si quiere añadir alguna mas que lo marque, 
-    	luego este formulario se procesará y actualizara los datos del usuario con las reproductores indicadas 
-    	
-    	 De seguro tendre que hacer un boton Enviar que envie los datos del formulario al controlador, este los procesara y llamara al servicio
-        que de validarlo todo llamara al repositorio para que haga un update de los datos" --> 
-        
+            
         <form action="/action_page.php" method="POST">
            <table id="reproductoresTable" class="table table-striped">
         <thead>
