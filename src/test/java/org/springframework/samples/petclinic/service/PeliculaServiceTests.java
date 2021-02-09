@@ -66,7 +66,28 @@ class PeliculaServiceTests {
 		pelicula.setId(15);
 		pelicula.setNombre("pelicula1");
 		pelicula.setPrecio(12.50);
-		pelicula.setAgno(2023);
+		pelicula.setAgno(2021);
+		pelicula.setFechaSalida(LocalDate.now());
+		pelicula.setDirector("director");
+		pelicula.setDuracion(2.5);
+		pelicula.setEdicion(2);
+		pelicula.setFormato(Formato.DVD);
+		pelicula.setImagen("https://static.filmin.es/images/media/23729/2/poster_0_3_720x0.webp");
+		pelicula.setDescripcion("Ganadora del Premio del Público Joven de los Premios EFA, una historia vitalista y con carisma sobre una joven luchadora de kickboxing.");
+
+		this.peliculaService.savePelicula(pelicula);
+		assertThat(pelicula.getId() != null && pelicula.getId() != 0);
+
+	}
+	
+	@Test
+	void InsertPeliculaNoSuccess() {
+
+		Pelicula pelicula = new Pelicula();
+		pelicula.setId(15);
+		pelicula.setNombre("pelicula1");
+		pelicula.setPrecio(12.50);
+		pelicula.setAgno(2021);
 		pelicula.setFechaSalida(LocalDate.now());
 		pelicula.setDirector("director");
 		pelicula.setDuracion(2.5);

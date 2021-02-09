@@ -13,6 +13,10 @@
             $(function () {
                 $("#fechaSalida").datepicker({dateFormat: 'yy/mm/dd'});
             });
+            $("#precio").attr('required', '');
+            $("#agno").attr('required', '');
+            $("#fechaSalida").attr('required', '');
+            $("#plataforma").attr('required', '');
         </script>
     </jsp:attribute>
     <jsp:body>

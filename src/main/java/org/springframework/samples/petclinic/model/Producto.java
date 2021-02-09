@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.model;
 import java.time.LocalDate;
 
 import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
 
@@ -28,7 +29,7 @@ public class Producto extends BaseEntity {
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDate fechaSalida;
 	
-	
+	@DecimalMin("00.01")
 	private Double precio;
 
 	@NotEmpty(message = "La imagen es obligatoria.")

@@ -33,7 +33,12 @@ public class PeliculaService {
 
 	@Transactional
 	public void savePelicula(@Valid Pelicula pelicula) throws DataAccessException {
-		peliculaRepository.save(pelicula);
+		try {
+			peliculaRepository.save(pelicula);
+		}catch (Exception e) {
+			throw new IllegalArgumentException("No se ha podido guardar la pelicula");
+		}
+		
 
 	}
 
