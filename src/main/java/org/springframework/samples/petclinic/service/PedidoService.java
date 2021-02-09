@@ -98,18 +98,14 @@ public class PedidoService {
 				for (Pelicula pe : peliculasVendedor) {
 					if (p.getPeliculas().contains(pe)) {
 						pedidosVendedor.add(p);
-						break;
 					}
-					break;
 				}
 			}
 			if (!pedidosVendedor.contains(p)) {
 					for (Videojuego v : videojuegosVendedor) {
 						if (p.getVideojuegos().contains(v)) {
 							pedidosVendedor.add(p);
-							break;
 						}
-						break;
 					}
 			}
 			
@@ -117,9 +113,7 @@ public class PedidoService {
 					for (Merchandasing m : merchanVendedor) {
 						if (p.getMerchandasings().contains(m)) {
 							pedidosVendedor.add(p);
-							break;
 						}
-						break;
 					}
 			}
 		}
