@@ -1,9 +1,7 @@
 
 package org.springframework.samples.petclinic.service;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +18,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class VendedorService {
 
 	@Autowired
-	private VendedorRepository vendedorRepository;
+	private VendedorRepository	vendedorRepository;
 
 	@Autowired
-	private UserService userService;
+	private UserService			userService;
 
 	@Autowired
-	private AuthoritiesService authoritiesService;
+	private AuthoritiesService	authoritiesService;
+
 
 	@Transactional
 	public int conteoPedido() {
@@ -47,7 +46,7 @@ public class VendedorService {
 		return this.vendedorRepository.findById(id);
 
 	}
-	
+
 	@Transactional(readOnly = true)
 	public Vendedor findVendedorByUsername(final String username) {
 		return this.vendedorRepository.findByUsername(username);
@@ -81,21 +80,27 @@ public class VendedorService {
 	}
 
 	@Transactional(readOnly = true)
-	public Collection<Pelicula> obtenerPeliculas(int vendedorId) {
+	public Collection<Pelicula> obtenerPeliculas(final int vendedorId) {
 		Vendedor vendedor = this.findVendedorByIdNormal(vendedorId);
 		return vendedor.getPeliculas();
 	}
-	
+
 	@Transactional(readOnly = true)
-	public Collection<Videojuego> obtenerVideojuegos(int vendedorId) {
+	public Collection<Videojuego> obtenerVideojuegos(final int vendedorId) {
 		Vendedor vendedor = this.findVendedorByIdNormal(vendedorId);
 		return vendedor.getVideojuegos();
 	}
-	
+
 	@Transactional(readOnly = true)
-	public Collection<Merchandasing> obtenerMerchandasings(int vendedorId) {
+	public Collection<Merchandasing> obtenerMerchandasings(final int vendedorId) {
 		Vendedor vendedor = this.findVendedorByIdNormal(vendedorId);
 		return vendedor.getMerchandasings();
+	}
+
+	@Transactional(readOnly = true)
+	public Collection<Vendedor> findAllVendedor() throws DataAccessException {
+
+		return (Collection<Vendedor>) this.vendedorRepository.findAll();
 	}
 
 }
