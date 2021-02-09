@@ -9,7 +9,9 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.configuration.GenericIdToEntityConverter;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.EstadoPedido;
 import org.springframework.samples.petclinic.model.Pedido;
@@ -32,6 +34,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 @RequestMapping("/pedidos")
 public class PedidoController {
@@ -81,6 +86,7 @@ public class PedidoController {
 		Collection<Pedido> pedidos = pedidoService.findPedidosCliente(username);
 
 		modelMap.addAttribute("pedidos", pedidos);
+		log.info("Obteniendo pedidos de cliente");
 
 		return vista;
 	}
@@ -93,8 +99,10 @@ public class PedidoController {
 		try {
 			Pedido pedido = pedidoService.findPedidoById(pedidoId);
 			modelMap.addAttribute("pedido", pedido);
+			log.info("Obtenido detalles del pedido");
 		} catch (Exception e) {
 			modelMap.addAttribute("message", "Error al mostrar los detalles del pedido.");
+			log.warn("Error obtenido al intentar mostrar los detalles del pedido");
 			vista = "reedirect:/";
 		}
 
@@ -113,6 +121,7 @@ public class PedidoController {
 		Collection<Pedido> pedidos = pedidoService.findPedidosVendedor(username);
 
 		modelMap.addAttribute("pedidos", pedidos);
+		log.info("Obteniendo pedidos del vendedor");
 
 		return vista;
 	}
@@ -125,8 +134,10 @@ public class PedidoController {
 		try {
 			Pedido pedido = pedidoService.findPedidoById(pedidoId);
 			pedidoService.pedidoEnviado(pedido);
+			log.info("Marcando el pedido {pedidoId} como enviado");
 		} catch (Exception e) {
 			modelMap.addAttribute("message", "Error al marcar como enviado.");
+			log.warn("Error al marcar el pedido como enviado");
 		}
 
 		return vista;
@@ -140,8 +151,10 @@ public class PedidoController {
 		try {
 			Pedido pedido = pedidoService.findPedidoById(pedidoId);
 			pedidoService.pedidoEntregado(pedido);
+			log.info("Marcado pedido como entregado");
 		} catch (Exception e) {
 			modelMap.addAttribute("message", "Error al marcar como entregado.");
+			log.warn("Error al marcar pedido como entregado");
 		}
 
 		return vista;
@@ -155,8 +168,10 @@ public class PedidoController {
 		try {
 			pedidoService.deletePedidoById(pedidoId);
 			modelMap.addAttribute("message", "El pedido se ha borrado satisfactoriamente.");
+			log.info("Pedido borrado");
 		} catch (Exception e) {
 			modelMap.addAttribute("message", "El pedido no ha podido borrarse");
+			log.info("Fallo al borrar pedido");
 		}
 
 		return vista;
@@ -172,13 +187,14 @@ public class PedidoController {
 		String usuario = userDetail.getUsername();
 		if (auth.getPrincipal() == "anonymousUser") {
 			modelMap.addAttribute("mensaje", "¡Debes estar registrado para añadir al carrito!");
+			log.info("Debe estar registrado para anadir al carrito");
 		} else {
 
 			modelMap.addAttribute("mensaje", "Pedido Creado");
 			if (!pedidoService.carritoContieneProducto(productoId, usuario, tipo)) {
 				modelMap.addAttribute("mensaje", "¡Producto añadido!");
 				pedidoService.añadirProductoCarrito(productoId, usuario, tipo);
-
+				log.info("Producto añadido en carrito");
 			} else {
 				modelMap.addAttribute("mensaje", "¡Ya añadiste este producto!");
 			}
@@ -193,7 +209,7 @@ public class PedidoController {
 		try {
 			pedidoService.eliminaProductoCarrito(pedidoId,productoId, tipo);
 			modelMap.addAttribute("mensaje", "El producto se ha eliminado del carrito.");
-
+			log.info("Producto eliminado del carrito");
 		} catch (Exception e) {
 
 			System.out.println(e);
@@ -229,10 +245,10 @@ public class PedidoController {
 			modelMap.addAttribute("merchandasingsNoVacio", !(pedido.getMerchandasings().isEmpty()));
 			modelMap.addAttribute("carritoVacio", pedido.getPeliculas().isEmpty() && pedido.getVideojuegos().isEmpty()
 					&& pedido.getMerchandasings().isEmpty());
+			log.info("Mostrando carrito");
 		} else {
 			modelMap.addAttribute("carritoVacio", true);
 		}
-
 		return vista;
 	}
 	
@@ -267,8 +283,10 @@ public class PedidoController {
             try{
             	mp.addAttribute("pedido", pedidoAntiguo);
                 pedidoService.completaPedido(pedidoAntiguo);
+                log.info("Pedido completado con exito");
             }catch(Exception e) {
                 mp.addAttribute("message", e.getMessage());
+                log.info("Fallo al intentar completar carrito");
                 return "/pedidos/finalizarCarrito";
             }
 
@@ -285,10 +303,12 @@ public class PedidoController {
         try{
             
              pedidoService.cancelaPedidoById(pedidoId);
+             log.info("Pedido cancelado exitosamente");
                 
         }catch(Exception e) {
         	
              modelMap.addAttribute("message", e.getMessage());
+             log.info("Fallo al intentar cancelar pedido");
              vista = "redirect:/exception";
              
         }
