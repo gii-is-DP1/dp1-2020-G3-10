@@ -1,35 +1,35 @@
 -- One admin user, named admin1 with passwor 4dm1n and authority admin
 INSERT INTO users(username,password,enabled) VALUES ('admin1','4dm1n',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (1,'admin1','admin');
+INSERT INTO authorities(id,version,username,authority) VALUES (1,0,'admin1','admin');
 -- One owner user, named owner1 with passwor 0wn3r
 INSERT INTO users(username,password,enabled) VALUES ('owner1','0wn3r',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (2,'owner1','owner');
+INSERT INTO authorities(id,version,username,authority) VALUES (2,0,'owner1','owner');
 -- One vet user, named vet1 with passwor v3t
 INSERT INTO users(username,password,enabled) VALUES ('vet1','v3t',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (3,'vet1','veterinarian');
+INSERT INTO authorities(id,version,username,authority) VALUES (3,0,'vet1','veterinarian');
 -- One owner user, named owner1 with passwor Carles
 INSERT INTO users(username,password,enabled) VALUES ('guipavvar','Carles',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (8,'guipavvar','vendedor');
+INSERT INTO authorities(id,version,username,authority) VALUES (8,0,'guipavvar','vendedor');
 -- Owner ivacarmen
 INSERT INTO users(username,password,enabled) VALUES ('ivacarmen','ivacarmen',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (4,'ivacarmen','cliente');
+INSERT INTO authorities(id,version,username,authority) VALUES (4,0,'ivacarmen','cliente');
 --Owner luibelzan
 INSERT INTO users(username,password,enabled) VALUES ('luibelzan','luibelzan',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (5,'luibelzan','cliente');
+INSERT INTO authorities(id,version,username,authority) VALUES (5,0,'luibelzan','cliente');
 --Owner luibelzan
 INSERT INTO users(username,password,enabled) VALUES ('marta','marta',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (6,'marta','cliente');
+INSERT INTO authorities(id,version,username,authority) VALUES (6,0,'marta','cliente');
 -- antmorgon4
 INSERT INTO users(username,password,enabled) VALUES ('antmorgon4','password',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (20,'antmorgon4','cliente');
+INSERT INTO authorities(id,version,username,authority) VALUES (20,0,'antmorgon4','cliente');
 
 --Cliente de pruebas
 
 INSERT INTO users(username,password,enabled) VALUES ('clientepruebas','password',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (200,'clientepruebas','cliente');
+INSERT INTO authorities(id,version,username,authority) VALUES (200,0,'clientepruebas','cliente');
 
 INSERT INTO users(username,password,enabled) VALUES ('vendedor1','vendedor1',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (111,'vendedor1','vendedor');
+INSERT INTO authorities(id,version,username,authority) VALUES (111,0,'vendedor1','vendedor');
 
 ---------------------------------------------------------------------------------------------------------------------------
 
