@@ -52,7 +52,6 @@ public class BaseEntity {
 		return this.id == null;
 	}
 	
-	@Version
 	private Integer version;
 	
 	public Integer getVersion() {
